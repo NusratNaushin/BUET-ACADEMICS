@@ -17,16 +17,16 @@ public class SolvePuzzle {
         int h = Heuristic.calculateHeuristic(initialPuzzle, heuristicName);
 
         searchNode root = new searchNode(initialPuzzle, 0, h, null);
-        PriorityQueue<searchNode> pq = new PriorityQueue<>(Comparator.comparingInt(s -> s.f));
-        Set<String> visited = new HashSet<>();
+        PriorityQueue<searchNode> openList = new PriorityQueue<>(Comparator.comparingInt(s -> s.f));
+        Set<String> closedList = new HashSet<>();
 
         int explored = 0;
 
-        pq.add(root);
+        openList.add(root);
 
-        while (!pq.isEmpty()) {
+        while (!openList.isEmpty()) {
 
-            searchNode currentNode = pq.poll();
+            searchNode currentNode = openList.poll();
             explored++;
 
             currentNode.printPuzzle();
@@ -53,11 +53,11 @@ public class SolvePuzzle {
 
             }
 
-            visited.add(currentNode.getPuzzleString());
+            closedList.add(currentNode.getPuzzleString());
 
             for (searchNode children : currentNode.getChildren(heuristicName)) {
-                if (!visited.contains(children.getPuzzleString())) {
-                    pq.add(children);
+                if (!closedList.contains(children.getPuzzleString())) {
+                    openList.add(children);
                 }
             }
 
