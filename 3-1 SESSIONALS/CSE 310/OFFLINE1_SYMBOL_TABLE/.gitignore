@@ -1,0 +1,4 @@
+# Ignore executables
+SymbolInfo
+*.out
+*.exe
