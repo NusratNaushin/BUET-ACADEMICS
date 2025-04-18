@@ -1,5 +1,5 @@
-// #ifndef SYMBOLINFO_H
-// #define SYMBOLINFO_H
+#ifndef SYMBOLINFO_H
+#define SYMBOLINFO_H
 #include <bits/stdc++.h>
 #include <string>
 
@@ -62,4 +62,4 @@ SymbolInfo::~SymbolInfo()
 //     SymbolInfo *symbol = new SymbolInfo("x" , "int");
 // }
 
-// #endif // SYMBOLINFO_H
+#endif // SYMBOLINFO_H
