@@ -1,3 +1,6 @@
+#ifndef SCOPETABLE_H
+#define SCOPETABLE_H
+
 #include <bits/stdc++.h>
 #include <string>
 #include "SymbolInfo.h"
@@ -196,9 +199,4 @@ public:
 };
 
 
-int main(){
-
-    ScopeTable *st = new ScopeTable(10 , NULL);
-    st->Insert("x", "int");
-    st->print();
-}
+#endif

@@ -1,5 +1,17 @@
-# Ignore executables
-SymbolInfo
+*.o
 *.out
 *.exe
-*.pdf
+*.class
+SymbolInfo
+ScopeTable
+main
+
+
+.vscode/
+*.swp
+*.log
+
+.DS_Store
+Thumbs.db
+
+*~
