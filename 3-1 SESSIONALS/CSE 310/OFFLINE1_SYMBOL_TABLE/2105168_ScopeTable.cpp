@@ -20,14 +20,13 @@ public:
     SymbolInfo **hashtable;
     ScopeTable *parent_scope;
 
-    ScopeTable(int num_buckets, ScopeTable *parent_scope)
+    ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
     {
 
         this->num_buckets = num_buckets;
         hashtable = new SymbolInfo *[num_buckets];
         this->parent_scope = parent_scope;
-        this->id = "1";
-
+        this->id = id;
         for (int i = 0; i < num_buckets; i++)
         {
             /* code */
@@ -196,9 +195,9 @@ public:
 };
 
 
-int main(){
+// int main(){
 
-    ScopeTable *st = new ScopeTable(10 , NULL);
-    st->Insert("x", "int");
-    st->print();
-}
+//     ScopeTable *st = new ScopeTable(10 , NULL);
+//     st->Insert("x", "int");
+//     st->print();
+// }

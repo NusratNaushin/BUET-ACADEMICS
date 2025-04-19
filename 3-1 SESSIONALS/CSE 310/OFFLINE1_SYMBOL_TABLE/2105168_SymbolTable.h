@@ -1,3 +1,6 @@
+#ifndef SYMBOLTABLE_H
+#define SYMBOLTABLE_H
+
 #include <bits/stdc++.h>
 #include <string>
 #include "2105168_ScopeTable.h"
@@ -144,44 +147,4 @@ public:
 };
 
 
-int main() {
-    SymbolTable table(nullptr, 7);  // 7 buckets in hash table
-
-    cout << "--- Entering global scope ---\n";
-    table.EnterScope();
-
-    cout << "--- Inserting x: int ---\n";
-    table.Insert("x", "int");
-
-    cout << "--- Inserting y: float ---\n";
-    table.Insert("y", "float");
-
-    cout << "--- Lookup x ---\n";
-    table.LookUP("x");
-
-    cout << "--- Lookup z (not inserted) ---\n";
-    table.LookUP("z");
-
-    cout << "--- Entering new scope ---\n";
-    table.EnterScope();
-
-    cout << "--- Inserting z: char ---\n";
-    table.Insert("z", "char");
-
-    cout << "--- Lookup z ---\n";
-    table.LookUP("z");
-
-    cout << "--- Printing current scope ---\n";
-    table.print_current_scope_table();
-
-    cout << "--- Exiting scope ---\n";
-    table.ExitScope();
-
-    cout << "--- Lookup z after exiting ---\n";
-    table.LookUP("z");
-
-    cout << "--- Printing all scopes ---\n";
-    table.print_all_scope_table();
-
-    return 0;
-}
+#endif
