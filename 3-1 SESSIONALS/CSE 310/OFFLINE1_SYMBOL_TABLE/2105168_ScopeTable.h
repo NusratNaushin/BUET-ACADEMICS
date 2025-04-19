@@ -1,13 +1,18 @@
+#ifndef SCOPETABLE_H
+#define SCOPETABLE_H
+
 #include <bits/stdc++.h>
 #include <string>
-#include "SymbolInfo.h"
-#include "hash_functions.h"
+#include "2105168_SymbolInfo.h"
+#include "2105168_hash_functions.h"
 using namespace std;
 
 class ScopeTable
 {
 private:
     /* data */
+
+    
 
     unsigned int getSDBMHashIndex(string str)
     {
@@ -170,6 +175,22 @@ public:
         return NULL;
     }
 
+    ScopeTable *getParentScope(){
+        return parent_scope;
+    }
+   
+    void setParentScope(ScopeTable *parent){
+
+        this->parent_scope = parent ;
+
+
+    }
+
+    int getScopeTableID(){
+        return stoi(id);
+    }
+
+
     void print(){
 
         cout << "ScopeTable # " << id << endl;
@@ -196,9 +217,4 @@ public:
 };
 
 
-int main(){
-
-    ScopeTable *st = new ScopeTable(10 , NULL);
-    st->Insert("x", "int");
-    st->print();
-}
+#endif

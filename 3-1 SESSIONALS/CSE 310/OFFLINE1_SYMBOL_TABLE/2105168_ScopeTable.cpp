@@ -1,10 +1,7 @@
-#ifndef SCOPETABLE_H
-#define SCOPETABLE_H
-
 #include <bits/stdc++.h>
 #include <string>
-#include "SymbolInfo.h"
-#include "hash_functions.h"
+#include "2105168_SymbolInfo.h"
+#include "2105168_hash_functions.h"
 using namespace std;
 
 class ScopeTable
@@ -199,4 +196,9 @@ public:
 };
 
 
-#endif
+int main(){
+
+    ScopeTable *st = new ScopeTable(10 , NULL);
+    st->Insert("x", "int");
+    st->print();
+}
