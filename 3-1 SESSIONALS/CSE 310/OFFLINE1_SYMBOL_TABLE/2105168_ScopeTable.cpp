@@ -19,6 +19,8 @@ public:
     string id;
     SymbolInfo **hashtable;
     ScopeTable *parent_scope;
+    int child_count = 0;
+
 
     ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
     {

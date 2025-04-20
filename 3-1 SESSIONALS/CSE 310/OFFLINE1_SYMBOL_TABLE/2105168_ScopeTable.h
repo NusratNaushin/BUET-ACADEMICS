@@ -26,6 +26,7 @@ public:
     string id;
     SymbolInfo **hashtable;
     ScopeTable *parent_scope;
+    int child_count = 0;
 
     ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
     {
@@ -34,6 +35,7 @@ public:
         hashtable = new SymbolInfo *[num_buckets];
         this->parent_scope = parent_scope;
         this->id = id ;
+
 
 
         for (int i = 0; i < num_buckets; i++)

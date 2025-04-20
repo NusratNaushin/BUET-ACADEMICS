@@ -41,7 +41,8 @@ public:
         }
 
         else{
-            new_id = current_scope->id + "." + to_string(scope_id_counter++);
+            current_scope->child_count++;
+            new_id = current_scope->id + "." + to_string(current_scope->child_count);
         }
 
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id ,current_scope);
@@ -101,7 +102,7 @@ public:
             SymbolInfo *lookup = current->LookUP(symbol_name);
             if (lookup != NULL)
             {
-                unsigned int index = current->getSDBMHashIndex(symbol_name);
+                unsigned int index = current->getSDBMHashIndex(symbol_name)%current->num_buckets;
                 SymbolInfo *temp = current->hashtable[index];
                 int chain_position = 1;
                 while (temp != NULL)
@@ -143,45 +144,3 @@ public:
     }
 };
 
-
-int main() {
-    SymbolTable table(nullptr, 7);  // 7 buckets in hash table
-
-    cout << "--- Entering global scope ---\n";
-    table.EnterScope();
-
-    cout << "--- Inserting x: int ---\n";
-    table.Insert("x", "int");
-
-    cout << "--- Inserting y: float ---\n";
-    table.Insert("y", "float");
-
-    cout << "--- Lookup x ---\n";
-    table.LookUP("x");
-
-    cout << "--- Lookup z (not inserted) ---\n";
-    table.LookUP("z");
-
-    cout << "--- Entering new scope ---\n";
-    table.EnterScope();
-
-    cout << "--- Inserting z: char ---\n";
-    table.Insert("z", "char");
-
-    cout << "--- Lookup z ---\n";
-    table.LookUP("z");
-
-    cout << "--- Printing current scope ---\n";
-    table.print_current_scope_table();
-
-    cout << "--- Exiting scope ---\n";
-    table.ExitScope();
-
-    cout << "--- Lookup z after exiting ---\n";
-    table.LookUP("z");
-
-    cout << "--- Printing all scopes ---\n";
-    table.print_all_scope_table();
-
-    return 0;
-}
