@@ -14,19 +14,17 @@ private:
 
     
 
-    
+    int chain_position = 1;
 
 public:
 
-    unsigned int getSDBMHashIndex(string str)
-    {
-        return SDBMHash(str);
-    }
+    
     int num_buckets;
     string id;
     SymbolInfo **hashtable;
     ScopeTable *parent_scope;
     int child_count = 0;
+    unsigned int index;
 
     ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
     {
@@ -65,6 +63,11 @@ public:
         delete[] hashtable;
     }
 
+
+    unsigned int getSDBMHashIndex(string str)
+    {
+        return SDBMHash(str , num_buckets);
+    }
     bool Insert(string symbole_name, string symbol_type)
     {
 
@@ -76,7 +79,7 @@ public:
         else
         {
 
-            unsigned int index = getSDBMHashIndex(symbole_name) % num_buckets;
+             index = getSDBMHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
 
@@ -93,11 +96,15 @@ public:
                 while (temp->getNext() != NULL)
                 {
                     temp = temp->getNext();
+                    chain_position++;
                 }
 
                 temp->setNext(new_symbol);
-                return true;
+                chain_position++;
+                
             }
+
+            return true;
         }
     }
 
@@ -132,6 +139,7 @@ public:
             temp = temp->getNext();
         }
 
+        return false;
         
     }
 
@@ -193,6 +201,14 @@ public:
 
     int getScopeTableID(){
         return stoi(id);
+    }
+
+    int getIndex(){
+        return this->index;
+    }
+
+    int getChainPos(){
+        return this->chain_position;
     }
 
 

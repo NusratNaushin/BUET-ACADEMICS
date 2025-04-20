@@ -21,7 +21,7 @@ public:
         this->symbol_type = symbol_type;
         this->next = NULL;
 
-        cout << "Constructor called in symbolinfo class" << endl;
+      //  cout << "Constructor called in symbolinfo class" << endl;
 
 
     }
@@ -54,7 +54,7 @@ public:
 
 SymbolInfo::~SymbolInfo()
 {
-    cout << "Destructor called in symbolinfo class" << endl;
+    //cout << "Destructor called in symbolinfo class" << endl;
 }
 
 

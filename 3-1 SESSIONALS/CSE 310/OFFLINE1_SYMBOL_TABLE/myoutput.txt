@@ -1,0 +1,7 @@
+Current Scope ID :1
+
+Inserted foo of type FUNCTION INT INT FLOAT INT in ScopeTable# 1 at position <7,1>
+
+Inserted i of type VAR in ScopeTable# 1 at position <1,1>
+
+Inserted brand of type VAR in ScopeTable# 1 at position <4,1>

@@ -9,10 +9,6 @@ class ScopeTable
 private:
     /* data */
 
-    unsigned int getSDBMHashIndex(string str)
-    {
-        return SDBMHash(str);
-    }
 
 public:
     int num_buckets;
@@ -56,6 +52,12 @@ public:
         delete[] hashtable;
     }
 
+
+    unsigned int getSDBMHashIndex(string str)
+    {
+        return SDBMHash(str ,num_buckets);
+    }
+    
     bool Insert(string symbole_name, string symbol_type)
     {
 
