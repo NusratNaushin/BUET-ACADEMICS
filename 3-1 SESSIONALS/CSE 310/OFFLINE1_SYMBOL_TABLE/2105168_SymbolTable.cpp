@@ -43,7 +43,8 @@ public:
         else
         {
             current_scope->child_count++;
-            new_id = current_scope->id + "." + to_string(current_scope->child_count);
+            // new_id = current_scope->id + "." + to_string(current_scope->child_count);
+            new_id = to_string(stoi(current_scope->id) + 1);
         }
 
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
@@ -123,8 +124,6 @@ public:
 
             current = current->getParentScope();
         }
-
-        cout << " Not  Found " << endl;
         return NULL;
     }
 
@@ -161,7 +160,8 @@ public:
 
     void printCurrentScopeID()
     {
-        cout << "Current Scope ID :" << current_scope->id << endl;
+        // cout << "\t";
+        cout << "ScopeTable# " << current_scope->id <<" created" <<endl;
     }
 };
 
@@ -176,6 +176,8 @@ int main()
     freopen(output_filename.c_str(), "w", stdout);
     SymbolTable *st = new SymbolTable(NULL, 7);
 
+    int command_count = 0 ;
+
     st->EnterScope();
 
     st->printCurrentScopeID();
@@ -189,8 +191,6 @@ int main()
 
         ss >> command;
 
-        cout << endl;
-
         if (command == "Q")
         {
             break;
@@ -199,6 +199,7 @@ int main()
         else if (command == "I")
         {
 
+            command_count++;
             string name, type, word;
             ss >> name;
 
@@ -216,18 +217,79 @@ int main()
             st->Insert(name, type);
             SymbolInfo *found = st->LookUP(name);
 
+
+            cout <<"Cmd "<<command_count << ": " <<  line << endl;
+
+            cout << "\t" ;
+
             if (found)
             {
 
-                cout << "Inserted " << found->getSymbolName() << " of type " << found->getSymbolType()
-                     << " in ScopeTable# " << st->getCurrentScopeID()
-                     << " at position <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
+                cout << "Inserted in ScopeTable# " << st->getCurrentScopeID()
+                     << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos()<< endl;
             }
             // cout << found->getSymbolName() << " " << found->getSymbolType() << endl;
 
             // cout << "insert " << found->getSymbolName() << " at scope table # " << st->getCurrentScopeID() << " and <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
 
             // cout << found->getSymbolName() << endl;
+        }
+
+
+        else if(command == "L"){
+
+            command_count++;
+
+
+            string name, type, word;
+            ss >> name;
+
+            cout <<"Cmd "<<command_count << ": " <<  line << endl;
+            cout << "\t" ;
+
+
+            if (ss >> word)
+            {
+               
+                    cout << "Number of parameters mismatch for the command L" << endl;
+            }
+
+            else {
+                SymbolInfo* found = st->LookUP(name);
+
+
+
+                if(found){
+                    cout <<"'" <<name << "' found in ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrentScopeID() << endl;
+                }
+    
+                else{
+    
+                    cout <<"'" <<name << "' not found in any of the ScopeTables" << endl;
+    
+                }
+
+            }
+           
+
+        }
+
+        else if(command == "S"){
+            command_count++;
+
+            string name, type, word;
+            if(ss >> name){
+                cout << "Number of parameters mismatch for the command L" << endl;
+
+            }
+
+            cout <<"Cmd "<<command_count << ": " <<  line << endl;
+            cout << "\t" ;
+
+            st->EnterScope();
+
+            st->printCurrentScopeID();
+
         }
     }
 }
