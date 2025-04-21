@@ -33,6 +33,7 @@ public:
 
     void EnterScope()
     {
+
         string new_id;
 
         if (current_scope == nullptr)
@@ -68,30 +69,33 @@ public:
         }
     }
 
-    void Insert(string symbol_name, string type)
+    bool Insert(string symbol_name, string type)
     {
         if (current_scope->Insert(symbol_name, type) == false)
         {
-            cout << "Already exists in current scope" << endl;
+            return false;
         }
         else
         {
 
             current_scope->Insert(symbol_name, type);
+            return true;
         }
     }
 
-    void Remove(string symbol_name)
+    bool Remove(string symbol_name)
     {
 
-        if (current_scope->Delete(symbol_name) == false)
+        if (current_scope->Delete(symbol_name) == true)
         {
-            cout << "Not found in the current scope" << endl;
+            current_scope->Delete(symbol_name);
+            return true;
         }
 
         else
         {
-            current_scope->Delete(symbol_name);
+            return false;
+
         }
     }
 
@@ -156,6 +160,10 @@ public:
     int getCurrPos()
     {
         return current_scope->getChainPos();
+    }
+
+    ScopeTable *getCurrentScope(){
+        return current_scope;
     }
 
     void printCurrentScopeID()
@@ -243,8 +251,8 @@ int main()
             string full_type = type;
             if(type == "STRUCT" || type == "UNION"){
 
-                full_type += ",{";
-                bool flag_for_placing_comma = true;
+                full_type += " ,{";
+                bool flag_for_placing_comma = false;
                 string field_type , field_name;
                 
                 while(ss >> field_type >> field_name){
@@ -348,12 +356,12 @@ int main()
 
             else
             {
-                SymbolInfo *to_be_deleted = st->LookUP(name);
+                
 
-                if (to_be_deleted)
+                if (st->getCurrentScope()->check_present_in_scopetable(name))
                 {
                     st->Remove(name);
-                    cout << "Deleted " << name << "from ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
+                    cout << "Deleted " << name << " from ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
                 }
 
                 else
@@ -385,7 +393,16 @@ int main()
                 cout << "Number of parameters mismatch for the command P" << endl;
             }
         }
+
+        else if (command == "E"){
+
+            
+        
+        }
     }
+
+
+    
 }
 
 // int main()

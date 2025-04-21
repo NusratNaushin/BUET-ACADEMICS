@@ -12,13 +12,9 @@ class ScopeTable
 private:
     /* data */
 
-    
-
     int chain_position = 1;
 
 public:
-
-    
     int num_buckets;
     string id;
     SymbolInfo **hashtable;
@@ -26,15 +22,13 @@ public:
     int child_count = 0;
     unsigned int index;
 
-    ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
+    ScopeTable(int num_buckets, string id, ScopeTable *parent_scope)
     {
 
         this->num_buckets = num_buckets;
         hashtable = new SymbolInfo *[num_buckets];
         this->parent_scope = parent_scope;
-        this->id = id ;
-
-
+        this->id = id;
 
         for (int i = 0; i < num_buckets; i++)
         {
@@ -63,10 +57,9 @@ public:
         delete[] hashtable;
     }
 
-
     unsigned int getSDBMHashIndex(string str)
     {
-        return SDBMHash(str , num_buckets);
+        return SDBMHash(str, num_buckets);
     }
     bool Insert(string symbole_name, string symbol_type)
     {
@@ -79,7 +72,7 @@ public:
         else
         {
 
-             index = getSDBMHashIndex(symbole_name) % num_buckets;
+            index = getSDBMHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
 
@@ -104,10 +97,7 @@ public:
 
                 temp->setNext(new_symbol);
                 chain_position++;
-
-                
             }
-
 
             return true;
         }
@@ -145,7 +135,6 @@ public:
         }
 
         return false;
-        
     }
 
     bool check_present_in_scopetable(string symbol_name)
@@ -193,54 +182,45 @@ public:
         return NULL;
     }
 
-    ScopeTable *getParentScope(){
+    ScopeTable *getParentScope()
+    {
         return parent_scope;
     }
-   
-    void setParentScope(ScopeTable *parent){
 
-        this->parent_scope = parent ;
+    void setParentScope(ScopeTable *parent)
+    {
 
-
+        this->parent_scope = parent;
     }
 
-    int getScopeTableID(){
+    int getScopeTableID()
+    {
         return stoi(id);
     }
 
-    int getIndex(){
+    int getIndex()
+    {
         return this->index;
     }
 
-    int getChainPos(){
+    int getChainPos()
+    {
         return this->chain_position;
     }
 
-
-    void print(){
-
-        cout << "ScopeTable # " << id << endl;
-        for (int i = 0; i < num_buckets; i++)
-        {
-            /* code */
-            SymbolInfo *temp = hashtable[i];
-            if (temp != NULL)
-            {
-                cout << i << " --> ";
-                while (temp != NULL)
-                {
-                    cout << "<" << temp->getSymbolName() << " : " << temp->getSymbolType() << "> ";
-                    temp = temp->getNext();
-                }
-                cout << endl;
+    void print() {
+        cout << "\tScopeTable# " << id << endl;
+        for (int i = 0; i < num_buckets; i++) {
+            cout << "\t" << i + 1 << "-->"; // 1-based index with tab
+            SymbolInfo* temp = hashtable[i];
+            while (temp != NULL) {
+                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
+                temp = temp->getNext();
             }
+            cout << endl;
         }
-        cout << endl;
-
     }
-
-
+    
 };
-
 
 #endif
