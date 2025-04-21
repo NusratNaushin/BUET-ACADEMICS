@@ -161,13 +161,12 @@ public:
     void printCurrentScopeID()
     {
         // cout << "\t";
-        cout << "ScopeTable# " << current_scope->id <<" created" <<endl;
+        cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
 };
 
 int main()
 {
-
 
     string input_filename = "myinput.txt";
     string output_filename = "myoutput.txt";
@@ -176,7 +175,7 @@ int main()
     freopen(output_filename.c_str(), "w", stdout);
     SymbolTable *st = new SymbolTable(NULL, 7);
 
-    int command_count = 0 ;
+    int command_count = 0;
 
     st->EnterScope();
 
@@ -196,100 +195,195 @@ int main()
             break;
         }
 
-        else if (command == "I")
-        {
+        // else if (command == "I")
+        // {
 
+        //     command_count++;
+        //     string name, type, word;
+        //     ss >> name;
+
+        //     type = "";
+        //     while (ss >> word)
+        //     {
+        //         if (!type.empty())
+        //         {
+        //             type += " ";
+        //         }
+
+        //         type += word;
+        //     }
+
+        //     st->Insert(name, type);
+        //     SymbolInfo *found = st->LookUP(name);
+
+        //     cout << "Cmd " << command_count << ": " << line << endl;
+
+        //     cout << "\t";
+
+            // if (found)
+            // {
+
+            //     cout << "Inserted in ScopeTable# " << st->getCurrentScopeID()
+            //          << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
+            // }
+        //     // cout << found->getSymbolName() << " " << found->getSymbolType() << endl;
+
+        //     // cout << "insert " << found->getSymbolName() << " at scope table # " << st->getCurrentScopeID() << " and <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
+
+        //     // cout << found->getSymbolName() << endl;
+        // }
+
+
+        else if (command == "I"){
             command_count++;
-            string name, type, word;
+            string  name , type , word;
             ss >> name;
+            ss >> type ;
 
-            type = "";
-            while (ss >> word)
-            {
-                if (!type.empty())
-                {
-                    type += " ";
+            string full_type = type;
+            if(type == "STRUCT" || type == "UNION"){
+
+                full_type += ",{";
+                bool flag_for_placing_comma = true;
+                string field_type , field_name;
+                
+                while(ss >> field_type >> field_name){
+                    if(flag_for_placing_comma){
+                        full_type += ",";
+                    }
+                    full_type += "(" + field_type + "," + field_name + ")";
+                    flag_for_placing_comma = true;
                 }
 
-                type += word;
+                full_type += "}";
+
             }
 
-            st->Insert(name, type);
+            else{
+                while(ss>>word){
+                    full_type +=" "+word;
+                }
+            }
+
+            st->Insert(name , full_type);
             SymbolInfo *found = st->LookUP(name);
-
-
-            cout <<"Cmd "<<command_count << ": " <<  line << endl;
-
-            cout << "\t" ;
-
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
             if (found)
             {
 
                 cout << "Inserted in ScopeTable# " << st->getCurrentScopeID()
-                     << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos()<< endl;
+                     << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
             }
-            // cout << found->getSymbolName() << " " << found->getSymbolType() << endl;
+            
 
-            // cout << "insert " << found->getSymbolName() << " at scope table # " << st->getCurrentScopeID() << " and <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
 
-            // cout << found->getSymbolName() << endl;
         }
 
-
-        else if(command == "L"){
+        else if (command == "L")
+        {
 
             command_count++;
-
 
             string name, type, word;
             ss >> name;
 
-            cout <<"Cmd "<<command_count << ": " <<  line << endl;
-            cout << "\t" ;
-
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
 
             if (ss >> word)
             {
-               
-                    cout << "Number of parameters mismatch for the command L" << endl;
+
+                cout << "Number of parameters mismatch for the command L" << endl;
             }
 
-            else {
-                SymbolInfo* found = st->LookUP(name);
+            else
+            {
+                SymbolInfo *found = st->LookUP(name);
 
-
-
-                if(found){
-                    cout <<"'" <<name << "' found in ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrentScopeID() << endl;
-                }
-    
-                else{
-    
-                    cout <<"'" <<name << "' not found in any of the ScopeTables" << endl;
-    
+                if (found)
+                {
+                    cout << "'" << name << "' found in ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrentScopeID() << endl;
                 }
 
+                else
+                {
+
+                    cout << "'" << name << "' not found in any of the ScopeTables" << endl;
+                }
             }
-           
-
         }
 
-        else if(command == "S"){
+        else if (command == "S")
+        {
             command_count++;
 
             string name, type, word;
-            if(ss >> name){
+            if (ss >> name)
+            {
                 cout << "Number of parameters mismatch for the command L" << endl;
-
             }
 
-            cout <<"Cmd "<<command_count << ": " <<  line << endl;
-            cout << "\t" ;
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
 
             st->EnterScope();
 
             st->printCurrentScopeID();
+        }
 
+        else if (command == "D")
+        {
+            command_count++;
+            string name, word;
+            ss >> name;
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
+
+            if (ss >> word)
+            {
+
+                cout << "Number of parameters mismatch for the command L" << endl;
+            }
+
+            else
+            {
+                SymbolInfo *to_be_deleted = st->LookUP(name);
+
+                if (to_be_deleted)
+                {
+                    st->Remove(name);
+                    cout << "Deleted " << name << "from ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
+                }
+
+                else
+                {
+                    cout << "Not found in the current ScopeTable" << endl;
+                }
+            }
+        }
+
+        else if (command == "P")
+        {
+            command_count++;
+            string argument;
+            ss >> argument;
+
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
+            if (argument == "A")
+            {
+                st->print_all_scope_table();
+            }
+            else if (argument == "C")
+            {
+                st->print_current_scope_table();
+            }
+
+            else
+            {
+                cout << "Number of parameters mismatch for the command P" << endl;
+            }
         }
     }
 }

@@ -83,6 +83,7 @@ public:
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
 
+            chain_position = 1;
             if (hashtable[index] == NULL)
             {
                 hashtable[index] = new_symbol;
@@ -93,6 +94,8 @@ public:
             {
 
                 SymbolInfo *temp = hashtable[index];
+                // chain_position = 2;
+
                 while (temp->getNext() != NULL)
                 {
                     temp = temp->getNext();
@@ -101,8 +104,10 @@ public:
 
                 temp->setNext(new_symbol);
                 chain_position++;
+
                 
             }
+
 
             return true;
         }

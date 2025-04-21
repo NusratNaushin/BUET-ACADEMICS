@@ -13,3 +13,7 @@ Cmd 6: S
 	ScopeTable# 2 created
 Cmd 7: I 23 NUMBER
 	Inserted in ScopeTable# 2 at position 5, 1
+Cmd 8: I car STRUCT INT n_doors BOOL is_electric STRING brand
+	Inserted in ScopeTable# 2 at position 5, 2
+Cmd 9: I brand VAR 
+	Inserted in ScopeTable# 2 at position 4, 1
