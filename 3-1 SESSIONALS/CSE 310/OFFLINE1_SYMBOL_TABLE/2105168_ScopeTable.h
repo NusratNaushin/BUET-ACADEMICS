@@ -106,9 +106,9 @@ public:
     bool Delete(string symbol_name)
     {
 
-        unsigned int index = getSDBMHashIndex(symbol_name) % num_buckets;
-
-        SymbolInfo *temp = hashtable[index];
+        unsigned int idx = getSDBMHashIndex(symbol_name) % num_buckets;
+        int pos = 1;
+        SymbolInfo *temp = hashtable[idx];
         SymbolInfo *prev = NULL;
 
         while (temp != NULL)
@@ -119,19 +119,22 @@ public:
 
                 if (prev == NULL)
                 {
-                    hashtable[index] = temp->getNext();
+                    hashtable[idx] = temp->getNext();
                 }
                 else
                 {
                     prev->setNext(temp->getNext());
                 }
 
+                index = idx;
+                chain_position = pos;
                 delete temp;
                 return true;
             }
 
             prev = temp;
             temp = temp->getNext();
+            pos++;
         }
 
         return false;

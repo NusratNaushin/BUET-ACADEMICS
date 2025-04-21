@@ -34,23 +34,23 @@ public:
     void EnterScope()
     {
 
-        string new_id;
+        string new_id = to_string(scope_id_counter++);
 
-        if (current_scope == nullptr)
-        {
-            new_id = "1";
-        }
+        // if (current_scope == nullptr)
+        // {
+        //     new_id = "1";
+        // }
 
-        else
-        {
-            current_scope->child_count++;
-            // new_id = current_scope->id + "." + to_string(current_scope->child_count);
-            new_id = to_string(stoi(current_scope->id) + 1);
-        }
+        // else
+        // {
+            // current_scope->child_count++;
+            // // new_id = current_scope->id + "." + to_string(current_scope->child_count);
+            // new_id = to_string(stoi(current_scope->id) + 1);
+       // }
 
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
 
-        this->current_scope = new_scope;
+        current_scope = new_scope;
     }
 
     void ExitScope()
@@ -71,32 +71,17 @@ public:
 
     bool Insert(string symbol_name, string type)
     {
-        if (current_scope->Insert(symbol_name, type) == false)
-        {
-            return false;
-        }
-        else
-        {
+        
 
-            current_scope->Insert(symbol_name, type);
-            return true;
-        }
+            
+            return current_scope->Insert(symbol_name, type);
+        
     }
 
     bool Remove(string symbol_name)
     {
 
-        if (current_scope->Delete(symbol_name) == true)
-        {
-            current_scope->Delete(symbol_name);
-            return true;
-        }
-
-        else
-        {
-            return false;
-
-        }
+       return current_scope->Delete(symbol_name);
     }
 
     SymbolInfo *LookUP(string symbol_name)
@@ -136,16 +121,32 @@ public:
         current_scope->print();
     }
 
-    void print_all_scope_table()
-    {
-        ScopeTable *current = current_scope;
-
-        while (current != NULL)
-        {
-            current->print();
-            current = current->getParentScope();
-        }
+    void print_all_scope_table() {
+        print_all_helper(current_scope, 0);
     }
+    
+    void print_all_helper(ScopeTable* scope, int depth) {
+        if (scope == NULL) return;
+    
+        // First print current scope with indentation
+        for (int i = 0; i < depth; i++) cout << "\t";
+        cout << "ScopeTable# " << scope->id << endl;
+    
+        for (int i = 0; i < scope->num_buckets; i++) {
+            for (int j = 0; j < depth; j++) cout << "\t";
+            cout << i + 1 << "-->";
+            SymbolInfo* temp = scope->hashtable[i];
+            while (temp != NULL) {
+                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
+                temp = temp->getNext();
+            }
+            cout << endl;
+        }
+    
+        // Then recursively print parent scopes with increased indentation
+        print_all_helper(scope->getParentScope(), depth + 1);
+    }
+    
 
     string getCurrentScopeID()
     {
@@ -176,7 +177,7 @@ public:
 int main()
 {
 
-    string input_filename = "myinput.txt";
+    string input_filename = "sample_input.txt";
     string output_filename = "myoutput.txt";
 
     freopen(input_filename.c_str(), "r", stdin);
@@ -267,21 +268,46 @@ int main()
 
             }
 
+            else if(type == "FUNCTION"){
+                string return_type;
+                ss >> return_type;
+
+                string arg_type;
+                string formatted_args = "";
+                bool flag = true;
+
+                while(ss >> arg_type){
+                    if(!flag){
+                        formatted_args += ",";
+                    }
+
+                    formatted_args += arg_type;
+                    flag = false;
+                }
+
+                full_type = "FUNCTION, " +return_type + "<==(" + formatted_args + ")";
+            }
+
             else{
                 while(ss>>word){
                     full_type +=" "+word;
                 }
             }
 
-            st->Insert(name , full_type);
+            bool inserted = st->Insert(name , full_type);
+            
             SymbolInfo *found = st->LookUP(name);
             cout << "Cmd " << command_count << ": " << line << endl;
             cout << "\t";
-            if (found)
+            if (inserted)
             {
 
                 cout << "Inserted in ScopeTable# " << st->getCurrentScopeID()
                      << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
+            }
+
+            else{
+                cout << "'" << name << "' already exists in the current ScopeTable" << endl;
             }
             
 
@@ -343,15 +369,14 @@ int main()
         else if (command == "D")
         {
             command_count++;
-            string name, word;
-            ss >> name;
+            string name, word , extra;
             cout << "Cmd " << command_count << ": " << line << endl;
             cout << "\t";
 
-            if (ss >> word)
-            {
-
-                cout << "Number of parameters mismatch for the command L" << endl;
+            if (!(ss >> name) || ss >> extra) {
+                cout << "Cmd " << command_count << ": " << line << endl;
+                cout << "Number of parameters mismatch for the command D" << endl;
+                continue;
             }
 
             else
@@ -361,7 +386,7 @@ int main()
                 if (st->getCurrentScope()->check_present_in_scopetable(name))
                 {
                     st->Remove(name);
-                    cout << "Deleted " << name << " from ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
+                    cout << "Deleted '" << name << "' from ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
                 }
 
                 else
@@ -396,7 +421,29 @@ int main()
 
         else if (command == "E"){
 
-            
+            command_count++;
+            cout << "Cmd " << command_count << ": " << line << endl;
+            cout << "\t";
+            string argument = "";
+            ss >> argument;
+
+            if(argument!=""){
+
+                cout << "Number of parameters mismatch for the command P" << endl;
+            }
+            else{
+
+                if(st->getCurrentScopeID() == "1"){
+                    cout << "No scope to exit" << endl;
+                }
+                else{
+
+                    string dlt_id = st->getCurrentScopeID() ;
+                    st->ExitScope();
+                    cout << "ScopeTable# " << dlt_id << " removed" << endl;
+                }
+                
+            }
         
         }
     }
