@@ -55,18 +55,14 @@ public:
 
     void ExitScope()
     {
-        if (current_scope->getParentScope() != NULL)
-        {
+        
             ScopeTable *temp = current_scope;
             current_scope = current_scope->getParentScope();
             temp->setParentScope(NULL);
             delete temp;
-        }
+        
 
-        else
-        {
-            cout << "No scope to exit" << endl;
-        }
+       
     }
 
     bool Insert(string symbol_name, string type)
@@ -201,6 +197,15 @@ int main()
 
         if (command == "Q")
         {
+            command_count++;
+            cout << "Cmd " << command_count << ": " << line << endl;
+           
+            while(st->getCurrentScope() != NULL){
+                string dlt_id = st->getCurrentScopeID();
+                st->ExitScope();
+                cout << "\t";
+                cout << "ScopeTable# " << dlt_id << " removed" << endl;
+              }
             break;
         }
 
@@ -433,7 +438,7 @@ int main()
             }
             else{
 
-                if(st->getCurrentScopeID() == "1"){
+                if(st->getCurrentScope()->getParentScope() == NULL){
                     cout << "No scope to exit" << endl;
                 }
                 else{

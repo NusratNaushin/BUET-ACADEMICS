@@ -273,3 +273,6 @@ Cmd 49: P A
 	5-->
 	6-->
 	7--> <foo,FUNCTION, INT<==(INT,FLOAT,INT)>
+Cmd 50: Q
+	ScopeTable# 8 removed
+	ScopeTable# 1 removed
