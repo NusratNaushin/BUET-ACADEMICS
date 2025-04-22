@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include <string>
-#include "2105168_ScopeTable.h"
+#include "cpp_files/2105168_ScopeTable.h"
 
 using namespace std;
 
@@ -474,87 +474,3 @@ int main()
 
     
 }
-
-// int main()
-// {
-//     SymbolTable *st = new SymbolTable(NULL, 7);
-//     st->EnterScope();
-
-//     string line;
-//     while (getline(cin, line))
-//     {
-//         if (line.empty()) continue; // skip empty lines
-
-//         stringstream ss(line);
-//         string command;
-//         ss >> command;
-
-//         cout << endl;
-
-//         if (command == "Q")
-//         {
-//             break;
-//         }
-
-//         else if (command == "I")
-//         {
-//             string name, type, word;
-//             ss >> name;
-
-//             type = "";
-//             while (ss >> word)
-//             {
-//                 if (!type.empty()) type += " ";
-//                 type += word;
-//             }
-
-//             st->Insert(name, type);
-//             SymbolInfo *found = st->LookUP(name);
-//             if (found)
-//             {
-//                 cout << "Inserted " << found->getSymbolName() << " of type " << found->getSymbolType()
-//                      << " in ScopeTable# " << st->getCurrentScopeID()
-//                      << " at position <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
-//             }
-//         }
-
-//         // You can handle other commands like this
-//         else if (command == "S")
-//         {
-//             st->EnterScope();
-//         }
-
-//         else if (command == "E")
-//         {
-//             st->ExitScope();
-//         }
-
-//         else if (command == "D")
-//         {
-//             string name;
-//             ss >> name;
-//             st->Remove(name);
-//         }
-
-//         else if (command == "L")
-//         {
-//             string name;
-//             ss >> name;
-//             st->LookUP(name);
-//         }
-
-//         else if (command == "P")
-//         {
-//             string mode;
-//             ss >> mode;
-//             if (mode == "A")
-//                 st->print_all_scope_table();
-//             else if (mode == "C")
-//                 st->print_current_scope_table();
-//         }
-
-//         cout << endl;
-//     }
-
-//     return 0;
-// }

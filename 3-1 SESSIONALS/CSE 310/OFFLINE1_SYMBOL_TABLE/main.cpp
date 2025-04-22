@@ -44,45 +44,6 @@ int main()
             break;
         }
 
-        // else if (command == "I")
-        // {
-
-        //     command_count++;
-        //     string name, type, word;
-        //     ss >> name;
-
-        //     type = "";
-        //     while (ss >> word)
-        //     {
-        //         if (!type.empty())
-        //         {
-        //             type += " ";
-        //         }
-
-        //         type += word;
-        //     }
-
-        //     st->Insert(name, type);
-        //     SymbolInfo *found = st->LookUP(name);
-
-        //     cout << "Cmd " << command_count << ": " << line << endl;
-
-        //     cout << "\t";
-
-            // if (found)
-            // {
-
-            //     cout << "Inserted in ScopeTable# " << st->getCurrentScopeID()
-            //          << " at position " << st->getIndex() + 1 << ", " << st->getCurrPos() << endl;
-            // }
-        //     // cout << found->getSymbolName() << " " << found->getSymbolType() << endl;
-
-        //     // cout << "insert " << found->getSymbolName() << " at scope table # " << st->getCurrentScopeID() << " and <" << st->getIndex() + 1 << "," << st->getCurrPos() << ">" << endl;
-
-        //     // cout << found->getSymbolName() << endl;
-        // }
-
-
         else if (command == "I"){
             command_count++;
             string  name , type , word;
@@ -290,3 +251,8 @@ int main()
 
     
 }
+
+
+
+
+

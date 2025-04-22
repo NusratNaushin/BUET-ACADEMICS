@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include <string>
-#include "2105168_SymbolInfo.h"
-#include "2105168_hash_functions.h"
+#include "header_files/2105168_SymbolInfo.h"
+#include "header_files/2105168_hash_functions.h"
 using namespace std;
 
 class ScopeTable
