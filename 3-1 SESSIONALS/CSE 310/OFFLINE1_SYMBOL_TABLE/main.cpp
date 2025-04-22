@@ -8,7 +8,7 @@ int main()
 {
 
     string input_filename = "input_output_txt/sample_input.txt";
-    string output_filename = "input_output_txt/myoutput.txt";
+    string output_filename = "input_output_txt/myoutput1.txt";
 
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
