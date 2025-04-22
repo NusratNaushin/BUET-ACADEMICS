@@ -2,9 +2,9 @@
 *.out
 *.exe
 *.class
-SymbolInfo
-ScopeTable
-SymbolTable
+2105168_SymbolInfo
+2105168_ScopeTable
+2105168_SymbolTable
 main
 
 
