@@ -133,8 +133,7 @@ Cmd 28: I foo VAR
 Cmd 29: D 23
 	Not found in the current ScopeTable
 Cmd 30: D
-	Cmd 30: D
-Number of parameters mismatch for the command D
+	Number of parameters mismatch for the command D
 Cmd 31: P A
 	ScopeTable# 5
 1-->
@@ -202,7 +201,7 @@ Cmd 36: P A
 			6-->
 			7--> <foo,FUNCTION, INT<==(INT,FLOAT,INT)>
 Cmd 37: L foo
-	'foo' found in ScopeTable# 6 at position 3, 6
+	'foo' found in ScopeTable# 5 at position 7, 2
 Cmd 38: E
 	ScopeTable# 6 removed
 Cmd 39: I num VAR

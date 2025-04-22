@@ -11,6 +11,9 @@ private:
 
     int num_buckets;
     ScopeTable *current_scope;
+    int last_found_index = -1 ;
+    int last_found_chain_position = -1;
+    string last_found_scope_id ;
 
 public:
     int scope_id_counter = 1;
@@ -96,6 +99,10 @@ public:
                 {
                     if (temp->getSymbolName() == symbol_name)
                     {
+                        last_found_index  = index;
+                        last_found_chain_position = chain_position;
+                        last_found_scope_id = current->id;
+
                         break;
                     }
                     temp = temp->getNext();
@@ -159,6 +166,17 @@ public:
         return current_scope->getChainPos();
     }
 
+    int getFoundIndex(){
+        return last_found_index;
+    }
+    int getFoundChainPos(){
+        return last_found_chain_position;
+    }
+
+    string getFoundScopeID(){
+        return last_found_scope_id;
+    }
+
     ScopeTable *getCurrentScope(){
         return current_scope;
     }
@@ -204,6 +222,7 @@ int main()
                 string dlt_id = st->getCurrentScopeID();
                 st->ExitScope();
                 cout << "\t";
+
                 cout << "ScopeTable# " << dlt_id << " removed" << endl;
               }
             break;
@@ -342,7 +361,7 @@ int main()
 
                 if (found)
                 {
-                    cout << "'" << name << "' found in ScopeTable# " << st->getCurrentScopeID() << " at position " << st->getIndex() + 1 << ", " << st->getCurrentScopeID() << endl;
+                    cout << "'" << name << "' found in ScopeTable# " << st->getFoundScopeID() << " at position " << st->getFoundIndex() + 1 << ", " << st->getFoundChainPos() << endl;
                 }
 
                 else
@@ -379,7 +398,6 @@ int main()
             cout << "\t";
 
             if (!(ss >> name) || ss >> extra) {
-                cout << "Cmd " << command_count << ": " << line << endl;
                 cout << "Number of parameters mismatch for the command D" << endl;
                 continue;
             }
