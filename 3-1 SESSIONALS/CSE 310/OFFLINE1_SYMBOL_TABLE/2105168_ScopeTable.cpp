@@ -9,6 +9,7 @@ class ScopeTable
 private:
     /* data */
 
+    int chain_position = 1;
 
 public:
     int num_buckets;
@@ -16,15 +17,16 @@ public:
     SymbolInfo **hashtable;
     ScopeTable *parent_scope;
     int child_count = 0;
+    unsigned int index;
 
-
-    ScopeTable(int num_buckets, string id ,ScopeTable *parent_scope)
+    ScopeTable(int num_buckets, string id, ScopeTable *parent_scope)
     {
 
         this->num_buckets = num_buckets;
         hashtable = new SymbolInfo *[num_buckets];
         this->parent_scope = parent_scope;
         this->id = id;
+
         for (int i = 0; i < num_buckets; i++)
         {
             /* code */
@@ -52,12 +54,10 @@ public:
         delete[] hashtable;
     }
 
-
     unsigned int getSDBMHashIndex(string str)
     {
-        return SDBMHash(str ,num_buckets);
+        return SDBMHash(str, num_buckets);
     }
-    
     bool Insert(string symbole_name, string symbol_type)
     {
 
@@ -69,10 +69,11 @@ public:
         else
         {
 
-            unsigned int index = getSDBMHashIndex(symbole_name) % num_buckets;
+            index = getSDBMHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
 
+            chain_position = 1;
             if (hashtable[index] == NULL)
             {
                 hashtable[index] = new_symbol;
@@ -83,23 +84,28 @@ public:
             {
 
                 SymbolInfo *temp = hashtable[index];
+                // chain_position = 2;
+
                 while (temp->getNext() != NULL)
                 {
                     temp = temp->getNext();
+                    chain_position++;
                 }
 
                 temp->setNext(new_symbol);
-                return true;
+                chain_position++;
             }
+
+            return true;
         }
     }
 
     bool Delete(string symbol_name)
     {
 
-        unsigned int index = getSDBMHashIndex(symbol_name) % num_buckets;
-
-        SymbolInfo *temp = hashtable[index];
+        unsigned int idx = getSDBMHashIndex(symbol_name) % num_buckets;
+        int pos = 1;
+        SymbolInfo *temp = hashtable[idx];
         SymbolInfo *prev = NULL;
 
         while (temp != NULL)
@@ -110,22 +116,25 @@ public:
 
                 if (prev == NULL)
                 {
-                    hashtable[index] = temp->getNext();
+                    hashtable[idx] = temp->getNext();
                 }
                 else
                 {
                     prev->setNext(temp->getNext());
                 }
 
+                index = idx;
+                chain_position = pos;
                 delete temp;
                 return true;
             }
 
             prev = temp;
             temp = temp->getNext();
+            pos++;
         }
 
-        
+        return false;
     }
 
     bool check_present_in_scopetable(string symbol_name)
@@ -173,30 +182,47 @@ public:
         return NULL;
     }
 
-    void print(){
-
-        cout << "ScopeTable # " << id << endl;
-        for (int i = 0; i < num_buckets; i++)
-        {
-            /* code */
-            SymbolInfo *temp = hashtable[i];
-            if (temp != NULL)
-            {
-                cout << i << " --> ";
-                while (temp != NULL)
-                {
-                    cout << "<" << temp->getSymbolName() << " : " << temp->getSymbolType() << "> ";
-                    temp = temp->getNext();
-                }
-                cout << endl;
-            }
-        }
-        cout << endl;
-
+    ScopeTable *getParentScope()
+    {
+        return parent_scope;
     }
 
+    void setParentScope(ScopeTable *parent)
+    {
 
+        this->parent_scope = parent;
+    }
+
+    int getScopeTableID()
+    {
+        return stoi(id);
+    }
+
+    int getIndex()
+    {
+        return this->index;
+    }
+
+    int getChainPos()
+    {
+        return this->chain_position;
+    }
+
+    void print() {
+        cout << "\tScopeTable# " << id << endl;
+        for (int i = 0; i < num_buckets; i++) {
+            cout << "\t" << i + 1 << "-->"; // 1-based index with tab
+            SymbolInfo* temp = hashtable[i];
+            while (temp != NULL) {
+                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
+                temp = temp->getNext();
+            }
+            cout << endl;
+        }
+    }
+    
 };
+
 
 
 // int main(){

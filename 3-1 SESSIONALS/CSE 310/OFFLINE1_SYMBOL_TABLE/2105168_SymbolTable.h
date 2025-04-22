@@ -6,7 +6,6 @@
 #include "2105168_ScopeTable.h"
 
 using namespace std;
-
 class SymbolTable
 {
 private:
@@ -14,9 +13,11 @@ private:
 
     int num_buckets;
     ScopeTable *current_scope;
+    int last_found_index = -1 ;
+    int last_found_chain_position = -1;
+    string last_found_scope_id ;
 
 public:
-
     int scope_id_counter = 1;
     SymbolTable(ScopeTable *current_scope, int num_buckets)
     {
@@ -37,62 +38,51 @@ public:
 
     void EnterScope()
     {
-        string new_id;
 
-        if(current_scope == nullptr){
-            new_id = "1";
-        }
+        string new_id = to_string(scope_id_counter++);
 
-        else{
-            new_id = current_scope->id + "." + to_string(scope_id_counter++);
-        }
+        // if (current_scope == nullptr)
+        // {
+        //     new_id = "1";
+        // }
 
-        ScopeTable *new_scope = new ScopeTable(num_buckets, new_id ,current_scope);
+        // else
+        // {
+            // current_scope->child_count++;
+            // // new_id = current_scope->id + "." + to_string(current_scope->child_count);
+            // new_id = to_string(stoi(current_scope->id) + 1);
+       // }
 
-        this->current_scope = new_scope;
+        ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
+
+        current_scope = new_scope;
     }
 
     void ExitScope()
     {
-        if (current_scope->getParentScope() != NULL)
-        {
+        
             ScopeTable *temp = current_scope;
             current_scope = current_scope->getParentScope();
             temp->setParentScope(NULL);
             delete temp;
-        }
+        
 
-        else
-        {
-            cout << "No scope to exit" << endl;
-        }
+       
     }
 
-    void Insert(string symbol_name, string type)
+    bool Insert(string symbol_name, string type)
     {
-        if (current_scope->Insert(symbol_name, type) == false)
-        {
-            cout << "Already exists in current scope" << endl;
-        }
-        else
-        {
+        
 
-            current_scope->Insert(symbol_name, type);
-        }
+            
+            return current_scope->Insert(symbol_name, type);
+        
     }
 
-    void Remove(string symbol_name)
+    bool Remove(string symbol_name)
     {
 
-        if (current_scope->Delete(symbol_name) == false)
-        {
-            cout << "Not found in the current scope" << endl;
-        }
-
-        else
-        {
-            current_scope->Delete(symbol_name);
-        }
+       return current_scope->Delete(symbol_name);
     }
 
     SymbolInfo *LookUP(string symbol_name)
@@ -104,28 +94,30 @@ public:
             SymbolInfo *lookup = current->LookUP(symbol_name);
             if (lookup != NULL)
             {
-                unsigned int index = current->getSDBMHashIndex(symbol_name);
+                unsigned int index = current->getSDBMHashIndex(symbol_name) % current->num_buckets;
                 SymbolInfo *temp = current->hashtable[index];
                 int chain_position = 1;
                 while (temp != NULL)
                 {
                     if (temp->getSymbolName() == symbol_name)
                     {
+                        last_found_index  = index;
+                        last_found_chain_position = chain_position;
+                        last_found_scope_id = current->id;
+
                         break;
                     }
                     temp = temp->getNext();
                     chain_position++;
                 }
 
-                cout << "Found in ScopeTable# " << current->id
-                     << " at position <" << index + 1 << ", " << chain_position << ">" << endl;
+                // cout << "Found in ScopeTable# " << current->id
+                //      << " at position <" << index + 1 << ", " << chain_position << ">" << endl;
                 return lookup;
             }
 
             current = current->getParentScope();
         }
-
-        cout << " Not  Found " << endl;
         return NULL;
     }
 
@@ -134,17 +126,68 @@ public:
         current_scope->print();
     }
 
-    void print_all_scope_table()
-    {
-        ScopeTable *current = current_scope;
-
-        while (current != NULL)
-        {
-            current->print();
-            current = current->getParentScope();
+    void print_all_scope_table() {
+        print_all_helper(current_scope, 0);
+    }
+    
+    void print_all_helper(ScopeTable* scope, int depth) {
+        if (scope == NULL) return;
+    
+        // First print current scope with indentation
+        for (int i = 0; i < depth; i++) cout << "\t";
+        cout << "ScopeTable# " << scope->id << endl;
+    
+        for (int i = 0; i < scope->num_buckets; i++) {
+            for (int j = 0; j < depth; j++) cout << "\t";
+            cout << i + 1 << "-->";
+            SymbolInfo* temp = scope->hashtable[i];
+            while (temp != NULL) {
+                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
+                temp = temp->getNext();
+            }
+            cout << endl;
         }
+    
+        // Then recursively print parent scopes with increased indentation
+        print_all_helper(scope->getParentScope(), depth + 1);
+    }
+    
+
+    string getCurrentScopeID()
+    {
+        return current_scope->id;
+    }
+
+    int getIndex()
+    {
+        return current_scope->getIndex();
+    }
+
+    int getCurrPos()
+    {
+        return current_scope->getChainPos();
+    }
+
+    int getFoundIndex(){
+        return last_found_index;
+    }
+    int getFoundChainPos(){
+        return last_found_chain_position;
+    }
+
+    string getFoundScopeID(){
+        return last_found_scope_id;
+    }
+
+    ScopeTable *getCurrentScope(){
+        return current_scope;
+    }
+
+    void printCurrentScopeID()
+    {
+        // cout << "\t";
+        cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
 };
-
 
 #endif
