@@ -7,8 +7,8 @@ using namespace std;
 int main()
 {
 
-    string input_filename = "sample_input.txt";
-    string output_filename = "myoutput.txt";
+    string input_filename = "input_output_txt/sample_input.txt";
+    string output_filename = "input_output_txt/myoutput.txt";
 
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
