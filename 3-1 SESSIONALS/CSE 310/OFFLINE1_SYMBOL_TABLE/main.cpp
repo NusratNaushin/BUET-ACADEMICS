@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #include <string>
-#include "2105168_ScopeTable.h"
-# include "2105168_SymbolTable.h"
+#include "header_files/2105168_SymbolTable.h"
 
 using namespace std;
 

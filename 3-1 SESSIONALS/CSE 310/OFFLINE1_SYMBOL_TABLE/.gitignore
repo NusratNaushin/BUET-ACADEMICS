@@ -4,6 +4,7 @@
 *.class
 SymbolInfo
 ScopeTable
+SymbolTable
 main
 
 
