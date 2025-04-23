@@ -14,7 +14,12 @@ int main()
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
 
-    SymbolTable *st = new SymbolTable(NULL, 7);
+    int num_buckets ;
+    cin >> num_buckets;
+    cin.ignore();
+
+    SymbolTable *st = new SymbolTable(NULL, num_buckets);
+    
 
 
 
