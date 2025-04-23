@@ -123,8 +123,21 @@ public:
 
     void print_current_scope_table()
     {
-        current_scope->print();
+        current_scope->print(1);
     }
+
+
+    void print_all_scope_table2() {
+        ScopeTable *temp = current_scope;
+        int i = 1;
+        while(temp != NULL){
+            temp->print(i);
+            temp = temp->getParentScope();
+
+            i++;
+        }
+    }
+    
 
     void print_all_scope_table() {
         print_all_helper(current_scope, 0);
@@ -133,24 +146,32 @@ public:
     void print_all_helper(ScopeTable* scope, int depth) {
         if (scope == NULL) return;
     
-        // First print current scope with indentation
-        for (int i = 0; i < depth; i++) cout << "\t";
+        for (int i = 0; i < depth+1; i++) cout << "\t";
         cout << "ScopeTable# " << scope->id << endl;
     
         for (int i = 0; i < scope->num_buckets; i++) {
-            for (int j = 0; j < depth; j++) cout << "\t";
+            
+            for (int j = 0; j < depth+1; j++) cout << "\t";
             cout << i + 1 << "-->";
             SymbolInfo* temp = scope->hashtable[i];
             while (temp != NULL) {
                 cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
                 temp = temp->getNext();
             }
+
             cout << endl;
         }
-    
-        // Then recursively print parent scopes with increased indentation
-        print_all_helper(scope->getParentScope(), depth + 1);
+            print_all_helper(scope->getParentScope(), depth + 1);
     }
+    
+    void setHashFucntion(int choice){
+        current_scope->setChoiceHash(choice);
+    }
+
+    int getCollsionCount(){
+        return current_scope->getNumberOfCollisions();
+    }
+
     
 
     string getCurrentScopeID()

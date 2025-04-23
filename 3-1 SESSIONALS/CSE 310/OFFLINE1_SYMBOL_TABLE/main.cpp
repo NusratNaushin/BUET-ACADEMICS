@@ -6,17 +6,23 @@ using namespace std;
 
 int main()
 {
+    
 
     string input_filename = "input_output_txt/sample_input.txt";
     string output_filename = "input_output_txt/myoutput1.txt";
 
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
+
     SymbolTable *st = new SymbolTable(NULL, 7);
+
+
 
     int command_count = 0;
 
     st->EnterScope();
+
+    cout << "\t" ;
 
     st->printCurrentScopeID();
 
@@ -26,6 +32,8 @@ int main()
     {
         string command;
         stringstream ss(line);
+
+        line = line.erase(line.find_last_not_of(" \n\r\t") + 1);
 
         ss >> command;
 
@@ -53,7 +61,7 @@ int main()
             string full_type = type;
             if(type == "STRUCT" || type == "UNION"){
 
-                full_type += " ,{";
+                full_type += ",{";
                 bool flag_for_placing_comma = false;
                 string field_type , field_name;
                 
@@ -86,7 +94,7 @@ int main()
                     flag = false;
                 }
 
-                full_type = "FUNCTION, " +return_type + "<==(" + formatted_args + ")";
+                full_type = "FUNCTION," +return_type + "<==(" + formatted_args + ")";
             }
 
             else{
@@ -203,10 +211,10 @@ int main()
             ss >> argument;
 
             cout << "Cmd " << command_count << ": " << line << endl;
-            cout << "\t";
+            
             if (argument == "A")
             {
-                st->print_all_scope_table();
+                st->print_all_scope_table2();
             }
             else if (argument == "C")
             {

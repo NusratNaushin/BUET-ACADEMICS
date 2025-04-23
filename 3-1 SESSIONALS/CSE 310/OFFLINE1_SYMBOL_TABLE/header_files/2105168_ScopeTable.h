@@ -13,6 +13,8 @@ private:
     /* data */
 
     int chain_position = 1;
+    int number_of_collisions = 0;
+    int choice_hash = 1;
 
 public:
     int num_buckets;
@@ -61,6 +63,10 @@ public:
     {
         return SDBMHash(str, num_buckets);
     }
+
+    unsigned int getHashIndex(string str){
+        return calculateHash(str , choice_hash);
+    }
     bool Insert(string symbole_name, string symbol_type)
     {
 
@@ -72,7 +78,8 @@ public:
         else
         {
 
-            index = getSDBMHashIndex(symbole_name) % num_buckets;
+            number_of_collisions++;
+            index = getHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
 
@@ -85,6 +92,7 @@ public:
 
             else
             {
+
 
                 SymbolInfo *temp = hashtable[index];
                 // chain_position = 2;
@@ -106,7 +114,7 @@ public:
     bool Delete(string symbol_name)
     {
 
-        unsigned int idx = getSDBMHashIndex(symbol_name) % num_buckets;
+        unsigned int idx = getHashIndex(symbol_name) % num_buckets;
         int pos = 1;
         SymbolInfo *temp = hashtable[idx];
         SymbolInfo *prev = NULL;
@@ -167,7 +175,7 @@ public:
     SymbolInfo *LookUP(string symbol_name)
     {
 
-        unsigned int index = getSDBMHashIndex(symbol_name) % num_buckets;
+        unsigned int index = calculateHash(symbol_name , choice_hash) % num_buckets;
         SymbolInfo *temp = hashtable[index];
         int chain_pos = 1;
 
@@ -211,13 +219,45 @@ public:
         return this->chain_position;
     }
 
-    void print() {
-        cout << "\tScopeTable# " << id << endl;
+    int getNumberOfCollisions(){
+        return number_of_collisions;
+    }
+
+
+    void setChoiceHash(int choice_hash){
+        this->choice_hash = choice_hash;
+    }
+    unsigned int calculateHash(string symbol_name , int choice_hash){
+
+
+        switch (choice_hash)
+        {
+        case 1:
+            return SDBMHash(symbol_name, num_buckets);
+            break;
+        case 2:
+            return aux_hash(symbol_name , num_buckets);
+            break;
+        case 3:
+            return polynomial_rolling_hash(symbol_name , num_buckets);
+            break;
+        
+        default:
+            return SDBMHash(symbol_name, num_buckets);
+            break;
+        }
+        
+        
+    }
+    void print(int indent) {
+        for (int i =1; i <= indent; i++) cout << "\t";
+        cout << "ScopeTable# " << id << endl;
         for (int i = 0; i < num_buckets; i++) {
-            cout << "\t" << i + 1 << "-->"; // 1-based index with tab
+            for (int i =1; i <= indent; i++) cout << "\t";
+            cout << i + 1 << "--> "; 
             SymbolInfo* temp = hashtable[i];
             while (temp != NULL) {
-                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
+                cout << "<" << temp->getSymbolName() << "," << temp->getSymbolType() << "> ";
                 temp = temp->getNext();
             }
             cout << endl;
