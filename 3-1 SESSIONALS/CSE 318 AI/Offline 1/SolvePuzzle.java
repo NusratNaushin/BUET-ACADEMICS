@@ -21,15 +21,17 @@ public class SolvePuzzle {
         Set<String> closedList = new HashSet<>();
 
         int explored = 0;
+        int expanded = 0;
 
         openList.add(root);
+        explored++;
 
         while (!openList.isEmpty()) {
 
             searchNode currentNode = openList.poll();
-            explored++;
+            expanded++;
 
-            currentNode.printPuzzle();
+            
 
             if (currentNode.isTargetPuzzleState()) {
                 System.out.println("Minimum number of moves = " + currentNode.g);
@@ -48,7 +50,7 @@ public class SolvePuzzle {
 
                 }
 
-                System.out.println("Total explored nodes = " + explored);
+                System.out.println("Total explored nodes = " + explored + " Total expanded nodes = " + expanded); 
                 return;
 
             }
@@ -58,6 +60,7 @@ public class SolvePuzzle {
             for (searchNode children : currentNode.getChildren(heuristicName)) {
                 if (!closedList.contains(children.getPuzzleString())) {
                     openList.add(children);
+                    explored++;
                 }
             }
 
