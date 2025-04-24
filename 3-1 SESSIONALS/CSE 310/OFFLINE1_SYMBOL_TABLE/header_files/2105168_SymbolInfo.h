@@ -25,7 +25,7 @@ public:
 
 
     }
-    ~SymbolInfo();
+    
 
     string getSymbolName(){
         return symbol_name;
@@ -52,14 +52,14 @@ public:
     }
 };
 
-SymbolInfo::~SymbolInfo()
-{
-    //cout << "Destructor called in symbolinfo class" << endl;
-}
+// SymbolInfo::~SymbolInfo()
+// {
+//     //cout << "Destructor called in symbolinfo class" << endl;
+// }
 
 
 // int main(){
 //     SymbolInfo *symbol = new SymbolInfo("x" , "int");
 // }
 
-#endif // SYMBOLINFO_H
+#endif //SYMBOLINFO_H

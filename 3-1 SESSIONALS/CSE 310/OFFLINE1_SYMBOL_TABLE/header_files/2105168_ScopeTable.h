@@ -17,6 +17,8 @@ private:
     int choice_hash = 1;
 
 public:
+int scopetable_destructor_calls = 0;
+
     int num_buckets;
     string id;
     SymbolInfo **hashtable;
@@ -57,6 +59,8 @@ public:
         }
 
         delete[] hashtable;
+
+        scopetable_destructor_calls++;
     }
 
     unsigned int getSDBMHashIndex(string str)
@@ -78,7 +82,7 @@ public:
         else
         {
 
-            number_of_collisions++;
+            
             index = getHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
@@ -93,6 +97,7 @@ public:
             else
             {
 
+                number_of_collisions++;
 
                 SymbolInfo *temp = hashtable[index];
                 // chain_position = 2;
@@ -263,6 +268,9 @@ public:
             cout << endl;
         }
     }
+
+    int getScopeTableDestructorCalls() const { return scopetable_destructor_calls; }
+    
     
 };
 

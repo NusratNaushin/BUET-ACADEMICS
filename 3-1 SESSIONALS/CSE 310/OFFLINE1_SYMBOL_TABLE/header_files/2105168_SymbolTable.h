@@ -17,25 +17,34 @@ private:
     int last_found_chain_position = -1;
     string last_found_scope_id ;
 
+
+    
 public:
+int destructor_calls = 0;
+
     int scope_id_counter = 1;
-    SymbolTable(ScopeTable *current_scope, int num_buckets)
+    SymbolTable(int num_buckets)
     {
 
-        this->current_scope = current_scope;
+        this->current_scope = new ScopeTable(num_buckets , "1" , nullptr);
         this->num_buckets = num_buckets;
+        this->scope_id_counter = 2;
+       // EnterScope();
     }
     ~SymbolTable()
     {
 
-        while (current_scope != NULL)
+
+        while (current_scope != nullptr)
         {
             ScopeTable *temp = current_scope->getParentScope();
             delete current_scope; // current delete korlam
             current_scope = temp; // current er moddhe current er parent
         }
-    }
+        //destructor_calls++;
 
+    }
+   
     void EnterScope()
     {
 
@@ -61,6 +70,7 @@ public:
     void ExitScope()
     {
         
+            if(current_scope == NULL) return;
             ScopeTable *temp = current_scope;
             current_scope = current_scope->getParentScope();
             temp->setParentScope(NULL);
@@ -208,6 +218,10 @@ public:
     {
         // cout << "\t";
         cout << "ScopeTable# " << current_scope->id << " created" << endl;
+    }
+
+    int getDestructorCalls(){
+        return destructor_calls;
     }
 };
 

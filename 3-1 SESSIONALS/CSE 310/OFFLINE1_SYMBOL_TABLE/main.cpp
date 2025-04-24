@@ -4,13 +4,21 @@
 
 using namespace std;
 
-int main()
+int main(int argc , char* argv[])
 {
     
 
-    string input_filename = "input_output_txt/sample_input.txt";
-    string output_filename = "input_output_txt/myoutput1.txt";
+    // string input_filename = "input_output_txt/sample_input.txt";
+    // string output_filename = "input_output_txt/myoutput1.txt";
 
+    if(argc != 3){
+        cout << "Invalid number of arguments" << endl;
+        return 1;
+    }
+
+
+    string input_filename = argv[1];
+    string output_filename = argv[2];
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
 
@@ -18,14 +26,12 @@ int main()
     cin >> num_buckets;
     cin.ignore();
 
-    SymbolTable *st = new SymbolTable(NULL, num_buckets);
+    SymbolTable *st = new SymbolTable(num_buckets);
     
 
 
 
     int command_count = 0;
-
-    st->EnterScope();
 
     cout << "\t" ;
 
@@ -44,6 +50,7 @@ int main()
 
         if (command == "Q")
         {
+
             command_count++;
             cout << "Cmd " << command_count << ": " << line << endl;
            
@@ -54,6 +61,8 @@ int main()
 
                 cout << "ScopeTable# " << dlt_id << " removed" << endl;
               }
+              
+
             break;
         }
 
@@ -261,7 +270,9 @@ int main()
         }
     }
 
-
+    delete st;
+    return 0;
+    
     
 }
 
