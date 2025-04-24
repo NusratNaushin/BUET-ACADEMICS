@@ -292,4 +292,4 @@ int main(int argc , char* argv[])
 
 
 //g++ -fsanitize=address -g 2105168_main.cpp -o 2105168main
-//./2105168_main 2105168_input_output_txt/sample_input.txt 2105168_input_output_txt/check.txt
+//./2105168_main 2105168_input_output_txt/sample_input.txt 2105168_input_output_txt/finaloutput.txt "1"
