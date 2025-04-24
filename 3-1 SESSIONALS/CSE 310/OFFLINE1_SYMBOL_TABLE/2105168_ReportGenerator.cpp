@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include <string>
-#include "header_files/2105168_SymbolTable.h"
+#include "2105168_header_files/2105168_SymbolTable.h"
 
 using namespace std;
 

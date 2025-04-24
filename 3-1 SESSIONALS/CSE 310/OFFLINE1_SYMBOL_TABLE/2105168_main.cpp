@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 #include <string>
-#include "header_files/2105168_SymbolTable.h"
+#include "2105168_header_files/2105168_SymbolTable.h"
 
 using namespace std;
 
@@ -8,8 +8,8 @@ int main(int argc , char* argv[])
 {
     
 
-    // string input_filename = "input_output_txt/sample_input.txt";
-    // string output_filename = "input_output_txt/myoutput1.txt";
+    // string input_filename = "2105168_input_output_txt/sample_input.txt";
+    // string output_filename = "2105168_input_output_txt/myoutput1.txt";
 
     if(argc != 4){
         cout << "Invalid number of arguments" << endl;
@@ -291,5 +291,5 @@ int main(int argc , char* argv[])
 
 
 
-//g++ -fsanitize=address -g main.cpp -o main
-//./main input_output_txt/sample_input.txt input_output_txt/check.txt
+//g++ -fsanitize=address -g 2105168_main.cpp -o 2105168main
+//./main 2105168_input_output_txt/sample_input.txt 2105168_input_output_txt/check.txt
