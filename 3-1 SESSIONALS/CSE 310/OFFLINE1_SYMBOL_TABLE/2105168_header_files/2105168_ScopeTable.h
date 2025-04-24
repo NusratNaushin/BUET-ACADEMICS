@@ -40,6 +40,9 @@ int scopetable_destructor_calls = 0;
 
             hashtable[i] = NULL;
         }
+
+
+       // cout << "ScopeTable constructor: initializing " << num_buckets << " buckets" << endl;
     }
 
     ~ScopeTable()
@@ -99,6 +102,7 @@ int scopetable_destructor_calls = 0;
 
                 number_of_collisions++;
 
+
                 SymbolInfo *temp = hashtable[index];
                 // chain_position = 2;
 
@@ -109,6 +113,7 @@ int scopetable_destructor_calls = 0;
                 }
 
                 temp->setNext(new_symbol);
+
                 chain_position++;
             }
 
@@ -225,6 +230,8 @@ int scopetable_destructor_calls = 0;
     }
 
     int getNumberOfCollisions(){
+
+       // cout << " inside get number of collisions : " << number_of_collisions << endl;
         return number_of_collisions;
     }
 
