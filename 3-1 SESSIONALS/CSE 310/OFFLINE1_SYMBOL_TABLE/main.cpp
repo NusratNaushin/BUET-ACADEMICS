@@ -11,7 +11,7 @@ int main(int argc , char* argv[])
     // string input_filename = "input_output_txt/sample_input.txt";
     // string output_filename = "input_output_txt/myoutput1.txt";
 
-    if(argc != 3){
+    if(argc != 4){
         cout << "Invalid number of arguments" << endl;
         return 1;
     }
@@ -19,16 +19,23 @@ int main(int argc , char* argv[])
 
     string input_filename = argv[1];
     string output_filename = argv[2];
+    string hashchoice = argv[3];
     freopen(input_filename.c_str(), "r", stdin);
     freopen(output_filename.c_str(), "w", stdout);
 
+    // ofstream collision_log("input_output_txt/collision_log.txt" , ios::app);
+    // if (!collision_log.is_open()) {
+    //     cout << "Error: Cannot open collision_log.txt" << endl;
+    //     return 1;
+    // }
+    
     int num_buckets ;
     cin >> num_buckets;
     cin.ignore();
 
     SymbolTable *st = new SymbolTable(num_buckets);
     
-
+    st->setHashFucntion(stoi(hashchoice));
 
 
     int command_count = 0;
@@ -56,13 +63,16 @@ int main(int argc , char* argv[])
            
             while(st->getCurrentScope() != NULL){
                 string dlt_id = st->getCurrentScopeID();
+               // int collisions = st->getCollsionCount();
+               // collision_log << hashchoice << "," << dlt_id << "," << collisions << "," << num_buckets << endl;
                 st->ExitScope();
                 cout << "\t";
 
                 cout << "ScopeTable# " << dlt_id << " removed" << endl;
               }
               
-
+            //   int collisions = st->getCurrentScope()->getNumberOfCollisions();
+            //   collision_log << hashchoice << ",1," << collisions << "," << num_buckets << endl;
             break;
         }
 
@@ -270,6 +280,7 @@ int main(int argc , char* argv[])
         }
     }
 
+  //  collision_log.close();
     delete st;
     return 0;
     
@@ -280,3 +291,5 @@ int main(int argc , char* argv[])
 
 
 
+//g++ -fsanitize=address -g main.cpp -o main
+//./main input_output_txt/sample_input.txt input_output_txt/check.txt
