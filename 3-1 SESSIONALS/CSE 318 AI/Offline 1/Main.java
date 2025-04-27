@@ -19,7 +19,10 @@ public class Main {
 
             sc.nextLine();
 
-            String heuristicName = sc.nextLine().trim().toLowerCase();
+           // String heuristicName = sc.nextLine().trim().toLowerCase();
+
+            String heuristicName = args[0].trim().toLowerCase();
+
 
             SolvePuzzle.solve(puzzle, heuristicName);
         }

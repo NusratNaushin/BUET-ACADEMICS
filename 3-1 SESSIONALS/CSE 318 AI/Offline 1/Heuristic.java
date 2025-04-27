@@ -14,7 +14,7 @@ public class Heuristic {
             return euclidian(puzzle);
         }
 
-        else if (heuristicName.equals("linear")) {
+        else if (heuristicName.equals("linear conflict")) {
             return linearConflict(puzzle);
         }
 
