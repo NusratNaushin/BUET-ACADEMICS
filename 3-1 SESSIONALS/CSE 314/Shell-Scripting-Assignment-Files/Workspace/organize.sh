@@ -1,4 +1,7 @@
 #!/bin/bash
+
+
+#taskA
 mkdir -p targets
 
 mkdir -p targets/C targets/C++ targets/Python targets/Java
@@ -34,6 +37,69 @@ do
 done
 
 rm -rf "$temp"
+
+#taskB
+
+
+for file in targets/*/*/[Mm]ain.*
+do 
+
+    lines=$(wc -l < "$file")
+    dirname=$(basename "$(dirname "$file")")
+    comment_count=0
+
+    if [[ "$file" == *.c ]]; then
+        comment_count=$(grep -cE '//' "$file")
+    elif [[ "$file" == *.cpp ]]; then
+        comment_count=$(grep -cE '//' "$file")
+    elif [[ "$file" == *.py ]]; then
+        comment_count=$(grep -cE '#' "$file")
+    elif [[ "$file" == *.java ]]; then
+        comment_count=$(grep -cE '//' "$file")
+    fi
+
+    echo "$dirname" "$lines" "$comment_count" >> output.csv
+    
+done 
+
+
+gcc targets/C/2105221/main.c -o targets/C/2105221/main.out 
+
+
+
+
+
+
+# linecount=$(wc -l )
+
+# echo 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # for z in submissions/*zip
 # do 
 
