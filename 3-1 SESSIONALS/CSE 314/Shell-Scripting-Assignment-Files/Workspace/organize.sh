@@ -134,7 +134,29 @@ do
 done 
 
 
+for file in targets/*/*/[Mm]ain.*
+do
 
+    matched=0
+    not_matched=0
+    filepath="$file"
+    folderpath=$(dirname "$file")
+    student_id=$(basename "$folderpath")
+    count=1
+    for ans in answers/*
+    do
+        outputfile="$folderpath/out$count.txt"
+        if [[ -f "$outputfile" ]]; then
+           if diff -q "$outputfile" "$ans" > /dev/null; then
+             ((matched++))
+            else
+                ((not_matched++))
+            fi
+        fi
+        ((count++))
+    done
+    echo "$student_id" "$matched" "$not_matched" >> "match_unmatch.txt"
+done
 
 #gcc targets/C/2105221/main.c -o targets/C/2105221/main.out 
 
