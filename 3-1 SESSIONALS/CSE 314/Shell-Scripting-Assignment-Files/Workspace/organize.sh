@@ -63,7 +63,80 @@ do
 done 
 
 
-gcc targets/C/2105221/main.c -o targets/C/2105221/main.out 
+
+for file in targets/*/*/[Mm]ain.*
+do 
+
+    filepath="$file"
+
+    folderpath=$(dirname "$file")
+
+    if [[ "$file" == *.c ]]; then
+        gcc "$filepath" -o "$folderpath/main.out"
+    elif [[ "$file" == *.cpp ]]; then
+        g++ "$filepath" -o "$folderpath/main.out"
+    elif [[ "$file" == *.java ]]; then
+        javac "$filepath" -d "$folderpath"
+    fi    
+done 
+
+for file in targets/*/*/[Mm]ain.*
+do 
+
+    
+    filepath="$file"
+
+    folderpath=$(dirname "$file")
+    
+    if [[ "$file" == *.c ]]; then
+        count=1;
+        for testcase in tests/*
+        do
+            outputfile="$folderpath/out$count.txt"
+            if [[ ! -f "$outputfile" ]]; then
+            ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+            fi
+            ((count++))
+
+        done
+    elif [[ "$file" == *.cpp ]]; then
+        count=1;
+        for testcase in tests/*
+        do
+            outputfile="$folderpath/out$count.txt"
+            if [[ ! -f "$outputfile" ]]; then
+            ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+            fi
+            ((count++))
+        done
+    elif [[ "$file" == *.java ]]; then
+        count=1
+        for testcase in tests/*
+        do
+            outputfile="$folderpath/out$count.txt"
+            if [[ ! -f "$outputfile" ]]; then
+            java -cp "$folderpath" Main < "$testcase" > "$outputfile"
+            fi
+            ((count++))
+        done
+    elif [[ "$file" == *.py ]]; then
+        count=1
+        for testcase in tests/* 
+        do 
+            outputfile="$folderpath/out$count.txt"
+            if [[ ! -f "$outputfile" ]]; then
+            python3 "$file" < "$testcase" > "$outputfile"
+            fi
+            ((count++))
+        done
+    
+    fi    
+done 
+
+
+
+
+#gcc targets/C/2105221/main.c -o targets/C/2105221/main.out 
 
 
 
