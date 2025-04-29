@@ -1,20 +1,27 @@
 #!/bin/bash
 
 
-#taskA
-mkdir -p targets
+submission_folder=$1
+target_folder=$2
+test_folder=$3
+answer_folder=$4
 
-mkdir -p targets/C targets/C++ targets/Python targets/Java
+
+#taskA
+mkdir -p "$target_folder"
+
+mkdir -p "$target_folder/C" "$target_folder/C++" "$target_folder/Python" "$target_folder/Java"
 
 temp="unzipped"
 rm -rf "$temp"
 
-for file in submissions/*zip
+for file in "$submission_folder"/*zip
 do
 
     filename=$(basename "$file")
     filename_without_extension="${filename%.zip}"
     id=${filename_without_extension: -7}
+
 
     rm -rf "$temp"
     unzip -qq "$file" -d "$temp"
@@ -22,28 +29,27 @@ do
     filetype=$(find "$temp" -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.py" -o -name "*.java" \) | head -n 1)
 
     if [[ $filetype == *.c ]];then
-        mkdir -p targets/C/"$id"
-        mv "$filetype" "targets/C/$id/main.c"
+        mkdir -p "$target_folder"/C/"$id"
+        mv "$filetype" "$target_folder/C/$id/main.c"
     elif [[ $filetype == *.cpp ]];then
-        mkdir -p targets/C++/"$id"
-        mv "$filetype" "targets/C++/$id/main.cpp"
+        mkdir -p "$target_folder"/C++/"$id"
+        mv "$filetype" "$target_folder/C++/$id/main.cpp"
     elif [[ $filetype == *.py ]];then
-        mkdir -p targets/Python/"$id"
-        mv "$filetype" "targets/Python/$id/main.py"
+        mkdir -p "$target_folder"/Python/"$id"
+        mv "$filetype" "$target_folder/Python/$id/main.py"
     elif [[ $filetype == *.java ]];then
-        mkdir -p targets/Java/"$id"
-        mv "$filetype" "targets/Java/$id/Main.java"
+        mkdir -p "$target_folder"/Java/"$id"
+        mv "$filetype" "$target_folder/Java/$id/Main.java"
     fi
 done
 
 rm -rf "$temp"
 
 
+echo "Student id","Student Name","Language","Matched","Not Matched","Line Count","Comment Count" >> "targets/resultcheck.csv"
 
->match_unmatch.txt
->output.csv
 #taskB&C with paknami
-for file in targets/*/*/[Mm]ain.*
+for file in "$target_folder"/*/*/[Mm]ain.*
 do 
 
     lines=$(wc -l < "$file")
@@ -76,14 +82,14 @@ do
 
 
 
- filepath="$file"
+    filepath="$file"
 
     folderpath=$(dirname "$file")
     
     if [[ "$file" == *.c ]]; then
         lang="C"
         count=1;
-        for testcase in tests/*
+        for testcase in "$test_folder"/*
         do
             outputfile="$folderpath/out$count.txt"
             if [[ ! -f "$outputfile" ]]; then
@@ -95,7 +101,7 @@ do
     elif [[ "$file" == *.cpp ]]; then
         lang="C++"
         count=1;
-        for testcase in tests/*
+        for testcase in "$test_folder"/*
         do
             outputfile="$folderpath/out$count.txt"
             if [[ ! -f "$outputfile" ]]; then
@@ -106,7 +112,7 @@ do
     elif [[ "$file" == *.java ]]; then
         lang="Java"
         count=1
-        for testcase in tests/*
+        for testcase in "$test_folder"/*
         do
             outputfile="$folderpath/out$count.txt"
             if [[ ! -f "$outputfile" ]]; then
@@ -117,7 +123,7 @@ do
     elif [[ "$file" == *.py ]]; then
         lang="Python"
         count=1
-        for testcase in tests/* 
+        for testcase in "$test_folder"/* 
         do 
             outputfile="$folderpath/out$count.txt"
             if [[ ! -f "$outputfile" ]]; then
@@ -133,9 +139,14 @@ do
     not_matched=0
    # filepath="$file"
     #folderpath=$(dirname "$file")
+    zipfile=$(find "$submission_folder" -name "*$student_id.zip")
+    zipname=$(basename "$zipfile")
+    name=${zipname%%_submission*}
+    name_only=${name%_*}
+
     student_id=$(basename "$(dirname "$file")")
     count=1
-    for ans in answers/*
+    for ans in "$answer_folder"/*
     do
         outputfile="$folderpath/out$count.txt"
         if [[ -f "$outputfile" ]]; then
@@ -147,10 +158,12 @@ do
         fi
         ((count++))
     done
-    echo "$student_id" "$lang" >> "targets/lang.txt"
-    echo "$student_id" "$matched" "$not_matched" >> "targets/match_unmatch.txt"
-    echo "$dirname" "$lines" "$comment_count" >> "targets/output.csv"
+    # echo "$student_id" "$lang" >> "targets/lang.txt"
+    # echo "$student_id" "$matched" "$not_matched" >> "targets/match_unmatch.txt"
+    # echo "$dirname" "$lines" "$comment_count" >> "targets/output.csv"
     
+
+    echo "$student_id","$name_only","$lang","$matched","$not_matched","$lines","$comment_count" >> "targets/resultcheck.csv"
 done 
 
 
