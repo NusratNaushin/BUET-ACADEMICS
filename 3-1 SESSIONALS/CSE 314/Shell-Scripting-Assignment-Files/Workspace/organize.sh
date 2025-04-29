@@ -38,9 +38,11 @@ done
 
 rm -rf "$temp"
 
-#taskB
 
 
+>match_unmatch.txt
+>output.csv
+#taskB&C with paknami
 for file in targets/*/*/[Mm]ain.*
 do 
 
@@ -58,14 +60,6 @@ do
         comment_count=$(grep -cE '//' "$file")
     fi
 
-    echo "$dirname" "$lines" "$comment_count" >> output.csv
-    
-done 
-
-
-
-for file in targets/*/*/[Mm]ain.*
-do 
 
     filepath="$file"
 
@@ -78,17 +72,16 @@ do
     elif [[ "$file" == *.java ]]; then
         javac "$filepath" -d "$folderpath"
     fi    
-done 
 
-for file in targets/*/*/[Mm]ain.*
-do 
 
-    
-    filepath="$file"
+
+
+ filepath="$file"
 
     folderpath=$(dirname "$file")
     
     if [[ "$file" == *.c ]]; then
+        lang="C"
         count=1;
         for testcase in tests/*
         do
@@ -100,6 +93,7 @@ do
 
         done
     elif [[ "$file" == *.cpp ]]; then
+        lang="C++"
         count=1;
         for testcase in tests/*
         do
@@ -110,6 +104,7 @@ do
             ((count++))
         done
     elif [[ "$file" == *.java ]]; then
+        lang="Java"
         count=1
         for testcase in tests/*
         do
@@ -120,6 +115,7 @@ do
             ((count++))
         done
     elif [[ "$file" == *.py ]]; then
+        lang="Python"
         count=1
         for testcase in tests/* 
         do 
@@ -130,18 +126,14 @@ do
             ((count++))
         done
     
-    fi    
-done 
+    fi 
 
-
-for file in targets/*/*/[Mm]ain.*
-do
 
     matched=0
     not_matched=0
-    filepath="$file"
-    folderpath=$(dirname "$file")
-    student_id=$(basename "$folderpath")
+   # filepath="$file"
+    #folderpath=$(dirname "$file")
+    student_id=$(basename "$(dirname "$file")")
     count=1
     for ans in answers/*
     do
@@ -155,8 +147,168 @@ do
         fi
         ((count++))
     done
-    echo "$student_id" "$matched" "$not_matched" >> "match_unmatch.txt"
-done
+    echo "$student_id" "$lang" >> "targets/lang.txt"
+    echo "$student_id" "$matched" "$not_matched" >> "targets/match_unmatch.txt"
+    echo "$dirname" "$lines" "$comment_count" >> "targets/output.csv"
+    
+done 
+
+
+
+# #taskB
+
+
+# for file in targets/*/*/[Mm]ain.*
+# do 
+
+#     lines=$(wc -l < "$file")
+#     dirname=$(basename "$(dirname "$file")")
+#     comment_count=0
+
+#     if [[ "$file" == *.c ]]; then
+#         comment_count=$(grep -cE '//' "$file")
+#     elif [[ "$file" == *.cpp ]]; then
+#         comment_count=$(grep -cE '//' "$file")
+#     elif [[ "$file" == *.py ]]; then
+#         comment_count=$(grep -cE '#' "$file")
+#     elif [[ "$file" == *.java ]]; then
+#         comment_count=$(grep -cE '//' "$file")
+#     fi
+
+
+
+
+
+#     echo "$dirname" "$lines" "$comment_count" >> output.csv
+    
+# done 
+
+
+
+# for file in targets/*/*/[Mm]ain.*
+# do 
+
+#     filepath="$file"
+
+#     folderpath=$(dirname "$file")
+
+#     if [[ "$file" == *.c ]]; then
+#         gcc "$filepath" -o "$folderpath/main.out"
+#     elif [[ "$file" == *.cpp ]]; then
+#         g++ "$filepath" -o "$folderpath/main.out"
+#     elif [[ "$file" == *.java ]]; then
+#         javac "$filepath" -d "$folderpath"
+#     fi    
+# done 
+
+
+
+# for file in targets/*/*/[Mm]ain.*
+# do 
+
+    
+#     filepath="$file"
+
+#     folderpath=$(dirname "$file")
+    
+#     if [[ "$file" == *.c ]]; then
+#         count=1;
+#         for testcase in tests/*
+#         do
+#             outputfile="$folderpath/out$count.txt"
+#             if [[ ! -f "$outputfile" ]]; then
+#             ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+#             fi
+#             ((count++))
+
+#         done
+#     elif [[ "$file" == *.cpp ]]; then
+#         count=1;
+#         for testcase in tests/*
+#         do
+#             outputfile="$folderpath/out$count.txt"
+#             if [[ ! -f "$outputfile" ]]; then
+#             ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+#             fi
+#             ((count++))
+#         done
+#     elif [[ "$file" == *.java ]]; then
+#         count=1
+#         for testcase in tests/*
+#         do
+#             outputfile="$folderpath/out$count.txt"
+#             if [[ ! -f "$outputfile" ]]; then
+#             java -cp "$folderpath" Main < "$testcase" > "$outputfile"
+#             fi
+#             ((count++))
+#         done
+#     elif [[ "$file" == *.py ]]; then
+#         count=1
+#         for testcase in tests/* 
+#         do 
+#             outputfile="$folderpath/out$count.txt"
+#             if [[ ! -f "$outputfile" ]]; then
+#             python3 "$file" < "$testcase" > "$outputfile"
+#             fi
+#             ((count++))
+#         done
+    
+#     fi    
+# done 
+
+
+
+
+# >match_unmatch.txt
+# for student_folder in targets/*/*
+# do
+
+#     matched=0
+#     not_matched=0
+#    # filepath="$file"
+#     #folderpath=$(dirname "$file")
+#     student_id=$(basename "$student_folder")
+#     count=1
+#     for ans in answers/*
+#     do
+#         outputfile="$student_folder/out$count.txt"
+#         if [[ -f "$outputfile" ]]; then
+#            if diff -q "$outputfile" "$ans" > /dev/null; then
+#              ((matched++))
+#             else
+#                 ((not_matched++))
+#             fi
+#         fi
+#         ((count++))
+#     done
+#     echo "$student_id" "$matched" "$not_matched" >> "match_unmatch.txt"
+# done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #gcc targets/C/2105221/main.c -o targets/C/2105221/main.out 
 
