@@ -1,11 +1,37 @@
 #!/bin/bash
 
 
+if [ "$#" -lt 4 ]; then
+    echo "Usage: ./organize.sh <submission_folder> <target_folder> <test_folder> <answer_folder> [-v] [-noexecute] [-nolc] [-nocc] [-nofc]"
+    exit 1
+fi
+
+
+
 submission_folder=$1
 target_folder=$2
 test_folder=$3
 answer_folder=$4
 
+
+verbose=false
+noexecute=false
+nolc=false
+nocc=false
+nofc=false
+
+shift 4
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    -v) verbose=true ;;
+    -noexecute) noexecute=true ;;
+    -nolc) nolc=true ;;
+    -nocc) nocc=true ;;
+    #-nofc) nofc=true ;;
+    *) echo "Unnknown option: $1"; exit 1 ;;
+    esac
+    shift
+done
 
 #taskA
 mkdir -p "$target_folder"
@@ -22,7 +48,10 @@ do
     filename_without_extension="${filename%.zip}"
     id=${filename_without_extension: -7}
 
-
+    if $verbose; then
+        echo "Organizing files of $id"
+    fi
+   
     rm -rf "$temp"
     unzip -qq "$file" -d "$temp"
 
@@ -45,95 +74,161 @@ done
 
 rm -rf "$temp"
 
+# if [[ $noexecute ]]; then
+#     echo "Student id","Student Name","Language","Line Count","Comment Count" >> "targets/resultcheck.csv"
+# fi
 
-echo "Student id","Student Name","Language","Matched","Not Matched","Line Count","Comment Count" >> "targets/resultcheck.csv"
+# if [[ ! $noexecute ]]; then
+#     echo "Student id","Student Name","Language","Matched","Not Matched","Line Count","Comment Count" >> "targets/resultcheck.csv"
+# fi
+
+# if [[  $nolc ]]; then
+#     echo "Student id","Student Name","Language","Matched","Not Matched","Comment Count" >> "targets/resultcheck.csv"
+# fi
+
+
+csv_header="Student id,Student Name,Language"
+if [[ ! $noexecute ]]; then
+    csv_header+=",Matched,Not Matched"
+fi
+if [[ ! $nolc ]]; then
+    csv_header+=",Line Count"
+fi
+if [[ ! $nocc ]]; then
+    csv_header+=",Comment Count"
+fi
+
+echo "$csv_header" >> "$target_folder/resultcheck.csv"
 
 #taskB&C with paknami
+
+
+#loop_count=1
 for file in "$target_folder"/*/*/[Mm]ain.*
 do 
 
-    lines=$(wc -l < "$file")
-    dirname=$(basename "$(dirname "$file")")
-    comment_count=0
-
-    if [[ "$file" == *.c ]]; then
-        comment_count=$(grep -cE '//' "$file")
-    elif [[ "$file" == *.cpp ]]; then
-        comment_count=$(grep -cE '//' "$file")
-    elif [[ "$file" == *.py ]]; then
-        comment_count=$(grep -cE '#' "$file")
-    elif [[ "$file" == *.java ]]; then
-        comment_count=$(grep -cE '//' "$file")
+    if [[ ! $nolc ]]; then
+        lines=$(wc -l < "$file")
     fi
 
 
-    filepath="$file"
+    dirname=$(basename "$(dirname "$file")")
+    comment_count=0
 
-    folderpath=$(dirname "$file")
+    student_id=$(basename "$(dirname "$file")")
 
-    if [[ "$file" == *.c ]]; then
-        gcc "$filepath" -o "$folderpath/main.out"
-    elif [[ "$file" == *.cpp ]]; then
-        g++ "$filepath" -o "$folderpath/main.out"
-    elif [[ "$file" == *.java ]]; then
-        javac "$filepath" -d "$folderpath"
-    fi    
-
-
-
-
-    filepath="$file"
-
-    folderpath=$(dirname "$file")
-    
     if [[ "$file" == *.c ]]; then
         lang="C"
-        count=1;
-        for testcase in "$test_folder"/*
-        do
-            outputfile="$folderpath/out$count.txt"
-            if [[ ! -f "$outputfile" ]]; then
-            ./"$folderpath/main.out" < "$testcase" > "$outputfile"
-            fi
-            ((count++))
-
-        done
     elif [[ "$file" == *.cpp ]]; then
         lang="C++"
-        count=1;
-        for testcase in "$test_folder"/*
-        do
-            outputfile="$folderpath/out$count.txt"
-            if [[ ! -f "$outputfile" ]]; then
-            ./"$folderpath/main.out" < "$testcase" > "$outputfile"
-            fi
-            ((count++))
-        done
-    elif [[ "$file" == *.java ]]; then
-        lang="Java"
-        count=1
-        for testcase in "$test_folder"/*
-        do
-            outputfile="$folderpath/out$count.txt"
-            if [[ ! -f "$outputfile" ]]; then
-            java -cp "$folderpath" Main < "$testcase" > "$outputfile"
-            fi
-            ((count++))
-        done
     elif [[ "$file" == *.py ]]; then
         lang="Python"
-        count=1
-        for testcase in "$test_folder"/* 
-        do 
-            outputfile="$folderpath/out$count.txt"
-            if [[ ! -f "$outputfile" ]]; then
-            python3 "$file" < "$testcase" > "$outputfile"
-            fi
-            ((count++))
-        done
-    
-    fi 
+    elif [[ "$file" == *.java ]]; then
+        lang="Java"
+    fi
 
+    if [[ ! $nocc ]]; then
+        if [[ "$file" == *.c ]]; then
+            comment_count=$(grep -cE '//' "$file")
+        elif [[ "$file" == *.cpp ]]; then
+            comment_count=$(grep -cE '//' "$file")
+        elif [[ "$file" == *.py ]]; then
+            comment_count=$(grep -cE '#' "$file")
+        elif [[ "$file" == *.java ]]; then
+            comment_count=$(grep -cE '//' "$file")
+        fi
+    fi
+
+    filepath="$file"
+
+    folderpath=$(dirname "$file")
+    if [[ ! $noexecute ]]; then
+        if [[ "$file" == *.c ]]; then
+            gcc "$filepath" -o "$folderpath/main.out"
+        elif [[ "$file" == *.cpp ]]; then
+            g++ "$filepath" -o "$folderpath/main.out"
+        elif [[ "$file" == *.java ]]; then
+            javac "$filepath" -d "$folderpath"
+        fi    
+    fi
+
+
+
+
+    filepath="$file"
+
+    folderpath=$(dirname "$file")
+    
+
+    if [[ ! $noexecute ]]; then
+        if [[ "$file" == *.c ]]; then
+            if $verbose; then
+            echo "Executing files of $student_id"
+            #echo "$loop_count"
+            #((loop_count++))
+            fi
+            lang="C"
+            count=1;
+            for testcase in "$test_folder"/*
+            do
+                outputfile="$folderpath/out$count.txt"
+                if [[ ! -f "$outputfile" ]]; then
+                ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+                fi
+                ((count++))
+
+            done
+        elif [[ "$file" == *.cpp ]]; then
+            if $verbose; then
+            echo "Executing files of $student_id"
+            #echo "$loop_count"
+            #((loop_count++))
+            fi
+            lang="C++"
+            count=1;
+            for testcase in "$test_folder"/*
+            do
+                outputfile="$folderpath/out$count.txt"
+                if [[ ! -f "$outputfile" ]]; then
+                ./"$folderpath/main.out" < "$testcase" > "$outputfile"
+                fi
+                ((count++))
+            done
+        elif [[ "$file" == *.java ]]; then
+            if $verbose; then
+            echo "Executing files of $student_id"
+            #echo "$loop_count"
+            #((loop_count++))
+            fi
+            lang="Java"
+            count=1
+            for testcase in "$test_folder"/*
+            do
+                outputfile="$folderpath/out$count.txt"
+                if [[ ! -f "$outputfile" ]]; then
+                java -cp "$folderpath" Main < "$testcase" > "$outputfile"
+                fi
+                ((count++))
+            done
+        elif [[ "$file" == *.py ]]; then
+            if $verbose; then
+            echo "Executing files of $student_id"
+            #echo "$loop_count"
+            #((loop_count++))
+            fi
+            lang="Python"
+            count=1
+            for testcase in "$test_folder"/* 
+            do 
+                outputfile="$folderpath/out$count.txt"
+                if [[ ! -f "$outputfile" ]]; then
+                python3 "$file" < "$testcase" > "$outputfile"
+                fi
+                ((count++))
+            done
+        
+        fi 
+    fi
 
     matched=0
     not_matched=0
@@ -144,7 +239,8 @@ do
     name=${zipname%%_submission*}
     name_only=${name%_*}
 
-    student_id=$(basename "$(dirname "$file")")
+    
+
     count=1
     for ans in "$answer_folder"/*
     do
@@ -162,11 +258,35 @@ do
     # echo "$student_id" "$matched" "$not_matched" >> "targets/match_unmatch.txt"
     # echo "$dirname" "$lines" "$comment_count" >> "targets/output.csv"
     
+    
+# if [[ ! noexecute ]]; then
+#     echo "$student_id","$name_only","$lang","$matched","$not_matched","$lines","$comment_count" >> "targets/resultcheck.csv"
+# fi
 
-    echo "$student_id","$name_only","$lang","$matched","$not_matched","$lines","$comment_count" >> "targets/resultcheck.csv"
+# if [[ noexecute ]]; then
+#     echo "$student_id","$name_only","$lang","$lines","$comment_count" >> "targets/resultcheck.csv"
+# fi
+
+
+    row="$student_id,$name_only,$lang"
+    if ! $noexecute; then
+        row+=",$matched,$not_matched"
+    fi
+    if ! $nolc; then
+        row+=",$lines"
+    fi
+    if ! $nocc; then
+        row+=",$comment_count"
+    fi
+    # if ! $nofc; then
+    #     row+=",$function_count"
+    # fi
+
+    echo "$row" >> "$target_folder/resultcheck.csv"
+
 done 
 
-
+echo "All submissions processed successfully"
 
 # #taskB
 
@@ -384,3 +504,10 @@ done
 
 
 # Process each zip file
+
+
+
+
+
+
+# /organize.sh submissions targets tests answers -v -noexecute -nolc -nocc 
