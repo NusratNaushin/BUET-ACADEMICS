@@ -1,19 +1,21 @@
 #!/bin/bash
 
 
+
+#usage message
 if [ "$#" -lt 4 ]; then
     echo "Usage: ./organize.sh <submission_folder> <target_folder> <test_folder> <answer_folder> [-v] [-noexecute] [-nolc] [-nocc] [-nofc]"
     exit 1
 fi
 
 
-
+#user theke mandatory arguments
 submission_folder=$1
 target_folder=$2
 test_folder=$3
 answer_folder=$4
 
-
+#user theke optional arguments
 verbose=false
 noexecute=false
 nolc=false
@@ -34,12 +36,16 @@ while [[ $# -gt 0 ]]; do
 done
 
 #taskA
+
+#folder toiri korlam
 mkdir -p "$target_folder"
 
 mkdir -p "$target_folder/C" "$target_folder/C++" "$target_folder/Python" "$target_folder/Java"
 
 temp="unzipped"
 rm -rf "$temp"
+
+#folder unzip kortesi
 
 for file in "$submission_folder"/*zip
 do
@@ -55,8 +61,9 @@ do
     rm -rf "$temp"
     unzip -qq "$file" -d "$temp"
 
+    #file er type khuje oi student id er corresponding folder banacchi under the filetype folder
     filetype=$(find "$temp" -type f \( -name "*.c" -o -name "*.cpp" -o -name "*.py" -o -name "*.java" \) | head -n 1)
-
+    
     if [[ $filetype == *.c ]];then
         mkdir -p "$target_folder"/C/"$id"
         mv "$filetype" "$target_folder/C/$id/main.c"
@@ -111,6 +118,7 @@ echo "$csv_header" > "$csv_file"
 for file in "$target_folder"/*/*/[Mm]ain.*
 do 
 
+    #nolc false hole line count printabo
     if [[ $nolc==false ]]; then
         lines=$(wc -l < "$file")
     fi
@@ -121,6 +129,7 @@ do
 
     student_id=$(basename "$(dirname "$file")")
 
+    #laguage extraction so that later ami eta show korte pari csv file e 
     if [[ "$file" == *.c ]]; then
         lang="C"
     elif [[ "$file" == *.cpp ]]; then
@@ -131,6 +140,7 @@ do
         lang="Java"
     fi
 
+    #nocc false hole comment count printabo
     if [[  $nocc==false ]]; then
         if [[ "$file" == *.c ]]; then
             comment_count=$(grep -cE '//' "$file")
@@ -145,6 +155,7 @@ do
 
     filepath="$file"
 
+    #no execute false hole execute korbo
     folderpath=$(dirname "$file")
     if [[ $noexecute == false ]]; then
         if [[ "$file" == *.c ]]; then
@@ -163,7 +174,7 @@ do
 
     folderpath=$(dirname "$file")
     
-
+    #noexecute false hole run korbo
     if [[ $noexecute == false ]]; then
         if [[ "$file" == *.c ]]; then
             if $verbose; then
@@ -244,7 +255,7 @@ do
     name_only=${name%_*}
 
     
-
+    #diffcheckkkkkoriii
     count=1
     for ans in "$answer_folder"/*
     do
@@ -272,7 +283,7 @@ do
 # fi
 
 
-    
+    #optional arguments onujai csv column er naam gula fixating
     row="$student_id,$name_only,$lang"
     if [[ $noexecute == false ]]; then
         row+=",$matched,$not_matched"
