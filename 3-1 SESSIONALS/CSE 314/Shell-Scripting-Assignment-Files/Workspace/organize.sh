@@ -88,15 +88,15 @@ rm -rf "$temp"
 
 
 csv_file="$target_folder/resultcheck.csv"
-csv_header="Student id,Student Name,Language"
+csv_header="student_id,student_name,language"
 if [[ $noexecute == false ]]; then
-    csv_header+=",Matched,Not Matched"
+    csv_header+=",matched,not_matched"
 fi
 if [[ $nolc == false ]]; then
-    csv_header+=",Line Count"
+    csv_header+=",line_count"
 fi
 if [[ $nocc == false ]]; then
-    csv_header+=",Comment Count"
+    csv_header+=",comment_count"
 fi
 
 echo "$csv_header" > "$csv_file"
