@@ -146,7 +146,7 @@ do
     filepath="$file"
 
     folderpath=$(dirname "$file")
-    if [[ ! $noexecute ]]; then
+    if [[ $noexecute == false ]]; then
         if [[ "$file" == *.c ]]; then
             gcc "$filepath" -o "$folderpath/main.out"
         elif [[ "$file" == *.cpp ]]; then
@@ -164,7 +164,7 @@ do
     folderpath=$(dirname "$file")
     
 
-    if [[ ! $noexecute ]]; then
+    if [[ $noexecute == false ]]; then
         if [[ "$file" == *.c ]]; then
             if $verbose; then
             echo "Executing files of $student_id"
