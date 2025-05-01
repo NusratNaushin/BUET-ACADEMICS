@@ -87,18 +87,22 @@ rm -rf "$temp"
 # fi
 
 
+csv_file="$target_folder/resultcheck.csv"
 csv_header="Student id,Student Name,Language"
-if [[ ! $noexecute ]]; then
+if [[ $noexecute == false ]]; then
     csv_header+=",Matched,Not Matched"
 fi
-if [[ ! $nolc ]]; then
+if [[ $nolc == false ]]; then
     csv_header+=",Line Count"
 fi
-if [[ ! $nocc ]]; then
+if [[ $nocc == false ]]; then
     csv_header+=",Comment Count"
 fi
 
-echo "$csv_header" >> "$target_folder/resultcheck.csv"
+echo "$csv_header" > "$csv_file"
+
+
+
 
 #taskB&C with paknami
 
@@ -107,7 +111,7 @@ echo "$csv_header" >> "$target_folder/resultcheck.csv"
 for file in "$target_folder"/*/*/[Mm]ain.*
 do 
 
-    if [[ ! $nolc ]]; then
+    if [[ $nolc==false ]]; then
         lines=$(wc -l < "$file")
     fi
 
@@ -127,7 +131,7 @@ do
         lang="Java"
     fi
 
-    if [[ ! $nocc ]]; then
+    if [[  $nocc==false ]]; then
         if [[ "$file" == *.c ]]; then
             comment_count=$(grep -cE '//' "$file")
         elif [[ "$file" == *.cpp ]]; then
@@ -268,21 +272,19 @@ do
 # fi
 
 
+    
     row="$student_id,$name_only,$lang"
-    if ! $noexecute; then
+    if [[ $noexecute == false ]]; then
         row+=",$matched,$not_matched"
     fi
-    if ! $nolc; then
+    if [[ $nolc == false ]]; then
         row+=",$lines"
     fi
-    if ! $nocc; then
+    if [[ $nocc == false ]]; then
         row+=",$comment_count"
     fi
-    # if ! $nofc; then
-    #     row+=",$function_count"
-    # fi
 
-    echo "$row" >> "$target_folder/resultcheck.csv"
+    echo "$row" >> "$csv_file"
 
 done 
 
