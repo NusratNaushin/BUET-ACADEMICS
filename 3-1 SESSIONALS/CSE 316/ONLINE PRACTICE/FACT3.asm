@@ -1,0 +1,42 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+
+.CODE
+MAIN PROC
+
+    MOV AX , 3
+    PUSH AX
+    CALL FACTORIAL
+    
+    
+    
+    MOV DL , AL 
+    ADD DL , 30H
+    MOV AH , 2
+    INT 21H
+    
+    MOV AH, 4CH
+    INT 21H
+
+MAIN ENDP
+
+FACTORIAL PROC  
+    PUSH BP
+    MOV BP,SP
+    CMP WORD PTR[BP+4] , 1
+    JG END_IF
+    MOV AX , 1
+    JMP RETURN
+END_IF:
+    MOV CX , [BP+4]
+    DEC CX
+    PUSH CX
+    CALL FACTORIAL
+    MUL WORD PTR[BP+4]
+RETURN:
+    POP BP 
+    RET 2
+    
+    
+END MAIN
