@@ -1,3 +1,4 @@
+import random
 class Edge:
     def __init__(self , u , v , w):
         self.u = u
@@ -90,11 +91,44 @@ class Algorithm:
         return XnodePartitions , YnodePartitions , cut_weight
 
 
+    def RandomizedMaxCut(G , iterations):
+        totalCutWeight=0
+
+        nodes = set()
+
+        for edge in G.edges:
+            nodes.add(edge.u)
+            nodes.add(edge.v)
 
 
+        for _ in range(iterations):
+            X=set()
+            Y=set()
+            for v in nodes:
+                if random.random() < 0.5:
+                    X.add(v)
+                else:
+                    Y.add(v)
+                
 
+            visited_nodes = set()
+            cutWeight = 0
 
+            for edge in G.edges:
+                key = tuple(sorted((edge.u , edge.v)))
+                if key in visited_nodes:
+                    continue
+                if (edge.u in X and edge.v in Y) or (edge.v in X and edge.u in Y):
+                    cutWeight += edge.w
+                visited_nodes.add(key)
+        
+            totalCutWeight += cutWeight
 
+        
+        avgCutWeight = totalCutWeight/iterations
+
+        return avgCutWeight 
+    
 
 
 def main():
@@ -103,7 +137,7 @@ def main():
     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/g1.rud"
+    filename="graph_GRASP/set1/g4.rud"
 
     with open(filename , 'r') as f:
         n , m = map(int , f.readline().split())
@@ -118,6 +152,9 @@ def main():
     print("Set X:", sorted(X))
     print("Set Y:", sorted(Y))
     print("Cut Weight:", cut_weight)
-    
+
+    avg_cut = Algorithm.RandomizedMaxCut(graph, 100)
+    print(f"\nRandomized Max-Cut (avg over 100 runs): {avg_cut:.2f}")
+
 
 main()
