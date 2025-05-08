@@ -61,22 +61,31 @@ class Algorithm:
                         wx += edge.w
                     elif edge.v in YnodePartitions:
                         wy += edge.w
-            
-            if wx > wy:
-                YnodePartitions.add(node)
-            else:
-                XnodePartitions.add(node)
-            
+                elif edge.v == node:
+                    if edge.u in XnodePartitions:
+                        wx += edge.w
+                    elif edge.u in YnodePartitions:
+                        wy += edge.w
 
+            if wy > wx:
+                XnodePartitions.add(node)
+            else:
+                YnodePartitions.add(node)
+                
             partiton_members.add(node)
 
            
                     
         cut_weight = 0
-        for edge in G.edges:
-            if(edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in YnodePartitions and edge.u in XnodePartitions):
-                cut_weight += edge.w
-        cut_weight = cut_weight//2
+        # for edge in G.edges:
+        #     if(edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.u in YnodePartitions and edge.v in XnodePartitions):
+        #         cut_weight += edge.w
+        # cut_weight = cut_weight//2
+
+        for u, v, w in collect_all_unique_edge:
+           if (u in XnodePartitions and v in YnodePartitions) or (u in YnodePartitions and v in XnodePartitions):
+                cut_weight += w
+
 
         return XnodePartitions , YnodePartitions , cut_weight
 
@@ -90,8 +99,8 @@ class Algorithm:
 
 def main():
 
-    graph = Graph(2 , 1)
-    graph.add_edge(1 , 2 , 3)
+    # graph = Graph(2 , 1)
+    # graph.add_edge(1 , 2 , 3)
 
     
     filename="graph_GRASP/set1/g1.rud"
@@ -104,18 +113,11 @@ def main():
             u , v , w = map(int, f.readline().split())
             graph.add_edge(u,v,w)
 
-
-
-
-    # for edge in graph.edges:
-    #     print(f"{edge.u} -- {edge.v} (weight {edge.w})")
-
-
-        X, Y, cut_weight = Algorithm.Greedy(graph)
-        print("\nGreedy Partition:")
-        print("Set X:", sorted(X))
-        print("Set Y:", sorted(Y))
-        print("Cut Weight:", cut_weight)
+    X, Y, cut_weight = Algorithm.Greedy(graph)
+    print("\nGreedy Partition:")
+    print("Set X:", sorted(X))
+    print("Set Y:", sorted(Y))
+    print("Cut Weight:", cut_weight)
     
 
 main()
