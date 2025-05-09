@@ -137,7 +137,7 @@ class Algorithm:
         
         avgCutWeight = totalCutWeight/iterations
 
-        return avgCutWeight 
+        return avgCutWeight , X , Y
     
     def setAlpha(self, alpha):
         self.alpha = alpha
@@ -176,6 +176,9 @@ class Algorithm:
         
         #print("inside semigreedy")
         best_cut = 0
+        XnodePartitions = set()
+        YnodePartitions = set()
+        partiton_members = set()
         nodes = set()
 
         for edge in G.edges:
@@ -193,10 +196,21 @@ class Algorithm:
                 collect_all_unique_edge.append((edge.u , edge.v , edge.w))
                 already_visited_edges.add(key)
         
-        u , v ,_ = random.choice(collect_all_unique_edge)
+        # u , v ,_ = random.choice(collect_all_unique_edge)
 
-        XnodePartitions = {u}
-        YnodePartitions = {v}
+        # XnodePartitions = {u}
+        # YnodePartitions = {v}
+
+        edge_with_max_weight = max(collect_all_unique_edge , key = lambda edge:edge[2])
+
+
+        u , v , w =edge_with_max_weight
+
+
+        XnodePartitions.add(u)
+        YnodePartitions.add(v)
+
+        partiton_members.update([u,v])
 
         assigned_to_either_partitions = {u , v}
 
@@ -272,6 +286,10 @@ class Algorithm:
     
     def SemiGreedyValueBased(G , alpha):
         best_cut = 0
+        XnodePartitions = set()
+        YnodePartitions = set()
+        partiton_members = set()
+
         nodes = set()
         for edge in G.edges:
             nodes.add(edge.u)
@@ -288,12 +306,23 @@ class Algorithm:
                 collect_all_unique_edge.append((edge.u , edge.v , edge.w))
                 already_visited_edges.add(key)
         
-        firstu ,firstv , _ = random.choice(list(collect_all_unique_edge))
+        # firstu ,firstv , _ = random.choice(list(collect_all_unique_edge))
 
-        XnodePartitions = {firstu}
-        YnodePartitions = {firstv}
+        # XnodePartitions = {firstu}
+        # YnodePartitions = {firstv}
 
-        assigned_to_either_partiton = {firstu , firstv}
+        # assigned_to_either_partiton = {firstu , firstv}
+        edge_with_max_weight = max(collect_all_unique_edge , key = lambda edge:edge[2])
+
+
+        u , v , w =edge_with_max_weight
+
+
+        XnodePartitions.add(u)
+        YnodePartitions.add(v)
+
+        partiton_members.update([u,v])  
+        assigned_to_either_partiton = {u ,v}
 
         while len(assigned_to_either_partiton) < len(nodes):
             candies = list(nodes - assigned_to_either_partiton)
@@ -327,6 +356,77 @@ class Algorithm:
 
         return XnodePartitions , YnodePartitions , cut
 
+    
+
+    def LocalSearch(G , initial_X , initial_Y):
+
+
+        iterations = 0
+        X = set(initial_X)
+        Y = set(initial_Y)
+        improved = True
+        while improved:
+            iterations +=1
+            improved = False
+            best_delta = 0
+            best_node = None
+            move_from = None
+
+            all_nodes=X.union(Y)
+
+            for node in all_nodes:
+
+
+                sigmax=0
+                sigmay=0
+
+                for neighbour , w in G.adj.get(node,[]):
+                    if neighbour in X:
+                        sigmax +=w
+                    elif neighbour in Y:
+                        sigmay +=w
+
+                if node in X:
+                    delta = sigmax - sigmay
+                    if delta > best_delta:
+                        best_delta = delta 
+                        best_node = node
+                        move_from = 'X'
+                else:
+                    delta = sigmay - sigmax
+                    if delta > best_delta:
+                        best_delta = delta 
+                        best_node = node
+                        move_from = 'Y'
+
+
+            if best_node is not None:
+                improved = True
+                if move_from == 'X':
+                    X.remove(best_node)
+                    Y.add(best_node)
+                else:
+                    Y.remove(best_node)
+                    X.add(best_node)
+                 
+        seen = set()
+
+        cut_weight = 0
+        for edge in G.edges:
+            u,v = edge.u , edge.v
+            key = tuple(sorted((u,v)))
+            if key in seen:
+                continue
+            if (u in X and v in Y) or (u in Y and v in X):
+                cut_weight += edge.w
+            seen.add(key)
+
+        
+        return X,Y, cut_weight , iterations
+                   
+                    
+
+
 
 
         
@@ -341,7 +441,7 @@ def main():
     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/g4.rud"
+    filename="graph_GRASP/set1/g1.rud"
 
     with open(filename , 'r') as f:
         n , m = map(int , f.readline().split())
@@ -358,7 +458,7 @@ def main():
     print("Set Y:", sorted(Y))
     print("Cut Weight:", cut_weight)
 
-    avg_cut = Algorithm.RandomizedMaxCut(graph, 100)
+    avg_cut , Xrand , Yrand = Algorithm.RandomizedMaxCut(graph, 100)
     print(f"\nRandomized Max-Cut (avg over 100 runs): {avg_cut:.2f}")
 
     Xsemi, Ysemi, cut_semi = Algorithm.SemiGreedyValueBased(graph, 0.9)
@@ -366,6 +466,15 @@ def main():
 
     Xcard, Ycard, cut_card = Algorithm.SemiGreedy_CardinalityBasedRCL(graph, k=5)
     print(f"\nSemi-Greedy Cardinality-Based (k=5): Cut = {cut_card}")
+
+    Xlocal, Ylocal, cut_local , iteration_count= Algorithm.LocalSearch(graph, Xsemi, Ysemi)
+    print(f"\nLocal Search for Semi Greedy 2: Improved Cut = {cut_local} and iterations = {iteration_count}")
+
+    Xlocal2, Ylocal2, cut_local2 , iteration_count2 = Algorithm.LocalSearch(graph, Xcard, Ycard)
+    print(f"\nLocal Search for Semi Greedy 1: Improved Cut = {cut_local2} and iterations = {iteration_count2}")
+
+    Xlocal3, Ylocal3, cut_local3 , iteration_count3=Algorithm.LocalSearch(graph, Xrand , Yrand)
+    print(f"\nLocal Search for Randomized: Improved Cut = {cut_local3} and iterations = {iteration_count3}")
 
 
 
