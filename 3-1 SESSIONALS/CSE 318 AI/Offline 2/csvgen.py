@@ -42,15 +42,15 @@ def run_all_input_files(input_directory , output_csv , knownbestdictionary):
             n = len(G.nodes)
             m = len(G.edges) // 2
 
-            rand_cut , Xrand , Yrand = Algorithm.RandomizedMaxCut(G , 10)
+            rand_cut , Xrand , Yrand = Algorithm.RandomizedMaxCut(G , 1)
             _,_, greedy_cut = Algorithm.Greedy(G)
             XsemiValue , YsemiValue , semi_value = Algorithm.SemiGreedyValueBased(G , 0.9 )
             Xcard , Ycard , semi_card = Algorithm.SemiGreedy_CardinalityBasedRCL(G , 5)
             _, _, local_cut_value, local_iters_value = Algorithm.LocalSearch(G, XsemiValue, YsemiValue)
             _, _, local_cut_card, local_iters_card = Algorithm.LocalSearch(G, Xcard, Ycard)
 
-            _, _, grasp_cut_1, grasp_iters_1 = Algorithm.GRASP(G, 2, 1, 0.9, 5)
-            _, _, grasp_cut_2, grasp_iters_2 = Algorithm.GRASP(G, 2, 2, 0.9, 5)           
+            _, _, grasp_cut_1, grasp_iters_1 = Algorithm.GRASP(G, 1, 1, 0.9, 5)
+            _, _, grasp_cut_2, grasp_iters_2 = Algorithm.GRASP(G, 1, 2, 0.9, 5)           
 
 
             results.append([
@@ -67,6 +67,15 @@ def run_all_input_files(input_directory , output_csv , knownbestdictionary):
     
     with open(output_csv , 'a' , newline='') as csvfile:
         writer = csv.writer(csvfile)
+        writer.writerow([
+            "Problem","","",
+            "Constructive Algorithm","","","",
+            "Local Search","","","",
+            "GRASP","","","",
+            "Known best Solution or upper bound"
+        ])
+
+        
         writer.writerow([
             "Name", "|V|", "|E|",
             "Randomized-1", "Greedy-1", "Semi-Greedy-1","Semi-Greedy-2",
