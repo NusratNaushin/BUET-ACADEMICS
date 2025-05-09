@@ -11,10 +11,19 @@ class Graph:
         self.m = m
         self.edges = []
         self.alpha = 0.9
+        self.adj = {}
     
     def add_edge(self , u , v , w):
         self.edges.append(Edge(u , v , w))
         self.edges.append(Edge(v , u , w))
+
+        if u not in self.adj:
+            self.adj[u] = []
+        if v not in self.adj:
+            self.adj[v] = []
+        
+        self.adj[u].append((v, w))
+        self.adj[v].append((u, w))
 
 
 class Algorithm:
@@ -139,6 +148,8 @@ class Algorithm:
         # for edge in G.edges:
         #     nodes.add(edge.u)
         #     nodes.add(edge.v)
+
+        #print("inside calculate sigma")
         
         sigmax={}
         sigmay={}
@@ -147,17 +158,11 @@ class Algorithm:
         for node in candidateNodes:
             sx=0
             sy=0
-            for edge in G.edges:
-                if edge.u == node:
-                    if edge.v in X:
-                        sx += edge.w
-                    elif edge.v in Y:
-                        sy += edge.w
-                elif edge.v == node:
-                    if edge.u in X:
-                        sx += edge.w
-                    elif edge.u in Y:
-                        sy += edge.w
+            for neighbour , w in G.adj.get(node, []):
+                if neighbour in X:
+                    sx += w
+                elif neighbour in Y:
+                    sy += w
             sigmax[node] = sx
             sigmay[node] = sy
             greedyFnValue[node] = max(sx , sy)
@@ -169,6 +174,7 @@ class Algorithm:
 
     def SemiGreedy_CardinalityBasedRCL(G , k):
         
+        #print("inside semigreedy")
         best_cut = 0
         nodes = set()
 
@@ -215,7 +221,7 @@ class Algorithm:
                 XnodePartitions.add(randomly_chosen_vertex_from_RCL)
             
             assigned_to_either_partitions.add(randomly_chosen_vertex_from_RCL)
-
+            #print("assigning RCL")
         
 
         seen = set()
@@ -335,7 +341,7 @@ def main():
     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/myin.rud"
+    filename="graph_GRASP/set1/g4.rud"
 
     with open(filename , 'r') as f:
         n , m = map(int , f.readline().split())
@@ -344,6 +350,7 @@ def main():
         for _ in range(m):
             u , v , w = map(int, f.readline().split())
             graph.add_edge(u,v,w)
+           # print("adding edge " , u , v)
 
     X, Y, cut_weight = Algorithm.Greedy(graph)
     print("\nGreedy Partition:")
