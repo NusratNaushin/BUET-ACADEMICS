@@ -167,13 +167,76 @@ class Algorithm:
         
         
 
-    def SemiGreedy_CardinalityBasedRCL(G):
-
+    def SemiGreedy_CardinalityBasedRCL(G , k):
+        
+        best_cut = 0
         nodes = set()
 
         for edge in G.edges:
             nodes.add(edge.u)
             nodes.add(edge.v)
+
+        collect_all_unique_edge = []
+
+        already_visited_edges = set()
+
+
+        for edge in G.edges:
+            key = tuple(sorted((edge.u , edge.v)))
+            if key not in already_visited_edges:
+                collect_all_unique_edge.append((edge.u , edge.v , edge.w))
+                already_visited_edges.add(key)
+        
+        u , v ,_ = random.choice(collect_all_unique_edge)
+
+        XnodePartitions = {u}
+        YnodePartitions = {v}
+
+        assigned_to_either_partitions = {u , v}
+
+        while len(assigned_to_either_partitions) < len(nodes):
+            candies = list(nodes - assigned_to_either_partitions)
+            sigmax , sigmay , greedyFnValue = Algorithm.CalculateSigma(G , candies , XnodePartitions , YnodePartitions)
+
+
+            sorted_candidates = sorted(greedyFnValue.items(), key=lambda item: item[1], reverse=True)
+            topK = min(k , len(sorted_candidates))  
+            topKcandies = sorted_candidates[:topK]        
+
+            RCL = []
+            for node, _ in topKcandies:
+                RCL.append(node)
+
+            randomly_chosen_vertex_from_RCL = random.choice(RCL)
+
+            if sigmax[randomly_chosen_vertex_from_RCL] > sigmay[randomly_chosen_vertex_from_RCL]:
+                YnodePartitions.add(randomly_chosen_vertex_from_RCL)
+            else:
+                XnodePartitions.add(randomly_chosen_vertex_from_RCL)
+            
+            assigned_to_either_partitions.add(randomly_chosen_vertex_from_RCL)
+
+        
+
+        seen = set()
+        cut = 0
+
+        for edge in G.edges:
+            key = tuple(sorted((edge.u , edge.v)))
+            if key in seen:
+                continue
+            if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
+                cut += edge.w
+            seen.add(key)
+
+        return XnodePartitions , YnodePartitions , cut
+
+
+
+
+
+
+
 
     def ValueBasedRCL(greedyFnvalue , sigmax , sigmay , alpha):
 
@@ -293,6 +356,9 @@ def main():
 
     Xsemi, Ysemi, cut_semi = Algorithm.SemiGreedyValueBased(graph, 0.9)
     print(f"\nSemi-Greedy Value-Based (a=0.9): Cut = {cut_semi}")
+
+    Xcard, Ycard, cut_card = Algorithm.SemiGreedy_CardinalityBasedRCL(graph, k=5)
+    print(f"\nSemi-Greedy Cardinality-Based (k=5): Cut = {cut_card}")
 
 
 
