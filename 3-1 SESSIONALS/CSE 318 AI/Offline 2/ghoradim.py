@@ -494,54 +494,54 @@ class Algorithm:
     
 
 
-def main():
+# def main():
 
-    # graph = Graph(2 , 1)
-    # graph.add_edge(1 , 2 , 3)
+#     # graph = Graph(2 , 1)
+#     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/g13.rud"
+#     filename="graph_GRASP/set1/g13.rud"
 
-    with open(filename , 'r') as f:
-        n , m = map(int , f.readline().split())
-        graph = Graph(n , m)
+#     with open(filename , 'r') as f:
+#         n , m = map(int , f.readline().split())
+#         graph = Graph(n , m)
 
-        for _ in range(m):
-            u , v , w = map(int, f.readline().split())
-            graph.add_edge(u,v,w)
-           # print("adding edge " , u , v)
+#         for _ in range(m):
+#             u , v , w = map(int, f.readline().split())
+#             graph.add_edge(u,v,w)
+#            # print("adding edge " , u , v)
 
-    X, Y, cut_weight = Algorithm.Greedy(graph)
-    print("\nGreedy Partition:")
-    print("Set X:", sorted(X))
-    print("Set Y:", sorted(Y))
-    print("Cut Weight:", cut_weight)
+#     X, Y, cut_weight = Algorithm.Greedy(graph)
+#     print("\nGreedy Partition:")
+#     print("Set X:", sorted(X))
+#     print("Set Y:", sorted(Y))
+#     print("Cut Weight:", cut_weight)
 
-    avg_cut , Xrand , Yrand = Algorithm.RandomizedMaxCut(graph, 100)
-    print(f"\nRandomized Max-Cut (avg over 100 runs): {avg_cut:.2f}")
+#     avg_cut , Xrand , Yrand = Algorithm.RandomizedMaxCut(graph, 100)
+#     print(f"\nRandomized Max-Cut (avg over 100 runs): {avg_cut:.2f}")
 
-    Xsemi, Ysemi, cut_semi = Algorithm.SemiGreedyValueBased(graph, 0.9)
-    print(f"\nSemi-Greedy Value-Based (a=0.9): Cut = {cut_semi}")
+#     Xsemi, Ysemi, cut_semi = Algorithm.SemiGreedyValueBased(graph, 0.9)
+#     print(f"\nSemi-Greedy Value-Based (a=0.9): Cut = {cut_semi}")
 
-    Xcard, Ycard, cut_card = Algorithm.SemiGreedy_CardinalityBasedRCL(graph, k=5)
-    print(f"\nSemi-Greedy Cardinality-Based (k=5): Cut = {cut_card}")
+#     Xcard, Ycard, cut_card = Algorithm.SemiGreedy_CardinalityBasedRCL(graph, k=5)
+#     print(f"\nSemi-Greedy Cardinality-Based (k=5): Cut = {cut_card}")
 
-    Xlocal, Ylocal, cut_local , iteration_count= Algorithm.LocalSearch(graph, Xsemi, Ysemi)
-    print(f"\nLocal Search for Semi Greedy 2: Improved Cut = {cut_local} and iterations = {iteration_count}")
+#     Xlocal, Ylocal, cut_local , iteration_count= Algorithm.LocalSearch(graph, Xsemi, Ysemi)
+#     print(f"\nLocal Search for Semi Greedy 2: Improved Cut = {cut_local} and iterations = {iteration_count}")
 
-    Xlocal2, Ylocal2, cut_local2 , iteration_count2 = Algorithm.LocalSearch(graph, Xcard, Ycard)
-    print(f"\nLocal Search for Semi Greedy 1: Improved Cut = {cut_local2} and iterations = {iteration_count2}")
+#     Xlocal2, Ylocal2, cut_local2 , iteration_count2 = Algorithm.LocalSearch(graph, Xcard, Ycard)
+#     print(f"\nLocal Search for Semi Greedy 1: Improved Cut = {cut_local2} and iterations = {iteration_count2}")
 
-    Xlocal3, Ylocal3, cut_local3 , iteration_count3=Algorithm.LocalSearch(graph, Xrand , Yrand)
-    print(f"\nLocal Search for Randomized: Improved Cut = {cut_local3} and iterations = {iteration_count3}")
-
-
-    XGRASP , YGRASP , GRASPCUT , iteration_count4=Algorithm.GRASP(graph , 50 , 1 , 0.9 , 5 ) 
-    print(f"\nGRASP for SEMIGREEDY-1: CUT = {GRASPCUT} and iterations = {iteration_count4}")
+#     Xlocal3, Ylocal3, cut_local3 , iteration_count3=Algorithm.LocalSearch(graph, Xrand , Yrand)
+#     print(f"\nLocal Search for Randomized: Improved Cut = {cut_local3} and iterations = {iteration_count3}")
 
 
-    XGRASP2 , YGRASP2 , GRASPCUT2 , iteration_count5=Algorithm.GRASP(graph , 50 , 2 , 0.9 , 5 ) 
-    print(f"\nGRASP for SEMIGREEDY-2: CUT = {GRASPCUT2} and iterations = {iteration_count5}")
+#     XGRASP , YGRASP , GRASPCUT , iteration_count4=Algorithm.GRASP(graph , 50 , 1 , 0.9 , 5 ) 
+#     print(f"\nGRASP for SEMIGREEDY-1: CUT = {GRASPCUT} and iterations = {iteration_count4}")
 
 
-main()
+#     XGRASP2 , YGRASP2 , GRASPCUT2 , iteration_count5=Algorithm.GRASP(graph , 50 , 2 , 0.9 , 5 ) 
+#     print(f"\nGRASP for SEMIGREEDY-2: CUT = {GRASPCUT2} and iterations = {iteration_count5}")
+
+
+# main()
