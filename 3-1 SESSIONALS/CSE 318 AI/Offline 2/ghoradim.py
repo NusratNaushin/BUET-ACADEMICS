@@ -1,4 +1,5 @@
 import random
+import heapq
 class Edge:
     def __init__(self , u , v , w):
         self.u = u
@@ -27,6 +28,15 @@ class Graph:
 
 
 class Algorithm:
+
+    def compute_cut_weight(G , X , Y):
+        cut = 0
+        for u in G.adj:
+            for v , w in G.adj[u]:
+                if u < v and ((u in X and v in Y) or (u in Y and v in X)):
+                    cut += w
+        return cut
+
     def Greedy(G):
         XnodePartitions = set()
         YnodePartitions = set()
@@ -87,16 +97,17 @@ class Algorithm:
 
            
                     
-        cut_weight = 0
-        # for edge in G.edges:
-        #     if(edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.u in YnodePartitions and edge.v in XnodePartitions):
-        #         cut_weight += edge.w
-        # cut_weight = cut_weight//2
+        # cut_weight = 0
+        # # for edge in G.edges:
+        # #     if(edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.u in YnodePartitions and edge.v in XnodePartitions):
+        # #         cut_weight += edge.w
+        # # cut_weight = cut_weight//2
 
-        for u, v, w in collect_all_unique_edge:
-           if (u in XnodePartitions and v in YnodePartitions) or (u in YnodePartitions and v in XnodePartitions):
-                cut_weight += w
+        # for u, v, w in collect_all_unique_edge:
+        #    if (u in XnodePartitions and v in YnodePartitions) or (u in YnodePartitions and v in XnodePartitions):
+        #         cut_weight += w
 
+        cut_weight=Algorithm.compute_cut_weight(G , XnodePartitions , YnodePartitions)
 
         return XnodePartitions , YnodePartitions , cut_weight
 
@@ -121,21 +132,23 @@ class Algorithm:
                     X.add(v)
                 
 
-            visited_nodes = set()
-            cutWeight = 0
+        #     visited_nodes = set()
+        #     cutWeight = 0
 
-            for edge in G.edges:
-                key = tuple(sorted((edge.u , edge.v)))
-                if key in visited_nodes:
-                    continue
-                if (edge.u in X and edge.v in Y) or (edge.v in X and edge.u in Y):
-                    cutWeight += edge.w
-                visited_nodes.add(key)
+        #     for edge in G.edges:
+        #         key = tuple(sorted((edge.u , edge.v)))
+        #         if key in visited_nodes:
+        #             continue
+        #         if (edge.u in X and edge.v in Y) or (edge.v in X and edge.u in Y):
+        #             cutWeight += edge.w
+        #         visited_nodes.add(key)
         
-            totalCutWeight += cutWeight
+        #     totalCutWeight += cutWeight
 
         
-        avgCutWeight = totalCutWeight/iterations
+        # avgCutWeight = totalCutWeight/iterations
+        avgCutWeight=Algorithm.compute_cut_weight(G , X , Y)
+
 
         return avgCutWeight , X , Y
     
@@ -219,9 +232,8 @@ class Algorithm:
             sigmax , sigmay , greedyFnValue = Algorithm.CalculateSigma(G , candies , XnodePartitions , YnodePartitions)
 
 
-            sorted_candidates = sorted(greedyFnValue.items(), key=lambda item: item[1], reverse=True)
-            topK = min(k , len(sorted_candidates))  
-            topKcandies = sorted_candidates[:topK]        
+            topKcandies = heapq.nlargest(k, greedyFnValue.items(), key=lambda item: item[1])          
+            #topKcandies = sorted_candidates[:topK]        
 
             RCL = []
             for node, _ in topKcandies:
@@ -238,16 +250,17 @@ class Algorithm:
             #print("assigning RCL")
         
 
-        seen = set()
-        cut = 0
+        # seen = set()
+        # cut = 0
 
-        for edge in G.edges:
-            key = tuple(sorted((edge.u , edge.v)))
-            if key in seen:
-                continue
-            if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
-                cut += edge.w
-            seen.add(key)
+        # for edge in G.edges:
+        #     key = tuple(sorted((edge.u , edge.v)))
+        #     if key in seen:
+        #         continue
+        #     if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
+        #         cut += edge.w
+        #     seen.add(key)
+        cut=Algorithm.compute_cut_weight(G , XnodePartitions , YnodePartitions)
 
         return XnodePartitions , YnodePartitions , cut
 
@@ -343,16 +356,19 @@ class Algorithm:
 
             assigned_to_either_partiton.add(randomly_selected_vertex_from_RCL)
 
-        seen = set()
-        cut = 0
+        # seen = set()
+        # cut = 0
 
-        for edge in G.edges:
-            key = tuple(sorted((edge.u , edge.v)))
-            if key in seen:
-                continue
-            if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
-                cut += edge.w
-            seen.add(key)
+        # for edge in G.edges:
+        #     key = tuple(sorted((edge.u , edge.v)))
+        #     if key in seen:
+        #         continue
+        #     if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
+        #         cut += edge.w
+        #     seen.add(key)
+
+        cut=Algorithm.compute_cut_weight(G , XnodePartitions , YnodePartitions)
+
 
         return XnodePartitions , YnodePartitions , cut
 
@@ -409,22 +425,49 @@ class Algorithm:
                     Y.remove(best_node)
                     X.add(best_node)
                  
-        seen = set()
+        # seen = set()
 
-        cut_weight = 0
-        for edge in G.edges:
-            u,v = edge.u , edge.v
-            key = tuple(sorted((u,v)))
-            if key in seen:
-                continue
-            if (u in X and v in Y) or (u in Y and v in X):
-                cut_weight += edge.w
-            seen.add(key)
+        # cut_weight = 0
+        # for edge in G.edges:
+        #     u,v = edge.u , edge.v
+        #     key = tuple(sorted((u,v)))
+        #     if key in seen:
+        #         continue
+        #     if (u in X and v in Y) or (u in Y and v in X):
+        #         cut_weight += edge.w
+        #     seen.add(key)
 
-        
+        cut_weight=Algorithm.compute_cut_weight(G , X , Y)
+  
         return X,Y, cut_weight , iterations
                    
-                    
+    def GRASP(G , max_iterations , semi_choice,alpha, k):
+        iteration_count = 0
+        CutWeight = 0
+        Xgrasp = Ygrasp = None
+        for it_count in range(1 , max_iterations+1):
+            iteration_count +=1
+            if semi_choice==1:
+                X , Y , cut = Algorithm.SemiGreedyValueBased(G , alpha)
+            else:
+                X , Y , cut = Algorithm.SemiGreedy_CardinalityBasedRCL(G , k)
+
+            XLOCAL , YLOCAL , CUTLOCAL , loopinloc = Algorithm.LocalSearch( G , X , Y)
+
+            if iteration_count == 1:
+                Xgrasp=XLOCAL
+                Ygrasp=YLOCAL
+                CutWeight=CUTLOCAL
+            elif CutWeight < CUTLOCAL :
+                CutWeight = CUTLOCAL
+                Xgrasp=XLOCAL
+                Ygrasp=YLOCAL   
+
+
+        return Xgrasp , Ygrasp , CutWeight , it_count
+
+
+
 
 
 
@@ -476,6 +519,13 @@ def main():
     Xlocal3, Ylocal3, cut_local3 , iteration_count3=Algorithm.LocalSearch(graph, Xrand , Yrand)
     print(f"\nLocal Search for Randomized: Improved Cut = {cut_local3} and iterations = {iteration_count3}")
 
+
+    XGRASP , YGRASP , GRASPCUT , iteration_count4=Algorithm.GRASP(graph , 50 , 1 , 0.9 , 5 ) 
+    print(f"\nGRASP for SEMIGREEDY-1: CUT = {GRASPCUT} and iterations = {iteration_count4}")
+
+
+    XGRASP2 , YGRASP2 , GRASPCUT2 , iteration_count5=Algorithm.GRASP(graph , 50 , 2 , 0.9 , 5 ) 
+    print(f"\nGRASP for SEMIGREEDY-2: CUT = {GRASPCUT2} and iterations = {iteration_count5}")
 
 
 main()
