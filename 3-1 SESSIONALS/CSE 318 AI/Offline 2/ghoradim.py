@@ -11,13 +11,14 @@ class Graph:
         self.n = n
         self.m = m
         self.edges = []
-        self.alpha = 0.9
         self.adj = {}
+        self.nodes = set()
     
     def add_edge(self , u , v , w):
         self.edges.append(Edge(u , v , w))
         self.edges.append(Edge(v , u , w))
 
+        self.nodes.update([u,v])
         if u not in self.adj:
             self.adj[u] = []
         if v not in self.adj:
@@ -193,6 +194,7 @@ class Algorithm:
         YnodePartitions = set()
         partiton_members = set()
         nodes = set()
+        #nodes = set(G.adj.keys())
 
         for edge in G.edges:
             nodes.add(edge.u)
@@ -216,8 +218,9 @@ class Algorithm:
 
         edge_with_max_weight = max(collect_all_unique_edge , key = lambda edge:edge[2])
 
+        u , v , w = edge_with_max_weight
+        #u , v , w =Algorithm.get_max_weight_edge_from_adj(G)
 
-        u , v , w =edge_with_max_weight
 
 
         XnodePartitions.add(u)
@@ -296,13 +299,27 @@ class Algorithm:
             
         return resultingCandies
 
+    def get_max_weight_edge_from_adj(G):
+        max_edge = (None, None, float('-inf'))  # (u, v, weight)
+        visited = set()
     
+        for u in G.adj:
+            for v, w in G.adj[u]:
+                key = tuple(sorted((u, v)))
+                if key not in visited:
+                    visited.add(key)
+                if w > max_edge[2]:
+                    max_edge = (u, v, w)
+                    
+        return max_edge
+
     def SemiGreedyValueBased(G , alpha):
         best_cut = 0
         XnodePartitions = set()
         YnodePartitions = set()
         partiton_members = set()
 
+        #nodes = set(G.adj.keys())
         nodes = set()
         for edge in G.edges:
             nodes.add(edge.u)
@@ -329,7 +346,6 @@ class Algorithm:
 
 
         u , v , w =edge_with_max_weight
-
 
         XnodePartitions.add(u)
         YnodePartitions.add(v)
@@ -484,7 +500,7 @@ def main():
     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/g1.rud"
+    filename="graph_GRASP/set1/g13.rud"
 
     with open(filename , 'r') as f:
         n , m = map(int , f.readline().split())
