@@ -10,6 +10,7 @@ class Graph:
         self.n = n
         self.m = m
         self.edges = []
+        self.alpha = 0.9
     
     def add_edge(self , u , v , w):
         self.edges.append(Edge(u , v , w))
@@ -106,9 +107,9 @@ class Algorithm:
             Y=set()
             for v in nodes:
                 if random.random() < 0.5:
-                    X.add(v)
-                else:
                     Y.add(v)
+                else:
+                    X.add(v)
                 
 
             visited_nodes = set()
@@ -129,6 +130,140 @@ class Algorithm:
 
         return avgCutWeight 
     
+    def setAlpha(self, alpha):
+        self.alpha = alpha
+    def CalculateSigma(G, candidateNodes , X , Y):
+
+        # nodes = set()
+
+        # for edge in G.edges:
+        #     nodes.add(edge.u)
+        #     nodes.add(edge.v)
+        
+        sigmax={}
+        sigmay={}
+        greedyFnValue={}
+
+        for node in candidateNodes:
+            sx=0
+            sy=0
+            for edge in G.edges:
+                if edge.u == node:
+                    if edge.v in X:
+                        sx += edge.w
+                    elif edge.v in Y:
+                        sy += edge.w
+                elif edge.v == node:
+                    if edge.u in X:
+                        sx += edge.w
+                    elif edge.u in Y:
+                        sy += edge.w
+            sigmax[node] = sx
+            sigmay[node] = sy
+            greedyFnValue[node] = max(sx , sy)
+
+        return sigmax , sigmay , greedyFnValue
+
+        
+        
+
+    def SemiGreedy_CardinalityBasedRCL(G):
+
+        nodes = set()
+
+        for edge in G.edges:
+            nodes.add(edge.u)
+            nodes.add(edge.v)
+
+    def ValueBasedRCL(greedyFnvalue , sigmax , sigmay , alpha):
+
+        # nodes = set()
+
+        # for edge in G.edges:
+        #     nodes.add(edge.u)
+        #     nodes.add(edge.v)
+
+        #Algorithm.setAlpha(alpha)
+
+        wmin = min(min(sigmax.values()), min(sigmay.values()))
+        wmax = max(max(sigmax.values()), max(sigmay.values()))
+
+
+
+        CutOffMu = wmin +alpha*(wmax - wmin)
+
+        resultingCandies = []
+
+        for node in greedyFnvalue:
+            if greedyFnvalue[node] >= CutOffMu :
+                resultingCandies.append(node)
+            
+        return resultingCandies
+
+    
+    def SemiGreedyValueBased(G , alpha):
+        best_cut = 0
+        nodes = set()
+        for edge in G.edges:
+            nodes.add(edge.u)
+            nodes.add(edge.v)
+
+        collect_all_unique_edge = []
+
+        already_visited_edges = set()
+
+
+        for edge in G.edges:
+            key = tuple(sorted((edge.u , edge.v)))
+            if key not in already_visited_edges:
+                collect_all_unique_edge.append((edge.u , edge.v , edge.w))
+                already_visited_edges.add(key)
+        
+        firstu ,firstv , _ = random.choice(list(collect_all_unique_edge))
+
+        XnodePartitions = {firstu}
+        YnodePartitions = {firstv}
+
+        assigned_to_either_partiton = {firstu , firstv}
+
+        while len(assigned_to_either_partiton) < len(nodes):
+            candies = list(nodes - assigned_to_either_partiton)
+            sigmax , sigmay , greedyFnValue = Algorithm.CalculateSigma(G , candies , XnodePartitions , YnodePartitions)
+            RCL = Algorithm.ValueBasedRCL( greedyFnValue , sigmax , sigmay , alpha)
+
+            if not RCL:
+                RCL = candies 
+            
+            randomly_selected_vertex_from_RCL = random.choice(RCL)
+
+
+            if sigmax[randomly_selected_vertex_from_RCL] > sigmay[randomly_selected_vertex_from_RCL]:
+                YnodePartitions.add(randomly_selected_vertex_from_RCL)
+            else:
+                XnodePartitions.add(randomly_selected_vertex_from_RCL)
+
+
+            assigned_to_either_partiton.add(randomly_selected_vertex_from_RCL)
+
+        seen = set()
+        cut = 0
+
+        for edge in G.edges:
+            key = tuple(sorted((edge.u , edge.v)))
+            if key in seen:
+                continue
+            if (edge.u in XnodePartitions and edge.v in YnodePartitions) or (edge.v in XnodePartitions and edge.u in YnodePartitions):
+                cut += edge.w
+            seen.add(key)
+
+        return XnodePartitions , YnodePartitions , cut
+
+
+
+        
+        
+        
+    
 
 
 def main():
@@ -137,7 +272,7 @@ def main():
     # graph.add_edge(1 , 2 , 3)
 
     
-    filename="graph_GRASP/set1/g4.rud"
+    filename="graph_GRASP/set1/myin.rud"
 
     with open(filename , 'r') as f:
         n , m = map(int , f.readline().split())
@@ -155,6 +290,10 @@ def main():
 
     avg_cut = Algorithm.RandomizedMaxCut(graph, 100)
     print(f"\nRandomized Max-Cut (avg over 100 runs): {avg_cut:.2f}")
+
+    Xsemi, Ysemi, cut_semi = Algorithm.SemiGreedyValueBased(graph, 0.9)
+    print(f"\nSemi-Greedy Value-Based (a=0.9): Cut = {cut_semi}")
+
 
 
 main()
