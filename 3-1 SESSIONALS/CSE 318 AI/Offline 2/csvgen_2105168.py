@@ -34,8 +34,10 @@ def read_a_input_file(filepath):
 def run_all_input_files(input_directory , output_csv , knownbestdictionary):
     results = []
 
-
+    count=0
     for filename in sorted(os.listdir(input_directory), key=sort_files):
+        count += 1
+        print("working with file no : " ,count)
         if filename.endswith(".rud"):
             filepath = os.path.join(input_directory, filename)
             G = read_a_input_file(filepath)
