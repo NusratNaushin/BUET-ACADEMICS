@@ -19,7 +19,7 @@ Letter [a-zA-Z]
 [ \t\v]+ {    }
 {Letter}+ {IncWc(); printf("%s word found\n",yytext);}
 [\n] {line_count++;}
-<<EOF>> {printf("Total Line NUmber: %d and word number : %d\n",line_countmword_count); return 0;}
+<<EOF>> {printf("Total Line NUmber: %d and word number : %d\n",line_count,word_count); return 0;}
 . {}
 
 %%
