@@ -1,0 +1,107 @@
+archive_file
+Ariana Grande 
+Ariana Grande 
+Ariana Grande 
+Bad Guy (1961) 
+Basket Case (1964) 
+Basket Case (1971) 
+Basket Case (2009) 
+Blank Space (1983) 
+Blank Space (1993) 
+Blinding Lights (1963) 
+Blinding Lights (1967) 
+Blinding Lights (1972) 
+Bruno Mars 
+Coldplay 
+Coldplay 
+David Bowie 
+David Bowie 
+David Bowie 
+demo
+Drake 
+Drake 
+Ed Sheeran 
+Ed Sheeran 
+Eminem 
+Eminem 
+Enter Sandman (1969) 
+Enter Sandman (1970) 
+Enter Sandman (2006) 
+Everlong (1999) 
+Everlong (2006) 
+Everlong (2009) 
+Everlong (2019) 
+family_movie
+film_trailer
+Green Day 
+Green Day 
+Halo (1963) 
+Halo (1982) 
+Halo (2014) 
+Hello (1960) 
+Heroes (2014) 
+holiday_clip
+Imagine Dragons 
+Justin Bieber 
+Kanye West 
+Kendrick Lamar 
+Kendrick Lamar 
+Kendrick Lamar 
+Lady Gaga 
+lecture_recording
+Maroon 5 
+Metallica 
+misc_audio
+Money (2010) 
+Moves Like Jagger (2010) 
+Muse 
+nature_walk
+Nirvana 
+Nirvana 
+podcast1
+Poker Face (1980) 
+Poker Face (1991) 
+Post Malone 
+Queen 
+Radioactive (1999) 
+Radiohead 
+random_video
+Rihanna 
+sample
+Sam Smith 
+Shape of You (1969) 
+Shape of You (1993) 
+Shawn Mendes 
+Sia 
+Sia 
+Sia 
+Sia 
+Smells Like Teen Spirit (1975) 
+Smells Like Teen Spirit (1986) 
+Smells Like Teen Spirit (1998) 
+Stay With Me (1964) 
+Stay With Me (1982) 
+Stay With Me (2020) 
+strange
+Stronger (1980) 
+Stronger (1999) 
+Stronger (2005) 
+sunrise
+sunset_view
+Taylor Swift 
+test_file
+The Beatles 
+U2 
+U2 
+U2 
+U2 
+untitled
+Uptown Funk (1968) 
+Uptown Funk (2014) 
+vacation2019
+Viva La Vida (1982) 
+Viva La Vida (2004) 
+Viva La Vida (2014) 
+With or Without You (1996) 
+Yellow (2013) 
+Yesterday (2000) 

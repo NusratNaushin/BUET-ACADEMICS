@@ -1,0 +1,214 @@
+archive_file
+archive_file
+Ariana Grande 
+ Chandelier
+Ariana Grande 
+ Money
+Ariana Grande 
+ Radioactive
+ Eminem
+Bad Guy (1961) 
+ Radiohead
+Basket Case (1964) 
+ The Weeknd
+Basket Case (1971) 
+ Queen
+Basket Case (2009) 
+ Eminem
+Blank Space (1983) 
+ Billie Eilish
+Blank Space (1993) 
+ The Beatles
+Blinding Lights (1963) 
+ Drake
+Blinding Lights (1967) 
+ Linkin Park
+Blinding Lights (1972) 
+Bruno Mars 
+ Uptown Funk
+Coldplay 
+ Halo
+Coldplay 
+ Lose Yourself
+David Bowie 
+ Diamonds
+David Bowie 
+ Money
+David Bowie 
+ Viva La Vida
+demo
+demo
+Drake 
+ Chandelier
+Drake 
+ Uptown Funk
+Ed Sheeran 
+ Radioactive
+Ed Sheeran 
+ Yellow
+Eminem 
+ Blinding Lights
+Eminem 
+ Hello
+ Queen
+Enter Sandman (1969) 
+ Adele
+Enter Sandman (1970) 
+ Shawn Mendes
+Enter Sandman (2006) 
+ Ed Sheeran
+Everlong (1999) 
+ Radiohead
+Everlong (2006) 
+ Shawn Mendes
+Everlong (2009) 
+ The Weeknd
+Everlong (2019) 
+family_movie
+family_movie
+film_trailer
+film_trailer
+Green Day 
+ Enter Sandman
+Green Day 
+ Heroes
+ Billie Eilish
+Halo (1963) 
+ Nirvana
+Halo (1982) 
+ Drake
+Halo (2014) 
+ Rihanna
+Hello (1960) 
+ Linkin Park
+Heroes (2014) 
+holiday_clip
+holiday_clip
+Imagine Dragons 
+ Smells Like Teen Spirit
+Justin Bieber 
+ Lose Yourself
+Kanye West 
+ Californication
+Kendrick Lamar 
+ Heroes
+Kendrick Lamar 
+ Shape of You
+Kendrick Lamar 
+ Stronger
+Lady Gaga 
+ Stronger
+lecture_recording
+lecture_recording
+Maroon 5 
+ Enter Sandman
+Metallica 
+ Poker Face
+misc_audio
+misc_audio
+ Ariana Grande
+Money (2010) 
+ Radiohead
+Moves Like Jagger (2010) 
+Muse 
+ HUMBLE.
+nature_walk
+nature_walk
+Nirvana 
+ Poker Face
+Nirvana 
+ Viva La Vida
+podcast1
+podcast1
+ Lady Gaga
+Poker Face (1980) 
+ Shawn Mendes
+Poker Face (1991) 
+Post Malone 
+ Moves Like Jagger
+Queen 
+ Smells Like Teen Spirit
+ David Bowie
+Radioactive (1999) 
+Radiohead 
+ God's Plan
+random_video
+random_video
+Rihanna 
+ Shape of You
+sample
+sample
+Sam Smith 
+ Shape of You
+ Foo Fighters
+Shape of You (1969) 
+ Justin Bieber
+Shape of You (1993) 
+Shawn Mendes 
+ Stay With Me
+Sia 
+ Basket Case
+Sia 
+ Creep
+Sia 
+ Halo
+Sia 
+ Smells Like Teen Spirit
+ The Beatles
+Smells Like Teen Spirit (1975) 
+ Coldplay
+Smells Like Teen Spirit (1986) 
+ Radiohead
+Smells Like Teen Spirit (1998) 
+ Taylor Swift
+Stay With Me (1964) 
+ Justin Bieber
+Stay With Me (1982) 
+ Shawn Mendes
+Stay With Me (2020) 
+strange
+name
+ Ariana Grande
+Stronger (1980) 
+ Linkin Park
+Stronger (1999) 
+ Rihanna
+Stronger (2005) 
+sunrise
+sunrise
+sunset_view
+sunset_view
+Taylor Swift 
+ Yellow
+test_file
+test_file
+The Beatles 
+ Basket Case
+U2 
+ Bohemian Rhapsody
+U2 
+ Circles
+U2 
+ Stronger
+U2 
+ Viva La Vida
+untitled
+untitled
+ Kendrick Lamar
+Uptown Funk (1968) 
+ Pink Floyd
+Uptown Funk (2014) 
+vacation2019
+vacation2019
+ Shawn Mendes
+Viva La Vida (1982) 
+ Ariana Grande
+Viva La Vida (2004) 
+ Imagine Dragons
+Viva La Vida (2014) 
+ Coldplay
+With or Without You (1996) 
+ Adele
+Yellow (2013) 
+ Queen
+Yesterday (2000) 

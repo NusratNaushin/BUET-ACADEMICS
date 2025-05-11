@@ -1,0 +1,62 @@
+archive_file
+Ariana Grande 
+Ariana Grande 
+Ariana Grande 
+Bruno Mars 
+Coldplay 
+Coldplay 
+David Bowie 
+David Bowie 
+David Bowie 
+demo
+Drake 
+Drake 
+Ed Sheeran 
+Ed Sheeran 
+Eminem 
+Eminem 
+family_movie
+film_trailer
+Green Day 
+Green Day 
+holiday_clip
+Imagine Dragons 
+Justin Bieber 
+Kanye West 
+Kendrick Lamar 
+Kendrick Lamar 
+Kendrick Lamar 
+Lady Gaga 
+lecture_recording
+Maroon 5 
+Metallica 
+misc_audio
+Muse 
+nature_walk
+Nirvana 
+Nirvana 
+podcast1
+Post Malone 
+Queen 
+Radiohead 
+random_video
+Rihanna 
+sample
+Sam Smith 
+Shawn Mendes 
+Sia 
+Sia 
+Sia 
+Sia 
+strange
+sunrise
+sunset_view
+Taylor Swift 
+test_file
+The Beatles 
+U2 
+U2 
+U2 
+U2 
+untitled
+vacation2019
