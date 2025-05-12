@@ -84,7 +84,7 @@ int destructor_calls = 0;
     {
         
 
-            
+            cout << "insert " << endl;
             return current_scope->Insert(symbol_name, type);
         
     }
