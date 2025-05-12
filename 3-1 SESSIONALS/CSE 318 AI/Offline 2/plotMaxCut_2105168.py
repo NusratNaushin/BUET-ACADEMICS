@@ -72,4 +72,4 @@ def plot_from_csv(csv_file):
     plt.savefig("max_cut_g1_to_g10.png")
     plt.show()
 
-plot_from_csv("2105168_final.csv")
+plot_from_csv("2105168.csv")
