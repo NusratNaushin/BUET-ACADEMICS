@@ -21,8 +21,13 @@
 Constant_Integer [0-9]+
 WhiteSpace [ \t\f\r\v]+
 Letter [a-zA-Z]
+Char_Literals \'(\\n|\\t|\\\\|\\\'|\\a|\\f|\\r|\\b|\\v|\\0')\'
 Digit [0-9]
+Exponent ([Ee][+-]?{Constant_Integer})
+Fraction \.{Constant_Integer}
+Float ({Digit}+{Fraction}?|{Fraction}){Exponent}?
 Newline \n
+
 
 
 %%
@@ -133,18 +138,28 @@ Newline \n
         fprintf(tokenout,"<CONST_INT>, %s>\n" , yytext);
 		fprintf(logout,"Line no %d: TOKEN <CONST_INT> Lexeme %s found\n",line_count,yytext);
         
-        if(symboltable.Insert(yytext,"CONST_INT")){
-            fprintf(logout, "\tInserted into SymbolTable\n");
-        }
-        else{
-            fprintf(logout, "\tAlready exists in current scope\n");
-        }
+        // if(symboltable.Insert(yytext,"CONST_INT")){
+        //     fprintf(logout, "\tInserted into SymbolTable\n");
+        // }
+        // else{
+        //     fprintf(logout, "\tAlready exists in current scope\n");
+        // }
 }
 
+{Float} {
+    fprintf(tokenout,"<CONST_FLOAT>, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <CONST_FLOAT> Lexeme %s found\n",line_count,yytext);
+
+}
+
+{Char_Literals} {
+    fprintf(tokenout,"<CONST_CHAR>, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <CONST_CHAR> Lexeme %s found\n",line_count,yytext);
+}
 
 [ \t\v]+ {    }
 {Letter}+ {IncWc(); printf("%s word found\n",yytext);}
-[\n] {line_count++;}
+{Newline} {line_count++;}
 <<EOF>> {printf("Total Line NUmber: %d and word number : %d\n",line_count,word_count); return 0;}
 . {}
 
