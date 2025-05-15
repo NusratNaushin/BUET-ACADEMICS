@@ -15,6 +15,8 @@
 
     int word_count=0;
     int line_count=1;
+    int error_count=0;
+
     string log_file_string;
     string resulting_string;
     string comments;
@@ -72,9 +74,12 @@
     }
 %}
 
+TooManyDecimalPoint [0-9]*\.([0-9]*\.)+[0-9]* 
+ILlFormedNumber [0-9]*\.?[0-9][eE][-+]?([0-9]*\.)+[0-9]*
+InvalidSuffixPrefix [0-9]+[_a-zA-Z]
 Constant_Integer [0-9]+
-WhiteSpace [ \t\f\r\v]+
-Letter [a-zA-Z]
+/* WhiteSpace [ \t\f\r\v]+
+Letter [a-zA-Z] */
 Digit [0-9]
 Identifier [_a-zA-Z][_a-zA-Z0-9]*
 Char_Literals \'(\\[nt\\'"abfrv0]|[^\\'])\'
@@ -205,6 +210,11 @@ Newline \n
 		fprintf(logout,"Line no %d: TOKEN <CONTINUE> Lexeme %s found\n",line_count,yytext);
 }
 
+{InvalidSuffixPrefix} {
+    fprintf(logout,"Error at line no %d: Invalid prefix on ID or invalid suffix on Number %s \n",line_count,yytext);
+    error_count++;
+}
+
 {Identifier} {
     fprintf(tokenout,"<ID, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <ID> Lexeme %s found\n",line_count,yytext);
@@ -224,6 +234,19 @@ Newline \n
         //     fprintf(logout, "\tAlready exists in current scope\n");
         // }
 }
+
+{TooManyDecimalPoint} {
+
+	fprintf(logout,"Error at line no %d: Too many decimal points %s \n",line_count,yytext);
+    error_count++;
+
+}
+
+{ILlFormedNumber} {
+	fprintf(logout,"Error at line no %d: Ill formed number %s \n",line_count,yytext);
+    error_count++;
+}
+
 
 {Float} {
     fprintf(tokenout,"<CONST_FLOAT, %s> " , yytext);
