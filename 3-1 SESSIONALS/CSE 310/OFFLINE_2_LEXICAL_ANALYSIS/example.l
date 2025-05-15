@@ -13,7 +13,7 @@
 
     int word_count=0;
     int line_count=1;
-    string _string;
+    string log_file_string;
     string resulting_string;
     int line_count_inside_comment=0;
     void IncWc(){
@@ -327,7 +327,7 @@ Newline \n
 
 \" {
     resulting_string.clear();
-    
+    log_file_string.clear();  
 
     BEGIN STRING;
 }
@@ -336,44 +336,56 @@ Newline \n
 
 <STRING>\\\\ {
     resulting_string += "\\";
+    log_file_string += "\\\\";    
 
 }
 <STRING>\\\' {
     resulting_string += "\'";
+    log_file_string += "\\\'";    
 
 }
 <STRING>\\\" {
     resulting_string += "\"";
+    log_file_string += "\\\""  ;  
 
 }
 
 <STRING>\\t {
     resulting_string += '\t';
+    log_file_string += "\\t"  ;  
    
 }
 
 <STRING>\\\n {
-    line_count++;
+    log_file_string += "\\\n" ;   
+  
 }
 
 
 <STRING>\\n {
     resulting_string += "\n";
+    log_file_string += "\\n"  ;  
+
 }
 
 <STRING>\\ {
     resulting_string += "\n";
+    log_file_string += "\\"; 
+
 }
 <STRING>\" {
-        fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
-        fprintf(logout,"Line no %s: String \"",resulting_string.c_str());
 
+    std::string print = "\"" + log_file_string + "\"";
+        fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
+
+        fprintf(logout, "Line no %d: Token <STRING> Lexeme %s found --> <STRING, %s>\n", 
+        line_count, print.c_str(), resulting_string.c_str());
         BEGIN INITIAL;       
 }
 
 
 <STRING>\\\r?\n {
-    line_count++;
+    
 }
 <STRING>[\r]?\n {
 
@@ -385,6 +397,8 @@ Newline \n
 
 <STRING>. {
     resulting_string += yytext[0];
+    log_file_string += yytext[0]; 
+
 
 }
 

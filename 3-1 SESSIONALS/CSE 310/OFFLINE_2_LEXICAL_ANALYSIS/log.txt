@@ -4,18 +4,23 @@ Line no 1: TOKEN <LTHIRD> Lexeme [ found
 Line no 1: TOKEN <CONST_INT> Lexeme 100 found
 Line no 1: TOKEN <RTHIRD> Lexeme ] found
 Line no 1: TOKEN <ASSIGNOP> Lexeme = found
-Line no I own a dog.: String "Line no 1: TOKEN <SEMICOLON> Lexeme ; found
+Line no 1: Token <STRING> Lexeme "I own a dog." found --> <STRING, I own a dog.>
+Line no 1: TOKEN <SEMICOLON> Lexeme ; found
 Line no 2: TOKEN <CHAR> Lexeme char found
 Line no 2: TOKEN <ID> Lexeme str2 found
 Line no 2: TOKEN <LTHIRD> Lexeme [ found
 Line no 2: TOKEN <CONST_INT> Lexeme 100 found
 Line no 2: TOKEN <RTHIRD> Lexeme ] found
 Line no 2: TOKEN <ASSIGNOP> Lexeme = found
-Line no I own a dog.    His name is Jack.: String "Line no 3: TOKEN <SEMICOLON> Lexeme ; found
-Line no 4: TOKEN <CHAR> Lexeme char found
-Line no 4: TOKEN <ID> Lexeme str3 found
-Line no 4: TOKEN <LTHIRD> Lexeme [ found
-Line no 4: TOKEN <CONST_INT> Lexeme 100 found
-Line no 4: TOKEN <RTHIRD> Lexeme ] found
-Line no 4: TOKEN <ASSIGNOP> Lexeme = found
-Line no He said, " I own a dog"    so I asked, "What is his name?": String "Line no 5: TOKEN <SEMICOLON> Lexeme ; found
+Line no 2: Token <STRING> Lexeme "I own a dog.\
+    His name is Jack." found --> <STRING, I own a dog.    His name is Jack.>
+Line no 2: TOKEN <SEMICOLON> Lexeme ; found
+Line no 3: TOKEN <CHAR> Lexeme char found
+Line no 3: TOKEN <ID> Lexeme str3 found
+Line no 3: TOKEN <LTHIRD> Lexeme [ found
+Line no 3: TOKEN <CONST_INT> Lexeme 100 found
+Line no 3: TOKEN <RTHIRD> Lexeme ] found
+Line no 3: TOKEN <ASSIGNOP> Lexeme = found
+Line no 3: Token <STRING> Lexeme "He said, \" I own a dog\"\
+    so I asked, \"What is his name?\"" found --> <STRING, He said, " I own a dog"    so I asked, "What is his name?">
+Line no 3: TOKEN <SEMICOLON> Lexeme ; found

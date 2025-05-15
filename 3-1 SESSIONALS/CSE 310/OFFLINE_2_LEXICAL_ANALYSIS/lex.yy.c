@@ -558,7 +558,7 @@ char *yytext;
 
     int word_count=0;
     int line_count=1;
-    string _string;
+    string log_file_string;
     string resulting_string;
     int line_count_inside_comment=0;
     void IncWc(){
@@ -1251,7 +1251,7 @@ YY_RULE_SETUP
 #line 328 "example.l"
 {
     resulting_string.clear();
-    
+    log_file_string.clear();  
 
     BEGIN STRING;
 }
@@ -1261,77 +1261,89 @@ YY_RULE_SETUP
 #line 337 "example.l"
 {
     resulting_string += "\\";
+    log_file_string += "\\\\";    
 
 }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 341 "example.l"
+#line 342 "example.l"
 {
     resulting_string += "\'";
+    log_file_string += "\\\'";    
 
 }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 345 "example.l"
+#line 347 "example.l"
 {
     resulting_string += "\"";
+    log_file_string += "\\\""  ;  
 
 }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 350 "example.l"
+#line 353 "example.l"
 {
     resulting_string += '\t';
+    log_file_string += "\\t"  ;  
    
 }
 	YY_BREAK
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 355 "example.l"
+#line 359 "example.l"
 {
-    line_count++;
+    log_file_string += "\\\n" ;   
+  
 }
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 360 "example.l"
+#line 365 "example.l"
 {
     resulting_string += "\n";
+    log_file_string += "\\n"  ;  
+
 }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 364 "example.l"
+#line 371 "example.l"
 {
     resulting_string += "\n";
+    log_file_string += "\\"; 
+
 }
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 367 "example.l"
+#line 376 "example.l"
 {
-        fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
-        fprintf(logout,"Line no %s: String \"",resulting_string.c_str());
 
+    std::string print = "\"" + log_file_string + "\"";
+        fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
+
+        fprintf(logout, "Line no %d: Token <STRING> Lexeme %s found --> <STRING, %s>\n", 
+        line_count, print.c_str(), resulting_string.c_str());
         BEGIN INITIAL;       
 }
 	YY_BREAK
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
-#line 375 "example.l"
+#line 387 "example.l"
 {
-    line_count++;
+    
 }
 	YY_BREAK
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
-#line 378 "example.l"
+#line 390 "example.l"
 {
 
 	fprintf(logout,"Line no %d: Unterminated String \"",line_count);
@@ -1340,39 +1352,41 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 386 "example.l"
+#line 398 "example.l"
 {
     resulting_string += yytext[0];
+    log_file_string += yytext[0]; 
+
 
 }
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 399 "example.l"
+#line 413 "example.l"
 {    }
 	YY_BREAK
 case 54:
 /* rule 54 can match eol */
 YY_RULE_SETUP
-#line 400 "example.l"
+#line 414 "example.l"
 {line_count++;}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
-#line 401 "example.l"
+#line 415 "example.l"
 {printf("Total Line Number: %d and word number : %d\n",line_count,word_count); return 0;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 402 "example.l"
+#line 416 "example.l"
 {}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 404 "example.l"
+#line 418 "example.l"
 ECHO;
 	YY_BREAK
-#line 1376 "lex.yy.c"
+#line 1390 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2375,7 +2389,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 404 "example.l"
+#line 418 "example.l"
 
 
 int main(int argc , char *argv[]){
