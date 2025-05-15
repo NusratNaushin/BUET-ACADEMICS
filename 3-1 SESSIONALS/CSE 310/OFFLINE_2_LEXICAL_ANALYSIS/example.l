@@ -1,6 +1,7 @@
 %option noyywrap
 %x STRING
 %x COMMENT
+%x MULTICOMMENT
 %{
     #include<stdio.h>
     #include<stdlib.h>
@@ -16,6 +17,7 @@
     int line_count=1;
     string log_file_string;
     string resulting_string;
+    string comments;
     int line_count_inside_comment=0;
 
     void IncWc(){
@@ -340,8 +342,15 @@ Newline \n
 
 \/\/ {
 
-
+    comments.clear();
+    comments += "//";
     BEGIN COMMENT;
+}
+
+\/\* {
+    comments.clear();
+    comments += "/*";
+    BEGIN MULTICOMMENT;
 }
 
 
@@ -414,10 +423,48 @@ Newline \n
 }
 
 
+<COMMENT>\\\r\n {
+
+    comments +="\\\r\n";
+}
+
+<COMMENT>\\\n {
+    comments += "\\\n";
+}
+
+<COMMENT>[\r]?\n {
+    line_count++;
+	fprintf(logout,"Line no %d: TOKEN <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
+    BEGIN INITIAL;
+}
+<COMMENT>\\ {
+    comments += "\\";
+}
+<COMMENT>. {
+    comments += yytext[0];
+}
 
 
+<MULTICOMMENT>\*\/ {
 
+    comments += "*/";
+    line_count++;
+	fprintf(logout,"Line no %d: TOKEN <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
+    BEGIN INITIAL;
 
+}
+
+<MULTICOMMENT>\r {
+    comments += "\r";
+}
+<MULTICOMMENT>\n {
+    line_count++;
+    comments += "\n";
+}
+
+<MULTICOMMENT>. {
+    comments += yytext[0];
+}
 
 
 
