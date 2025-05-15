@@ -68,7 +68,7 @@ int scopetable_destructor_calls = 0;
 
     unsigned int getSDBMHashIndex(string str)
     {
-        return SDBMHash(str, num_buckets);
+        return SDBMHash(str.c_str());
     }
 
     unsigned int getHashIndex(string str){
@@ -245,17 +245,17 @@ int scopetable_destructor_calls = 0;
         switch (choice_hash)
         {
         case 1:
-            return SDBMHash(symbol_name, num_buckets);
+            return SDBMHash(symbol_name.c_str());
             break;
         case 2:
-            return aux_hash(symbol_name , num_buckets);
+            return aux_hash(symbol_name.c_str() , num_buckets);
             break;
         case 3:
-            return polynomial_rolling_hash(symbol_name , num_buckets);
+            return polynomial_rolling_hash(symbol_name.c_str() , num_buckets);
             break;
         
         default:
-            return SDBMHash(symbol_name, num_buckets);
+            return SDBMHash(symbol_name.c_str());
             break;
         }
         

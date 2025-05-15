@@ -1,6 +1,157 @@
-Error at line no 1: Too many decimal points 127.0.0.1 
-Error at line no 2: Ill formed number 23E-1.2 
-Error at line no 3: Invalid prefix on ID or invalid suffix on Number 123_ 
-Line no 3: TOKEN <ID> Lexeme bcd found
-Error at line no 4: Invalid prefix on ID or invalid suffix on Number 12a 
-Line no 4: TOKEN <ID> Lexeme b found
+Line no 1: Token <INT> Lexeme int found
+Line no 1: Token <ID> Lexeme main found
+	Inserted into SymbolTable
+Line no 1: Token <LPAREN> Lexeme ( found
+Line no 1: Token <RPAREN> Lexeme ) found
+Line no 1: Token <LCURL> Lexeme { found
+Line no 2: Token <INT> Lexeme int found
+Line no 2: Token <ID> Lexeme _i found
+	Inserted into SymbolTable
+Line no 2: Token <ASSIGNOP> Lexeme = found
+Line no 2: Token <CONST_INT> Lexeme 672 found
+	Inserted into SymbolTable
+Line no 2: Token <SEMICOLON> Lexeme ; found
+Line no 3: Token <FLOAT> Lexeme float found
+Line no 3: Token <ID> Lexeme ff_a_ found
+	Inserted into SymbolTable
+Line no 3: Token <ASSIGNOP> Lexeme = found
+Line no 3: Token <CONST_FLOAT> Lexeme 67.2E-3 found
+	Inserted into SymbolTable
+Line no 3: Token <SEMICOLON> Lexeme ; found
+Line no 4: Token <DOUBLE> Lexeme double found
+Line no 4: Token <ID> Lexeme dd__b found
+	Inserted into SymbolTable
+Line no 4: Token <ASSIGNOP> Lexeme = found
+Line no 4: Token <CONST_FLOAT> Lexeme 11E-11 found
+	Inserted into SymbolTable
+Line no 4: Token <SEMICOLON> Lexeme ; found
+Line no 5: Token <CHAR> Lexeme char found
+Line no 5: Token <ID> Lexeme ch_ found
+	Inserted into SymbolTable
+Line no 5: Token <ASSIGNOP> Lexeme = found
+Line no 5: Token <CONST_CHAR> Lexeme p found
+	Inserted into SymbolTable
+Line no 5: Token <SEMICOLON> Lexeme ; found
+Line no 6: Token <CHAR> Lexeme char found
+Line no 6: Token <ID> Lexeme ch2_ found
+	Inserted into SymbolTable
+Line no 6: Token <ASSIGNOP> Lexeme = found
+Line no 6: Token <CONST_CHAR> Lexeme 
+ found
+	Inserted into SymbolTable
+Line no 6: Token <SEMICOLON> Lexeme ; found
+Line no 7: Token <CHAR> Lexeme char found
+Line no 7: Token <ID> Lexeme ch3 found
+	Inserted into SymbolTable
+Line no 7: Token <ASSIGNOP> Lexeme = found
+Line no 7: Token <CONST_CHAR> Lexeme  found
+	Inserted into SymbolTable
+Line no 7: Token <SEMICOLON> Lexeme ; found
+Line no 9: Token <INT> Lexeme int found
+Line no 9: Token <ID> Lexeme arr found
+	Inserted into SymbolTable
+Line no 9: Token <LTHIRD> Lexeme [ found
+Line no 9: Token <CONST_INT> Lexeme 50 found
+	Inserted into SymbolTable
+Line no 9: Token <RTHIRD> Lexeme ] found
+Line no 9: Token <SEMICOLON> Lexeme ; found
+Line no 10: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 10: Token <LTHIRD> Lexeme [ found
+Line no 10: Token <CONST_INT> Lexeme 0 found
+	Inserted into SymbolTable
+Line no 10: Token <RTHIRD> Lexeme ] found
+Line no 10: Token <ASSIGNOP> Lexeme = found
+Line no 10: Token <CONST_INT> Lexeme 5 found
+	Inserted into SymbolTable
+Line no 10: Token <MULOP> Lexeme * found
+Line no 10: Token <CONST_INT> Lexeme 8 found
+	Inserted into SymbolTable
+Line no 10: Token <ADDOP> Lexeme + found
+Line no 10: Token <CONST_INT> Lexeme 7 found
+	Inserted into SymbolTable
+Line no 10: Token <ADDOP> Lexeme - found
+Line no 10: Token <CONST_INT> Lexeme 2 found
+	Inserted into SymbolTable
+Line no 10: Token <SEMICOLON> Lexeme ; found
+Line no 11: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 11: Token <LTHIRD> Lexeme [ found
+Line no 11: Token <CONST_INT> Lexeme 1 found
+	Inserted into SymbolTable
+Line no 11: Token <RTHIRD> Lexeme ] found
+Line no 11: Token <ASSIGNOP> Lexeme = found
+Line no 11: Token <LPAREN> Lexeme ( found
+Line no 11: Token <CONST_INT> Lexeme 56 found
+	Inserted into SymbolTable
+Line no 11: Token <MULOP> Lexeme / found
+Line no 11: Token <CONST_INT> Lexeme 28 found
+	Inserted into SymbolTable
+Line no 11: Token <RPAREN> Lexeme ) found
+Line no 11: Token <ADDOP> Lexeme + found
+Line no 11: Token <LPAREN> Lexeme ( found
+Line no 11: Token <CONST_INT> Lexeme 7 found
+	Already exists in current scope
+Line no 11: Token <MULOP> Lexeme % found
+Line no 11: Token <CONST_INT> Lexeme 2 found
+	Already exists in current scope
+Line no 11: Token <RPAREN> Lexeme ) found
+Line no 11: Token <SEMICOLON> Lexeme ; found
+Line no 12: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 12: Token <LTHIRD> Lexeme [ found
+Line no 12: Token <CONST_INT> Lexeme 0 found
+	Already exists in current scope
+Line no 12: Token <RTHIRD> Lexeme ] found
+Line no 12: Token <INCOP> Lexeme ++ found
+Line no 12: Token <SEMICOLON> Lexeme ; found
+Line no 13: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 13: Token <LTHIRD> Lexeme [ found
+Line no 13: Token <CONST_INT> Lexeme 1 found
+	Already exists in current scope
+Line no 13: Token <RTHIRD> Lexeme ] found
+Line no 13: Token <INCOP> Lexeme -- found
+Line no 13: Token <SEMICOLON> Lexeme ; found
+Line no 14: Token <IF> Lexeme if found
+Line no 14: Token <LPAREN> Lexeme ( found
+Line no 14: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 14: Token <LTHIRD> Lexeme [ found
+Line no 14: Token <CONST_INT> Lexeme 0 found
+	Already exists in current scope
+Line no 14: Token <RTHIRD> Lexeme ] found
+Line no 14: Token <RELOP> Lexeme >= found
+Line no 14: Token <CONST_INT> Lexeme 2 found
+	Already exists in current scope
+Line no 14: Token <LOGICOP> Lexeme && found
+Line no 14: Token <NOT> Lexeme ! found
+Line no 14: Token <LPAREN> Lexeme ( found
+Line no 14: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 14: Token <LTHIRD> Lexeme [ found
+Line no 14: Token <CONST_INT> Lexeme 0 found
+	Already exists in current scope
+Line no 14: Token <RTHIRD> Lexeme ] found
+Line no 14: Token <RELOP> Lexeme != found
+Line no 14: Token <ID> Lexeme arr found
+	Already exists in current scope
+Line no 14: Token <LTHIRD> Lexeme [ found
+Line no 14: Token <CONST_INT> Lexeme 1 found
+	Already exists in current scope
+Line no 14: Token <RTHIRD> Lexeme ] found
+Line no 14: Token <RPAREN> Lexeme ) found
+Line no 14: Token <RPAREN> Lexeme ) found
+Line no 14: Token <LCURL> Lexeme { found
+Line no 15: Token <ID> Lexeme _i found
+	Inserted into SymbolTable
+Line no 15: Token <ASSIGNOP> Lexeme = found
+Line no 15: Token <CONST_INT> Lexeme 1 found
+	Inserted into SymbolTable
+Line no 15: Token <SEMICOLON> Lexeme ; found
+Line no 16: Token <RCURL> Lexeme } found
+Line no 18: Token <RETURN> Lexeme return found
+Line no 18: Token <CONST_INT> Lexeme 0 found
+	Already exists in current scope
+Line no 18: Token <SEMICOLON> Lexeme ; found
+Line no 19: Token <RCURL> Lexeme } found
