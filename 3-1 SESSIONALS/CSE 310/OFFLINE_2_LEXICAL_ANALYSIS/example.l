@@ -217,7 +217,7 @@ Newline \n
 	fprintf(logout,"Line no %d: Token <ID> Lexeme %s found\n",line_count,yytext);
     IncWc();
         if(symboltable->Insert(yytext,"ID")){
-        fprintf(logout, "\tInserted into SymbolTable\n");
+        symboltable->print_all_scope_table2(logout);
     }
     else{
         fprintf(logout, "\tAlready exists in current scope\n");
@@ -231,7 +231,7 @@ Newline \n
 		fprintf(logout,"Line no %d: Token <CONST_INT> Lexeme %s found\n",line_count,yytext);
         
         if(symboltable->Insert(yytext,"CONST_INT")){
-            fprintf(logout, "\tInserted into SymbolTable\n");
+            symboltable->print_all_scope_table2(logout);
         }
         else{
             fprintf(logout, "\tAlready exists in current scope\n");
@@ -259,7 +259,8 @@ Newline \n
     fprintf(tokenout,"<CONST_FLOAT, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <CONST_FLOAT> Lexeme %s found\n",line_count,yytext);
     if(symboltable->Insert(yytext,"CONST_FLOAT")){
-        fprintf(logout, "\tInserted into SymbolTable\n");
+        // fprintf(logout, "\tInserted into SymbolTable\n");
+        symboltable->print_all_scope_table2(logout);
     }
     else{
         fprintf(logout, "\tAlready exists in current scope\n");
@@ -294,7 +295,7 @@ Newline \n
     fprintf(tokenout,"<CONST_CHAR, %c> " , val);
 	fprintf(logout,"Line no %d: Token <CONST_CHAR> Lexeme %c found\n",line_count,val);
     if(symboltable->Insert(yytext,"CONST_CHAR")){
-        fprintf(logout, "\tInserted into SymbolTable\n");
+        symboltable->print_all_scope_table2(logout);
     }
     else{
         fprintf(logout, "\tAlready exists in current scope\n");

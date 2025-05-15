@@ -26,7 +26,7 @@ int destructor_calls = 0;
     SymbolTable(int num_buckets)
     {
         //this->current_scope = nullptr;
-        this->current_scope = new ScopeTable(num_buckets , "0" , nullptr);
+        this->current_scope = new ScopeTable(num_buckets , "1" , nullptr);
         this->num_buckets = num_buckets;
         this->scope_id_counter = 1;
        // EnterScope();
@@ -136,17 +136,17 @@ int destructor_calls = 0;
         return NULL;
     }
 
-    void print_current_scope_table()
+    void print_current_scope_table(FILE* out)
     {
-        current_scope->print(1);
+        current_scope->print(out, 1);
     }
 
 
-    void print_all_scope_table2() {
+    void print_all_scope_table2(FILE* out) {
         ScopeTable *temp = current_scope;
         int i = 1;
         while(temp != NULL){
-            temp->print(i);
+            temp->print(out,i);
             temp = temp->getParentScope();
 
             i++;
@@ -154,30 +154,29 @@ int destructor_calls = 0;
     }
     
 
-    void print_all_scope_table() {
-        print_all_helper(current_scope, 0);
-    }
+    // void print_all_scope_table(FILE* out) {
+    //     print_all_helper(current_scope, 0,out);
+    // }
     
-    void print_all_helper(ScopeTable* scope, int depth) {
-        if (scope == NULL) return;
+    // void print_all_helper(ScopeTable* scope, int depth , FILE* out) {
+    //     if (scope == NULL) return;
     
-        for (int i = 0; i < depth+1; i++) cout << "\t";
-        cout << "ScopeTable# " << scope->id << endl;
-    
-        for (int i = 0; i < scope->num_buckets; i++) {
+    //     for (int i = 0; i < depth+1; i++) fprintf(out, "\t");
+    //     fprintf(out, "ScopeTable# %s\n", scope->id.c_str());    
+    //     for (int i = 0; i < scope->num_buckets; i++) {
             
-            for (int j = 0; j < depth+1; j++) cout << "\t";
-            cout << i + 1 << "-->";
-            SymbolInfo* temp = scope->hashtable[i];
-            while (temp != NULL) {
-                cout << " <" << temp->getSymbolName() << "," << temp->getSymbolType() << ">";
-                temp = temp->getNext();
-            }
+    //         for (int j = 0; j < depth+1; j++) fprintf(out, "\t");;
+    //         fprintf(out, "%d-->", i + 1);
+    //         SymbolInfo* temp = scope->hashtable[i];
+    //         while (temp != NULL) {
+    //             fprintf(out, " <%s,%s>", temp->getSymbolName().c_str(), temp->getSymbolType().c_str());              
+    //             temp = temp->getNext();
+    //         }
 
-            cout << endl;
-        }
-            print_all_helper(scope->getParentScope(), depth + 1);
-    }
+    //         fprintf(out, "\n");   
+    //         }
+    //         print_all_helper(scope->getParentScope(), depth + 1, out);
+    // }
     
     void setHashFucntion(int choice){
         current_scope->setChoiceHash(choice);

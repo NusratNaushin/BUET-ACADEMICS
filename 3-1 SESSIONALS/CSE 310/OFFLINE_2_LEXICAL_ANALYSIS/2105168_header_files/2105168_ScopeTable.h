@@ -17,7 +17,7 @@ private:
     int choice_hash = 1;
 
 public:
-int scopetable_destructor_calls = 0;
+    int scopetable_destructor_calls = 0;
 
     int num_buckets;
     string id;
@@ -41,8 +41,7 @@ int scopetable_destructor_calls = 0;
             hashtable[i] = NULL;
         }
 
-
-       // cout << "ScopeTable constructor: initializing " << num_buckets << " buckets" << endl;
+        // cout << "ScopeTable constructor: initializing " << num_buckets << " buckets" << endl;
     }
 
     ~ScopeTable()
@@ -71,8 +70,9 @@ int scopetable_destructor_calls = 0;
         return SDBMHash(str.c_str());
     }
 
-    unsigned int getHashIndex(string str){
-        return calculateHash(str , choice_hash);
+    unsigned int getHashIndex(string str)
+    {
+        return calculateHash(str, choice_hash);
     }
     bool Insert(string symbole_name, string symbol_type)
     {
@@ -85,7 +85,6 @@ int scopetable_destructor_calls = 0;
         else
         {
 
-            
             index = getHashIndex(symbole_name) % num_buckets;
 
             SymbolInfo *new_symbol = new SymbolInfo(symbole_name, symbol_type);
@@ -101,7 +100,6 @@ int scopetable_destructor_calls = 0;
             {
 
                 number_of_collisions++;
-
 
                 SymbolInfo *temp = hashtable[index];
                 // chain_position = 2;
@@ -185,7 +183,7 @@ int scopetable_destructor_calls = 0;
     SymbolInfo *LookUP(string symbol_name)
     {
 
-        unsigned int index = calculateHash(symbol_name , choice_hash) % num_buckets;
+        unsigned int index = calculateHash(symbol_name, choice_hash) % num_buckets;
         SymbolInfo *temp = hashtable[index];
         int chain_pos = 1;
 
@@ -229,18 +227,19 @@ int scopetable_destructor_calls = 0;
         return this->chain_position;
     }
 
-    int getNumberOfCollisions(){
+    int getNumberOfCollisions()
+    {
 
-       // cout << " inside get number of collisions : " << number_of_collisions << endl;
+        // cout << " inside get number of collisions : " << number_of_collisions << endl;
         return number_of_collisions;
     }
 
-
-    void setChoiceHash(int choice_hash){
+    void setChoiceHash(int choice_hash)
+    {
         this->choice_hash = choice_hash;
     }
-    unsigned int calculateHash(string symbol_name , int choice_hash){
-
+    unsigned int calculateHash(string symbol_name, int choice_hash)
+    {
 
         switch (choice_hash)
         {
@@ -248,37 +247,40 @@ int scopetable_destructor_calls = 0;
             return SDBMHash(symbol_name.c_str());
             break;
         case 2:
-            return aux_hash(symbol_name.c_str() , num_buckets);
+            return aux_hash(symbol_name.c_str(), num_buckets);
             break;
         case 3:
-            return polynomial_rolling_hash(symbol_name.c_str() , num_buckets);
+            return polynomial_rolling_hash(symbol_name.c_str(), num_buckets);
             break;
-        
+
         default:
             return SDBMHash(symbol_name.c_str());
             break;
         }
-        
-        
     }
-    void print(int indent) {
-        for (int i =1; i <= indent; i++) cout << "\t";
-        cout << "ScopeTable# " << id << endl;
-        for (int i = 0; i < num_buckets; i++) {
-            for (int i =1; i <= indent; i++) cout << "\t";
-            cout << i + 1 << "--> "; 
-            SymbolInfo* temp = hashtable[i];
-            while (temp != NULL) {
-                cout << "<" << temp->getSymbolName() << "," << temp->getSymbolType() << "> ";
-                temp = temp->getNext();
+    void print(FILE *out, ingitt indent)
+    {
+        // for (int i =1; i <= indent; i++) fprintf(out,"\t");
+        fprintf(out, "ScopeTable # %s\n", id.c_str());
+        for (int i = 0; i < num_buckets; i++)
+        {
+            // for (int i =1; i <= indent; i++) cout << "\t";
+
+            SymbolInfo *temp = hashtable[i];
+            if(temp != NULL)
+            {
+                fprintf(out, "%d --> ", i);
+                while(temp != NULL){
+                    fprintf(out, "< %s : %s >", temp->getSymbolName().c_str(), temp->getSymbolType().c_str());
+                    temp = temp->getNext();
+
+                }
+                fprintf(out, "\n");
             }
-            cout << endl;
         }
     }
 
     int getScopeTableDestructorCalls() const { return scopetable_destructor_calls; }
-    
-    
 };
 
 #endif

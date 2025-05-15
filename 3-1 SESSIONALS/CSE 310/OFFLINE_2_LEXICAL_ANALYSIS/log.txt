@@ -1,92 +1,245 @@
 Line no 1: Token <INT> Lexeme int found
 Line no 1: Token <ID> Lexeme main found
-	Inserted into SymbolTable
+ScopeTable # 1
+6 --> < main : ID >
 Line no 1: Token <LPAREN> Lexeme ( found
 Line no 1: Token <RPAREN> Lexeme ) found
 Line no 1: Token <LCURL> Lexeme { found
 Line no 2: Token <INT> Lexeme int found
 Line no 2: Token <ID> Lexeme _i found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 2: Token <ASSIGNOP> Lexeme = found
 Line no 2: Token <CONST_INT> Lexeme 672 found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >
+6 --> < 672 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 2: Token <SEMICOLON> Lexeme ; found
 Line no 3: Token <FLOAT> Lexeme float found
 Line no 3: Token <ID> Lexeme ff_a_ found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >
+2 --> < ff_a_ : ID >
+6 --> < 672 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 3: Token <ASSIGNOP> Lexeme = found
 Line no 3: Token <CONST_FLOAT> Lexeme 67.2E-3 found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >
+6 --> < 672 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 3: Token <SEMICOLON> Lexeme ; found
 Line no 4: Token <DOUBLE> Lexeme double found
 Line no 4: Token <ID> Lexeme dd__b found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 4: Token <ASSIGNOP> Lexeme = found
 Line no 4: Token <CONST_FLOAT> Lexeme 11E-11 found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 4: Token <SEMICOLON> Lexeme ; found
 Line no 5: Token <CHAR> Lexeme char found
 Line no 5: Token <ID> Lexeme ch_ found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 5: Token <ASSIGNOP> Lexeme = found
 Line no 5: Token <CONST_CHAR> Lexeme p found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 5: Token <SEMICOLON> Lexeme ; found
 Line no 6: Token <CHAR> Lexeme char found
 Line no 6: Token <ID> Lexeme ch2_ found
-	Inserted into SymbolTable
+ScopeTable # 1
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 6: Token <ASSIGNOP> Lexeme = found
 Line no 6: Token <CONST_CHAR> Lexeme 
  found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 6: Token <SEMICOLON> Lexeme ; found
 Line no 7: Token <CHAR> Lexeme char found
 Line no 7: Token <ID> Lexeme ch3 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 7: Token <ASSIGNOP> Lexeme = found
 Line no 7: Token <CONST_CHAR> Lexeme  found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 7: Token <SEMICOLON> Lexeme ; found
 Line no 9: Token <INT> Lexeme int found
 Line no 9: Token <ID> Lexeme arr found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 9: Token <LTHIRD> Lexeme [ found
 Line no 9: Token <CONST_INT> Lexeme 50 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 9: Token <RTHIRD> Lexeme ] found
 Line no 9: Token <SEMICOLON> Lexeme ; found
 Line no 10: Token <ID> Lexeme arr found
 	Already exists in current scope
 Line no 10: Token <LTHIRD> Lexeme [ found
 Line no 10: Token <CONST_INT> Lexeme 0 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 10: Token <RTHIRD> Lexeme ] found
 Line no 10: Token <ASSIGNOP> Lexeme = found
 Line no 10: Token <CONST_INT> Lexeme 5 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 10: Token <MULOP> Lexeme * found
 Line no 10: Token <CONST_INT> Lexeme 8 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 10: Token <ADDOP> Lexeme + found
 Line no 10: Token <CONST_INT> Lexeme 7 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 10: Token <ADDOP> Lexeme - found
 Line no 10: Token <CONST_INT> Lexeme 2 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 10: Token <SEMICOLON> Lexeme ; found
 Line no 11: Token <ID> Lexeme arr found
 	Already exists in current scope
 Line no 11: Token <LTHIRD> Lexeme [ found
 Line no 11: Token <CONST_INT> Lexeme 1 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >< 1 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 11: Token <RTHIRD> Lexeme ] found
 Line no 11: Token <ASSIGNOP> Lexeme = found
 Line no 11: Token <LPAREN> Lexeme ( found
 Line no 11: Token <CONST_INT> Lexeme 56 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >< 1 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >< 56 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 11: Token <MULOP> Lexeme / found
 Line no 11: Token <CONST_INT> Lexeme 28 found
-	Inserted into SymbolTable
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >< 1 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >< 28 : CONST_INT >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >< 56 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 11: Token <RPAREN> Lexeme ) found
 Line no 11: Token <ADDOP> Lexeme + found
 Line no 11: Token <LPAREN> Lexeme ( found
@@ -144,10 +297,31 @@ Line no 14: Token <RPAREN> Lexeme ) found
 Line no 14: Token <RPAREN> Lexeme ) found
 Line no 14: Token <LCURL> Lexeme { found
 Line no 15: Token <ID> Lexeme _i found
-	Inserted into SymbolTable
+ScopeTable # 2
+1 --> < _i : ID >
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >< 1 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >< 28 : CONST_INT >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >< 56 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 15: Token <ASSIGNOP> Lexeme = found
 Line no 15: Token <CONST_INT> Lexeme 1 found
-	Inserted into SymbolTable
+ScopeTable # 2
+0 --> < 1 : CONST_INT >
+1 --> < _i : ID >
+ScopeTable # 1
+0 --> < '\n' : CONST_CHAR >< ch3 : ID >< 50 : CONST_INT >< 8 : CONST_INT >< 1 : CONST_INT >
+1 --> < _i : ID >< 67.2E-3 : CONST_FLOAT >< '\r' : CONST_CHAR >< 2 : CONST_INT >
+2 --> < ff_a_ : ID >< ch_ : ID >< 28 : CONST_INT >
+3 --> < 11E-11 : CONST_FLOAT >
+4 --> < 'p' : CONST_CHAR >< ch2_ : ID >< 5 : CONST_INT >
+6 --> < 672 : CONST_INT >< dd__b : ID >< arr : ID >< 0 : CONST_INT >< 7 : CONST_INT >< 56 : CONST_INT >
+ScopeTable # 1
+6 --> < main : ID >
 Line no 15: Token <SEMICOLON> Lexeme ; found
 Line no 16: Token <RCURL> Lexeme } found
 Line no 18: Token <RETURN> Lexeme return found
