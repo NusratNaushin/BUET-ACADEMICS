@@ -220,7 +220,7 @@ Newline \n
         symboltable->print_all_scope_table2(logout);
     }
     else{
-        fprintf(logout, "\tAlready exists in current scope\n");
+        fprintf(logout, "< %s : ID > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
     }
         
 }
@@ -234,7 +234,7 @@ Newline \n
             symboltable->print_all_scope_table2(logout);
         }
         else{
-            fprintf(logout, "\tAlready exists in current scope\n");
+        fprintf(logout, "< %s : CONST_INT > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
         }
 }
 {InvalidSuffixPrefix} {
@@ -263,7 +263,7 @@ Newline \n
         symboltable->print_all_scope_table2(logout);
     }
     else{
-        fprintf(logout, "\tAlready exists in current scope\n");
+        fprintf(logout, "< %s : CONST_FLOAT > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
     }
 }
 
@@ -293,12 +293,12 @@ Newline \n
 // }
     
     fprintf(tokenout,"<CONST_CHAR, %c> " , val);
-	fprintf(logout,"Line no %d: Token <CONST_CHAR> Lexeme %c found\n",line_count,val);
+	fprintf(logout,"Line no %d: Token <CONST_CHAR> Lexeme %s found --> <CONST_CHAR, %c>\n",line_count,yytext,val);
     if(symboltable->Insert(yytext,"CONST_CHAR")){
         symboltable->print_all_scope_table2(logout);
     }
     else{
-        fprintf(logout, "\tAlready exists in current scope\n");
+        fprintf(logout, "< %s : CONST_CHAR > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
     }   
 }
 

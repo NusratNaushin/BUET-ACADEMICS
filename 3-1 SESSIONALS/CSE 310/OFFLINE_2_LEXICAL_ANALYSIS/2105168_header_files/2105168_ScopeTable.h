@@ -164,16 +164,19 @@ public:
         {
             /* code */
             SymbolInfo *temp = hashtable[i];
+            int pos = 0;
             while (temp != NULL)
             {
 
                 if (temp->getSymbolName() == symbol_name)
                 {
-
+                    index = i;
+                    chain_position=pos;
                     return true;
                 }
 
                 temp = temp->getNext();
+                pos++;
             }
         }
 
@@ -258,7 +261,7 @@ public:
             break;
         }
     }
-    void print(FILE *out, ingitt indent)
+    void print(FILE *out, int indent)
     {
         // for (int i =1; i <= indent; i++) fprintf(out,"\t");
         fprintf(out, "ScopeTable # %s\n", id.c_str());

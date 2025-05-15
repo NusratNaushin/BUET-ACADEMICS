@@ -47,27 +47,22 @@ int destructor_calls = 0;
    
     void EnterScope()
     {
-
-        string new_id = to_string(scope_id_counter++);
-
-        // if (current_scope == nullptr)
-        // {
-        //     new_id = "1";
-        // }
-
-        // else
-        // {
-            // current_scope->child_count++;
-            // // new_id = current_scope->id + "." + to_string(current_scope->child_count);
-            // new_id = to_string(stoi(current_scope->id) + 1);
-       // }
+        string new_id;
+        
+        if (current_scope == nullptr) {
+            new_id = "1";  // global scope
+        } 
+        else {
+            current_scope->child_count++;
+            new_id = current_scope->id + "." + to_string(current_scope->child_count);
+        }
 
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
-
         current_scope = new_scope;
 
         cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
+
 
     void ExitScope()
     {
