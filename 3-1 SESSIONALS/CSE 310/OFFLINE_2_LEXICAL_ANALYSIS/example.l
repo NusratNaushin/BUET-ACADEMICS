@@ -16,16 +16,81 @@
     void IncWc(){
         word_count++;
     }
+
+    char convertCharacterLiterals(const char* yytext){
+        std::string lex = yytext;
+        std::string val = lex.substr(1, lex.length() - 2);
+
+        if(val == "\\n"){
+            return '\n';
+        }
+        else if(val == "\\t"){
+            return '\t';
+        }
+        else if(val == "\\\\"){
+            return '\\';            
+        }
+        else if(val == "\\\'"){
+            return '\'';           
+        }
+        else if(val == "\\\""){
+            return '\"';            
+        }
+        else if(val == "\\a"){
+            return '\a';            
+        }
+        else if(val == "\\b"){
+            return '\b';           
+        }
+        else if(val == "\\f"){
+            return '\f';           
+        }
+        else if(val == "\\r"){
+            return '\r';            
+        }
+        else if(val == "\\b"){
+            return '\b';           
+        }
+        else if(val == "\\v"){
+            return '\v';           
+        }
+        else if(val == "\\0"){
+            return '\0';
+        }
+        else{
+            return val[0];
+        }
+
+
+    }
 %}
 
 Constant_Integer [0-9]+
 WhiteSpace [ \t\f\r\v]+
 Letter [a-zA-Z]
-Char_Literals \'(\\n|\\t|\\\\|\\\'|\\a|\\f|\\r|\\b|\\v|\\0')\'
 Digit [0-9]
+Identifier [_a-zA-Z][_a-zA-Z0-9]*
+Char_Literals \'(\\[nt\\'"abfrv0]|[^\\'])\'
 Exponent ([Ee][+-]?{Constant_Integer})
 Fraction \.{Constant_Integer}
 Float ({Digit}+{Fraction}?|{Fraction}){Exponent}?
+INCOP (\+\+|--)
+ADDOP [+-] 
+MULOP [*/%]
+RELOP (<|<=|>|>=|==|!=)
+ASSIGNOP [=]
+LOGICOP (&&|\|\|)
+NOT [!]
+LPAREN [(]
+RPAREN [)]
+LCURL [{]
+RCURL [}]
+LTHIRD (\[)
+RTHIRD (\])
+COMMA  [,]
+SEMICOLON [;]
+
+
 Newline \n
 
 
@@ -133,9 +198,16 @@ Newline \n
 		fprintf(logout,"Line no %d: TOKEN <CONTINUE> Lexeme %s found\n",line_count,yytext);
 }
 
+{Identifier} {
+    fprintf(tokenout,"<ID,%s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <ID> Lexeme %s found\n",line_count,yytext);
+    IncWc();
+        
+}
+
 {Constant_Integer} {
 
-        fprintf(tokenout,"<CONST_INT>, %s>\n" , yytext);
+        fprintf(tokenout,"<CONST_INT, %s>\n" , yytext);
 		fprintf(logout,"Line no %d: TOKEN <CONST_INT> Lexeme %s found\n",line_count,yytext);
         
         // if(symboltable.Insert(yytext,"CONST_INT")){
@@ -153,14 +225,107 @@ Newline \n
 }
 
 {Char_Literals} {
-    fprintf(tokenout,"<CONST_CHAR>, %s>\n" , yytext);
-	fprintf(logout,"Line no %d: TOKEN <CONST_CHAR> Lexeme %s found\n",line_count,yytext);
+    char val=convertCharacterLiterals(yytext);
+    // if(val.length() > 1){
+	// fprintf(logout,"Line no %d: error\n",line_count);
+      
+    // }
+
+   // std::string pritnt_c;
+
+//     switch(val){
+//         case '\n':  pritnt_c = "\\n"; break;
+//         case '\t':  pritnt_c = "\\t"; break;
+//         case '\\':  pritnt_c = "\\\\"; break;
+//         case '\"':  pritnt_c = "\\\""; break;
+//         case '\'':  pritnt_c = "\\\'"; break;
+//         case '\a':  pritnt_c = "\\a"; break;
+//         case '\b':  pritnt_c = "\\b"; break;
+//         case '\f':  pritnt_c = "\\f"; break;
+//         case '\r':  pritnt_c = "\\r"; break;
+//         case '\v':  pritnt_c = "\\v"; break;
+//         case '\0':  pritnt_c = "\\0"; break;
+//         dafault:  pritnt_c = val ; break;
+
+// }
+    
+    fprintf(tokenout,"<CONST_CHAR, %c>\n" , val);
+	fprintf(logout,"Line no %d: TOKEN <CONST_CHAR> Lexeme %c found\n",line_count,val);
 }
 
+{INCOP} {
+    fprintf(tokenout,"<INCOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <INCOP> Lexeme %s found\n",line_count,yytext);
+}
+{ADDOP} {
+    fprintf(tokenout,"<ADDOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <ADDOP> Lexeme %s found\n",line_count,yytext);
+}
+{MULOP} {
+    fprintf(tokenout,"<MULOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <MULOP> Lexeme %s found\n",line_count,yytext);
+}
+{RELOP} {
+    fprintf(tokenout,"<RELOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <RELOP> Lexeme %s found\n",line_count,yytext);
+}
+{ASSIGNOP} {
+    fprintf(tokenout,"<ASSIGNOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <ASSIGNOP> Lexeme %s found\n",line_count,yytext);
+}
+{LOGICOP} {
+    fprintf(tokenout,"<LOGICOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <LOGICOP> Lexeme %s found\n",line_count,yytext);
+}
+
+{NOT} {
+    fprintf(tokenout,"<LOGICOP, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <LOGICOP> Lexeme %s found\n",line_count,yytext);
+}
+
+{LPAREN} {
+    fprintf(tokenout,"<LPAREN, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <LPAREN> Lexeme %s found\n",line_count,yytext);
+}
+{RPAREN} {
+    fprintf(tokenout,"<RPAREN, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <RPAREN> Lexeme %s found\n",line_count,yytext);
+}
+
+
+{LCURL} {
+    fprintf(tokenout,"<LUCRL, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <LCURL> Lexeme %s found\n",line_count,yytext);
+}
+
+{RCURL} {
+    fprintf(tokenout,"<RCURL %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <RCURL> Lexeme %s found\n",line_count,yytext);
+}
+
+{LTHIRD} {
+    fprintf(tokenout,"<LTHIRD, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <LTHIRD> Lexeme %s found\n",line_count,yytext);
+}
+
+{RTHIRD} {
+    fprintf(tokenout,"<RTHIRD, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <RTHIRD> Lexeme %s found\n",line_count,yytext);
+}
+
+{COMMA} {
+    fprintf(tokenout,"<COMMA, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <COMMA> Lexeme %s found\n",line_count,yytext);
+}
+{SEMICOLON} {
+    fprintf(tokenout,"<SEMICOLON, %s>\n" , yytext);
+	fprintf(logout,"Line no %d: TOKEN <SEMICOLON> Lexeme %s found\n",line_count,yytext);
+}
+
+
 [ \t\v]+ {    }
-{Letter}+ {IncWc(); printf("%s word found\n",yytext);}
 {Newline} {line_count++;}
-<<EOF>> {printf("Total Line NUmber: %d and word number : %d\n",line_count,word_count); return 0;}
+<<EOF>> {printf("Total Line Number: %d and word number : %d\n",line_count,word_count); return 0;}
 . {}
 
 %%
