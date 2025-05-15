@@ -1,26 +1,11 @@
-Line no 1: TOKEN <CHAR> Lexeme char found
-Line no 1: TOKEN <ID> Lexeme str1 found
-Line no 1: TOKEN <LTHIRD> Lexeme [ found
-Line no 1: TOKEN <CONST_INT> Lexeme 100 found
-Line no 1: TOKEN <RTHIRD> Lexeme ] found
-Line no 1: TOKEN <ASSIGNOP> Lexeme = found
-Line no 1: Token <STRING> Lexeme "I own a dog." found --> <STRING, I own a dog.>
-Line no 1: TOKEN <SEMICOLON> Lexeme ; found
-Line no 2: TOKEN <CHAR> Lexeme char found
-Line no 2: TOKEN <ID> Lexeme str2 found
-Line no 2: TOKEN <LTHIRD> Lexeme [ found
-Line no 2: TOKEN <CONST_INT> Lexeme 100 found
-Line no 2: TOKEN <RTHIRD> Lexeme ] found
-Line no 2: TOKEN <ASSIGNOP> Lexeme = found
-Line no 2: Token <STRING> Lexeme "I own a dog.\
-    His name is Jack." found --> <STRING, I own a dog.    His name is Jack.>
-Line no 2: TOKEN <SEMICOLON> Lexeme ; found
-Line no 3: TOKEN <CHAR> Lexeme char found
-Line no 3: TOKEN <ID> Lexeme str3 found
-Line no 3: TOKEN <LTHIRD> Lexeme [ found
-Line no 3: TOKEN <CONST_INT> Lexeme 100 found
-Line no 3: TOKEN <RTHIRD> Lexeme ] found
-Line no 3: TOKEN <ASSIGNOP> Lexeme = found
-Line no 3: Token <STRING> Lexeme "He said, \" I own a dog\"\
-    so I asked, \"What is his name?\"" found --> <STRING, He said, " I own a dog"    so I asked, "What is his name?">
-Line no 3: TOKEN <SEMICOLON> Lexeme ; found
+Line no 1: TOKEN <INT> Lexeme int found
+Line no 1: TOKEN <ID> Lexeme main found
+Line no 1: TOKEN <LPAREN> Lexeme ( found
+Line no 1: TOKEN <RPAREN> Lexeme ) found
+Line no 1: TOKEN <LCURL> Lexeme { found
+Line no 2: TOKEN <FOR> Lexeme for found
+Line no 2: TOKEN <LPAREN> Lexeme ( found
+Line no 2: TOKEN <RPAREN> Lexeme ) found
+Line no 2: TOKEN <LCURL> Lexeme { found
+Line no 4: TOKEN <RCURL> Lexeme } found
+Line no 5: TOKEN <RCURL> Lexeme } found

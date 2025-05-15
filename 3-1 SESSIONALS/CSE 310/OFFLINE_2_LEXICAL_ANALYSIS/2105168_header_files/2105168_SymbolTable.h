@@ -25,10 +25,10 @@ int destructor_calls = 0;
     int scope_id_counter = 1;
     SymbolTable(int num_buckets)
     {
-
-        this->current_scope = new ScopeTable(num_buckets , "1" , nullptr);
+        //this->current_scope = nullptr;
+        this->current_scope = new ScopeTable(num_buckets , "0" , nullptr);
         this->num_buckets = num_buckets;
-        this->scope_id_counter = 2;
+        this->scope_id_counter = 1;
        // EnterScope();
     }
     ~SymbolTable()
@@ -65,25 +65,29 @@ int destructor_calls = 0;
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
 
         current_scope = new_scope;
+
+        cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
 
     void ExitScope()
     {
         
             if(current_scope == NULL) return;
+            cout << "Exited ScopeTable # " << current_scope->id << endl;
+
             ScopeTable *temp = current_scope;
             current_scope = current_scope->getParentScope();
             temp->setParentScope(NULL);
             delete temp;
         
-
+            //cout << "Exited ScopeTable # " << current_scope->id << endl;
        
     }
 
     bool Insert(string symbol_name, string type)
     {
         
-
+            if (!current_scope) return false;
             cout << "insert " << endl;
             return current_scope->Insert(symbol_name, type);
         
@@ -92,6 +96,7 @@ int destructor_calls = 0;
     bool Remove(string symbol_name)
     {
 
+       if (!current_scope) return false;
        return current_scope->Delete(symbol_name);
     }
 

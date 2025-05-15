@@ -1,5 +1,5 @@
-    char str1[100] = "I own a dog.";
-    char str2[100] = "I own a dog.\
-    His name is Jack.";
-    char str3[100] = "He said, \" I own a dog\"\
-    so I asked, \"What is his name?\"";
+ int main(){
+    for(){
+
+    }
+ }

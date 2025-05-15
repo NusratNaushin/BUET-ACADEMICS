@@ -554,13 +554,14 @@ char *yytext;
     FILE *tokenout;
 
 
-    SymbolTable symboltable(20);
+    SymbolTable* symboltable;
 
     int word_count=0;
     int line_count=1;
     string log_file_string;
     string resulting_string;
     int line_count_inside_comment=0;
+
     void IncWc(){
         word_count++;
     }
@@ -611,8 +612,8 @@ char *yytext;
 
 
     }
-#line 615 "lex.yy.c"
 #line 616 "lex.yy.c"
+#line 617 "lex.yy.c"
 
 #define INITIAL 0
 #define STRING 1
@@ -830,10 +831,10 @@ YY_DECL
 		}
 
 	{
-#line 101 "example.l"
+#line 102 "example.l"
 
 
-#line 837 "lex.yy.c"
+#line 838 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -892,7 +893,7 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 103 "example.l"
+#line 104 "example.l"
 {
 			fprintf(tokenout,"<IF> ");
 			fprintf(logout,"Line no %d: TOKEN <IF> Lexeme %s found\n",line_count,yytext);
@@ -900,7 +901,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 107 "example.l"
+#line 108 "example.l"
 {
             fprintf(tokenout,"<ELSE> ");
 			fprintf(logout,"Line no %d: TOKEN <ELSE> Lexeme %s found\n",line_count,yytext);
@@ -908,7 +909,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 111 "example.l"
+#line 112 "example.l"
 {
             fprintf(tokenout,"<FOR> ");
 			fprintf(logout,"Line no %d: TOKEN <FOR> Lexeme %s found\n",line_count,yytext);
@@ -916,7 +917,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 115 "example.l"
+#line 116 "example.l"
 {
         fprintf(tokenout,"<GOTO> ");
 		fprintf(logout,"Line no %d: TOKEN <GOTO> Lexeme %s found\n",line_count,yytext);
@@ -924,7 +925,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 119 "example.l"
+#line 120 "example.l"
 {
         fprintf(tokenout,"<WHILE> ");
 		fprintf(logout,"Line no %d: TOKEN <WHILE Lexeme %s found\n",line_count,yytext);
@@ -932,7 +933,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 124 "example.l"
+#line 125 "example.l"
 {
         fprintf(tokenout,"<LONG> ");
 		fprintf(logout,"Line no %d: TOKEN <LONG> Lexeme %s found\n",line_count,yytext);
@@ -940,7 +941,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 128 "example.l"
+#line 129 "example.l"
 {
         fprintf(tokenout,"<DO> ");
 		fprintf(logout,"Line no %d: TOKEN <DO> Lexeme %s found\n",line_count,yytext);
@@ -948,7 +949,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 133 "example.l"
+#line 134 "example.l"
 {
         fprintf(tokenout,"<BREAK> ");
 		fprintf(logout,"Line no %d: TOKEN <BREAK> Lexeme %s found\n",line_count,yytext);
@@ -956,7 +957,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 138 "example.l"
+#line 139 "example.l"
 {
         fprintf(tokenout,"<SHORT> ");
 		fprintf(logout,"Line no %d: TOKEN <SHORT> Lexeme %s found\n",line_count,yytext);
@@ -964,7 +965,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 142 "example.l"
+#line 143 "example.l"
 {
         fprintf(tokenout,"<INT> ");
 		fprintf(logout,"Line no %d: TOKEN <INT> Lexeme %s found\n",line_count,yytext);
@@ -972,7 +973,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 147 "example.l"
+#line 148 "example.l"
 {
         fprintf(tokenout,"<CHAR> ");
 		fprintf(logout,"Line no %d: TOKEN <CHAR> Lexeme %s found\n",line_count,yytext);
@@ -980,7 +981,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 152 "example.l"
+#line 153 "example.l"
 {
         fprintf(tokenout,"<STATIC> ");
 		fprintf(logout,"Line no %d: TOKEN <STATIC> Lexeme %s found\n",line_count,yytext);
@@ -988,7 +989,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 157 "example.l"
+#line 158 "example.l"
 {
         fprintf(tokenout,"<FLOAT> ");
 		fprintf(logout,"Line no %d: TOKEN <FLOAT> Lexeme %s found\n",line_count,yytext);
@@ -996,7 +997,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 161 "example.l"
+#line 162 "example.l"
 {
         fprintf(tokenout,"<DOUBLE> ");
 		fprintf(logout,"Line no %d: TOKEN <DOUBLE> Lexeme %s found\n",line_count,yytext);
@@ -1004,7 +1005,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 166 "example.l"
+#line 167 "example.l"
 {
         fprintf(tokenout,"<UNSIGNED> ");
 		fprintf(logout,"Line no %d: TOKEN <UNSIGNED> Lexeme %s found\n",line_count,yytext);
@@ -1012,7 +1013,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 171 "example.l"
+#line 172 "example.l"
 {
         fprintf(tokenout,"<VOID> ");
 		fprintf(logout,"Line no %d: TOKEN <VOID> Lexeme %s found\n",line_count,yytext);
@@ -1020,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 176 "example.l"
+#line 177 "example.l"
 {
         fprintf(tokenout,"<RETURN> ");
 		fprintf(logout,"Line no %d: TOKEN <RETURN> Lexeme %s found\n",line_count,yytext);
@@ -1028,7 +1029,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 182 "example.l"
+#line 183 "example.l"
 {
         fprintf(tokenout,"<SWITCH> ");
 		fprintf(logout,"Line no %d: TOKEN <SWITCH> Lexeme %s found\n",line_count,yytext);
@@ -1036,7 +1037,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 187 "example.l"
+#line 188 "example.l"
 {
         fprintf(tokenout,"<CASE> ");
 		fprintf(logout,"Line no %d: TOKEN <CASE> Lexeme %s found\n",line_count,yytext);
@@ -1044,7 +1045,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 193 "example.l"
+#line 194 "example.l"
 {
         fprintf(tokenout,"<DEFAULT> ");
 		fprintf(logout,"Line no %d: TOKEN <DEFAULT> Lexeme %s found\n",line_count,yytext);
@@ -1052,7 +1053,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 199 "example.l"
+#line 200 "example.l"
 {
         fprintf(tokenout,"<CONTINUE> ");
 		fprintf(logout,"Line no %d: TOKEN <CONTINUE> Lexeme %s found\n",line_count,yytext);
@@ -1060,7 +1061,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 204 "example.l"
+#line 205 "example.l"
 {
     fprintf(tokenout,"<ID, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <ID> Lexeme %s found\n",line_count,yytext);
@@ -1070,7 +1071,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 211 "example.l"
+#line 212 "example.l"
 {
 
         fprintf(tokenout,"<CONST_INT, %s> " , yytext);
@@ -1086,7 +1087,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 224 "example.l"
+#line 225 "example.l"
 {
     fprintf(tokenout,"<CONST_FLOAT, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <CONST_FLOAT> Lexeme %s found\n",line_count,yytext);
@@ -1096,7 +1097,7 @@ YY_RULE_SETUP
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 230 "example.l"
+#line 231 "example.l"
 {
     char val=convertCharacterLiterals(yytext);
     // if(val.length() > 1){
@@ -1128,7 +1129,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 259 "example.l"
+#line 260 "example.l"
 {
     fprintf(tokenout,"<INCOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <INCOP> Lexeme %s found\n",line_count,yytext);
@@ -1136,7 +1137,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 263 "example.l"
+#line 264 "example.l"
 {
     fprintf(tokenout,"<ADDOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <ADDOP> Lexeme %s found\n",line_count,yytext);
@@ -1144,7 +1145,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 267 "example.l"
+#line 268 "example.l"
 {
     fprintf(tokenout,"<MULOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <MULOP> Lexeme %s found\n",line_count,yytext);
@@ -1152,7 +1153,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 271 "example.l"
+#line 272 "example.l"
 {
     fprintf(tokenout,"<RELOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RELOP> Lexeme %s found\n",line_count,yytext);
@@ -1160,7 +1161,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 275 "example.l"
+#line 276 "example.l"
 {
     fprintf(tokenout,"<ASSIGNOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <ASSIGNOP> Lexeme %s found\n",line_count,yytext);
@@ -1168,7 +1169,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 279 "example.l"
+#line 280 "example.l"
 {
     fprintf(tokenout,"<LOGICOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <LOGICOP> Lexeme %s found\n",line_count,yytext);
@@ -1176,7 +1177,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 284 "example.l"
+#line 285 "example.l"
 {
     fprintf(tokenout,"<NOT, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <NOT> Lexeme %s found\n",line_count,yytext);
@@ -1184,7 +1185,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 289 "example.l"
+#line 290 "example.l"
 {
     fprintf(tokenout,"<LPAREN, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <LPAREN> Lexeme %s found\n",line_count,yytext);
@@ -1192,31 +1193,35 @@ YY_RULE_SETUP
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 293 "example.l"
+#line 294 "example.l"
 {
     fprintf(tokenout,"<RPAREN, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RPAREN> Lexeme %s found\n",line_count,yytext);
+   
 }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 299 "example.l"
+#line 301 "example.l"
 {
     fprintf(tokenout,"<LCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <LCURL> Lexeme %s found\n",line_count,yytext);
+    symboltable->EnterScope();
+
 }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 304 "example.l"
+#line 308 "example.l"
 {
     fprintf(tokenout,"<RCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RCURL> Lexeme %s found\n",line_count,yytext);
+     symboltable->ExitScope();
 }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 309 "example.l"
+#line 314 "example.l"
 {
     fprintf(tokenout,"<LTHIRD, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <LTHIRD> Lexeme %s found\n",line_count,yytext);
@@ -1224,7 +1229,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 314 "example.l"
+#line 319 "example.l"
 {
     fprintf(tokenout,"<RTHIRD, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RTHIRD> Lexeme %s found\n",line_count,yytext);
@@ -1232,7 +1237,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 319 "example.l"
+#line 324 "example.l"
 {
     fprintf(tokenout,"<COMMA, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <COMMA> Lexeme %s found\n",line_count,yytext);
@@ -1240,7 +1245,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 323 "example.l"
+#line 328 "example.l"
 {
     fprintf(tokenout,"<SEMICOLON, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <SEMICOLON> Lexeme %s found\n",line_count,yytext);
@@ -1248,7 +1253,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 328 "example.l"
+#line 333 "example.l"
 {
     resulting_string.clear();
     log_file_string.clear();  
@@ -1258,7 +1263,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 337 "example.l"
+#line 342 "example.l"
 {
     resulting_string += "\\";
     log_file_string += "\\\\";    
@@ -1267,7 +1272,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 342 "example.l"
+#line 347 "example.l"
 {
     resulting_string += "\'";
     log_file_string += "\\\'";    
@@ -1276,7 +1281,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 347 "example.l"
+#line 352 "example.l"
 {
     resulting_string += "\"";
     log_file_string += "\\\""  ;  
@@ -1285,7 +1290,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 353 "example.l"
+#line 358 "example.l"
 {
     resulting_string += '\t';
     log_file_string += "\\t"  ;  
@@ -1295,7 +1300,7 @@ YY_RULE_SETUP
 case 46:
 /* rule 46 can match eol */
 YY_RULE_SETUP
-#line 359 "example.l"
+#line 364 "example.l"
 {
     log_file_string += "\\\n" ;   
   
@@ -1303,7 +1308,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 365 "example.l"
+#line 370 "example.l"
 {
     resulting_string += "\n";
     log_file_string += "\\n"  ;  
@@ -1312,7 +1317,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 371 "example.l"
+#line 376 "example.l"
 {
     resulting_string += "\n";
     log_file_string += "\\"; 
@@ -1321,7 +1326,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 376 "example.l"
+#line 381 "example.l"
 {
 
     std::string print = "\"" + log_file_string + "\"";
@@ -1335,7 +1340,7 @@ YY_RULE_SETUP
 case 50:
 /* rule 50 can match eol */
 YY_RULE_SETUP
-#line 387 "example.l"
+#line 392 "example.l"
 {
     
 }
@@ -1343,7 +1348,7 @@ YY_RULE_SETUP
 case 51:
 /* rule 51 can match eol */
 YY_RULE_SETUP
-#line 390 "example.l"
+#line 395 "example.l"
 {
 
 	fprintf(logout,"Line no %d: Unterminated String \"",line_count);
@@ -1352,7 +1357,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 398 "example.l"
+#line 403 "example.l"
 {
     resulting_string += yytext[0];
     log_file_string += yytext[0]; 
@@ -1362,31 +1367,31 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 413 "example.l"
+#line 418 "example.l"
 {    }
 	YY_BREAK
 case 54:
 /* rule 54 can match eol */
 YY_RULE_SETUP
-#line 414 "example.l"
+#line 419 "example.l"
 {line_count++;}
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(STRING):
-#line 415 "example.l"
+#line 420 "example.l"
 {printf("Total Line Number: %d and word number : %d\n",line_count,word_count); return 0;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 416 "example.l"
+#line 421 "example.l"
 {}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 418 "example.l"
+#line 423 "example.l"
 ECHO;
 	YY_BREAK
-#line 1390 "lex.yy.c"
+#line 1395 "lex.yy.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2389,7 +2394,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 418 "example.l"
+#line 423 "example.l"
 
 
 int main(int argc , char *argv[]){
@@ -2397,6 +2402,9 @@ int main(int argc , char *argv[]){
         printf("Please provide input filename and try again\n");
         return 0;
     }
+    symboltable = new SymbolTable(20);
+    symboltable->setHashFucntion(1);
+
 
     FILE *fin=fopen(argv[1],"r");
     if(fin==NULL){

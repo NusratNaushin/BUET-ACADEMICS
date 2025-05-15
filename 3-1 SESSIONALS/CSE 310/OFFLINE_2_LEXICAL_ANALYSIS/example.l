@@ -1,5 +1,6 @@
 %option noyywrap
 %x STRING
+%x COMMENT
 %{
     #include<stdio.h>
     #include<stdlib.h>
@@ -9,13 +10,14 @@
     FILE *tokenout;
 
 
-    SymbolTable symboltable(20);
+    SymbolTable* symboltable;
 
     int word_count=0;
     int line_count=1;
     string log_file_string;
     string resulting_string;
     int line_count_inside_comment=0;
+
     void IncWc(){
         word_count++;
     }
@@ -293,17 +295,21 @@ Newline \n
 {RPAREN} {
     fprintf(tokenout,"<RPAREN, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RPAREN> Lexeme %s found\n",line_count,yytext);
+   
 }
 
 
 {LCURL} {
     fprintf(tokenout,"<LCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <LCURL> Lexeme %s found\n",line_count,yytext);
+    symboltable->EnterScope();
+
 }
 
 {RCURL} {
     fprintf(tokenout,"<RCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <RCURL> Lexeme %s found\n",line_count,yytext);
+     symboltable->ExitScope();
 }
 
 {LTHIRD} {
@@ -332,6 +338,11 @@ Newline \n
     BEGIN STRING;
 }
 
+\/\/ {
+
+
+    BEGIN COMMENT;
+}
 
 
 <STRING>\\\\ {
@@ -422,6 +433,9 @@ int main(int argc , char *argv[]){
         printf("Please provide input filename and try again\n");
         return 0;
     }
+    symboltable = new SymbolTable(20);
+    symboltable->setHashFucntion(1);
+
 
     FILE *fin=fopen(argv[1],"r");
     if(fin==NULL){
