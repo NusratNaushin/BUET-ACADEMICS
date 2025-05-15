@@ -13,7 +13,9 @@
 
     int word_count=0;
     int line_count=1;
-
+    string _string;
+    string resulting_string;
+    int line_count_inside_comment=0;
     void IncWc(){
         word_count++;
     }
@@ -322,6 +324,75 @@ Newline \n
     fprintf(tokenout,"<SEMICOLON, %s> " , yytext);
 	fprintf(logout,"Line no %d: TOKEN <SEMICOLON> Lexeme %s found\n",line_count,yytext);
 }
+
+\" {
+    resulting_string.clear();
+    
+
+    BEGIN STRING;
+}
+
+
+
+<STRING>\\\\ {
+    resulting_string += "\\";
+
+}
+<STRING>\\\' {
+    resulting_string += "\'";
+
+}
+<STRING>\\\" {
+    resulting_string += "\"";
+
+}
+
+<STRING>\\t {
+    resulting_string += '\t';
+   
+}
+
+<STRING>\\\n {
+    line_count++;
+}
+
+
+<STRING>\\n {
+    resulting_string += "\n";
+}
+
+<STRING>\\ {
+    resulting_string += "\n";
+}
+<STRING>\" {
+        fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
+        fprintf(logout,"Line no %s: String \"",resulting_string.c_str());
+
+        BEGIN INITIAL;       
+}
+
+
+<STRING>\\\r?\n {
+    line_count++;
+}
+<STRING>[\r]?\n {
+
+	fprintf(logout,"Line no %d: Unterminated String \"",line_count);
+    BEGIN INITIAL;
+}
+
+
+
+<STRING>. {
+    resulting_string += yytext[0];
+
+}
+
+
+
+
+
+
 
 
 

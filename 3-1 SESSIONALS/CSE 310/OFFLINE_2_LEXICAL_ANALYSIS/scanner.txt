@@ -44,3 +44,5 @@ x&&b
 comma,
 semicolon;
 [{(brackets)}]
+"This is a string\hello"
+"abc"
