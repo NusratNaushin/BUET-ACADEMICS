@@ -499,12 +499,14 @@ Newline \n
 }
 
 <STRING>\\\n {
+    line_count++;
     log_file_string += "\\\n" ;   
   
 }
 
 
 <STRING>\\n {
+    line_count++;
     resulting_string += "\n";
     log_file_string += "\\n"  ;  
 
@@ -517,7 +519,7 @@ Newline \n
 }
 <STRING>\" {
 
-    std::string print = "\"" + log_file_string + "\"";
+        std::string print = "\"" + log_file_string + "\"";
         fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
 
         fprintf(logout, "Line no %d: Token <STRING> Lexeme %s found --> <STRING, %s>\n", line_count, print.c_str(), resulting_string.c_str());
@@ -526,10 +528,8 @@ Newline \n
 }
 
 
-<STRING>\\\r?\n {
-    
-}
 <STRING>[\r]?\n {
+    line_count++;
     error_count++;
 	fprintf(logout,"Line no %d: Unterminated String \"%s\n",line_count, log_file_string.c_str());
     fprintf(logout,"\n");
@@ -554,17 +554,19 @@ Newline \n
 
 
 <COMMENT>\\\r\n {
-
+    
     comments +="\\\r\n";
 }
 
 <COMMENT>\\\n {
+    line_count++;
     comments += "\\\n";
 }
 
 <COMMENT>[\r]?\n {
-    line_count++;
+    
 	fprintf(logout,"Line no %d: Token <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
+    line_count++;
     fprintf(logout,"\n");
     BEGIN INITIAL;
 }
@@ -579,7 +581,6 @@ Newline \n
 <MULTICOMMENT>\*\/ {
 
     comments += "*/";
-    line_count++;
 	fprintf(logout,"Line no %d: Token <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
     fprintf(logout,"\n");
     BEGIN INITIAL;
