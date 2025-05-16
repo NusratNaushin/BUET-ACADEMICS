@@ -112,69 +112,85 @@ Newline \n
 "if"	{
 			fprintf(tokenout,"<IF> ");
 			fprintf(logout,"Line no %d: Token <IF> Lexeme %s found\n",line_count,yytext);
+            fprintf(logout,"\n");
 }
 "else"  {
             fprintf(tokenout,"<ELSE> ");
 			fprintf(logout,"Line no %d: Token <ELSE> Lexeme %s found\n",line_count,yytext);
+            fprintf(logout,"\n");
 }
 "for"   {
             fprintf(tokenout,"<FOR> ");
 			fprintf(logout,"Line no %d: Token <FOR> Lexeme %s found\n",line_count,yytext);
+            fprintf(logout,"\n");
 }
 "goto" {
         fprintf(tokenout,"<GOTO> ");
 		fprintf(logout,"Line no %d: Token <GOTO> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
+        
 }
 "while" {
         fprintf(tokenout,"<WHILE> ");
 		fprintf(logout,"Line no %d: Token <WHILE> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "long" {
         fprintf(tokenout,"<LONG> ");
 		fprintf(logout,"Line no %d: Token <LONG> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 "do" {
         fprintf(tokenout,"<DO> ");
 		fprintf(logout,"Line no %d: Token <DO> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "break" {
         fprintf(tokenout,"<BREAK> ");
 		fprintf(logout,"Line no %d: Token <BREAK> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "short" {
         fprintf(tokenout,"<SHORT> ");
 		fprintf(logout,"Line no %d: Token <SHORT> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 "int" {
         fprintf(tokenout,"<INT> ");
 		fprintf(logout,"Line no %d: Token <INT> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "char" {
         fprintf(tokenout,"<CHAR> ");
 		fprintf(logout,"Line no %d: Token <CHAR> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 } 
 
 "static" {
         fprintf(tokenout,"<STATIC> ");
 		fprintf(logout,"Line no %d: Token <STATIC> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "float" {
         fprintf(tokenout,"<FLOAT> ");
 		fprintf(logout,"Line no %d: Token <FLOAT> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 "double" {
         fprintf(tokenout,"<DOUBLE> ");
 		fprintf(logout,"Line no %d: Token <DOUBLE> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "unsigned" {
         fprintf(tokenout,"<UNSIGNED> ");
 		fprintf(logout,"Line no %d: Token <UNSIGNED> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "void" {
@@ -185,29 +201,34 @@ Newline \n
 "return" {
         fprintf(tokenout,"<RETURN> ");
 		fprintf(logout,"Line no %d: Token <RETURN> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 
 "switch" {
         fprintf(tokenout,"<SWITCH> ");
 		fprintf(logout,"Line no %d: Token <SWITCH> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 "case" {
         fprintf(tokenout,"<CASE> ");
 		fprintf(logout,"Line no %d: Token <CASE> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 
 "default" {
         fprintf(tokenout,"<DEFAULT> ");
 		fprintf(logout,"Line no %d: Token <DEFAULT> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 
 "continue" {
         fprintf(tokenout,"<CONTINUE> ");
 		fprintf(logout,"Line no %d: Token <CONTINUE> Lexeme %s found\n",line_count,yytext);
+        fprintf(logout,"\n");
 }
 
 
@@ -217,11 +238,18 @@ Newline \n
 	fprintf(logout,"Line no %d: Token <ID> Lexeme %s found\n",line_count,yytext);
     IncWc();
         if(symboltable->Insert(yytext,"ID")){
+        fprintf(logout,"\n");
         symboltable->print_all_scope_table2(logout);
+        fprintf(logout,"\n");
+       
     }
     else{
+
+        fprintf(logout,"\n");
         fprintf(logout, "< %s : ID > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
+        fprintf(logout,"\n");
     }
+    
         
 }
 
@@ -231,26 +259,35 @@ Newline \n
 		fprintf(logout,"Line no %d: Token <CONST_INT> Lexeme %s found\n",line_count,yytext);
         
         if(symboltable->Insert(yytext,"CONST_INT")){
+            fprintf(logout,"\n");
             symboltable->print_all_scope_table2(logout);
+            fprintf(logout,"\n");
+
         }
         else{
+        fprintf(logout,"\n");
         fprintf(logout, "< %s : CONST_INT > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
+        fprintf(logout,"\n");
         }
+        
 }
 {InvalidSuffixPrefix} {
     fprintf(logout,"Error at line no %d: Invalid prefix on ID or invalid suffix on Number %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;
 }
 
 {TooManyDecimalPoint} {
 
 	fprintf(logout,"Error at line no %d: Too many decimal points %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;
 
 }
 
 {ILlFormedNumber} {
 	fprintf(logout,"Error at line no %d: Ill formed number %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;
 }
 
@@ -260,10 +297,15 @@ Newline \n
 	fprintf(logout,"Line no %d: Token <CONST_FLOAT> Lexeme %s found\n",line_count,yytext);
     if(symboltable->Insert(yytext,"CONST_FLOAT")){
         // fprintf(logout, "\tInserted into SymbolTable\n");
+        fprintf(logout,"\n");
         symboltable->print_all_scope_table2(logout);
+        fprintf(logout,"\n");
     }
     else{
+        fprintf(logout,"\n");
         fprintf(logout, "< %s : CONST_FLOAT > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
+        fprintf(logout,"\n");
+
     }
 }
 
@@ -295,71 +337,90 @@ Newline \n
     fprintf(tokenout,"<CONST_CHAR, %c> " , val);
 	fprintf(logout,"Line no %d: Token <CONST_CHAR> Lexeme %s found --> <CONST_CHAR, %c>\n",line_count,yytext,val);
     if(symboltable->Insert(yytext,"CONST_CHAR")){
+        fprintf(logout,"\n");
+
         symboltable->print_all_scope_table2(logout);
+        fprintf(logout,"\n");
+
     }
     else{
+        fprintf(logout,"\n");
         fprintf(logout, "< %s : CONST_CHAR > already exists in ScopeTable# %s at position %d, %d\n",yytext,symboltable->getCurrentScopeID().c_str(),symboltable->getIndex(),symboltable->getCurrPos());
-    }   
+        fprintf(logout,"\n");
+
+    }
 }
 
 {MultiCharError} {
     fprintf(logout,"Error at line no %d: Multi character constant error %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;
 }
 
 {UnfinishedCharacter} {
     fprintf(logout,"Error at line no %d: Unterminated character error %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;    
 }
 {EmptyCharacterConstantError} {
     fprintf(logout,"Error at line no %d: Empty character constant error %s \n",line_count,yytext);
+    fprintf(logout,"\n");
     error_count++;   
 }
 
 {INCOP} {
     fprintf(tokenout,"<INCOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <INCOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {ADDOP} {
     fprintf(tokenout,"<ADDOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <ADDOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {MULOP} {
     fprintf(tokenout,"<MULOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <MULOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {RELOP} {
     fprintf(tokenout,"<RELOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <RELOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {ASSIGNOP} {
     fprintf(tokenout,"<ASSIGNOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <ASSIGNOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {LOGICOP} {
     fprintf(tokenout,"<LOGICOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <LOGICOP> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 
 {NOT} {
     fprintf(tokenout,"<NOT, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <NOT> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 
 {LPAREN} {
     fprintf(tokenout,"<LPAREN, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <LPAREN> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {RPAREN} {
     fprintf(tokenout,"<RPAREN, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <RPAREN> Lexeme %s found\n",line_count,yytext);
-   
+    fprintf(logout,"\n");
 }
 
 
 {LCURL} {
     fprintf(tokenout,"<LCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <LCURL> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
     symboltable->EnterScope();
 
 }
@@ -367,26 +428,31 @@ Newline \n
 {RCURL} {
     fprintf(tokenout,"<RCURL, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <RCURL> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
      symboltable->ExitScope();
 }
 
 {LTHIRD} {
     fprintf(tokenout,"<LTHIRD, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <LTHIRD> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 
 {RTHIRD} {
     fprintf(tokenout,"<RTHIRD, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <RTHIRD> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 
 {COMMA} {
     fprintf(tokenout,"<COMMA, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <COMMA> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 {SEMICOLON} {
     fprintf(tokenout,"<SEMICOLON, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <SEMICOLON> Lexeme %s found\n",line_count,yytext);
+    fprintf(logout,"\n");
 }
 
 \" {
@@ -454,8 +520,8 @@ Newline \n
     std::string print = "\"" + log_file_string + "\"";
         fprintf(tokenout,"<STRING, %s> " , resulting_string.c_str());
 
-        fprintf(logout, "Line no %d: Token <STRING> Lexeme %s found --> <STRING, %s>\n", 
-        line_count, print.c_str(), resulting_string.c_str());
+        fprintf(logout, "Line no %d: Token <STRING> Lexeme %s found --> <STRING, %s>\n", line_count, print.c_str(), resulting_string.c_str());
+        fprintf(logout,"\n");
         BEGIN INITIAL;       
 }
 
@@ -466,6 +532,7 @@ Newline \n
 <STRING>[\r]?\n {
     error_count++;
 	fprintf(logout,"Line no %d: Unterminated String \"%s\n",line_count, log_file_string.c_str());
+    fprintf(logout,"\n");
     BEGIN INITIAL;
 }
 
@@ -473,6 +540,7 @@ Newline \n
 <STRING><<EOF>> {
     error_count++;
     fprintf(logout,"Line no %d: Unterminated String \"%s\n",line_count, log_file_string.c_str());
+    fprintf(logout,"\n");
     BEGIN INITIAL;
     
 }
@@ -497,6 +565,7 @@ Newline \n
 <COMMENT>[\r]?\n {
     line_count++;
 	fprintf(logout,"Line no %d: Token <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
+    fprintf(logout,"\n");
     BEGIN INITIAL;
 }
 <COMMENT>\\ {
@@ -512,6 +581,7 @@ Newline \n
     comments += "*/";
     line_count++;
 	fprintf(logout,"Line no %d: Token <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
+    fprintf(logout,"\n");
     BEGIN INITIAL;
 
 }
@@ -532,12 +602,20 @@ Newline \n
 <MULTICOMMENT><<EOF>> {
     error_count++;
     fprintf(logout,"Line no %d: Unterminated Comment %s\n",line_count, comments.c_str());
+    fprintf(logout,"\n");
     BEGIN INITIAL;
     
+}
+<<EOF>> {
+    symboltable->print_all_scope_table2(logout);
+    fprintf(logout,"\n");
+    return 0;
+
 }
 . {
     error_count++;
     fprintf(logout, "Error at line no %d: Unrecognized character '%s'\n", line_count, yytext);
+    fprintf(logout,"\n");
 }
 
 
@@ -561,8 +639,13 @@ int main(int argc , char *argv[]){
 	logout= fopen("log.txt","w");
 	tokenout= fopen("token.txt","w");
 
+
+
     yyin= fin;
     yylex();
+    fprintf(logout , "Total lines: %d\n",line_count);
+    fprintf(logout, "Total errors: %d",error_count);
+    fprintf(logout,"\n");
     fclose(yyin);
     fclose(logout);
     fclose(tokenout);
