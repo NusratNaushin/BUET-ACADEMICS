@@ -16,6 +16,8 @@
     int word_count=0;
     int line_count=1;
     int error_count=0;
+    int string_start_line=0;
+    int comment_start_line=0;
 
     string log_file_string;
     string resulting_string;
@@ -74,12 +76,14 @@ TooManyDecimalPoint [0-9]*\.([0-9]*\.)+[0-9]*
 ILlFormedNumber [0-9]*\.?[0-9][eE][-+]?([0-9]*\.)+[0-9]*
 InvalidSuffixPrefix [0-9]+[_a-zA-Z]+
 Constant_Integer [0-9]+
-MultiCharError [\'][a-zA-Z][a-zA-Z]+[\']
+MultiCharError \'([^\'\\\n]{2,})\'
 UnfinishedCharacter \'([^\'\\\n]|\\[^\'\n])
+UnfinishedEmptyBackSlash \'\\\'
 EmptyCharacterConstantError \'\'
 Digit [0-9]
 Identifier [_a-zA-Z][_a-zA-Z0-9]*
 Char_Literals \'(\\[nt\\'"abfrv0]|[^\'\\\n])\'
+UnterminatedQuote \'
 Exponent ([Ee][+-]?{Constant_Integer})
 Fraction \.{Constant_Integer}
 Float ({Digit}+{Fraction}?|{Fraction}){Exponent}?
@@ -272,22 +276,27 @@ Newline \n
         
 }
 {InvalidSuffixPrefix} {
-    fprintf(logout,"Error at line no %d: Invalid prefix on ID or invalid suffix on Number %s \n",line_count,yytext);
+    fprintf(logout,"Error at line no %d: Invalid prefix on ID or invalid suffix on Number %s\n",line_count,yytext);
     fprintf(logout,"\n");
+
     error_count++;
 }
 
 {TooManyDecimalPoint} {
 
-	fprintf(logout,"Error at line no %d: Too many decimal points %s \n",line_count,yytext);
+	fprintf(logout,"Error at line no %d: Too many decimal points %s\n",line_count,yytext);
     fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
     error_count++;
 
 }
 
 {ILlFormedNumber} {
-	fprintf(logout,"Error at line no %d: Ill formed number %s \n",line_count,yytext);
+	fprintf(logout,"Error at line no %d: Ill formed number %s\n",line_count,yytext);
     fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
     error_count++;
 }
 
@@ -352,22 +361,42 @@ Newline \n
 }
 
 {MultiCharError} {
-    fprintf(logout,"Error at line no %d: Multi character constant error %s \n",line_count,yytext);
+    fprintf(logout,"Error at line no %d: Multi character constant error %s\n",line_count,yytext);
     fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
+    error_count++;
+}
+
+{UnfinishedEmptyBackSlash} {
+    fprintf(logout,"Error at line no %d: Unterminated character %s\n",line_count,yytext);
+    fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
     error_count++;
 }
 
 {UnfinishedCharacter} {
-    fprintf(logout,"Error at line no %d: Unterminated character error %s \n",line_count,yytext);
+    fprintf(logout,"Error at line no %d: Unterminated character %s\n",line_count,yytext);
     fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
     error_count++;    
 }
 {EmptyCharacterConstantError} {
-    fprintf(logout,"Error at line no %d: Empty character constant error %s \n",line_count,yytext);
+    fprintf(logout,"Error at line no %d: Empty character constant error %s\n",line_count,yytext);
     fprintf(logout,"\n");
+    fprintf(logout,"\n");
+
     error_count++;   
 }
+{UnterminatedQuote} {
+    fprintf(logout,"Error at line no %d: Unterminated character %s\n",line_count,yytext);
+    fprintf(logout,"\n");
+    fprintf(logout,"\n");
 
+    error_count++;   
+}
 {INCOP} {
     fprintf(tokenout,"<INCOP, %s> " , yytext);
 	fprintf(logout,"Line no %d: Token <INCOP> Lexeme %s found\n",line_count,yytext);
@@ -458,6 +487,7 @@ Newline \n
 \" {
     resulting_string.clear();
     log_file_string.clear();  
+    string_start_line=line_count;
 
     BEGIN STRING;
 }
@@ -466,12 +496,14 @@ Newline \n
 
     comments.clear();
     comments += "//";
+    comment_start_line=line_count;
     BEGIN COMMENT;
 }
 
 \/\* {
     comments.clear();
     comments += "/*";
+    comment_start_line=line_count;
     BEGIN MULTICOMMENT;
 }
 
@@ -529,9 +561,10 @@ Newline \n
 
 
 <STRING>[\r]?\n {
-    line_count++;
+    
     error_count++;
-	fprintf(logout,"Line no %d: Unterminated String \"%s\n",line_count, log_file_string.c_str());
+	fprintf(logout,"Error at line no %d: Unterminated string \"%s\n",string_start_line, log_file_string.c_str());
+    line_count++;
     fprintf(logout,"\n");
     BEGIN INITIAL;
 }
@@ -539,7 +572,7 @@ Newline \n
 
 <STRING><<EOF>> {
     error_count++;
-    fprintf(logout,"Line no %d: Unterminated String \"%s\n",line_count, log_file_string.c_str());
+    fprintf(logout,"Error at line %d: Unterminated string \"%s\n",string_start_line, log_file_string.c_str());
     fprintf(logout,"\n");
     BEGIN INITIAL;
     
@@ -602,7 +635,7 @@ Newline \n
 
 <MULTICOMMENT><<EOF>> {
     error_count++;
-    fprintf(logout,"Line no %d: Unterminated Comment %s\n",line_count, comments.c_str());
+    fprintf(logout,"Error at line no %d: Unterminated comment %s\n",comment_start_line, comments.c_str());
     fprintf(logout,"\n");
     BEGIN INITIAL;
     
@@ -613,9 +646,11 @@ Newline \n
     return 0;
 
 }
+
+
 . {
     error_count++;
-    fprintf(logout, "Error at line no %d: Unrecognized character '%s'\n", line_count, yytext);
+    fprintf(logout, "Error at line no %d: Unrecognized character %s\n", line_count, yytext);
     fprintf(logout,"\n");
 }
 
