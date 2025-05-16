@@ -71,16 +71,16 @@
 
     }
 %}
-
-TooManyDecimalPoint [0-9]*\.([0-9]*\.)+[0-9]* 
-ILlFormedNumber [0-9]*\.?[0-9][eE][-+]?([0-9]*\.)+[0-9]*
+Digit [0-9]
+TooManyDecimalPoint {Digit}+(\.{Digit}+){2,}({Exponent}?\.{Digit}*)?
+ILlFormedNumber {Digit}+\.?{Digit}*{Exponent}\.{Digit}+
 InvalidSuffixPrefix [0-9]+[_a-zA-Z]+
 Constant_Integer [0-9]+
 MultiCharError \'([^\'\\\n]{2,})\'
 UnfinishedCharacter \'([^\'\\\n]|\\[^\'\n])
 UnfinishedEmptyBackSlash \'\\\'
 EmptyCharacterConstantError \'\'
-Digit [0-9]
+
 Identifier [_a-zA-Z][_a-zA-Z0-9]*
 Char_Literals \'(\\[nt\\'"abfrv0]|[^\'\\\n])\'
 UnterminatedQuote \'

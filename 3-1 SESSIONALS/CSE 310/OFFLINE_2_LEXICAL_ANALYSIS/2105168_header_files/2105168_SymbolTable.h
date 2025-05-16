@@ -60,7 +60,7 @@ int destructor_calls = 0;
         ScopeTable *new_scope = new ScopeTable(num_buckets, new_id, current_scope);
         current_scope = new_scope;
 
-        cout << "ScopeTable# " << current_scope->id << " created" << endl;
+      //  cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
 
 
@@ -68,7 +68,7 @@ int destructor_calls = 0;
     {
         
             if(current_scope == NULL) return;
-            cout << "Exited ScopeTable # " << current_scope->id << endl;
+           // cout << "Exited ScopeTable # " << current_scope->id << endl;
 
             ScopeTable *temp = current_scope;
             current_scope = current_scope->getParentScope();
@@ -83,7 +83,7 @@ int destructor_calls = 0;
     {
         
             if (!current_scope) return false;
-            cout << "insert " << endl;
+           // cout << "insert " << endl;
             return current_scope->Insert(symbol_name, type);
         
     }
@@ -216,7 +216,7 @@ int destructor_calls = 0;
     void printCurrentScopeID()
     {
         // cout << "\t";
-        cout << "ScopeTable# " << current_scope->id << " created" << endl;
+        //cout << "ScopeTable# " << current_scope->id << " created" << endl;
     }
 
     int getDestructorCalls(){
