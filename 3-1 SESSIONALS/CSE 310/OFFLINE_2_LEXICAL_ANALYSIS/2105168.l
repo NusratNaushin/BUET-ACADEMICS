@@ -27,7 +27,8 @@
         word_count++;
     }
 
-    char convertCharacterLiterals(const char* yytext){
+    char convertCharacterLiterals(const char* yytext){            /*ei fn er kaaj er example hocche string nibe quote mukto korbe then extra slash mukto kore pathabe jeno thik thak kaaj kore
+                                                                  `'\\0'`-> `\\0` ->`'\0'` .. flex e string reperesentation pai je tai eto nokhra*/ 
         std::string lex = yytext;
         std::string val = lex.substr(1, lex.length() - 2);
 
@@ -72,17 +73,18 @@
     }
 %}
 Digit [0-9]
-TooManyDecimalPoint {Digit}+(\.{Digit}+){2,}({Exponent}?\.{Digit}*)?
-ILlFormedNumber {Digit}+\.?{Digit}*{Exponent}\.{Digit}+
-InvalidSuffixPrefix [0-9]+[_a-zA-Z]+
+TooManyDecimalPoint {Digit}+(\.{Digit}+){2,}({Exponent}?\.{Digit}*)?  
+ILlFormedNumber {Digit}+\.?{Digit}*{Exponent}\.{Digit}+             
+InvalidSuffixPrefix [0-9]+[_a-zA-Z]+                                 
 Constant_Integer [0-9]+
-MultiCharError \'([^\'\\\n]{2,})\'
-UnfinishedCharacter \'([^\'\\\n]|\\[^\'\n])
-UnfinishedEmptyBackSlash \'\\\'
-EmptyCharacterConstantError \'\'
+
+MultiCharError \'([^\'\\\n]{2,})\'  
+UnfinishedCharacter \'([^\'\\\n]|\\[^\'\n])                         
+UnfinishedEmptyBackSlash \'\\\'                                    
+EmptyCharacterConstantError \'\'                                   
 
 Identifier [_a-zA-Z][_a-zA-Z0-9]*
-Char_Literals \'(\\[nt\\'"abfrv0]|[^\'\\\n])\'
+Char_Literals \'(\\[nt\\'"abfrv0]|[^\'\\\n])\'                      
 UnterminatedQuote \'
 Exponent ([Ee][+-]?{Constant_Integer})
 Fraction \.{Constant_Integer}
@@ -596,7 +598,8 @@ Newline \n
     comments += "\\\n";
 }
 
-<COMMENT>[\r]?\n {
+<COMMENT>[\r]?\n {                      /*joid comment state e thaka obosthate abar new line e chole jay tahole kemon kore hobe
+                                        eta to single line comment  */
     
 	fprintf(logout,"Line no %d: Token <COMMENT> Lexeme %s found\n",line_count,comments.c_str());
     line_count++;
@@ -633,7 +636,7 @@ Newline \n
     comments += yytext[0];
 }
 
-<MULTICOMMENT><<EOF>> {
+<MULTICOMMENT><<EOF>> {                                      /*closing tag pawar age file end hoye gele toh error taijonne eta*/
     error_count++;
     fprintf(logout,"Error at line no %d: Unterminated comment %s\n",comment_start_line, comments.c_str());
     fprintf(logout,"\n");
@@ -648,7 +651,7 @@ Newline \n
 }
 
 
-. {
+. {                                                          /*shob kichu pore toreo kono kichur shathe match holo na abar end of file o pelo na tahole to unrecognized character*/
     error_count++;
     fprintf(logout, "Error at line no %d: Unrecognized character %s\n", line_count, yytext);
     fprintf(logout,"\n");
@@ -687,3 +690,4 @@ int main(int argc , char *argv[]){
     fclose(tokenout);
     return 0;
 }
+
