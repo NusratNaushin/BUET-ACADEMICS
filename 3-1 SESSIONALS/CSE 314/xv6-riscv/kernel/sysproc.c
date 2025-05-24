@@ -91,3 +91,19 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+uint64
+sys_getuid(void)
+{
+  return getuid();
+}
+
+uint64
+sys_history(){
+
+  int id;
+  uint64 ust;
+  argint(0,&id);
+  argaddr(1,&ust);
+  return history(id,ust);
+}

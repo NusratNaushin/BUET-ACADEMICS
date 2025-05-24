@@ -5,6 +5,7 @@
 #include "spinlock.h"
 #include "proc.h"
 #include "defs.h"
+#include "stat.h"
 
 struct cpu cpus[NCPU];
 
@@ -25,6 +26,11 @@ extern char trampoline[]; // trampoline.S
 // memory model when using p->parent.
 // must be acquired before any p->lock.
 struct spinlock wait_lock;
+
+
+
+
+
 
 // Allocate a page for each process's kernel stack.
 // Map it high in memory, followed by an invalid
@@ -692,4 +698,18 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+
+int uid=123;
+int getuid(void){
+  return uid;
+}
+
+
+int history(int id, uint64 ustats)
+{
+
+  return copyout(myproc()->pagetable, (uint64)ustats , (char *)&syscall_stats[id] , sizeof(struct syscall_stat)); 
+
 }

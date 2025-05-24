@@ -1,4 +1,7 @@
+#include "kernel/stat.h"
+
 struct stat;
+struct hstat;
 
 // system calls
 int fork(void);
@@ -23,6 +26,7 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 int getuid(void);
+int history(int hid, struct syscall_stat *st);
 
 // ulib.c
 int stat(const char*, struct stat*);

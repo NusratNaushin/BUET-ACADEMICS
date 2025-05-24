@@ -140,7 +140,8 @@ UPROGS=\
 	$U/_wc\
 	$U/_zombie\
 	$U/_myprog\
-
+	$U/_gibuid\
+	$U/_history\
 
 fs.img: mkfs/mkfs README $(UPROGS)
 	mkfs/mkfs fs.img README $(UPROGS)

@@ -119,6 +119,7 @@ sys_fstat(void)
   return filestat(f, st);
 }
 
+
 // Create the path new as a link to the same inode as old.
 uint64
 sys_link(void)
