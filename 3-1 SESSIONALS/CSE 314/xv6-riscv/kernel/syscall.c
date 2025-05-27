@@ -170,10 +170,9 @@ void syscall(void)
     p->trapframe->a0 = syscalls[num]();
     int endticks = ticks;
 
-    if (syscall_stats[num].count == 0)
-    {
-      safestrcpy(syscall_stats[num].syscall_name, syscall_names[num], sizeof(syscall_stats[num].syscall_name));
-    }
+    
+    safestrcpy(syscall_stats[num].syscall_name, syscall_names[num], sizeof(syscall_stats[num].syscall_name));
+    
     syscall_stats[num].count++;
     syscall_stats[num].accum_time += (endticks - start_ticks);
   }

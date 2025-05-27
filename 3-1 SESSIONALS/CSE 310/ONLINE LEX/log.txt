@@ -1,2 +1,0 @@
-Token <VECTOR_TYPE> Lexeme Vector <int> found
-Token <VECTOR_TYPE> Lexeme vector<float> found
