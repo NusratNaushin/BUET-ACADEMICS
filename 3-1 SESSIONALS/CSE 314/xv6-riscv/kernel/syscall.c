@@ -154,7 +154,18 @@ static uint64 (*syscalls[])(void) = {
 };
 
 struct syscall_stat syscall_stats[NELEM(syscalls)];
+void init_syscall_stats(void){
 
+  for (int i = 0; i < NELEM(syscalls); i++)
+  {
+    if(syscalls[i] != 0){
+      safestrcpy(syscall_stats[i].syscall_name,syscall_names[i],sizeof(syscall_stats[i].syscall_name));
+      syscall_stats[i].count=0;
+      syscall_stats[i].accum_time = 0;
+    }
+  }
+  
+}
 void syscall(void)
 {
   int num;
@@ -166,9 +177,9 @@ void syscall(void)
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
 
-    int start_ticks = ticks;
+    uint64 start_ticks = ticks;
     p->trapframe->a0 = syscalls[num]();
-    int endticks = ticks;
+    uint64 endticks = ticks;
 
     
     safestrcpy(syscall_stats[num].syscall_name, syscall_names[num], sizeof(syscall_stats[num].syscall_name));

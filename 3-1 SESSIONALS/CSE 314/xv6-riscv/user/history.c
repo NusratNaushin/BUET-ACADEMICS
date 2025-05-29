@@ -14,13 +14,13 @@ int main(int argc, char *argv[])
 
 
     if (argc == 1){
-        for (int i = 0; i < sycallnumbers ; i++)
+        for (int i = 1; i < sycallnumbers ; i++)
         {
             /* code */
 
             if (history(i, &st) == 0 )
             {
-                 printf("syscall %s,# : %d ,time : %d \n", st.syscall_name,st.count,st.accum_time);
+                 printf("%d: syscall %s,# : %d ,time : %d \n",i, st.syscall_name,st.count,st.accum_time);
 
             }
             
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
             id = atoi(argv[1]);
 
             history(id, &st);
-            printf("syscall %s,# : %d ,time : %d ", st.syscall_name,st.count,st.accum_time);
+            printf("%d: syscall %s,# : %d ,time : %d ",id,st.syscall_name,st.count,st.accum_time);
     }
 
     return 0;
