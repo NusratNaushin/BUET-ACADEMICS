@@ -1,3 +1,6 @@
+diff --git a/2105168.patch b/2105168.patch
+new file mode 100644
+index 0000000..e69de29
 diff --git a/Makefile b/Makefile
 index f8c820e..d3aadf1 100644
 --- a/Makefile
@@ -78,7 +81,7 @@ index 130d9ce..4c7c615 100644
 +}
 +
 diff --git a/kernel/stat.h b/kernel/stat.h
-index 19543af..781019c 100644
+index 19543af..c022d60 100644
 --- a/kernel/stat.h
 +++ b/kernel/stat.h
 @@ -1,3 +1,7 @@
@@ -89,7 +92,7 @@ index 19543af..781019c 100644
  #define T_DIR     1   // Directory
  #define T_FILE    2   // File
  #define T_DEVICE  3   // Device
-@@ -9,3 +13,14 @@ struct stat {
+@@ -9,3 +13,13 @@ struct stat {
    short nlink; // Number of links to file
    uint64 size; // Size of file in bytes
  };
@@ -98,7 +101,6 @@ index 19543af..781019c 100644
 +    char syscall_name[16];
 +    int count;
 +    int accum_time;
-+    struct spinlock lock;
 +};
 +
 +extern struct syscall_stat syscall_stats[];
@@ -106,7 +108,7 @@ index 19543af..781019c 100644
 +#endif 
 \ No newline at end of file
 diff --git a/kernel/syscall.c b/kernel/syscall.c
-index ed65409..b21f0d3 100644
+index ed65409..2e2f600 100644
 --- a/kernel/syscall.c
 +++ b/kernel/syscall.c
 @@ -6,7 +6,33 @@
@@ -152,7 +154,7 @@ index ed65409..b21f0d3 100644
  
  // An array mapping syscall numbers from syscall.h
  // to the function that handles the system call.
-@@ -126,22 +154,49 @@ static uint64 (*syscalls[])(void) = {
+@@ -126,22 +154,50 @@ static uint64 (*syscalls[])(void) = {
  [SYS_link]    sys_link,
  [SYS_mkdir]   sys_mkdir,
  [SYS_close]   sys_close,
@@ -162,6 +164,7 @@ index ed65409..b21f0d3 100644
 -void
 -syscall(void)
 +struct syscall_stat syscall_stats[NELEM(syscalls)];
++struct spinlock syscall_locks[NELEM(syscalls)];
 +void init_syscall_stats(void){
 +
 +  for (int i = 0; i < NELEM(syscalls); i++)
@@ -170,7 +173,7 @@ index ed65409..b21f0d3 100644
 +      safestrcpy(syscall_stats[i].syscall_name,syscall_names[i],sizeof(syscall_stats[i].syscall_name));
 +      syscall_stats[i].count=0;
 +      syscall_stats[i].accum_time = 0;
-+      initlock(&syscall_stats[i].lock, syscall_names[i]);
++      initlock(&syscall_locks[i], syscall_names[i]);
 +    }
 +  }
 +  
@@ -194,10 +197,10 @@ index ed65409..b21f0d3 100644
 +
 +    
 +    safestrcpy(syscall_stats[num].syscall_name, syscall_names[num], sizeof(syscall_stats[num].syscall_name));
-+    acquire(&syscall_stats[num].lock);
++    acquire(&syscall_locks[num]);
 +    syscall_stats[num].count++;
 +    syscall_stats[num].accum_time += (endticks - start_ticks);
-+    release(&syscall_stats[num].lock);
++    release(&syscall_locks[num]);
 +  }
 +  else
 +  {
