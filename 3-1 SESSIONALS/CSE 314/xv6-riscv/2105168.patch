@@ -2,7 +2,7 @@ diff --git a/2105168.patch b/2105168.patch
 new file mode 100644
 index 0000000..e69de29
 diff --git a/Makefile b/Makefile
-index f8c820e..d3aadf1 100644
+index f8c820e..90d7a0c 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -28,7 +28,8 @@ OBJS = \
@@ -15,11 +15,15 @@ index f8c820e..d3aadf1 100644
  
  # riscv64-unknown-elf- or riscv64-linux-gnu-
  # perhaps in /opt/riscv/bin
-@@ -139,6 +140,7 @@ UPROGS=\
+@@ -139,6 +140,11 @@ UPROGS=\
  	$U/_grind\
  	$U/_wc\
  	$U/_zombie\
 +	$U/_history\
++	$U/_dummyproc\
++	$U/_testprocinfo\
++
++
  
  fs.img: mkfs/mkfs README $(UPROGS)
  	mkfs/mkfs fs.img README $(UPROGS)
@@ -80,6 +84,26 @@ index 130d9ce..4c7c615 100644
 +
 +}
 +
+diff --git a/kernel/pstat.h b/kernel/pstat.h
+new file mode 100644
+index 0000000..3489e23
+--- /dev/null
++++ b/kernel/pstat.h
+@@ -0,0 +1,13 @@
++# ifndef _PSTAT_H_
++# define _PSTAT_H_
++# include "param.h"
++
++struct pstat {
++int pid [ NPROC ]; // the process ID of each process
++int inuse [ NPROC ]; // whether this slot of the process table is being used (1 or 0)
++int inQ [ NPROC ]; // which queue the process is currently in
++int tickets_original [ NPROC ]; // the number of tickets each process originally had
++int tickets_current [ NPROC ]; // the number of tickets each process currently has
++int time_slices [ NPROC ]; // the number of time slices each process has been scheduled
++};
++# endif // _PSTAT_H_
+\ No newline at end of file
 diff --git a/kernel/stat.h b/kernel/stat.h
 index 19543af..c022d60 100644
 --- a/kernel/stat.h
@@ -108,10 +132,10 @@ index 19543af..c022d60 100644
 +#endif 
 \ No newline at end of file
 diff --git a/kernel/syscall.c b/kernel/syscall.c
-index ed65409..2e2f600 100644
+index ed65409..a9fd71b 100644
 --- a/kernel/syscall.c
 +++ b/kernel/syscall.c
-@@ -6,7 +6,33 @@
+@@ -6,7 +6,35 @@
  #include "proc.h"
  #include "syscall.h"
  #include "defs.h"
@@ -140,25 +164,31 @@ index ed65409..2e2f600 100644
 +    [SYS_sbrk] = "sbrk",
 +    [SYS_sleep] = "sleep",
 +    [SYS_uptime] = "uptime",
-+    [SYS_history] = "history"
++    [SYS_history] = "history",
++    [SYS_settickets] ="settickets",
++    [SYS_getpinfo] = "getpinfo"
 +  };
  // Fetch the uint64 at addr from the current process.
  int
  fetchaddr(uint64 addr, uint64 *ip)
-@@ -101,6 +127,8 @@ extern uint64 sys_unlink(void);
+@@ -101,6 +129,10 @@ extern uint64 sys_unlink(void);
  extern uint64 sys_link(void);
  extern uint64 sys_mkdir(void);
  extern uint64 sys_close(void);
 +extern uint64 sys_history(void);
++extern uint64 sys_settickets(void);
++extern uint64 sys_getpinfo(void);
 +
  
  // An array mapping syscall numbers from syscall.h
  // to the function that handles the system call.
-@@ -126,22 +154,50 @@ static uint64 (*syscalls[])(void) = {
+@@ -126,22 +158,52 @@ static uint64 (*syscalls[])(void) = {
  [SYS_link]    sys_link,
  [SYS_mkdir]   sys_mkdir,
  [SYS_close]   sys_close,
 +[SYS_history] sys_history,
++[SYS_settickets] sys_settickets,
++[SYS_getpinfo] sys_getpinfo,
  };
  
 -void
@@ -211,20 +241,22 @@ index ed65409..2e2f600 100644
    }
  }
 diff --git a/kernel/syscall.h b/kernel/syscall.h
-index bc5f356..3b56b8f 100644
+index bc5f356..809745f 100644
 --- a/kernel/syscall.h
 +++ b/kernel/syscall.h
-@@ -20,3 +20,4 @@
+@@ -20,3 +20,6 @@
  #define SYS_link   19
  #define SYS_mkdir  20
  #define SYS_close  21
 +#define SYS_history 22
++#define SYS_settickets 23
++#define SYS_getpinfo 24
 \ No newline at end of file
 diff --git a/kernel/sysproc.c b/kernel/sysproc.c
-index 3b4d5bd..6849f4b 100644
+index 3b4d5bd..62ad9be 100644
 --- a/kernel/sysproc.c
 +++ b/kernel/sysproc.c
-@@ -91,3 +91,12 @@ sys_uptime(void)
+@@ -91,3 +91,23 @@ sys_uptime(void)
    release(&tickslock);
    return xticks;
  }
@@ -236,6 +268,37 @@ index 3b4d5bd..6849f4b 100644
 +  argint(0,&id);
 +  argaddr(1,&ust);
 +  return history(id,ust);
++}
++uint64
++sys_settickets(void){
++  printf("testing setticket");
++  return 0;
++}
++
++uint64
++sys_getpinfo(void){
++  printf("testing getpinfo");
++  return 0;
++}
+\ No newline at end of file
+diff --git a/user/dummyproc.c b/user/dummyproc.c
+new file mode 100644
+index 0000000..2e2eddb
+--- /dev/null
++++ b/user/dummyproc.c
+@@ -0,0 +1,13 @@
++#include "kernel/types.h"
++#include "kernel/stat.h"
++#include "user/user.h"
++
++int main(int argc, char *argv[])
++{
++
++    if (argc < 2)
++    {
++        settickets(-1);
++    }
++
 +}
 \ No newline at end of file
 diff --git a/user/history.c b/user/history.c
@@ -283,32 +346,53 @@ index 0000000..46106aa
 +    return 0;
 +}
 \ No newline at end of file
+diff --git a/user/testprocinfo.c b/user/testprocinfo.c
+new file mode 100644
+index 0000000..35a9a2d
+--- /dev/null
++++ b/user/testprocinfo.c
+@@ -0,0 +1,9 @@
++#include "kernel/types.h"
++#include "kernel/stat.h"
++#include "user/user.h"
++
++int main(int argc, char *argv[])
++{
++
++   
++}
+\ No newline at end of file
 diff --git a/user/user.h b/user/user.h
-index f16fe27..3d35a40 100644
+index f16fe27..3ab3baf 100644
 --- a/user/user.h
 +++ b/user/user.h
-@@ -1,3 +1,5 @@
+@@ -1,3 +1,6 @@
 +#include "kernel/stat.h"
++#include "kernel/pstat.h"
 +
  struct stat;
  
  // system calls
-@@ -22,6 +24,8 @@ int getpid(void);
+@@ -22,7 +25,9 @@ int getpid(void);
  char* sbrk(int);
  int sleep(int);
  int uptime(void);
+-
 +int history(int hid, struct syscall_stat *st);
-+
- 
++int settickets(int number);
++int getpinfo(struct pstat*);
  // ulib.c
  int stat(const char*, struct stat*);
+ char* strcpy(char*, const char*);
 diff --git a/user/usys.pl b/user/usys.pl
-index 01e426e..7219f33 100755
+index 01e426e..397fec1 100755
 --- a/user/usys.pl
 +++ b/user/usys.pl
-@@ -36,3 +36,5 @@ entry("getpid");
+@@ -36,3 +36,6 @@ entry("getpid");
  entry("sbrk");
  entry("sleep");
  entry("uptime");
 +entry("history");
-+
++entry("settickets");
++entry("getpinfo");
+\ No newline at end of file
