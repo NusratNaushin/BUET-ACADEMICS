@@ -1,8 +1,20 @@
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000..d5f9712
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,5 @@
++{
++    "files.associations": {
++        "defs.h": "c"
++    }
++}
+\ No newline at end of file
 diff --git a/2105168.patch b/2105168.patch
 new file mode 100644
 index 0000000..e69de29
 diff --git a/Makefile b/Makefile
-index f8c820e..90d7a0c 100644
+index f8c820e..7579133 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -28,7 +28,8 @@ OBJS = \
@@ -27,20 +39,42 @@ index f8c820e..90d7a0c 100644
  
  fs.img: mkfs/mkfs README $(UPROGS)
  	mkfs/mkfs fs.img README $(UPROGS)
+@@ -160,7 +166,7 @@ QEMUGDB = $(shell if $(QEMU) -help | grep -q '^-gdb'; \
+ 	then echo "-gdb tcp::$(GDBPORT)"; \
+ 	else echo "-s -p $(GDBPORT)"; fi)
+ ifndef CPUS
+-CPUS := 3
++CPUS := 1
+ endif
+ 
+ QEMUOPTS = -machine virt -bios none -kernel $K/kernel -m 128M -smp $(CPUS) -nographic
 diff --git a/kernel/defs.h b/kernel/defs.h
-index d1b6bb9..ad2e15b 100644
+index d1b6bb9..afa56dd 100644
 --- a/kernel/defs.h
 +++ b/kernel/defs.h
-@@ -106,6 +106,8 @@ void            yield(void);
+@@ -1,3 +1,4 @@
++#include "pstat.h"
+ struct buf;
+ struct context;
+ struct file;
+@@ -9,6 +10,7 @@ struct sleeplock;
+ struct stat;
+ struct superblock;
+ 
++
+ // bio.c
+ void            binit(void);
+ struct buf*     bread(uint, uint);
+@@ -106,6 +108,8 @@ void            yield(void);
  int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
  int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
  void            procdump(void);
 +int             history(int  , uint64 ustats);
-+
++int             getpinfo(struct pstat *);
  
  // swtch.S
  void            swtch(struct context*, struct context*);
-@@ -140,6 +142,7 @@ void            argaddr(int, uint64 *);
+@@ -140,6 +144,7 @@ void            argaddr(int, uint64 *);
  int             fetchstr(uint64, char*, int);
  int             fetchaddr(uint64, uint64*);
  void            syscall();
@@ -60,20 +94,35 @@ index f0d3171..8e28ac5 100644
      userinit();      // first user process
      __sync_synchronize();
      started = 1;
+diff --git a/kernel/param.h b/kernel/param.h
+index 80ec6d3..74964d0 100644
+--- a/kernel/param.h
++++ b/kernel/param.h
+@@ -12,4 +12,9 @@
+ #define FSSIZE       2000  // size of file system in blocks
+ #define MAXPATH      128   // maximum file path name
+ #define USERSTACK    1     // user stack pages
++#define TIME_LIMIT_1 1
++#define TIME_LIMIT_2 2
++#define BOOST_INTERVAL 64
++#define DEFAULT_TICKET_COUNT 10 
++
+ 
 diff --git a/kernel/proc.c b/kernel/proc.c
-index 130d9ce..4c7c615 100644
+index 130d9ce..8b2fe6b 100644
 --- a/kernel/proc.c
 +++ b/kernel/proc.c
-@@ -5,6 +5,8 @@
+@@ -5,6 +5,9 @@
  #include "spinlock.h"
  #include "proc.h"
  #include "defs.h"
 +#include "stat.h"
++#include  "pstat.h"
 +
  
  struct cpu cpus[NCPU];
  
-@@ -693,3 +695,10 @@ procdump(void)
+@@ -693,3 +696,30 @@ procdump(void)
      printf("\n");
    }
  }
@@ -84,6 +133,43 @@ index 130d9ce..4c7c615 100644
 +
 +}
 +
++int getpinfo(struct pstat *process_characteristics){
++    struct proc *p;
++    int i = 0;
++    for(p = proc; p < &proc[NPROC]; p++,i++){
++      if(p->state != UNUSED){
++          process_characteristics->inuse[i] = 1;
++      }
++      process_characteristics->pid[i] = p->pid;
++      process_characteristics->inQ[i] = p->inQ;
++
++      process_characteristics->tickets_original[i] = p->tickets_original;
++      process_characteristics->tickets_current[i] = p->tickets_current;
++      process_characteristics->time_slices[i] = p->time_slices;
++    }
++
++
++    
++
++    return 0;
++}
+\ No newline at end of file
+diff --git a/kernel/proc.h b/kernel/proc.h
+index d021857..ca6cc86 100644
+--- a/kernel/proc.h
++++ b/kernel/proc.h
+@@ -104,4 +104,11 @@ struct proc {
+   struct file *ofile[NOFILE];  // Open files
+   struct inode *cwd;           // Current directory
+   char name[16];               // Process name (debugging)
++
++  uint tickets_original;
++  uint tickets_current;
++  uint inQ;
++  uint time_slices;
++  
++
+ };
 diff --git a/kernel/pstat.h b/kernel/pstat.h
 new file mode 100644
 index 0000000..3489e23
@@ -103,6 +189,32 @@ index 0000000..3489e23
 +int time_slices [ NPROC ]; // the number of time slices each process has been scheduled
 +};
 +# endif // _PSTAT_H_
+\ No newline at end of file
+diff --git a/kernel/random.h b/kernel/random.h
+new file mode 100644
+index 0000000..52e58c0
+--- /dev/null
++++ b/kernel/random.h
+@@ -0,0 +1,19 @@
++//https://en.wikipedia.org/wiki/Xorshift
++#ifndef RAND_H
++#define RAND_H
++#include "types.h"
++
++uint64 SEED = 782003;
++
++int rng(int n){
++    uint64 x = SEED;
++    x ^= x << 13;
++    x ^= x >> 17;
++    x ^= x << 5;
++
++    SEED = x;
++
++    return 1 + x%n;
++}
++
++#endif 
 \ No newline at end of file
 diff --git a/kernel/stat.h b/kernel/stat.h
 index 19543af..c022d60 100644
@@ -253,10 +365,18 @@ index bc5f356..809745f 100644
 +#define SYS_getpinfo 24
 \ No newline at end of file
 diff --git a/kernel/sysproc.c b/kernel/sysproc.c
-index 3b4d5bd..62ad9be 100644
+index 3b4d5bd..3551198 100644
 --- a/kernel/sysproc.c
 +++ b/kernel/sysproc.c
-@@ -91,3 +91,23 @@ sys_uptime(void)
+@@ -5,6 +5,7 @@
+ #include "memlayout.h"
+ #include "spinlock.h"
+ #include "proc.h"
++#include "pstat.h"
+ 
+ uint64
+ sys_exit(void)
+@@ -91,3 +92,40 @@ sys_uptime(void)
    release(&tickslock);
    return xticks;
  }
@@ -277,7 +397,24 @@ index 3b4d5bd..62ad9be 100644
 +
 +uint64
 +sys_getpinfo(void){
-+  printf("testing getpinfo");
++  //printf("testing getpinfo");
++
++  uint64 addr;
++  struct pstat process_charactersitics;
++
++  argaddr(0, &addr);
++
++  
++
++
++  getpinfo(&process_charactersitics);
++
++
++
++  if(copyout(myproc()->pagetable, addr, (char *)&process_charactersitics, sizeof(struct pstat)) < 0){
++    return -1;
++  }
++  
 +  return 0;
 +}
 \ No newline at end of file
@@ -348,10 +485,10 @@ index 0000000..46106aa
 \ No newline at end of file
 diff --git a/user/testprocinfo.c b/user/testprocinfo.c
 new file mode 100644
-index 0000000..35a9a2d
+index 0000000..04e353b
 --- /dev/null
 +++ b/user/testprocinfo.c
-@@ -0,0 +1,9 @@
+@@ -0,0 +1,26 @@
 +#include "kernel/types.h"
 +#include "kernel/stat.h"
 +#include "user/user.h"
@@ -359,6 +496,23 @@ index 0000000..35a9a2d
 +int main(int argc, char *argv[])
 +{
 +
++   struct pstat p;
++   getpinfo(&p);
++
++   printf("PID    |    In Use    |    inQ    |    Original Tickets    |    Current Tickets    |    Time Slices\n");
++
++   for (int i = 0 ; i < NPROC ; i++) {
++        if(p.inuse[i]){
++            printf("%d    |    %d    |    %d    |    %d    |    %d    |    %d\n",
++                   p.pid[i],
++                   p.inuse[i],
++                   p.inQ[i],
++                   p.tickets_original[i],
++                   p.tickets_current[i],
++                   p.time_slices[i]);
++        }
++   }
++   
 +   
 +}
 \ No newline at end of file
