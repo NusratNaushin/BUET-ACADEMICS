@@ -96,21 +96,21 @@ index f0d3171..8e28ac5 100644
      __sync_synchronize();
      started = 1;
 diff --git a/kernel/param.h b/kernel/param.h
-index 80ec6d3..74964d0 100644
+index 80ec6d3..3c3c1a3 100644
 --- a/kernel/param.h
 +++ b/kernel/param.h
 @@ -12,4 +12,9 @@
  #define FSSIZE       2000  // size of file system in blocks
  #define MAXPATH      128   // maximum file path name
  #define USERSTACK    1     // user stack pages
-+#define TIME_LIMIT_1 1
-+#define TIME_LIMIT_2 2
-+#define BOOST_INTERVAL 64
++#define TIME_LIMIT_1 5
++#define TIME_LIMIT_2 10
++#define BOOST_INTERVAL 200
 +#define DEFAULT_TICKET_COUNT 10 
 +
  
 diff --git a/kernel/proc.c b/kernel/proc.c
-index 130d9ce..4421aa4 100644
+index 130d9ce..ae155cf 100644
 --- a/kernel/proc.c
 +++ b/kernel/proc.c
 @@ -5,6 +5,9 @@
@@ -123,7 +123,16 @@ index 130d9ce..4421aa4 100644
  
  struct cpu cpus[NCPU];
  
-@@ -29,40 +32,39 @@ struct spinlock wait_lock;
+@@ -20,6 +23,8 @@ static void freeproc(struct proc *p);
+ 
+ extern char trampoline[]; // trampoline.S
+ 
++int last_ticks = 0;
++
+ // helps ensure that wakeups of wait()ing
+ // parents are not lost. helps obey the
+ // memory model when using p->parent.
+@@ -29,40 +34,39 @@ struct spinlock wait_lock;
  // Allocate a page for each process's kernel stack.
  // Map it high in memory, followed by an invalid
  // guard page.
@@ -178,7 +187,7 @@ index 130d9ce..4421aa4 100644
  {
    int id = r_tp();
    return id;
-@@ -70,7 +72,7 @@ cpuid()
+@@ -70,7 +74,7 @@ cpuid()
  
  // Return this CPU's cpu struct.
  // Interrupts must be disabled.
@@ -187,7 +196,7 @@ index 130d9ce..4421aa4 100644
  mycpu(void)
  {
    int id = cpuid();
-@@ -79,7 +81,7 @@ mycpu(void)
+@@ -79,7 +83,7 @@ mycpu(void)
  }
  
  // Return the current struct proc *, or zero if none.
@@ -196,7 +205,7 @@ index 130d9ce..4421aa4 100644
  myproc(void)
  {
    push_off();
-@@ -89,11 +91,10 @@ myproc(void)
+@@ -89,11 +93,10 @@ myproc(void)
    return p;
  }
  
@@ -210,7 +219,7 @@ index 130d9ce..4421aa4 100644
    acquire(&pid_lock);
    pid = nextpid;
    nextpid = nextpid + 1;
-@@ -106,16 +107,20 @@ allocpid()
+@@ -106,16 +109,20 @@ allocpid()
  // If found, initialize state required to run in the kernel,
  // and return with p->lock held.
  // If there are no free procs, or a memory allocation fails, return 0.
@@ -235,7 +244,7 @@ index 130d9ce..4421aa4 100644
        release(&p->lock);
      }
    }
-@@ -125,8 +130,16 @@ found:
+@@ -125,8 +132,16 @@ found:
    p->pid = allocpid();
    p->state = USED;
  
@@ -253,7 +262,7 @@ index 130d9ce..4421aa4 100644
      freeproc(p);
      release(&p->lock);
      return 0;
-@@ -134,7 +147,8 @@ found:
+@@ -134,7 +149,8 @@ found:
  
    // An empty user page table.
    p->pagetable = proc_pagetable(p);
@@ -263,7 +272,7 @@ index 130d9ce..4421aa4 100644
      freeproc(p);
      release(&p->lock);
      return 0;
-@@ -155,10 +169,10 @@ found:
+@@ -155,10 +171,10 @@ found:
  static void
  freeproc(struct proc *p)
  {
@@ -277,7 +286,7 @@ index 130d9ce..4421aa4 100644
      proc_freepagetable(p->pagetable, p->sz);
    p->pagetable = 0;
    p->sz = 0;
-@@ -180,23 +194,25 @@ proc_pagetable(struct proc *p)
+@@ -180,23 +196,25 @@ proc_pagetable(struct proc *p)
  
    // An empty page table.
    pagetable = uvmcreate();
@@ -308,7 +317,7 @@ index 130d9ce..4421aa4 100644
      uvmunmap(pagetable, TRAMPOLINE, 1, 0);
      uvmfree(pagetable, 0);
      return 0;
-@@ -207,8 +223,7 @@ proc_pagetable(struct proc *p)
+@@ -207,8 +225,7 @@ proc_pagetable(struct proc *p)
  
  // Free a process's page table, and free the
  // physical memory it refers to.
@@ -318,7 +327,7 @@ index 130d9ce..4421aa4 100644
  {
    uvmunmap(pagetable, TRAMPOLINE, 1, 0);
    uvmunmap(pagetable, TRAPFRAME, 1, 0);
-@@ -219,32 +234,30 @@ proc_freepagetable(pagetable_t pagetable, uint64 sz)
+@@ -219,32 +236,30 @@ proc_freepagetable(pagetable_t pagetable, uint64 sz)
  // assembled from ../user/initcode.S
  // od -t xC ../user/initcode
  uchar initcode[] = {
@@ -362,7 +371,7 @@ index 130d9ce..4421aa4 100644
  
    safestrcpy(p->name, "initcode", sizeof(p->name));
    p->cwd = namei("/");
-@@ -256,18 +269,21 @@ userinit(void)
+@@ -256,18 +271,21 @@ userinit(void)
  
  // Grow or shrink user memory by n bytes.
  // Return 0 on success, -1 on failure.
@@ -389,7 +398,7 @@ index 130d9ce..4421aa4 100644
      sz = uvmdealloc(p->pagetable, sz, sz + n);
    }
    p->sz = sz;
-@@ -276,20 +292,21 @@ growproc(int n)
+@@ -276,20 +294,21 @@ growproc(int n)
  
  // Create a new process, copying the parent.
  // Sets up child kernel stack to return as if from fork() system call.
@@ -415,7 +424,7 @@ index 130d9ce..4421aa4 100644
      freeproc(np);
      release(&np->lock);
      return -1;
-@@ -303,8 +320,8 @@ fork(void)
+@@ -303,8 +322,8 @@ fork(void)
    np->trapframe->a0 = 0;
  
    // increment reference counts on open file descriptors.
@@ -426,18 +435,18 @@ index 130d9ce..4421aa4 100644
        np->ofile[i] = filedup(p->ofile[i]);
    np->cwd = idup(p->cwd);
  
-@@ -320,6 +337,10 @@ fork(void)
+@@ -320,6 +339,10 @@ fork(void)
  
    acquire(&np->lock);
    np->state = RUNNABLE;
 +
 +  // spec e bolse je child inherits the same number of tickets as its parent erjonne ei kaaj
 +  np->tickets_original = p->tickets_original;
-+  np->tickets_current = p->tickets_current;
++  np->tickets_current = p->tickets_original;
    release(&np->lock);
  
    return pid;
-@@ -327,13 +348,14 @@ fork(void)
+@@ -327,13 +350,14 @@ fork(void)
  
  // Pass p's abandoned children to init.
  // Caller must hold wait_lock.
@@ -456,7 +465,7 @@ index 130d9ce..4421aa4 100644
        pp->parent = initproc;
        wakeup(initproc);
      }
-@@ -343,17 +365,18 @@ reparent(struct proc *p)
+@@ -343,17 +367,18 @@ reparent(struct proc *p)
  // Exit the current process.  Does not return.
  // An exited process remains in the zombie state
  // until its parent calls wait().
@@ -480,7 +489,7 @@ index 130d9ce..4421aa4 100644
        struct file *f = p->ofile[fd];
        fileclose(f);
        p->ofile[fd] = 0;
-@@ -372,7 +395,7 @@ exit(int status)
+@@ -372,7 +397,7 @@ exit(int status)
  
    // Parent might be sleeping in wait().
    wakeup(p->parent);
@@ -489,7 +498,7 @@ index 130d9ce..4421aa4 100644
    acquire(&p->lock);
  
    p->xstate = status;
-@@ -387,8 +410,7 @@ exit(int status)
+@@ -387,8 +412,7 @@ exit(int status)
  
  // Wait for a child process to exit and return its pid.
  // Return -1 if this process has no children.
@@ -499,7 +508,7 @@ index 130d9ce..4421aa4 100644
  {
    struct proc *pp;
    int havekids, pid;
-@@ -396,20 +418,25 @@ wait(uint64 addr)
+@@ -396,20 +420,25 @@ wait(uint64 addr)
  
    acquire(&wait_lock);
  
@@ -531,7 +540,7 @@ index 130d9ce..4421aa4 100644
              release(&pp->lock);
              release(&wait_lock);
              return -1;
-@@ -424,13 +451,14 @@ wait(uint64 addr)
+@@ -424,13 +453,14 @@ wait(uint64 addr)
      }
  
      // No point waiting if we don't have any children.
@@ -549,7 +558,7 @@ index 130d9ce..4421aa4 100644
    }
  }
  
-@@ -441,38 +469,135 @@ wait(uint64 addr)
+@@ -441,38 +471,137 @@ wait(uint64 addr)
  //  - swtch to start running that process.
  //  - eventually that process transfers control
  //    via swtch back to the scheduler.
@@ -569,8 +578,9 @@ index 130d9ce..4421aa4 100644
      // processes are waiting.
      intr_on();
  
-+    if (ticks % BOOST_INTERVAL == 0)
++    if (ticks >= last_ticks+BOOST_INTERVAL)
 +    {
++      last_ticks = ticks;
 +      for (p = proc; p < &proc[NPROC]; p++)
 +      {
 +        acquire(&p->lock);
@@ -607,7 +617,7 @@ index 130d9ce..4421aa4 100644
 +    if (total_tickets > 0)
 +    {
 +
-+      int chosen_ticket = rng(total_tickets) - 1;
++      int chosen_ticket = rng(total_tickets);
 +      int counter = 0;
 +
 +      for (p = proc; p < &proc[NPROC]; p++)
@@ -621,8 +631,12 @@ index 130d9ce..4421aa4 100644
 +          // to release its lock and then reacquire it
 +          // before jumping back to us.
 +
-+          if (counter > chosen_ticket)
++          if (counter >= chosen_ticket)
 +          {
++            if (p->tickets_current > 0)
++            {
++              p->tickets_current--;
++            }
 +            p->state = RUNNING;
 +            c->proc = p;
 +            p->time_slices++;
@@ -632,10 +646,7 @@ index 130d9ce..4421aa4 100644
 +            c->proc = 0;
 +            found = 1;
 +
-+            if (p->tickets_current > 0)
-+            {
-+              p->tickets_current--;
-+            }
++            
 +            if (p->time_slices >= TIME_LIMIT_1)
 +            {
 +              p->inQ = 1;
@@ -662,11 +673,11 @@ index 130d9ce..4421aa4 100644
 +        acquire(&p->lock);
 +        if (p->state == RUNNABLE && p->inQ == 1)
 +        {
-+
+ 
 +          // Switch to chosen process.  It is the process's job
 +          // to release its lock and then reacquire it
 +          // before jumping back to us.
- 
++
 +          p->state = RUNNING;
 +          c->proc = p;
 +          p->time_slices++;
@@ -700,7 +711,7 @@ index 130d9ce..4421aa4 100644
        // nothing to run; stop running on this core until an interrupt.
        intr_on();
        asm volatile("wfi");
-@@ -487,19 +612,18 @@ scheduler(void)
+@@ -487,19 +616,18 @@ scheduler(void)
  // be proc->intena and proc->noff, but that would
  // break in the few places where a lock is held but
  // there's no process.
@@ -725,7 +736,7 @@ index 130d9ce..4421aa4 100644
      panic("sched interruptible");
  
    intena = mycpu()->intena;
-@@ -508,8 +632,7 @@ sched(void)
+@@ -508,8 +636,7 @@ sched(void)
  }
  
  // Give up the CPU for one scheduling round.
@@ -735,7 +746,7 @@ index 130d9ce..4421aa4 100644
  {
    struct proc *p = myproc();
    acquire(&p->lock);
-@@ -520,15 +643,15 @@ yield(void)
+@@ -520,15 +647,15 @@ yield(void)
  
  // A fork child's very first scheduling by scheduler()
  // will swtch to forkret.
@@ -754,7 +765,7 @@ index 130d9ce..4421aa4 100644
      // File system initialization must be run in the context of a
      // regular process (e.g., because it calls sleep), and thus cannot
      // be run from main().
-@@ -544,11 +667,10 @@ forkret(void)
+@@ -544,11 +671,10 @@ forkret(void)
  
  // Atomically release lock and sleep on chan.
  // Reacquires lock when awakened.
@@ -768,7 +779,7 @@ index 130d9ce..4421aa4 100644
    // Must acquire p->lock in order to
    // change p->state and then call sched.
    // Once we hold p->lock, we can be
-@@ -556,7 +678,7 @@ sleep(void *chan, struct spinlock *lk)
+@@ -556,7 +682,7 @@ sleep(void *chan, struct spinlock *lk)
    // (wakeup locks p->lock),
    // so it's okay to release lk.
  
@@ -777,7 +788,7 @@ index 130d9ce..4421aa4 100644
    release(lk);
  
    // Go to sleep.
-@@ -575,15 +697,17 @@ sleep(void *chan, struct spinlock *lk)
+@@ -575,15 +701,17 @@ sleep(void *chan, struct spinlock *lk)
  
  // Wake up all processes sleeping on chan.
  // Must be called without any p->lock.
@@ -800,7 +811,7 @@ index 130d9ce..4421aa4 100644
          p->state = RUNNABLE;
        }
        release(&p->lock);
-@@ -594,16 +718,18 @@ wakeup(void *chan)
+@@ -594,16 +722,18 @@ wakeup(void *chan)
  // Kill the process with the given pid.
  // The victim won't exit until it tries to return
  // to user space (see usertrap() in trap.c).
@@ -824,7 +835,7 @@ index 130d9ce..4421aa4 100644
          // Wake process from sleep().
          p->state = RUNNABLE;
        }
-@@ -615,19 +741,17 @@ kill(int pid)
+@@ -615,19 +745,17 @@ kill(int pid)
    return -1;
  }
  
@@ -847,7 +858,7 @@ index 130d9ce..4421aa4 100644
    acquire(&p->lock);
    k = p->killed;
    release(&p->lock);
-@@ -637,13 +761,15 @@ killed(struct proc *p)
+@@ -637,13 +765,15 @@ killed(struct proc *p)
  // Copy to either a user address, or kernel address,
  // depending on usr_dst.
  // Returns 0 on success, -1 on error.
@@ -867,7 +878,7 @@ index 130d9ce..4421aa4 100644
      memmove((char *)dst, src, len);
      return 0;
    }
-@@ -652,14 +778,16 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
+@@ -652,14 +782,16 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
  // Copy from either a user address, or kernel address,
  // depending on usr_src.
  // Returns 0 on success, -1 on error.
@@ -889,7 +900,7 @@ index 130d9ce..4421aa4 100644
      return 0;
    }
  }
-@@ -667,25 +795,24 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
+@@ -667,25 +799,24 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
  // Print a process listing to console.  For debugging.
  // Runs when user types ^P on console.
  // No lock to avoid wedging a stuck machine further.
@@ -926,7 +937,7 @@ index 130d9ce..4421aa4 100644
        state = states[p->state];
      else
        state = "???";
-@@ -693,3 +820,58 @@ procdump(void)
+@@ -693,3 +824,58 @@ procdump(void)
      printf("\n");
    }
  }
@@ -1261,10 +1272,10 @@ index 3b4d5bd..8d6f2d5 100644
 \ No newline at end of file
 diff --git a/user/dummyproc.c b/user/dummyproc.c
 new file mode 100644
-index 0000000..9c13c30
+index 0000000..af9c707
 --- /dev/null
 +++ b/user/dummyproc.c
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,71 @@
 +#include "kernel/types.h"
 +#include "kernel/stat.h"
 +#include "user/user.h"
@@ -1277,7 +1288,8 @@ index 0000000..9c13c30
 +        settickets(-1);
 +    }
 +
-+    else{
++    else
++    {
 +        int tickets = atoi(argv[1]);
 +
 +        if (tickets < 1)
@@ -1296,19 +1308,43 @@ index 0000000..9c13c30
 +                printf("Tickets set to %d.\n", tickets);
 +            }
 +
-+            int pid = fork();
-+            if(pid == 0){
-+                while(1){
-+                    for(volatile int i = 0; i < 100000000 ; i++);
++            // int pid = fork();
++            int pid;
++            for (int i = 0; i < 4; i++)
++            {
++                pid = fork();
++
++                // break;
++
++                if (pid == 0)
++                {
++                    settickets(tickets);
++                    int counter = 0;
++                    while (1)
++                    {
++                        for (volatile int i = 0; i < 100000000; i++)
++                            ;
++
++                        counter++;
++                        if (counter % 10 == 0)
++                        {
++                            sleep(5);
++                        }
++                    }
++                    exit(0);
++                }
++
++                else if (pid < 0)
++                {
++                    printf("fork failed\n");
++                    break;
 +                }
 +            }
 +
-+            else if(pid != 0){
-+                    for(volatile int i = 0; i < 100000000 ; i++);
-+            }
++            for (volatile int i = 0; i < 100000000; i++)
++                ;
 +        }
 +    }
-+
 +    return 0;
 +}
 \ No newline at end of file
@@ -1359,7 +1395,7 @@ index 0000000..46106aa
 \ No newline at end of file
 diff --git a/user/testprocinfo.c b/user/testprocinfo.c
 new file mode 100644
-index 0000000..dcde62d
+index 0000000..47aa84b
 --- /dev/null
 +++ b/user/testprocinfo.c
 @@ -0,0 +1,26 @@
@@ -1380,7 +1416,7 @@ index 0000000..dcde62d
 +            printf("%d      |    %d         |    %d      |    %d                   |    %d                  |    %d\n",
 +                   p.pid[i],
 +                   p.inuse[i],
-+                   p.inQ[i]+1,
++                   p.inQ[i],
 +                   p.tickets_original[i],
 +                   p.tickets_current[i],
 +                   p.time_slices[i]);
