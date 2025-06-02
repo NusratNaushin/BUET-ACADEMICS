@@ -96,7 +96,7 @@ index f0d3171..8e28ac5 100644
      __sync_synchronize();
      started = 1;
 diff --git a/kernel/param.h b/kernel/param.h
-index 80ec6d3..74964d0 100644
+index 80ec6d3..f37ca0e 100644
 --- a/kernel/param.h
 +++ b/kernel/param.h
 @@ -12,4 +12,9 @@
@@ -107,10 +107,10 @@ index 80ec6d3..74964d0 100644
 +#define TIME_LIMIT_2 2
 +#define BOOST_INTERVAL 64
 +#define DEFAULT_TICKET_COUNT 10 
-+
++#define PRINT_SCHEDULING 0
  
 diff --git a/kernel/proc.c b/kernel/proc.c
-index 130d9ce..838752d 100644
+index 130d9ce..862a31e 100644
 --- a/kernel/proc.c
 +++ b/kernel/proc.c
 @@ -5,6 +5,9 @@
@@ -558,7 +558,7 @@ index 130d9ce..838752d 100644
    }
  }
  
-@@ -441,38 +471,312 @@ wait(uint64 addr)
+@@ -441,38 +471,335 @@ wait(uint64 addr)
  //  - swtch to start running that process.
  //  - eventually that process transfers control
  //    via swtch back to the scheduler.
@@ -816,13 +816,19 @@ index 130d9ce..838752d 100644
 +        {
 +
 +          count += p->tickets_current;
-+          if (count >= winner_ticket)
++          if (count > winner_ticket)
 +          {
 +
 +            p->state = RUNNING;
 +            c->proc = p;
 +            p->tickets_current--;
 +            p->time_slices += 1;
++
++            if (PRINT_SCHEDULING)
++            {
++              printf("Lottery: PID %d is running | tickets left: %d | time slice: %d\n",
++                     p->pid, p->tickets_current, p->time_slices);
++            }
 +
 +            swtch(&c->context, &p->context);
 +
@@ -833,6 +839,11 @@ index 130d9ce..838752d 100644
 +            {
 +              p->inQ = 1;
 +              p->time_slices = 0;
++
++              if (PRINT_SCHEDULING)
++            {
++              printf("Lottery Scheduling: PID %d demoted to Queue 2\n", p->pid);
++            }
 +            }
 +
 +            release(&p->lock);
@@ -853,34 +864,46 @@ index 130d9ce..838752d 100644
 +        if (p->inQ == 1 && p->state == RUNNABLE)
 +        {
 +
-+         
-+            // Switch to chosen process.  It is the process's job
-+            // to release its lock and then reacquire it
-+            // before jumping back to us.
-+            p->state = RUNNING;
-+            c->proc = p;
++          // Switch to chosen process.  It is the process's job
++          // to release its lock and then reacquire it
++          // before jumping back to us.
++          p->state = RUNNING;
++          c->proc = p;
 +
-+            p->time_slices += 1;
++          if (PRINT_SCHEDULING)
++          {
++            int printf_time_slices = p->time_slices + 1;
++            printf("RR: PID %d is running | time slice: %d/%d\n",
++                   p->pid, printf_time_slices, TIME_LIMIT_2);
++          }
++          p->time_slices += 1;
 +
-+            swtch(&c->context, &p->context);
++          
 +
-+            // Process is done running for now.
-+            // It should have changed its p->state before coming back.
-+            c->proc = 0;
-+            found = 1;
++          swtch(&c->context, &p->context);
 +
-+            if (p->state == RUNNABLE && p->time_slices >= TIME_LIMIT_2)
++          // Process is done running for now.
++          // It should have changed its p->state before coming back.
++          c->proc = 0;
++          found = 1;
++
++          if (p->state == RUNNABLE && p->time_slices >= TIME_LIMIT_2)
++          {
++            p->inQ = 0;
++            p->tickets_current = p->tickets_original;
++            p->time_slices = 0;
++
++            if (PRINT_SCHEDULING)
 +            {
-+              p->inQ = 0;
-+              p->tickets_current = p->tickets_original;
-+              p->time_slices = 0;
++              printf("RR: PID %d promoted to Queue 1\n", p->pid);
 +            }
-+            release(&p->lock);
-+            break;
 +          }
 +
 +          release(&p->lock);
-+        
++          break;
++        }
++
++        release(&p->lock);
 +      }
 +    }
 +
@@ -889,7 +912,7 @@ index 130d9ce..838752d 100644
        // nothing to run; stop running on this core until an interrupt.
        intr_on();
        asm volatile("wfi");
-@@ -487,19 +791,18 @@ scheduler(void)
+@@ -487,19 +814,18 @@ scheduler(void)
  // be proc->intena and proc->noff, but that would
  // break in the few places where a lock is held but
  // there's no process.
@@ -914,7 +937,7 @@ index 130d9ce..838752d 100644
      panic("sched interruptible");
  
    intena = mycpu()->intena;
-@@ -508,8 +811,7 @@ sched(void)
+@@ -508,8 +834,7 @@ sched(void)
  }
  
  // Give up the CPU for one scheduling round.
@@ -924,7 +947,7 @@ index 130d9ce..838752d 100644
  {
    struct proc *p = myproc();
    acquire(&p->lock);
-@@ -520,15 +822,15 @@ yield(void)
+@@ -520,15 +845,15 @@ yield(void)
  
  // A fork child's very first scheduling by scheduler()
  // will swtch to forkret.
@@ -943,7 +966,7 @@ index 130d9ce..838752d 100644
      // File system initialization must be run in the context of a
      // regular process (e.g., because it calls sleep), and thus cannot
      // be run from main().
-@@ -544,11 +846,10 @@ forkret(void)
+@@ -544,11 +869,10 @@ forkret(void)
  
  // Atomically release lock and sleep on chan.
  // Reacquires lock when awakened.
@@ -957,7 +980,7 @@ index 130d9ce..838752d 100644
    // Must acquire p->lock in order to
    // change p->state and then call sched.
    // Once we hold p->lock, we can be
-@@ -556,7 +857,7 @@ sleep(void *chan, struct spinlock *lk)
+@@ -556,7 +880,7 @@ sleep(void *chan, struct spinlock *lk)
    // (wakeup locks p->lock),
    // so it's okay to release lk.
  
@@ -966,7 +989,7 @@ index 130d9ce..838752d 100644
    release(lk);
  
    // Go to sleep.
-@@ -575,15 +876,17 @@ sleep(void *chan, struct spinlock *lk)
+@@ -575,15 +899,17 @@ sleep(void *chan, struct spinlock *lk)
  
  // Wake up all processes sleeping on chan.
  // Must be called without any p->lock.
@@ -989,7 +1012,7 @@ index 130d9ce..838752d 100644
          p->state = RUNNABLE;
        }
        release(&p->lock);
-@@ -594,16 +897,18 @@ wakeup(void *chan)
+@@ -594,16 +920,18 @@ wakeup(void *chan)
  // Kill the process with the given pid.
  // The victim won't exit until it tries to return
  // to user space (see usertrap() in trap.c).
@@ -1013,7 +1036,7 @@ index 130d9ce..838752d 100644
          // Wake process from sleep().
          p->state = RUNNABLE;
        }
-@@ -615,19 +920,17 @@ kill(int pid)
+@@ -615,19 +943,17 @@ kill(int pid)
    return -1;
  }
  
@@ -1036,7 +1059,7 @@ index 130d9ce..838752d 100644
    acquire(&p->lock);
    k = p->killed;
    release(&p->lock);
-@@ -637,13 +940,15 @@ killed(struct proc *p)
+@@ -637,13 +963,15 @@ killed(struct proc *p)
  // Copy to either a user address, or kernel address,
  // depending on usr_dst.
  // Returns 0 on success, -1 on error.
@@ -1056,7 +1079,7 @@ index 130d9ce..838752d 100644
      memmove((char *)dst, src, len);
      return 0;
    }
-@@ -652,14 +957,16 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
+@@ -652,14 +980,16 @@ either_copyout(int user_dst, uint64 dst, void *src, uint64 len)
  // Copy from either a user address, or kernel address,
  // depending on usr_src.
  // Returns 0 on success, -1 on error.
@@ -1078,7 +1101,7 @@ index 130d9ce..838752d 100644
      return 0;
    }
  }
-@@ -667,25 +974,24 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
+@@ -667,25 +997,24 @@ either_copyin(void *dst, int user_src, uint64 src, uint64 len)
  // Print a process listing to console.  For debugging.
  // Runs when user types ^P on console.
  // No lock to avoid wedging a stuck machine further.
@@ -1115,7 +1138,7 @@ index 130d9ce..838752d 100644
        state = states[p->state];
      else
        state = "???";
-@@ -693,3 +999,58 @@ procdump(void)
+@@ -693,3 +1022,58 @@ procdump(void)
      printf("\n");
    }
  }
@@ -1215,7 +1238,7 @@ index 0000000..3489e23
 \ No newline at end of file
 diff --git a/kernel/random.h b/kernel/random.h
 new file mode 100644
-index 0000000..52e58c0
+index 0000000..f0f6273
 --- /dev/null
 +++ b/kernel/random.h
 @@ -0,0 +1,19 @@
@@ -1234,7 +1257,7 @@ index 0000000..52e58c0
 +
 +    SEED = x;
 +
-+    return 1 + x%n;
++    return x%n;
 +}
 +
 +#endif 
