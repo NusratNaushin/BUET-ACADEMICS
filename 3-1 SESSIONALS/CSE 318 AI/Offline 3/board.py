@@ -1,5 +1,5 @@
 import pygame
-
+import copy
 class Board:
     def __init__(self,rows,cols,cell_width,cell_height):
         self.rows = rows
@@ -7,7 +7,7 @@ class Board:
         self.cell_width = cell_width
         self.cell_height = cell_height
         self.grid = {}
-        self.turn = 1 # first e 1 thakle red grid dekhabe
+        self.turn = 0 # first e 0 thakle red grid dekhabe
 
     def cell_center(self,row_that_is_clicked ,column_that_is_clicked):
         x_dsitance_from_beginning_to_the_selected = column_that_is_clicked * self.cell_width
@@ -30,7 +30,7 @@ class Board:
             return 4
 
 
-    def clicks(self,row,col): # jei row col select kortesi ogla passing
+    def clicks(self,row,col,player_colour): # jei row col select kortesi ogla passing
         if(row < 0 or row >= self.rows or col < 0 or col >= self.cols):
             return
         
@@ -42,15 +42,16 @@ class Board:
 
 
         if orb:
-            if orb["colour"] == current_colour_of_the_orb: #orb ager theke ase ekhn onno colour er orb er upor to ar kora jabe na so ei check dilam
+            if orb["colour"] == player_colour: #orb ager theke ase ekhn onno colour er orb er upor to ar kora jabe na so ei check dilam
                 orb["count"] += 1
                 if orb["count"] >= self.get_critical_mass(row,col):
+                    self.handle_explosion()
                     print("Critical mass : ", orb["count"],self.get_critical_mass(row,col))
                     pass
                 else:
                     self.turn = 1 - self.turn
         else:
-            self.grid[key] = {"pos": center , "colour": current_colour_of_the_orb , "count": 1}
+            self.grid[key] = {"pos": center , "colour": player_colour , "count": 1}
             self.turn = 1 - self.turn
 
     
@@ -65,3 +66,72 @@ class Board:
                 # pygame.draw.circle(screen, orb["colour"], (orb["pos"][0] + offset_x, orb["pos"][1]), 10)
                                                   
         return what_to_draw
+    
+    
+    def get_legal_moves(self,player):
+        legal_moves_array = []
+        player_colour = "red" if player == 0 else "green"
+        for row in range(self.rows):
+            for col in range(self.cols):
+                key = (row,col)
+                orb = self.grid.get(key)
+                if orb is None or orb["colour"] == player_colour: #hoy cell faka chilo or oine same colour er ball/s chilo
+                    legal_moves_array.append((row,col))
+        return legal_moves_array 
+    
+    
+    def make_move(self,move,player):
+        new_board = copy.deepcopy(self)
+        # new_board.turn =  0 if player == "red" else 1 #jei player er turn shei player ke set korlam
+        row,col = move # move is basically kon row and kon column e assigned hocche by the player
+        new_board.clicks(row,col,player) # click method diye ball place kortesilam
+        new_board.handle_explosion()
+        return new_board # kahini kiccha korar pore new board er obostha return korbo
+    
+    
+    def is_last_grid(self):
+        
+        if len(self.grid) < 2:  # ekhono shudhu ekta ball ba kono cell ei ball nai
+            return False
+        orbs_colour_present_on_the_grid = set() # set nibo karon set shdhu unique material e rakhe
+        
+        for orbs in self.grid.values():
+            orbs_colour_present_on_the_grid.add(orbs["colour"])
+        
+        #amader duita colour ase so last giye board e shob ek colour er ball thaka manei oita wins and last gird eta tahole set er element matro ekta hobe if last terminal
+        
+        if(len(orbs_colour_present_on_the_grid)==1):
+            return True
+        else:
+            return False
+    
+    def handle_explosion(self):
+        to_explode = []
+        for (row,col) , orb in self.grid.items():
+            if orb["count"] >= self.get_critical_mass(row,col):
+                to_explode.append((row,col))
+        while to_explode:
+            row,col = to_explode.pop()
+            orb = self.grid[(row,col)] #jei tar critical mass hoyeche sheta r row ar col number collect korlam
+            colour = orb["colour"]
+            critical = self.get_critical_mass(row,col)
+            
+            orb["count"] -= critical  # ekhane jehetu oi cell ta explode korbo to critical mass poriman komiye dilam karon jaate kore ekhon abar ekhane orbs newa jay
+            if orb["count"] <= 0:
+                del self.grid[(row,col)]
+            
+            
+            directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]   
+            for dr, dc in directions:
+                new_row,new_column = row + dr , col + dc
+                
+                if 0<=new_row < self.rows and 0<=new_column < self.cols:
+                    key = (new_row,new_column)
+                    center = self.cell_center(new_row,new_column)
+                    if key in self.grid:
+                        self.grid[key]["count"] += 1
+                        self.grid[key]["pos"] = center
+                    else:
+                        self.grid[key] = {"pos": center , "colour": colour , "count": 1}
+                    if self.grid[key]["count"] >= self.get_critical_mass(new_row,new_column):
+                        to_explode.append((new_row,new_column))

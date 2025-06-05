@@ -2,6 +2,8 @@
 import pygame
 from board import *
 from filehandling import *
+from minimax import *
+from heuristic import *
 
 # pygame setup
 pygame.init()
@@ -11,7 +13,7 @@ running = True
 dt = 0
 
 
-orb_position = []
+# orb_position = []
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 cell_width = 120
@@ -33,6 +35,11 @@ def drawGrid(colour="red"):
         pygame.draw.line(screen, colour, (x, 0), (x, screen.get_height()))
     for y in range(0, screen.get_height(), cell_height):
         pygame.draw.line(screen, colour, (0, y), (screen.get_width(), y))
+        
+        
+max_depth_to_search = 3
+heuristic_function = heuristic
+AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='green', heuristic_function=heuristic_function)
 
 while running: 
 
@@ -47,23 +54,23 @@ while running:
     drawGrid("red" if board.turn == 0 else "green")
 
 
-    if(pygame.mouse.get_pressed()[0]):
+    if(board.turn == 0 and pygame.mouse.get_pressed()[0]):
         mouse_click_x , mouse_click_y  = pygame.mouse.get_pos()
 
         column_that_is_clicked = mouse_click_x // cell_width  # inetegr division korlam jaate column number ta pai
         row_that_is_clicked = mouse_click_y // cell_height
 
-        board.clicks(row_that_is_clicked,column_that_is_clicked)
+        board.clicks(row_that_is_clicked,column_that_is_clicked,"red")
         write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
 
-    if board.turn == 1:
-        try:
-            new_turn , new_grid = read_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt")
-            if new_turn == 0:
-                board.turn = 0
-                board.grid = new_grid
-        except Exception as e:
-            print("AI move error:", e)
+    elif board.turn == 1:
+        best_move = AI_PLAYER.get_move(board)
+        if best_move is not None:
+            board = board.make_move(best_move, AI_PLAYER.player_colour)
+            board.turn = 0  # AI er move korar por turn change kore dilam
+            write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
+        else :
+            print("AI has no legal moves")
     for colour,pos in board.draw_orbs():
         pygame.draw.circle(screen,colour, pos , radius=10)
 
