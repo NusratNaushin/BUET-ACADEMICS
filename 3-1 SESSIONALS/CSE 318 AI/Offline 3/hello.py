@@ -35,7 +35,7 @@ flag = 0
 
 #critical_mass=4
 
-font = pygame.font.Font('freesansbold.ttf', 32)
+font = pygame.font.SysFont("couriernew", 32)
 
 def drawGrid(colour="red"):
     for x in range(board.cols + 1):
