@@ -14,9 +14,11 @@ class MinimaxAgent:
         if depth == 0 or board.is_last_grid():
             return self.heuristic_function(board, self.player_colour), None # heuritic value dicchi ar no move return kortesi cause leaf node e achi
 
-        legal_moves = board.get_legal_moves(
-            self.colour_into_turn(self.player_colour) if maximizing_player else self.colour_into_turn(self.opponent_player())
-        )
+        
+        current_player = self.player_colour if maximizing_player else self.opponent_player()
+        legal_moves = board.get_legal_moves(self.colour_into_turn(current_player))
+        
+
         if not legal_moves:
             return self.heuristic_function(board, self.player_colour), None # heuritic value dicchi ar no move return kortesi cause leaf node e achi
 
@@ -47,21 +49,7 @@ class MinimaxAgent:
                 beta = min(beta,eval)
                 if beta <= alpha:
                     break    # etai holo shei pruning step , beta ar value aplha er cheye kom hole oi branch ar check eri dorkar nei
-            return min_eval, best_move
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            return min_eval, best_move       
         
         
     def colour_into_turn(self,colour):

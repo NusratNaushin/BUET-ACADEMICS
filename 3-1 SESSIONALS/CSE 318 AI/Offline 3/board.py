@@ -46,7 +46,8 @@ class Board:
                 orb["count"] += 1
                 if orb["count"] >= self.get_critical_mass(row,col):
                     self.handle_explosion()
-                    print("Critical mass : ", orb["count"],self.get_critical_mass(row,col))
+                    #print("After explosion:", row, col, "Grid:", self.grid.get((row, col)))
+                   # print("Critical mass : ", orb["count"],self.get_critical_mass(row,col))
                     pass
                 else:
                     self.turn = 1 - self.turn
@@ -82,7 +83,7 @@ class Board:
     
     def make_move(self,move,player):
         new_board = copy.deepcopy(self)
-        # new_board.turn =  0 if player == "red" else 1 #jei player er turn shei player ke set korlam
+        new_board.turn =  0 if player == "red" else 1 #jei player er turn shei player ke set korlam
         row,col = move # move is basically kon row and kon column e assigned hocche by the player
         new_board.clicks(row,col,player) # click method diye ball place kortesilam
         new_board.handle_explosion()
@@ -107,31 +108,49 @@ class Board:
     
     def handle_explosion(self):
         to_explode = []
+        seen = set()
+        # print("Checking cells for initial explosion...")
         for (row,col) , orb in self.grid.items():
+            # print(f"Cell ({row},{col}) - Count: {orb['count']}, Colour: {orb['colour']}, Critical: {self.get_critical_mass(row, col)}")
             if orb["count"] >= self.get_critical_mass(row,col):
+                # print(f">>> Cell ({row},{col}) will explode.")
                 to_explode.append((row,col))
+                seen.add((row,col))
         while to_explode:
+            # print(f"\nExploding cell ({row},{col}) - Count: {orb['count']}, Colour: {orb['colour']}")
             row,col = to_explode.pop()
-            orb = self.grid[(row,col)] #jei tar critical mass hoyeche sheta r row ar col number collect korlam
-            colour = orb["colour"]
+            orb = self.grid.get((row,col))
+            if not orb:
+                continue
+           # orb = self.grid[(row,col)] #jei tar critical mass hoyeche sheta r row ar col number collect korlam
+            exploding_colour = orb["colour"]
             critical = self.get_critical_mass(row,col)
             
             orb["count"] -= critical  # ekhane jehetu oi cell ta explode korbo to critical mass poriman komiye dilam karon jaate kore ekhon abar ekhane orbs newa jay
-            if orb["count"] <= 0:
-                del self.grid[(row,col)]
+            # if orb["count"] <= 0:
+            del self.grid[(row,col)]
             
             
             directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]   
             for dr, dc in directions:
                 new_row,new_column = row + dr , col + dc
                 
-                if 0<=new_row < self.rows and 0<=new_column < self.cols:
+                if (0 <= new_row < self.rows) and( 0 <= new_column < self.cols):
                     key = (new_row,new_column)
                     center = self.cell_center(new_row,new_column)
+                    # print(f"  -> Adding orb to neighbor ({new_row},{new_column})")
                     if key in self.grid:
+                        # print(f"     - Previous count: {self.grid[key]['count']-1}")
+                        # print(f"     - New count: {self.grid[key]['count']}")
+                        # print(f"     - Colour changed to: {self.grid[key]['colour']}")
                         self.grid[key]["count"] += 1
+                        #if self.grid[key]["colour"] != exploding_colour:
+                        self.grid[key]["colour"] = exploding_colour
                         self.grid[key]["pos"] = center
                     else:
-                        self.grid[key] = {"pos": center , "colour": colour , "count": 1}
+                        # print(f"     - New cell created at ({new_row},{new_column}) with 1 orb and colour {exploding_colour}")
+                        self.grid[key] = {"pos": center , "colour": exploding_colour , "count": 1}
                     if self.grid[key]["count"] >= self.get_critical_mass(new_row,new_column):
-                        to_explode.append((new_row,new_column))
+                        to_explode.append(key)
+                        seen.add((key))
+                        # print(f"     >>> Neighbor ({new_row},{new_column}) scheduled to explode next!")

@@ -59,8 +59,11 @@ while running:
 
         column_that_is_clicked = mouse_click_x // cell_width  # inetegr division korlam jaate column number ta pai
         row_that_is_clicked = mouse_click_y // cell_height
-
+        print(f"Human clicked at pixel ({mouse_click_x}, {mouse_click_y}) => grid cell ({row_that_is_clicked}, {column_that_is_clicked})")
         board.clicks(row_that_is_clicked,column_that_is_clicked,"red")
+        print(f"After human click, grid state:")
+        for (r, c), orb in sorted(board.grid.items()):
+            print(f"  Cell ({r},{c}) - Count: {orb['count']}, Colour: {orb['colour']}")
         write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
 
     elif board.turn == 1:
@@ -120,3 +123,19 @@ while running:
     dt = clock.tick(60) / 1000
 
 pygame.quit()
+
+
+
+
+
+# Human Move:
+
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
+# 0 0 0 0 0 0
