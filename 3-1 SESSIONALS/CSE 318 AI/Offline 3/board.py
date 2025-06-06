@@ -1,13 +1,15 @@
 import pygame
 import copy
 class Board:
-    def __init__(self,rows,cols,cell_width,cell_height):
+    def __init__(self,rows,cols,cell_width,cell_height,offset_x, offset_y):
         self.rows = rows
         self.cols = cols
         self.cell_width = cell_width
         self.cell_height = cell_height
         self.grid = {}
         self.turn = 0 # first e 0 thakle red grid dekhabe
+        self.offset_x = offset_x
+        self.offset_y = offset_y
 
     def cell_center(self,row_that_is_clicked ,column_that_is_clicked):
         x_dsitance_from_beginning_to_the_selected = column_that_is_clicked * self.cell_width
@@ -31,8 +33,12 @@ class Board:
 
 
     def clicks(self,row,col,player_colour): # jei row col select kortesi ogla passing
+        
+        if self.isWinner() is not None:
+            print("Game Over! Winner:", "Red" if self.isWinner() == 0 else "Green")
+            return self.isWinner()
         if(row < 0 or row >= self.rows or col < 0 or col >= self.cols):
-            return
+            return None
         
         center = self.cell_center(row,col)
         key = (row,col)
@@ -46,14 +52,18 @@ class Board:
                 orb["count"] += 1
                 if orb["count"] >= self.get_critical_mass(row,col):
                     self.handle_explosion()
+                    #orb["count"] = 0 # critical mass er poriman komiye dilam
                     #print("After explosion:", row, col, "Grid:", self.grid.get((row, col)))
                    # print("Critical mass : ", orb["count"],self.get_critical_mass(row,col))
-                    pass
-                else:
-                    self.turn = 1 - self.turn
+                    #pass
+                self.turn = 1 - self.turn
         else:
             self.grid[key] = {"pos": center , "colour": player_colour , "count": 1}
             self.turn = 1 - self.turn
+        winning_flag = self.isWinner()
+        if winning_flag is not None:
+            return winning_flag
+        return None
 
     
     def draw_orbs(self):
@@ -85,27 +95,38 @@ class Board:
         new_board = copy.deepcopy(self)
         new_board.turn =  0 if player == "red" else 1 #jei player er turn shei player ke set korlam
         row,col = move # move is basically kon row and kon column e assigned hocche by the player
-        new_board.clicks(row,col,player) # click method diye ball place kortesilam
+        winning_flag=new_board.clicks(row,col,player) # click method diye ball place kortesilam
         new_board.handle_explosion()
-        return new_board # kahini kiccha korar pore new board er obostha return korbo
+        return new_board,winning_flag # kahini kiccha korar pore new board er obostha return korbo
     
     
     def is_last_grid(self):
         
         if len(self.grid) < 2:  # ekhono shudhu ekta ball ba kono cell ei ball nai
             return False
-        orbs_colour_present_on_the_grid = set() # set nibo karon set shdhu unique material e rakhe
-        
-        for orbs in self.grid.values():
-            orbs_colour_present_on_the_grid.add(orbs["colour"])
-        
-        #amader duita colour ase so last giye board e shob ek colour er ball thaka manei oita wins and last gird eta tahole set er element matro ekta hobe if last terminal
-        
-        if(len(orbs_colour_present_on_the_grid)==1):
-            return True
         else:
-            return False
-    
+            orbs_colour_present_on_the_grid = set() # set nibo karon set shdhu unique material e rakhe
+            
+            for orbs in self.grid.values():
+                orbs_colour_present_on_the_grid.add(orbs["colour"])
+            
+            #amader duita colour ase so last giye board e shob ek colour er ball thaka manei oita wins and last gird eta tahole set er element matro ekta hobe if last terminal
+            
+            if(len(orbs_colour_present_on_the_grid)==1):
+                return True
+            else:
+                return False
+            
+            
+            
+    def isWinner(self):
+        if self.is_last_grid():
+            return 0 if "red" in self.grid.values() and len(self.grid) > 0 else 1
+        return None
+            
+            
+            
+            
     def handle_explosion(self):
         to_explode = []
         seen = set()
@@ -154,3 +175,17 @@ class Board:
                         to_explode.append(key)
                         seen.add((key))
                         # print(f"     >>> Neighbor ({new_row},{new_column}) scheduled to explode next!")
+                        
+                        
+    # def getWinner(self):
+        
+        
+    #     orbs_colour_present_on_the_grid = set() # set nibo karon set shdhu unique material e rakhe
+        
+    #     for orbs in self.grid.values():
+    #         orbs_colour_present_on_the_grid.add(orbs["colour"])
+        
+    #     if len(orbs_colour_present_on_the_grid) == 1:
+    #         return 0 if "red" in orbs_colour_present_on_the_grid else 1
+    #     else:
+    #         return None

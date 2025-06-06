@@ -28,7 +28,7 @@ class MinimaxAgent:
             max_eval = -float('inf')
             for move in legal_moves:
                 player_turn = self.colour_into_turn(self.player_colour)
-                new_board = board.make_move(move,self.player_colour)    
+                new_board,_ = board.make_move(move,self.player_colour)    
                 eval,_ = self.minimax(new_board,depth-1,alpha,beta,False)    # ekta move korar por ager player er kache jay so turn false ar depth ek komaye dilam
                 if eval > max_eval:
                     max_eval = eval
@@ -41,7 +41,7 @@ class MinimaxAgent:
             min_eval = float('inf')
             for move in legal_moves:
                 opponent_turn = self.colour_into_turn(self.opponent_player())
-                new_board = board.make_move(move, self.opponent_player())    
+                new_board,_ = board.make_move(move, self.opponent_player())    
                 eval,_ = self.minimax(new_board,depth-1,alpha,beta,True)
                 if eval < min_eval:
                     min_eval = eval

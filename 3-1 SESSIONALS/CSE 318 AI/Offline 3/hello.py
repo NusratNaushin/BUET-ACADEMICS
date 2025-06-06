@@ -7,35 +7,46 @@ from heuristic import *
 
 # pygame setup
 pygame.init()
-screen = pygame.display.set_mode((720, 720))
+screen_width = 1000
+screen_height = 1000
+screen = pygame.display.set_mode((screen_width, screen_height))
 clock = pygame.time.Clock()
 running = True
 dt = 0
-
 
 # orb_position = []
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
 cell_width = 120
 cell_height = 80
+grid_width = 6*cell_width
+grid_height = 9*cell_height
 
-board = Board(rows=9,cols=6,cell_width=cell_width,cell_height=cell_height)
+grid_offset_x = (screen_width - grid_width) // 2
+grid_offset_y = (screen_height - grid_height) // 2
 
 
+
+board = Board(rows=9,cols=6,cell_width=cell_width,cell_height=cell_height,offset_x=grid_offset_x, offset_y=grid_offset_y)
+
+game_over = False
 
 flag = 0
 
 #critical_mass=4
 
-
+font = pygame.font.Font('freesansbold.ttf', 32)
 
 def drawGrid(colour="red"):
+    for x in range(board.cols + 1):
+        pygame.draw.line(screen, colour,
+                         (grid_offset_x + x * cell_width, grid_offset_y),
+                         (grid_offset_x + x * cell_width, grid_offset_y + board.rows * cell_height))
+    for y in range(board.rows + 1):
+        pygame.draw.line(screen, colour,
+                         (grid_offset_x, grid_offset_y + y * cell_height),
+                         (grid_offset_x + board.cols * cell_width, grid_offset_y + y * cell_height))
 
-    for x in range(0, screen.get_width(), cell_width):
-        pygame.draw.line(screen, colour, (x, 0), (x, screen.get_height()))
-    for y in range(0, screen.get_height(), cell_height):
-        pygame.draw.line(screen, colour, (0, y), (screen.get_width(), y))
-        
         
 max_depth_to_search = 3
 heuristic_function = heuristic
@@ -57,25 +68,37 @@ while running:
     if(board.turn == 0 and pygame.mouse.get_pressed()[0]):
         mouse_click_x , mouse_click_y  = pygame.mouse.get_pos()
 
-        column_that_is_clicked = mouse_click_x // cell_width  # inetegr division korlam jaate column number ta pai
-        row_that_is_clicked = mouse_click_y // cell_height
-        print(f"Human clicked at pixel ({mouse_click_x}, {mouse_click_y}) => grid cell ({row_that_is_clicked}, {column_that_is_clicked})")
-        board.clicks(row_that_is_clicked,column_that_is_clicked,"red")
-        print(f"After human click, grid state:")
-        for (r, c), orb in sorted(board.grid.items()):
-            print(f"  Cell ({r},{c}) - Count: {orb['count']}, Colour: {orb['colour']}")
-        write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
+        column_that_is_clicked = (mouse_click_x - grid_offset_x) // cell_width  # inetegr division korlam jaate column number ta pai
+        row_that_is_clicked = (mouse_click_y - grid_offset_y) // cell_height
+        if 0 <= row_that_is_clicked < board.rows and 0 <= column_that_is_clicked < board.cols:
+            print(f"Human clicked at pixel ({mouse_click_x}, {mouse_click_y}) => grid cell ({row_that_is_clicked}, {column_that_is_clicked})")
+            winning_flag=board.clicks(row_that_is_clicked,column_that_is_clicked,"red")
+            if winning_flag is not None:
+                win_flag_collection_for_rendering = winning_flag
+                game_over = True
+                print("Game Over! Winner:", "Red" if winning_flag == 0 else "Green")
+                #running = False
+            print(f"After human click, grid state:")
+            for (r, c), orb in sorted(board.grid.items()):
+                print(f"  Cell ({r},{c}) - Count: {orb['count']}, Colour: {orb['colour']}")
+            write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
 
     elif board.turn == 1:
         best_move = AI_PLAYER.get_move(board)
         if best_move is not None:
-            board = board.make_move(best_move, AI_PLAYER.player_colour)
+            board,winning_flag = board.make_move(best_move, AI_PLAYER.player_colour)
             board.turn = 0  # AI er move korar por turn change kore dilam
+            if winning_flag is not None:
+                win_flag_collection_for_rendering = winning_flag
+                game_over = True
+                print("Game Over! Winner:", "Red" if winning_flag == 0 else "Green")
+                #running = False
             write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
         else :
             print("AI has no legal moves")
     for colour,pos in board.draw_orbs():
-        pygame.draw.circle(screen,colour, pos , radius=10)
+        adjusted_pos = (pos[0] + grid_offset_x, pos[1] + grid_offset_y)
+        pygame.draw.circle(screen,colour, adjusted_pos , radius=10)
 
         
 
@@ -115,6 +138,12 @@ while running:
     #         pygame.draw.circle(screen, orb["colour"], (orb["pos"][0] + offset_x, orb["pos"][1]), 10)
 
     # flip() the display to put your work on screen
+    if game_over:
+        if win_flag_collection_for_rendering == 0:
+            win_txt = font.render("Human Wins!", True , (255, 255, 255))
+        else:
+            win_txt = font.render("AI Wins!", True , (255, 255, 255))
+            screen.blit(win_txt, (screen_width // 2 - win_txt.get_width() // 2, grid_offset_y // 2))
     pygame.display.flip()
 
     # limits FPS to 60
