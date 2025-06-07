@@ -31,7 +31,16 @@ class Board:
         else: #edge corner baade baki shob cell 
             return 4
 
-
+    def get_surrounding_total_mass(self, row, col,opponent_colour):
+        total_mass = 0
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]   
+        for dr, dc in directions:
+            new_row,new_column = row + dr , col + dc 
+            orb = self.grid.get((new_row,new_column))
+            if orb and orb["colour"] == opponent_colour:
+                if orb["count"] == (self.get_critical_mass(new_row,new_column) -1) :
+                    total_mass += orb["count"]     
+        return total_mass
     def clicks(self,row,col,player_colour): # jei row col select kortesi ogla passing
         
         if self.isWinner() is not None:
