@@ -62,7 +62,7 @@ def drawGrid(colour="red"):
         
 max_depth_to_search = 3
 heuristic_function = heuristic
-AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='green', heuristic_function=heuristic_function)
+AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='blue', heuristic_function=heuristic_function)
 
 while running: 
 
@@ -87,7 +87,7 @@ while running:
                     if winning_flag is not None:
                         win_flag_collection_for_rendering = winning_flag
                         game_over = True
-                        print("Game Over! Winner:", "Red" if winning_flag == 0 else "Green")
+                        print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
                         #running = False
                     else:
                         ai_move = True
@@ -108,7 +108,7 @@ while running:
                 if winning_flag is not None:
                     win_flag_collection_for_rendering = winning_flag
                     game_over = True
-                    print("Game Over! Winner:", "Red" if winning_flag == 0 else "Green")
+                    print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
                     #running = False
                 write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
             else :
@@ -117,7 +117,7 @@ while running:
             ai_move = False
             
     screen.fill("black")
-    drawGrid("red" if board.turn == 0 else "green")
+    drawGrid("red" if board.turn == 0 else "blue")
     for colour,pos in board.draw_orbs():
         adjusted_pos = (pos[0] + grid_offset_x, pos[1] + grid_offset_y)
         pygame.draw.circle(screen,colour, adjusted_pos , radius=10)

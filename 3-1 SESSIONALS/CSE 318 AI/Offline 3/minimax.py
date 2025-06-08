@@ -8,7 +8,7 @@ class MinimaxAgent:
         
     
     def opponent_player(self):
-        return 'red' if self.player_colour == 'green' else 'green'
+        return 'red' if self.player_colour == 'blue' else 'blue'
     
     def minimax(self,board,depth,alpha,beta,maximizing_player):
         if depth == 0 or board.is_last_grid():
@@ -55,7 +55,7 @@ class MinimaxAgent:
     def colour_into_turn(self,colour):
         if colour == 'red':
             return 0;
-        elif colour == 'green':
+        elif colour == 'blue':
             return 1; 
     def get_move(self,board):
         _,best_move = self.minimax(board,self.max_depth_to_search,-float('inf'),float('inf'),True)

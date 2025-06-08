@@ -7,7 +7,7 @@ def write_game_current_state(filepath,board,turn):
             orb_position = board.grid.get((r,c))
             if orb_position:
                 count = orb_position["count"]
-                colour = 'R' if orb_position["colour"] == "red" else 'G'
+                colour = 'R' if orb_position["colour"] == "red" else 'B'
                 row.append(f"{count}{colour}")
             else:
                 row.append("0")
@@ -35,7 +35,7 @@ def read_game_current_state(filepath):
             
             
             orb_count = int(cell[0]) # text file e first character ta orb er count tai jonne ekhane cell[0] nilam
-            orb_colour = "red" if cell[1] == "R" else "green"
+            orb_colour = "red" if cell[1] == "R" else "blue"
             board_data[(row_index, column_index)] = {
                 "count": orb_count,
                 "colour": orb_colour

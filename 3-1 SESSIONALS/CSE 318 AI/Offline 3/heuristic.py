@@ -1,6 +1,6 @@
 from board import *
 def heuristic(board,player_colour):
-    opponent_colour = 'red' if player_colour == 'green' else 'green'
+    opponent_colour = 'red' if player_colour == 'blue' else 'blue'
     player_score_based_on_orbs_present = 0
     opponent_score_based_on_orbs_present = 0
     
@@ -13,7 +13,7 @@ def heuristic(board,player_colour):
     return player_score_based_on_orbs_present - opponent_score_based_on_orbs_present
 
 def my_heuristic(board, player_colour):
-    opponent_colour = 'red' if player_colour == 'green' else 'green'
+    opponent_colour = 'red' if player_colour == 'blue' else 'blue'
     score = 0
     
     for (row,col), orb in board.grid.items():

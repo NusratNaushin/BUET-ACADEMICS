@@ -44,7 +44,7 @@ class Board:
     def clicks(self,row,col,player_colour): # jei row col select kortesi ogla passing
         
         if self.isWinner() is not None:
-            print("Game Over! Winner:", "Red" if self.isWinner() == 0 else "Green")
+            print("Game Over! Winner:", "Red" if self.isWinner() == 0 else "Blue")
             return self.isWinner()
         if(row < 0 or row >= self.rows or col < 0 or col >= self.cols):
             return None
@@ -53,7 +53,7 @@ class Board:
         key = (row,col)
 
         orb = self.grid.get(key)
-        current_colour_of_the_orb = "red" if self.turn == 0 else "green"
+        current_colour_of_the_orb = "red" if self.turn == 0 else "blue"
 
 
         if orb:
@@ -90,7 +90,7 @@ class Board:
     
     def get_legal_moves(self,player):
         legal_moves_array = []
-        player_colour = "red" if player == 0 else "green"
+        player_colour = "red" if player == 0 else "blue"
         for row in range(self.rows):
             for col in range(self.cols):
                 key = (row,col)
