@@ -50,18 +50,19 @@ human_image = pygame.image.load("images/human.png")
 Game_state_txt = "/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt"
 
 font = pygame.font.SysFont("couriernew", 32)
+game_title_font =  pygame.font.SysFont("couriernew", 36 , bold=True)
+game_title_text = game_title_font.render("CHAIN REACTION", True , (0,255,255))
 
 def drawGrid(colour="red"):
     for x in range(board.cols + 1):
         pygame.draw.line(screen, colour,
                          (grid_offset_x + x * cell_width, grid_offset_y),
-                         (grid_offset_x + x * cell_width, grid_offset_y + board.rows * cell_height))
+                         (grid_offset_x + x * cell_width, grid_offset_y + board.rows * cell_height),width=5)
     for y in range(board.rows + 1):
         pygame.draw.line(screen, colour,
                          (grid_offset_x, grid_offset_y + y * cell_height),
                          (grid_offset_x + board.cols * cell_width, grid_offset_y + y * cell_height))
 
-        
 max_depth_to_search = 3
 heuristic_function = heuristic
 AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='blue', heuristic_function=heuristic_function)
@@ -135,6 +136,9 @@ while running:
             ai_move = False
             
     screen.fill("black")
+    screen.blit(game_title_text, (350,15))
+    pygame.draw.rect(screen, (0,255,255), (0, 0, screen_width, screen_height), 5)
+
     drawGrid("red" if board.turn == 0 else "blue")
     for colour,pos in board.draw_orbs():
         adjusted_pos = (pos[0] + grid_offset_x, pos[1] + grid_offset_y)
@@ -143,18 +147,18 @@ while running:
         
     if ai_move and board.turn == 1 and not game_over:
         move_text = font.render("AI MOVE...", True, (255, 255, 0))
-        screen.blit(move_text, (10, 10))
+        screen.blit(move_text, (140, 100))
     elif not ai_move and board.turn == 0 and not game_over:   
         move_text = font.render("HUMAN MOVE...", True, (255, 255, 0))
-        screen.blit(move_text, (10, 10))
+        screen.blit(move_text, (140, 100))
 
     if game_over:
         if win_flag_collection_for_rendering == 0:
             #screen.blit(human_image, (screen_width // 2 - human_image.get_width() // 2, grid_offset_y // 2))
-            win_txt = font.render("Game Over! Winner: Human ", True , (255, 255, 255))
+            win_txt = font.render("Game Over! Winner: Human ", True , (124, 252, 0))
         else:
             #screen.blit(ai_image, (screen_width // 2 - ai_image.get_width() // 2, grid_offset_y // 2))
-            win_txt = font.render("Game Over! Winner: AI ", True , (255, 255, 255))
+            win_txt = font.render("Game Over! Winner: AI ", True , (124, 252, 0))
         screen.blit(win_txt, (screen_width // 2 - win_txt.get_width() // 2, grid_offset_y // 2))
     pygame.display.flip()
 
