@@ -90,7 +90,7 @@ class Board:
     
     def get_legal_moves(self,player):
         legal_moves_array = []
-        player_colour = "red" if player == 0 else "blue"
+        player_colour = "red" if player == 0 else "blue" 
         for row in range(self.rows):
             for col in range(self.cols):
                 key = (row,col)
@@ -130,7 +130,10 @@ class Board:
             
     def isWinner(self):
         if self.is_last_grid():
-            return 0 if "red" in self.grid.values() and len(self.grid) > 0 else 1
+            # print(self.grid.values())
+            colours = {cell["colour"] for cell in self.grid.values()}
+            if len(colours) == 1:
+                return 0 if "red" in colours else 1
         return None
             
             

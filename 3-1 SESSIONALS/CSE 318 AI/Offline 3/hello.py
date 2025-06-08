@@ -10,6 +10,8 @@ from sys import exit
 # This is a simple pygame program that implements a grid-based game where a player can click to place orbs.
 
 # pygame setup
+
+print_debug_flag = False 
 pygame.init()
 screen_width = 1000
 screen_height = 1000
@@ -45,7 +47,7 @@ flag = 0
 
 ai_image = pygame.image.load("images/ai.png")
 human_image = pygame.image.load("images/human.png")
-
+Game_state_txt = "/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt"
 
 font = pygame.font.SysFont("couriernew", 32)
 
@@ -66,53 +68,69 @@ AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour=
 
 while running: 
 
+    board_data , turn = read_game_current_state(Game_state_txt)
+    
+    if print_debug_flag:
+        print(f"[DEBUG] Start of loop. Turn: {turn}, Awaiting player: {'HUMAN' if turn % 2 == 1 else 'AI'}")
+
+
     # poll for events
     # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
+
         if event.type == pygame.QUIT:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
    
-
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button
-            if(board.turn == 0 and not game_over and not ai_move):
+            if(turn == 0 and not game_over and not ai_move):
                 mouse_click_x , mouse_click_y  = event.pos
 
                 column_that_is_clicked = (mouse_click_x - grid_offset_x) // cell_width  # inetegr division korlam jaate column number ta pai
                 row_that_is_clicked = (mouse_click_y - grid_offset_y) // cell_height
                 if 0 <= row_that_is_clicked < board.rows and 0 <= column_that_is_clicked < board.cols:
-                    print(f"Human clicked at pixel ({mouse_click_x}, {mouse_click_y}) => grid cell ({row_that_is_clicked}, {column_that_is_clicked})")
+                    if print_debug_flag:
+                        print(f"Human clicked at pixel ({mouse_click_x}, {mouse_click_y}) => grid cell ({row_that_is_clicked}, {column_that_is_clicked})")
                     winning_flag=board.clicks(row_that_is_clicked,column_that_is_clicked,"red")
                     if winning_flag is not None:
                         win_flag_collection_for_rendering = winning_flag
                         game_over = True
-                        print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
+                        if print_debug_flag:
+                            print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
                         #running = False
                     else:
                         ai_move = True
                         ai_move_timer = pygame.time.get_ticks()
-                    print(f"After human click, grid state:")
-                    for (r, c), orb in sorted(board.grid.items()):
-                        print(f"  Cell ({r},{c}) - Count: {orb['count']}, Colour: {orb['colour']}")
-                    write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
-                    
-
-    if board.turn == 1 and not game_over and ai_move:
+                        turn = 1
+                    if print_debug_flag:
+                        print(f"After human click, grid state:")
+                        for (r, c), orb in sorted(board.grid.items()):
+                            print(f"  Cell ({r},{c}) - Count: {orb['count']}, Colour: {orb['colour']}")
+                        print("turn:\n",turn)
+                    if print_debug_flag:
+                        print(f"before writing in human")
+                    write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, turn)
+                
+    if turn == 1 and not game_over and ai_move:
         current_time = pygame.time.get_ticks()
         if current_time - ai_move_timer >= ai_move_delay:
             best_move = AI_PLAYER.get_move(board)
             if best_move is not None:
                 board,winning_flag = board.make_move(best_move, AI_PLAYER.player_colour)
-                board.turn = 0  # AI er move korar por turn change kore dilam
+                turn = 0  # AI er move korar por turn change kore dilam
                 if winning_flag is not None:
                     win_flag_collection_for_rendering = winning_flag
                     game_over = True
-                    print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
+                    if print_debug_flag:
+                        print("Game Over! Winner:", "Red" if winning_flag == 0 else "Blue")
                     #running = False
-                write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, board.turn)
+                if print_debug_flag:
+                    print(f"before writing in ai loop")        
+                write_game_current_state("/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt", board, turn)
             else :
-                print("AI has no legal moves")
+                if print_debug_flag:
+                    print("AI has no legal moves")
             
             ai_move = False
             
@@ -129,6 +147,27 @@ while running:
     elif not ai_move and board.turn == 0 and not game_over:   
         move_text = font.render("HUMAN MOVE...", True, (255, 255, 0))
         screen.blit(move_text, (10, 10))
+
+    if game_over:
+        if win_flag_collection_for_rendering == 0:
+            #screen.blit(human_image, (screen_width // 2 - human_image.get_width() // 2, grid_offset_y // 2))
+            win_txt = font.render("Game Over! Winner: Human ", True , (255, 255, 255))
+        else:
+            #screen.blit(ai_image, (screen_width // 2 - ai_image.get_width() // 2, grid_offset_y // 2))
+            win_txt = font.render("Game Over! Winner: AI ", True , (255, 255, 255))
+        screen.blit(win_txt, (screen_width // 2 - win_txt.get_width() // 2, grid_offset_y // 2))
+    pygame.display.flip()
+
+    # limits FPS to 60
+    # dt is delta time in seconds since last frame, used for framerate-
+    # independent physics.
+    dt = clock.tick(60) / 1000
+
+pygame.quit()
+
+
+
+
 
 
         # clicked = True
@@ -165,27 +204,6 @@ while running:
     #         pygame.draw.circle(screen, orb["colour"], (orb["pos"][0] + offset_x, orb["pos"][1]), 10)
 
     # flip() the display to put your work on screen
-    if game_over:
-        if win_flag_collection_for_rendering == 0:
-            #screen.blit(human_image, (screen_width // 2 - human_image.get_width() // 2, grid_offset_y // 2))
-            win_txt = font.render("Human Wins!", True , (255, 255, 255))
-        else:
-            #screen.blit(ai_image, (screen_width // 2 - ai_image.get_width() // 2, grid_offset_y // 2))
-            win_txt = font.render("AI Wins!", True , (255, 255, 255))
-        screen.blit(win_txt, (screen_width // 2 - win_txt.get_width() // 2, grid_offset_y // 2))
-    pygame.display.flip()
-
-    # limits FPS to 60
-    # dt is delta time in seconds since last frame, used for framerate-
-    # independent physics.
-    dt = clock.tick(60) / 1000
-
-pygame.quit()
-
-
-
-
-
 # Human Move:
 
 # 0 0 0 0 0 0

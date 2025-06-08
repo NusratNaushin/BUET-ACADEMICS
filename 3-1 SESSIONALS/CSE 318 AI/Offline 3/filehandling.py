@@ -1,5 +1,5 @@
 def write_game_current_state(filepath,board,turn):
-    header = "Human Move:\n" if turn == 0 else "AI Move:\n"
+    header = "AI Move:" if turn == 0 else "Human Move:"
     lines = [header]
     for r in range(board.rows):
         row = []
@@ -21,7 +21,7 @@ def read_game_current_state(filepath):
         lines = f.read().splitlines()
         
     header = lines[0]
-    turn = 0 if "Human Move:" in header else 1
+    turn = 0 if "AI Move:" in header else 1
     
     raw_grid_lines_only = lines[1:] # first line baade baki row nilam karon first line e to ai naki human sheta bola ota kaajer na for parsing thhe grid
     board_data = {}
