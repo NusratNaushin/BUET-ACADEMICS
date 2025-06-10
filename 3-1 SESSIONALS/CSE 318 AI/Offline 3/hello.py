@@ -64,7 +64,7 @@ def drawGrid(colour="red"):
                          (grid_offset_x + board.cols * cell_width, grid_offset_y + y * cell_height))
 
 max_depth_to_search = 3
-heuristic_function = heuristic
+heuristic_function = my_heuristic
 AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='blue', heuristic_function=heuristic_function)
 
 while running: 

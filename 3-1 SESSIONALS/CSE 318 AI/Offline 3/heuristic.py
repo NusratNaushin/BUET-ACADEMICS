@@ -14,9 +14,10 @@ def heuristic(board,player_colour):
 
 def my_heuristic(board, player_colour):
     opponent_colour = 'red' if player_colour == 'blue' else 'blue'
-    score = 0
-    
+    maximum_chain_reaction_possibility = 0
     for (row,col), orb in board.grid.items():
         if orb["colour"] == player_colour:
             surrounding_mass = board.get_surrounding_total_mass(row,col,opponent_colour)
-            
+            maximum_chain_reaction_possibility += surrounding_mass + orb["count"]
+    # print(surrounding_mass)
+    return maximum_chain_reaction_possibility
