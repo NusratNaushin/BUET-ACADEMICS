@@ -6,6 +6,7 @@ from filehandling import *
 from minimax import *
 from heuristic import *
 from sys import exit 
+import sys
 
 # This is a simple pygame program that implements a grid-based game where a player can click to place orbs.
 
@@ -13,6 +14,7 @@ from sys import exit
 
 print_debug_flag = False 
 pygame.init()
+pygame.mixer.init()
 screen_width = 1000
 screen_height = 1000
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -27,17 +29,19 @@ ai_move = False
 # orb_position = []
 player_pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
 
+r = 9
+c = 6
 cell_width = 120
 cell_height = 80
-grid_width = 6*cell_width
-grid_height = 9*cell_height
+grid_width = c*cell_width
+grid_height = r*cell_height
 
 grid_offset_x = (screen_width - grid_width) // 2
 grid_offset_y = (screen_height - grid_height) // 2
 
 
 
-board = Board(rows=9,cols=6,cell_width=cell_width,cell_height=cell_height,offset_x=grid_offset_x, offset_y=grid_offset_y)
+board = Board(rows=r,cols=c,cell_width=cell_width,cell_height=cell_height,offset_x=grid_offset_x, offset_y=grid_offset_y)
 
 game_over = False
 
@@ -45,8 +49,8 @@ flag = 0
 
 #critical_mass=4
 
-ai_image = pygame.image.load("images/ai.png")
-human_image = pygame.image.load("images/human.png")
+# ai_image = pygame.image.load("images/ai.png")
+# human_image = pygame.image.load("images/human.png")
 Game_state_txt = "/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 3/gamestate.txt"
 
 font = pygame.font.SysFont("couriernew", 32)
@@ -64,8 +68,15 @@ def drawGrid(colour="red"):
                          (grid_offset_x + board.cols * cell_width, grid_offset_y + y * cell_height))
 
 max_depth_to_search = 3
-heuristic_function = my_heuristic
+heuristic_function = heuristic
 AI_PLAYER = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='blue', heuristic_function=heuristic_function)
+
+
+# player_mode = sys.argv[1]
+
+# if player_mode == '2':
+#     heuristic_function = heuristic
+#     AI_PLAYER_2 = MinimaxAgent(max_depth_to_search=max_depth_to_search, player_colour='red', heuristic_function=heuristic_function)
 
 while running: 
 
@@ -83,7 +94,7 @@ while running:
             running = False
 
     # fill the screen with a color to wipe away anything from last frame
-   
+    
         elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:  # Left mouse button
             if(turn == 0 and not game_over and not ai_move):
                 mouse_click_x , mouse_click_y  = event.pos
