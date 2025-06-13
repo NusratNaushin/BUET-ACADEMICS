@@ -226,6 +226,7 @@ public:
   public:
     std::string text;
     int line;
+    C8086Parser::Parameter_listContext *pl = nullptr;
     C8086Parser::Type_specifierContext *type_specifierContext = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *commaToken = nullptr;
@@ -233,8 +234,8 @@ public:
     virtual size_t getRuleIndex() const override;
     Type_specifierContext *type_specifier();
     antlr4::tree::TerminalNode *ID();
-    Parameter_listContext *parameter_list();
     antlr4::tree::TerminalNode *COMMA();
+    Parameter_listContext *parameter_list();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -539,13 +540,15 @@ public:
   public:
     std::string text;
     int line;
+    C8086Parser::TermContext *t = nullptr;
     C8086Parser::Unary_expressionContext *u = nullptr;
     antlr4::Token *mulopToken = nullptr;
+    C8086Parser::Unary_expressionContext *ue = nullptr;
     TermContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Unary_expressionContext *unary_expression();
-    TermContext *term();
     antlr4::tree::TerminalNode *MULOP();
+    TermContext *term();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -559,6 +562,7 @@ public:
     std::string text;
     int line;
     antlr4::Token *addopToken = nullptr;
+    C8086Parser::Unary_expressionContext *ue = nullptr;
     antlr4::Token *notToken = nullptr;
     C8086Parser::FactorContext *f = nullptr;
     Unary_expressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -611,6 +615,9 @@ public:
 
   class  Argument_listContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::ArgumentsContext *a = nullptr;
     Argument_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     ArgumentsContext *arguments();
@@ -624,11 +631,16 @@ public:
 
   class  ArgumentsContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::ArgumentsContext *a = nullptr;
+    C8086Parser::Logic_expressionContext *le = nullptr;
+    antlr4::Token *commaToken = nullptr;
     ArgumentsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Logic_expressionContext *logic_expression();
-    ArgumentsContext *arguments();
     antlr4::tree::TerminalNode *COMMA();
+    ArgumentsContext *arguments();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;

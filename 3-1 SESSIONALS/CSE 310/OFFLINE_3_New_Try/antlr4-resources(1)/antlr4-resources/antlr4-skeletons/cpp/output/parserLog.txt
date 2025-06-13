@@ -1,5 +1,9 @@
-Variable Declaration: type_specifier declaration_list 20 at line 6
+Variable Declaration: type_specifier declaration_list 20 at line 1
 type_specifier name_line: int
-Variable Declaration: type_specifier declaration_list 20 at line 6
+Variable Declaration: type_specifier declaration_list 20 at line 2
+type_specifier name_line: float
+Variable Declaration: type_specifier declaration_list 20 at line 18
+type_specifier name_line: int
+Variable Declaration: type_specifier declaration_list 20 at line 18
 type_specifier name_line: float
 Parsing completed successfully with 0 syntax errors.
