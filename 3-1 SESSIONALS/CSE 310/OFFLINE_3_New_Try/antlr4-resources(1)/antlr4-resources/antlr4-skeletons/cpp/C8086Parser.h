@@ -134,6 +134,10 @@ public:
 
   class  ProgramContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::ProgramContext *pu = nullptr;
+    C8086Parser::UnitContext *u = nullptr;
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     UnitContext *unit();
@@ -148,6 +152,11 @@ public:
   ProgramContext* program(int precedence);
   class  UnitContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::Var_declarationContext *vd = nullptr;
+    C8086Parser::Func_declarationContext *fdec = nullptr;
+    C8086Parser::Func_definitionContext *fdef = nullptr;
     UnitContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Var_declarationContext *var_declaration();
@@ -163,14 +172,22 @@ public:
 
   class  Func_declarationContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::Type_specifierContext *ts = nullptr;
+    antlr4::Token *idToken = nullptr;
+    antlr4::Token *lparenToken = nullptr;
+    C8086Parser::Parameter_listContext *pl = nullptr;
+    antlr4::Token *rparenToken = nullptr;
+    antlr4::Token *semicolonToken = nullptr;
     Func_declarationContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    Type_specifierContext *type_specifier();
     antlr4::tree::TerminalNode *ID();
     antlr4::tree::TerminalNode *LPAREN();
-    Parameter_listContext *parameter_list();
     antlr4::tree::TerminalNode *RPAREN();
     antlr4::tree::TerminalNode *SEMICOLON();
+    Type_specifierContext *type_specifier();
+    Parameter_listContext *parameter_list();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -181,13 +198,21 @@ public:
 
   class  Func_definitionContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::Type_specifierContext *ts = nullptr;
+    antlr4::Token *idToken = nullptr;
+    antlr4::Token *lparenToken = nullptr;
+    C8086Parser::Parameter_listContext *pl = nullptr;
+    antlr4::Token *rparenToken = nullptr;
+    C8086Parser::Compound_statementContext *cs = nullptr;
     Func_definitionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    Type_specifierContext *type_specifier();
     antlr4::tree::TerminalNode *ID();
     antlr4::tree::TerminalNode *LPAREN();
-    Parameter_listContext *parameter_list();
     antlr4::tree::TerminalNode *RPAREN();
+    Type_specifierContext *type_specifier();
+    Parameter_listContext *parameter_list();
     Compound_statementContext *compound_statement();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -199,6 +224,8 @@ public:
 
   class  Parameter_listContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
     C8086Parser::Type_specifierContext *type_specifierContext = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *commaToken = nullptr;
@@ -220,8 +247,9 @@ public:
   public:
     std::string text;
     int line;
-    C8086Parser::StatementsContext *ss = nullptr;
     antlr4::Token *lcurlToken = nullptr;
+    C8086Parser::StatementsContext *ss = nullptr;
+    antlr4::Token *rcurlToken = nullptr;
     Compound_statementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *LCURL();
@@ -297,17 +325,15 @@ public:
     C8086Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
-    antlr4::Token *const_floatToken = nullptr;
-    antlr4::Token *rthirdToken = nullptr;
     antlr4::Token *const_intToken = nullptr;
+    antlr4::Token *rthirdToken = nullptr;
     antlr4::Token *commaToken = nullptr;
     Declaration_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *ID();
     antlr4::tree::TerminalNode *LTHIRD();
-    antlr4::tree::TerminalNode *CONST_FLOAT();
-    antlr4::tree::TerminalNode *RTHIRD();
     antlr4::tree::TerminalNode *CONST_INT();
+    antlr4::tree::TerminalNode *RTHIRD();
     antlr4::tree::TerminalNode *COMMA();
     Declaration_listContext *declaration_list();
 
@@ -431,12 +457,14 @@ public:
     std::string text;
     int line;
     C8086Parser::Logic_expressionContext *l = nullptr;
+    C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *assignopToken = nullptr;
+    C8086Parser::Logic_expressionContext *le = nullptr;
     ExpressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     Logic_expressionContext *logic_expression();
-    VariableContext *variable();
     antlr4::tree::TerminalNode *ASSIGNOP();
+    VariableContext *variable();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -450,7 +478,9 @@ public:
     std::string text;
     int line;
     C8086Parser::Rel_expressionContext *r = nullptr;
+    C8086Parser::Rel_expressionContext *re1 = nullptr;
     antlr4::Token *logicopToken = nullptr;
+    C8086Parser::Rel_expressionContext *re2 = nullptr;
     Logic_expressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<Rel_expressionContext *> rel_expression();
@@ -469,7 +499,9 @@ public:
     std::string text;
     int line;
     C8086Parser::Simple_expressionContext *s = nullptr;
+    C8086Parser::Simple_expressionContext *s1 = nullptr;
     antlr4::Token *relopToken = nullptr;
+    C8086Parser::Simple_expressionContext *s2 = nullptr;
     Rel_expressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     std::vector<Simple_expressionContext *> simple_expression();
@@ -487,12 +519,14 @@ public:
   public:
     std::string text;
     int line;
+    C8086Parser::Simple_expressionContext *s = nullptr;
     C8086Parser::TermContext *t = nullptr;
+    antlr4::Token *addopToken = nullptr;
     Simple_expressionContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     TermContext *term();
-    Simple_expressionContext *simple_expression();
     antlr4::tree::TerminalNode *ADDOP();
+    Simple_expressionContext *simple_expression();
 
     virtual void enterRule(antlr4::tree::ParseTreeListener *listener) override;
     virtual void exitRule(antlr4::tree::ParseTreeListener *listener) override;
@@ -547,7 +581,9 @@ public:
     int line;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *idToken = nullptr;
+    antlr4::Token *lparenToken = nullptr;
     C8086Parser::Argument_listContext *a = nullptr;
+    antlr4::Token *rparenToken = nullptr;
     C8086Parser::ExpressionContext *e = nullptr;
     antlr4::Token *const_intToken = nullptr;
     antlr4::Token *const_floatToken = nullptr;
