@@ -73,35 +73,6 @@ private:
   void LINE_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex);
   void BLOCK_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex);
   void STRINGAction(antlr4::RuleContext *context, size_t actionIndex);
-  void IFAction(antlr4::RuleContext *context, size_t actionIndex);
-  void ELSEAction(antlr4::RuleContext *context, size_t actionIndex);
-  void FORAction(antlr4::RuleContext *context, size_t actionIndex);
-  void WHILEAction(antlr4::RuleContext *context, size_t actionIndex);
-  void PRINTLNAction(antlr4::RuleContext *context, size_t actionIndex);
-  void RETURNAction(antlr4::RuleContext *context, size_t actionIndex);
-  void INTAction(antlr4::RuleContext *context, size_t actionIndex);
-  void FLOATAction(antlr4::RuleContext *context, size_t actionIndex);
-  void VOIDAction(antlr4::RuleContext *context, size_t actionIndex);
-  void LPARENAction(antlr4::RuleContext *context, size_t actionIndex);
-  void RPARENAction(antlr4::RuleContext *context, size_t actionIndex);
-  void LCURLAction(antlr4::RuleContext *context, size_t actionIndex);
-  void RCURLAction(antlr4::RuleContext *context, size_t actionIndex);
-  void LTHIRDAction(antlr4::RuleContext *context, size_t actionIndex);
-  void RTHIRDAction(antlr4::RuleContext *context, size_t actionIndex);
-  void SEMICOLONAction(antlr4::RuleContext *context, size_t actionIndex);
-  void COMMAAction(antlr4::RuleContext *context, size_t actionIndex);
-  void ADDOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void SUBOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void MULOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void INCOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void DECOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void NOTAction(antlr4::RuleContext *context, size_t actionIndex);
-  void RELOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void LOGICOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void ASSIGNOPAction(antlr4::RuleContext *context, size_t actionIndex);
-  void IDAction(antlr4::RuleContext *context, size_t actionIndex);
-  void CONST_INTAction(antlr4::RuleContext *context, size_t actionIndex);
-  void CONST_FLOATAction(antlr4::RuleContext *context, size_t actionIndex);
 
   // Individual semantic predicate functions triggered by sempred() above.
 

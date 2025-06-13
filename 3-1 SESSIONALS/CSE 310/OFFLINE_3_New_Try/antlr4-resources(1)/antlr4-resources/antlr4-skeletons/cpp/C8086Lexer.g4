@@ -80,59 +80,45 @@ WS      : [ \t\f\r\n]+ -> skip ;
 // 4) Keywords & Symbols
 // ------------------------------
 
-IF       : 'if' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <IF> Lexeme " + getText()); };
-ELSE     : 'else' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <ELSE> Lexeme " + getText()); };
-FOR      : 'for' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <FOR> Lexeme " + getText()); };
-WHILE    : 'while' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <WHILE> Lexeme " + getText()); };
-PRINTLN  : 'println' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <PRINTLN> Lexeme " + getText()); };
-RETURN   : 'return' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <RETURN> Lexeme " + getText()); };
-INT      : 'int' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <INT> Lexeme " + getText()); };
-FLOAT    : 'float' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <FLOAT> Lexeme " + getText()); };
-VOID     : 'void' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <VOID> Lexeme " + getText()); };
+IF       : 'if' ;
+ELSE     : 'else' ;
+FOR      : 'for' ;
+WHILE    : 'while' ;
+PRINTLN  : 'println' ;
+RETURN   : 'return' ;
+INT      : 'int';
+FLOAT    : 'float' ;
+VOID     : 'void' ;
 
-LPAREN   : '(' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <LPAREN> Lexeme " + getText()); };
-RPAREN   : ')' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <RPAREN> Lexeme " + getText()); };
-LCURL    : '{' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <LCURL> Lexeme " + getText()); };
-RCURL    : '}' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <RCURL> Lexeme " + getText()); };
-LTHIRD   : '[' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <LTHIRD> Lexeme " + getText()); };
-RTHIRD   : ']' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <RTHIRD> Lexeme " + getText()); };
-SEMICOLON: ';' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <SEMICOLON> Lexeme " + getText()); };
-COMMA    : ',' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <COMMA> Lexeme " + getText()); };
+LPAREN   : '(' ;
+RPAREN   : ')' ;
+LCURL    : '{' ;
+RCURL    : '}' ;
+LTHIRD   : '[' ;
+RTHIRD   : ']' ;
+SEMICOLON: ';' ;
+COMMA    : ',' ;
 
 
-ADDOP    : [+\-] { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <ADDOP> Lexeme " + getText()); };
-SUBOP    : [+\-] { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <SUBOP> Lexeme " + getText()); };
-MULOP    : [*/%] { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <MULOP> Lexeme " + getText()); };
-INCOP    : '++' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <INCOP> Lexeme " + getText()); };
-DECOP    : '--' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <DECOP> Lexeme " + getText()); };
-NOT      : '!' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <NOT> Lexeme " + getText()); };
-RELOP    : '<=' | '==' | '>=' | '>' | '<' | '!=' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <RELOP> Lexeme " + getText()); };
-LOGICOP  : '&&' | '||' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <LOGICOP> Lexeme " + getText()); };
-ASSIGNOP : '=' { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <ASSIGNOP> Lexeme " + getText()); };
+ADDOP    : [+\-] ;
+SUBOP    : [+\-] ;
+MULOP    : [*/%] ;
+INCOP    : '++' ;
+DECOP    : '--' ;
+NOT      : '!' ;
+RELOP    : '<=' | '==' | '>=' | '>' | '<' | '!=' ;
+LOGICOP  : '&&' | '||' ;
+ASSIGNOP : '=' ;
 
 // ------------------------------
 // 5) Identifiers & Numbers
 // ------------------------------
 
-ID         : [A-Za-z_] [A-Za-z0-9_]* { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <ID> Lexeme " + getText()); };
-CONST_INT  : [0-9]+ { writeIntoLexLogFile("Line# " + std::to_string(getLine()) + ": Token <CONST_INT> Lexeme " + getText()); };
+
+ID         : [A-Za-z_] [A-Za-z0-9_]* ;
+CONST_INT  : [0-9]+ ;
 CONST_FLOAT
-    : [0-9]+ ('.' [0-9]*)? ([Ee][+\-]? [0-9]+)? {
-        writeIntoLexLogFile(
-          "Line# " + std::to_string(getLine())
-          + ": Token <CONST_FLOAT> Lexeme " + getText()
-        );
-    }
-    | '.' [0-9]+ {
-        writeIntoLexLogFile(
-          "Line# " + std::to_string(getLine())
-          + ": Token <CONST_FLOAT> Lexeme " + getText()
-        );
-    }
-    | [0-9]+ '.' {
-        writeIntoLexLogFile(
-          "Line# " + std::to_string(getLine())
-          + ": Token <CONST_FLOAT> Lexeme " + getText()
-        );
-    }
+    : [0-9]+ ('.' [0-9]*)? ([Ee][+\-]? [0-9]+)? 
+    | '.' [0-9]+ 
+    | [0-9]+ '.' 
     ;

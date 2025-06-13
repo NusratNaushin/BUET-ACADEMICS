@@ -1,138 +1,372 @@
-Line# 1: Token <SINGLE LINE COMMENT> Lexeme // this is a normal file
-Line# 3: Token <INT> Lexeme int
-Line# 3: Token <ID> Lexeme i
-Line# 3: Token <COMMA> Lexeme ,
-Line# 3: Token <ID> Lexeme j
-Line# 3: Token <COMMA> Lexeme ,
-Line# 3: Token <ID> Lexeme a
-Line# 3: Token <COMMA> Lexeme ,
-Line# 3: Token <ID> Lexeme b
-Line# 3: Token <COMMA> Lexeme ,
-Line# 3: Token <ID> Lexeme c
-Line# 3: Token <SEMICOLON> Lexeme ;
-Line# 5: Token <INT> Lexeme int
-Line# 5: Token <ID> Lexeme main
-Line# 5: Token <LPAREN> Lexeme (
-Line# 5: Token <RPAREN> Lexeme )
-Line# 5: Token <LCURL> Lexeme {
-Line# 7: Token <INT> Lexeme int
-Line# 7: Token <ID> Lexeme k
-Line# 7: Token <COMMA> Lexeme ,
-Line# 7: Token <ID> Lexeme ll
-Line# 7: Token <COMMA> Lexeme ,
-Line# 7: Token <ID> Lexeme m
-Line# 7: Token <COMMA> Lexeme ,
-Line# 7: Token <ID> Lexeme n
-Line# 7: Token <COMMA> Lexeme ,
-Line# 7: Token <ID> Lexeme o
-Line# 7: Token <COMMA> Lexeme ,
-Line# 7: Token <ID> Lexeme p
-Line# 7: Token <SEMICOLON> Lexeme ;
-Line# 9: Token <ID> Lexeme i
-Line# 9: Token <ASSIGNOP> Lexeme =
-Line# 9: Token <CONST_INT> Lexeme 1
-Line# 9: Token <SEMICOLON> Lexeme ;
-Line# 10: Token <PRINTLN> Lexeme println
-Line# 10: Token <LPAREN> Lexeme (
-Line# 10: Token <ID> Lexeme i
-Line# 10: Token <RPAREN> Lexeme )
-Line# 10: Token <SEMICOLON> Lexeme ;
-Line# 11: Token <ID> Lexeme j
-Line# 11: Token <ASSIGNOP> Lexeme =
-Line# 11: Token <CONST_INT> Lexeme 5
-Line# 11: Token <ADDOP> Lexeme +
-Line# 11: Token <CONST_INT> Lexeme 8
-Line# 11: Token <SEMICOLON> Lexeme ;
-Line# 12: Token <PRINTLN> Lexeme println
-Line# 12: Token <LPAREN> Lexeme (
-Line# 12: Token <ID> Lexeme j
-Line# 12: Token <RPAREN> Lexeme )
-Line# 12: Token <SEMICOLON> Lexeme ;
-Line# 13: Token <ID> Lexeme k
-Line# 13: Token <ASSIGNOP> Lexeme =
-Line# 13: Token <ID> Lexeme i
-Line# 13: Token <ADDOP> Lexeme +
-Line# 13: Token <CONST_INT> Lexeme 2
-Line# 13: Token <MULOP> Lexeme *
-Line# 13: Token <ID> Lexeme j
-Line# 13: Token <SEMICOLON> Lexeme ;
-Line# 14: Token <PRINTLN> Lexeme println
-Line# 14: Token <LPAREN> Lexeme (
-Line# 14: Token <ID> Lexeme k
-Line# 14: Token <RPAREN> Lexeme )
-Line# 14: Token <SEMICOLON> Lexeme ;
-Line# 16: Token <ID> Lexeme m
-Line# 16: Token <ASSIGNOP> Lexeme =
-Line# 16: Token <ID> Lexeme k
-Line# 16: Token <MULOP> Lexeme %
-Line# 16: Token <CONST_INT> Lexeme 9
-Line# 16: Token <SEMICOLON> Lexeme ;
-Line# 17: Token <PRINTLN> Lexeme println
-Line# 17: Token <LPAREN> Lexeme (
-Line# 17: Token <ID> Lexeme m
-Line# 17: Token <RPAREN> Lexeme )
-Line# 17: Token <SEMICOLON> Lexeme ;
-Line# 19: Token <ID> Lexeme n
-Line# 19: Token <ASSIGNOP> Lexeme =
-Line# 19: Token <ID> Lexeme m
-Line# 19: Token <ID> Lexeme ll
-Line# 19: Token <SEMICOLON> Lexeme ;
-Line# 20: Token <PRINTLN> Lexeme println
-Line# 20: Token <LPAREN> Lexeme (
-Line# 20: Token <ID> Lexeme n
-Line# 20: Token <RPAREN> Lexeme )
-Line# 20: Token <SEMICOLON> Lexeme ;
-Line# 22: Token <ID> Lexeme o
-Line# 22: Token <ASSIGNOP> Lexeme =
-Line# 22: Token <ID> Lexeme i
-Line# 22: Token <RELOP> Lexeme !=
-Line# 22: Token <ID> Lexeme j
-Line# 22: Token <SEMICOLON> Lexeme ;
-Line# 23: Token <PRINTLN> Lexeme println
-Line# 23: Token <LPAREN> Lexeme (
-Line# 23: Token <ID> Lexeme o
-Line# 23: Token <RPAREN> Lexeme )
-Line# 23: Token <SEMICOLON> Lexeme ;
-Line# 25: Token <ID> Lexeme p
-Line# 25: Token <ASSIGNOP> Lexeme =
-Line# 25: Token <ID> Lexeme n
-Line# 25: Token <LOGICOP> Lexeme ||
-Line# 25: Token <ID> Lexeme o
-Line# 25: Token <SEMICOLON> Lexeme ;
-Line# 26: Token <PRINTLN> Lexeme println
-Line# 26: Token <LPAREN> Lexeme (
-Line# 26: Token <ID> Lexeme p
-Line# 26: Token <RPAREN> Lexeme )
-Line# 26: Token <SEMICOLON> Lexeme ;
-Line# 28: Token <ID> Lexeme p
-Line# 28: Token <ASSIGNOP> Lexeme =
-Line# 28: Token <ID> Lexeme n
-Line# 28: Token <ID> Lexeme o
-Line# 28: Token <SEMICOLON> Lexeme ;
-Line# 29: Token <PRINTLN> Lexeme println
-Line# 29: Token <LPAREN> Lexeme (
-Line# 29: Token <ID> Lexeme p
-Line# 29: Token <RPAREN> Lexeme )
-Line# 29: Token <SEMICOLON> Lexeme ;
-Line# 31: Token <ID> Lexeme p
-Line# 31: Token <INCOP> Lexeme ++
-Line# 31: Token <SEMICOLON> Lexeme ;
-Line# 32: Token <PRINTLN> Lexeme println
-Line# 32: Token <LPAREN> Lexeme (
-Line# 32: Token <ID> Lexeme p
-Line# 32: Token <RPAREN> Lexeme )
-Line# 32: Token <SEMICOLON> Lexeme ;
-Line# 34: Token <ID> Lexeme k
-Line# 34: Token <ASSIGNOP> Lexeme =
-Line# 34: Token <ADDOP> Lexeme -
-Line# 34: Token <ID> Lexeme p
-Line# 34: Token <SEMICOLON> Lexeme ;
-Line# 35: Token <PRINTLN> Lexeme println
-Line# 35: Token <LPAREN> Lexeme (
-Line# 35: Token <ID> Lexeme k
-Line# 35: Token <RPAREN> Lexeme )
-Line# 35: Token <SEMICOLON> Lexeme ;
-Line# 37: Token <RETURN> Lexeme return
-Line# 37: Token <CONST_INT> Lexeme 0
-Line# 37: Token <SEMICOLON> Lexeme ;
-Line# 38: Token <RCURL> Lexeme }
+Line 1: type_specifier : INT
+
+int
+
+Line 1: type_specifier : INT
+
+int
+
+Line 1: parameter_list : type_specifier ID
+
+int a
+
+Line 2: variable : ID
+
+a
+
+Line 2: factor : variable
+
+a
+
+Line 2: unary_expression : factor
+
+a
+
+Line 2: term : unary_expression
+
+a
+
+Line 2: simple_expression : term
+
+a
+
+Line 2: rel_expression : simple_expression
+
+a
+
+Line 2: logic_expression : rel_expression
+
+a
+
+Line 2: expression : logic_expression
+
+a
+
+Line 2: statement : RETURN expression SEMICOLON
+
+return a;
+
+Line 2: statements : statement
+
+return a;
+
+Line 5: type_specifier : INT
+
+int
+
+Line 6: type_specifier : INT
+
+int
+
+Line 6: statements : statement
+
+int a[2],c,i,j;
+
+Line 6: type_specifier : FLOAT
+
+float
+
+Line 6: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+
+Line 7: factor : CONST_FLOAT
+
+2.5
+
+Line 7: unary_expression : factor
+
+2.5
+
+Line 7: term : unary_expression
+
+2.5
+
+Line 7: simple_expression : term
+
+2.5
+
+Line 7: rel_expression : simple_expression
+
+2.5
+
+Line 7: logic_expression : rel_expression
+
+2.5
+
+Line 7: expression : logic_expression
+
+2.5
+
+Line 7: unary_expression : factor
+
+1
+
+Line 7: term : unary_expression
+
+1
+
+Line 7: simple_expression : term
+
+1
+
+Line 7: rel_expression : simple_expression
+
+1
+
+Line 7: logic_expression : rel_expression
+
+1
+
+Line 7: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+
+Line 8: variable : ID
+
+i
+
+Line 8: factor : CONST_FLOAT
+
+2.3
+
+Line 8: unary_expression : factor
+
+2.3
+
+Line 8: term : unary_expression
+
+2.3
+
+Line 8: simple_expression : term
+
+2.3
+
+Line 8: rel_expression : simple_expression
+
+2.3
+
+Line 8: logic_expression : rel_expression
+
+2.3
+
+Line 8: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+
+Line 9: variable : ID
+
+j
+
+Line 9: unary_expression : factor
+
+2
+
+Line 9: term : unary_expression
+
+2
+
+Line 9: factor : CONST_FLOAT
+
+3.7
+
+Line 9: unary_expression : factor
+
+3.7
+
+Line 9: simple_expression : term
+
+%
+
+Line 9: rel_expression : simple_expression
+
+%
+
+Line 9: logic_expression : rel_expression
+
+%
+
+Line 9: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+=;
+
+Line 10: variable : ID
+
+a
+
+Line 10: unary_expression : factor
+
+4
+
+Line 10: term : unary_expression
+
+4
+
+Line 10: simple_expression : term
+
+4
+
+Line 10: rel_expression : simple_expression
+
+4
+
+Line 10: logic_expression : rel_expression
+
+4
+
+Line 10: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+=;
+=;
+
+Line 11: variable : ID
+
+a
+
+Line 11: factor : variable
+
+a
+
+Line 11: unary_expression : factor
+
+a
+
+Line 11: term : unary_expression
+
+a
+
+Line 11: simple_expression : term
+
+a
+
+Line 11: rel_expression : simple_expression
+
+a
+
+Line 11: logic_expression : rel_expression
+
+a
+
+Line 11: unary_expression : factor
+
+func
+
+Line 11: term : unary_expression
+
+func
+
+Line 11: simple_expression : term
+
+func
+
+Line 11: rel_expression : simple_expression
+
+func
+
+Line 11: logic_expression : rel_expression
+
+func
+
+Line 11: expression : logic_expression
+
+func
+
+Line 11: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+=;
+=;
+func;
+
+Line 12: variable : ID
+
+b
+
+Line 12: unary_expression : factor
+
+8
+
+Line 12: term : unary_expression
+
+8
+
+Line 12: simple_expression : term
+
+8
+
+Line 12: rel_expression : simple_expression
+
+8
+
+Line 12: logic_expression : rel_expression
+
+8
+
+Line 12: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+=;
+=;
+func;
+=;
+
+Line 13: unary_expression : factor
+
+0
+
+Line 13: term : unary_expression
+
+0
+
+Line 13: simple_expression : term
+
+0
+
+Line 13: rel_expression : simple_expression
+
+0
+
+Line 13: logic_expression : rel_expression
+
+0
+
+Line 13: expression : logic_expression
+
+0
+
+Line 13: statement : RETURN expression SEMICOLON
+
+return 0;
+
+Line 13: statements : statements statement
+
+int a[2],c,i,j;
+float c;
+=;
+=;
+=;
+=;
+func;
+=;
+return 0;
+
