@@ -11,6 +11,8 @@ options {
     #include <cstdlib>
     #include "C8086Lexer.h"
 
+    
+
     extern std::ofstream parserLogFile;
     extern std::ofstream errorFile;
 	extern std::ofstream lexLogFile;
@@ -20,6 +22,12 @@ options {
 }
 
 @parser::members {
+
+    #include "2105168_header_files/2105168_SymbolInfo.h"
+    #include "2105168_header_files/2105168_SymbolTable.h"
+
+    SymbolTable* symbolTable = new SymbolTable(7);
+
     void writeIntoparserLogFile(const std::string message) {
         if (!parserLogFile) {
             std::cout << "Error opening parserLogFile.txt" << std::endl;
@@ -52,10 +60,13 @@ options {
     }
 }
 
-start:
-	program {
+start
+  
+	:program {
+        symbolTable->EnterScope();
         writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
 	};
+
 
 program
     returns[std::string text, int line]:
@@ -116,14 +127,14 @@ func_declaration
 func_definition
     returns[std::string text, int line]:
 	ts=type_specifier ID LPAREN pl=parameter_list RPAREN cs=compound_statement {  
-        $text = $ts.name_line+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
+        $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
 
 
     }
 	| ts=type_specifier ID LPAREN RPAREN cs=compound_statement { 
-        $text = $ts.name_line +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
+        $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+$text+"\n");
 
@@ -133,44 +144,52 @@ func_definition
 
 parameter_list
     returns[std::string text, int line]:
-	pl=parameter_list COMMA type_specifier ID {
-        $text =$pl.text+$COMMA->getText()+ $type_specifier.name_line +" " + $ID->getText();
+	pl=parameter_list COMMA ts=type_specifier ID {
+        $text =$pl.text+$COMMA->getText()+ $ts.text +" " + $ID->getText();
         $line = $ID->getLine();
-        writeIntoLexLogFile("Line " + std::to_string($ID->getLine()) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
+        writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
 		}
-	| parameter_list COMMA type_specifier {
-        $text = $type_specifier.name_line ;
+	| pl=parameter_list COMMA ts=type_specifier {
+        $text =$pl.text + $COMMA->getText() +  $ts.text ;
+        $line = $ts.line;
+        writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
+		}
+	| ts=type_specifier ID {
+        $text = $ts.text + " " + $ID->getText()   ;
         $line = $ID->getLine();
-        writeIntoLexLogFile("Line " + std::to_string($COMMA->getLine()) + ": parameter_list : type_specifier \n" +$type_specifier.name_line + "\n");
+        writeIntoLexLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
-	| type_specifier ID {
-        $text = $type_specifier.name_line + " " + $ID->getText()   ;
-        $line = $ID->getLine();
-        writeIntoLexLogFile("Line " + std::to_string($ID->getLine()) +": parameter_list : type_specifier ID\n\n" + $type_specifier.name_line + " " + $ID->getText() + "\n");
-		}
-	| type_specifier {
+	| ts=type_specifier {
 
-        $text = $type_specifier.name_line ;
-        $line = $ID->getLine();
-        writeIntoLexLogFile("Line " + std::to_string($type_specifier.start->getLine()) + ": parameter_list : type_specifier \n" +$type_specifier.name_line+ "\n");
+        $text = $ts.text ;
+        $line = $ts.line;
+        writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
 		};
 
 compound_statement
     returns[std::string text, int line]:
-    LCURL ss=statements RCURL  {
+    LCURL {  symbolTable->EnterScope(); }
+    ss=statements 
+    RCURL  {
         $text = $LCURL->getText()+"\n" + $ss.text +"\n" + $RCURL->getText();
         $line = $RCURL.line;
         writeIntoLexLogFile("Line "+std::to_string($line)+": compound_statement : LCURL statements RCURL\n\n"+$text+"\n");
+        symbolTable->print_current_scope_table(lexLogFile);
+        symbolTable->ExitScope();
     }
-    | LCURL RCURL {
+    | LCURL {  symbolTable->EnterScope(); }
+    RCURL {
         $text = $LCURL->getText();
         $line = $LCURL->getLine();
+        symbolTable->print_current_scope_table(lexLogFile);
+        symbolTable->ExitScope();
+
     };
 
 var_declaration
     returns[std::string text, int line]:
 	t = type_specifier dl = declaration_list sm = SEMICOLON {
-        $text = $t.name_line +" "+ $dl.text + $sm->getText() ;
+        $text = $t.text +" "+ $dl.text + $sm->getText() ;
         $line = $t.line;
         writeIntoLexLogFile("Line "+std::to_string($line)+": var_declaration : type_specifier declaration_list SEMICOLON\n\n"+$text+"\n");
 
@@ -180,13 +199,27 @@ var_declaration
             " at line " + std::to_string($sm->getLine())
         );
 
-        writeIntoparserLogFile("type_specifier name_line: " + $t.name_line);
+        writeIntoparserLogFile("type_specifier name_line: " + $t.text);
+
+        std::stringstream ss($dl.text);
+
+        std::string name;
+
+        while(std::getline(ss,name,',')){ 
+            name.erase(0, name.find_first_not_of(" \t"));
+            name.erase(name.find_last_not_of(" \t") + 1);
+
+            if(!symbolTable->Insert(name,$text)){   
+                writeIntoLexLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+name+"\n");
+
+            }
+         }
 
         
       }
 
 	| t = type_specifier de = declaration_list_err sm = SEMICOLON {
-        $text = $t.name_line;
+        $text = $t.text;
         $line = $t.line;
         writeIntoErrorFile(
             std::string("Line# ") + std::to_string($sm->getLine()) +
@@ -204,19 +237,19 @@ declaration_list_err
     };
 
 type_specifier
-	returns[std::string name_line , int line]:
+	returns[std::string text , int line]:
 	INT {
-            $name_line = $INT->getText();
+            $text = $INT->getText();
             $line = $INT->getLine();
 			writeIntoLexLogFile("Line " + std::to_string($INT->getLine()) + ": type_specifier : INT\n\n" + $INT->getText() + "\n");
         }
 	| FLOAT {
-            $name_line = $FLOAT->getText();
+            $text = $FLOAT->getText();
             $line = $FLOAT->getLine();
 			writeIntoLexLogFile("Line " + std::to_string($FLOAT->getLine()) + ": type_specifier : FLOAT\n\n" +$FLOAT->getText() + "\n");        
 		}
 	| VOID {
-            $name_line = $VOID->getText();
+            $text = $VOID->getText();
             $line = $VOID->getLine();
             writeIntoLexLogFile("Line " + std::to_string($VOID->getLine()) + ": type_specifier : VOID\n\n" +$VOID->getText() + "\n");        
         };
@@ -258,7 +291,7 @@ statements
 	s=statement {
         $text = $s.text;
         $line = $s.line;
-        writeIntoLexLogFile("Line " + std::to_string($s.line) + ": statements : statement\n\n" + $s.text+"\n"); 
+        writeIntoLexLogFile("Line " + std::to_string($line) + ": statements : statement\n\n" + $text+"\n"); 
     }
 	| ss=statements s=statement {
         $text = $ss.text +"\n" + $s.text;
@@ -288,32 +321,32 @@ statement
 
     }
 	| FOR LPAREN es1=expression_statement es2=expression_statement e=expression RPAREN s=statement {
-        $text = $FOR.text + " " + $LPAREN->getText() + " " +  $es1.text + " " + $es2.text + " " + $e.text  +" " + $RPAREN->getText() +" " + $s.text;
+        $text = $FOR.text +  $LPAREN->getText() +  $es1.text + $es2.text + $e.text   + $RPAREN->getText() + $s.text;
         $line = $s.line;
         writeIntoLexLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
 	| IF LPAREN e=expression RPAREN s=statement {
         $text = $IF->getText()+ $LPAREN->getText()+ $e.text  + $RPAREN->getText() +$s.text;
-        $line = $s.line;
+        $line = $IF->getLine();
         writeIntoLexLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
 	| IF LPAREN e=expression RPAREN s1=statement ELSE s2=statement {
-        $text = $IF->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s1.text+ $ELSE->getText() +  $s2.text ;
-       $line = $s2.line;
+        $text = $IF->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s1.text+ $ELSE->getText() +" "+  $s2.text ;
+       $line = $IF->getLine();
         writeIntoLexLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + $text +"\n"); 
 
     }
 	| WHILE LPAREN e=expression RPAREN s=statement {
-        $text = $WHILE->getText() + " " + $LPAREN->getText() + " " + $e.text  +" " + $RPAREN->getText() +" " + $s.text;
+        $text = $WHILE->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s.text;
         $line = $s.line;
         writeIntoLexLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
 	| PRINTLN LPAREN ID RPAREN SEMICOLON {
-        $text = $PRINTLN->getText() + " " + $LPAREN->getText() + " " + $ID->getText() + " " +  $RPAREN->getText() + " " + $SEMICOLON->getText();
-        $line = $PRINTLN->getLine();
+        $text = $PRINTLN->getText() + $LPAREN->getText() +  $ID->getText() +  $RPAREN->getText() +  $SEMICOLON->getText();
+        $line = $SEMICOLON->getLine();
         writeIntoLexLogFile("Line " + std::to_string($line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n\n" + $text +"\n"); 
 
     }
@@ -329,7 +362,7 @@ expression_statement returns[std::string text, int line]:
     SEMICOLON {
         $text = $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
-        writeIntoLexLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": expression_statement : expression SEMICOLON\n\n" + $text +"\n"); 
+        writeIntoLexLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": expression_statement : SEMICOLON\n\n" + $text +"\n"); 
 
     }
     | e=expression SEMICOLON {
@@ -436,7 +469,7 @@ unary_expression
 	| NOT ue=unary_expression {
             $text = $NOT->getText() + $ue.text;
             $line = $ue.line;
-            writeIntoLexLogFile("Line "+  std::to_string($line)+": unary_expression : unary_expression\n\n" + $text + "\n"); 
+            writeIntoLexLogFile("Line "+  std::to_string($line)+": unary_expression : NOT unary_expression\n\n" + $text + "\n"); 
 
         }
 	| f = factor {
@@ -477,12 +510,16 @@ factor
 
     }
 	| v = variable INCOP {
-        $text = $INCOP->getText();
+        $text = $v.text+$INCOP->getText();
         $line = $INCOP->getLine();
+        writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : variable INCOP\n\n" + $text + "\n");
+
     }
 	| v = variable DECOP {
-        $text = $DECOP->getText();
+        $text = $v.text+$DECOP->getText();
         $line = $DECOP->getLine();
+        writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : variable DECOP\n\n" + $text + "\n");
+
     };
 
 argument_list 
@@ -510,3 +547,5 @@ arguments
 
 
         };
+
+

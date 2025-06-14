@@ -5,7 +5,6 @@ lexer grammar C8086Lexer;
     #include <iostream>
     #include <fstream>
     #include <string>
-
     extern std::ofstream lexLogFile;
 }
 
@@ -84,7 +83,7 @@ IF       : 'if' ;
 ELSE     : 'else' ;
 FOR      : 'for' ;
 WHILE    : 'while' ;
-PRINTLN  : 'println' ;
+PRINTLN  : 'printf' ;
 RETURN   : 'return' ;
 INT      : 'int';
 FLOAT    : 'float' ;
@@ -98,7 +97,7 @@ LTHIRD   : '[' ;
 RTHIRD   : ']' ;
 SEMICOLON: ';' ;
 COMMA    : ',' ;
-
+HASH     : '#' -> skip;
 
 ADDOP    : [+\-] ;
 SUBOP    : [+\-] ;

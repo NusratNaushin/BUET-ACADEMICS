@@ -3,7 +3,6 @@
     #include <iostream>
     #include <fstream>
     #include <string>
-
     extern std::ofstream lexLogFile;
 
 
@@ -23,9 +22,9 @@ public:
     LINE_COMMENT = 1, BLOCK_COMMENT = 2, STRING = 3, WS = 4, IF = 5, ELSE = 6, 
     FOR = 7, WHILE = 8, PRINTLN = 9, RETURN = 10, INT = 11, FLOAT = 12, 
     VOID = 13, LPAREN = 14, RPAREN = 15, LCURL = 16, RCURL = 17, LTHIRD = 18, 
-    RTHIRD = 19, SEMICOLON = 20, COMMA = 21, ADDOP = 22, SUBOP = 23, MULOP = 24, 
-    INCOP = 25, DECOP = 26, NOT = 27, RELOP = 28, LOGICOP = 29, ASSIGNOP = 30, 
-    ID = 31, CONST_INT = 32, CONST_FLOAT = 33
+    RTHIRD = 19, SEMICOLON = 20, COMMA = 21, HASH = 22, ADDOP = 23, SUBOP = 24, 
+    MULOP = 25, INCOP = 26, DECOP = 27, NOT = 28, RELOP = 29, LOGICOP = 30, 
+    ASSIGNOP = 31, ID = 32, CONST_INT = 33, CONST_FLOAT = 34
   };
 
   explicit C8086Lexer(antlr4::CharStream *input);

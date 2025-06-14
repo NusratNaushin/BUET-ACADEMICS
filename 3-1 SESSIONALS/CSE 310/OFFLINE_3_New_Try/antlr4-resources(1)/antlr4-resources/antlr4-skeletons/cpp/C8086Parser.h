@@ -5,6 +5,8 @@
     #include <cstdlib>
     #include "C8086Lexer.h"
 
+    
+
     extern std::ofstream parserLogFile;
     extern std::ofstream errorFile;
 	extern std::ofstream lexLogFile;
@@ -29,9 +31,9 @@ public:
     LINE_COMMENT = 1, BLOCK_COMMENT = 2, STRING = 3, WS = 4, IF = 5, ELSE = 6, 
     FOR = 7, WHILE = 8, PRINTLN = 9, RETURN = 10, INT = 11, FLOAT = 12, 
     VOID = 13, LPAREN = 14, RPAREN = 15, LCURL = 16, RCURL = 17, LTHIRD = 18, 
-    RTHIRD = 19, SEMICOLON = 20, COMMA = 21, ADDOP = 22, SUBOP = 23, MULOP = 24, 
-    INCOP = 25, DECOP = 26, NOT = 27, RELOP = 28, LOGICOP = 29, ASSIGNOP = 30, 
-    ID = 31, CONST_INT = 32, CONST_FLOAT = 33
+    RTHIRD = 19, SEMICOLON = 20, COMMA = 21, HASH = 22, ADDOP = 23, SUBOP = 24, 
+    MULOP = 25, INCOP = 26, DECOP = 27, NOT = 28, RELOP = 29, LOGICOP = 30, 
+    ASSIGNOP = 31, ID = 32, CONST_INT = 33, CONST_FLOAT = 34
   };
 
   enum {
@@ -61,6 +63,12 @@ public:
 
   antlr4::atn::SerializedATNView getSerializedATN() const override;
 
+
+
+      #include "2105168_header_files/2105168_SymbolInfo.h"
+      #include "2105168_header_files/2105168_SymbolTable.h"
+
+      SymbolTable* symbolTable = new SymbolTable(7);
 
       void writeIntoparserLogFile(const std::string message) {
           if (!parserLogFile) {
@@ -227,13 +235,13 @@ public:
     std::string text;
     int line;
     C8086Parser::Parameter_listContext *pl = nullptr;
-    C8086Parser::Type_specifierContext *type_specifierContext = nullptr;
+    C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *commaToken = nullptr;
     Parameter_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
-    Type_specifierContext *type_specifier();
     antlr4::tree::TerminalNode *ID();
+    Type_specifierContext *type_specifier();
     antlr4::tree::TerminalNode *COMMA();
     Parameter_listContext *parameter_list();
 
@@ -301,7 +309,7 @@ public:
 
   class  Type_specifierContext : public antlr4::ParserRuleContext {
   public:
-    std::string name_line;
+    std::string text;
     int line;
     antlr4::Token *intToken = nullptr;
     antlr4::Token *floatToken = nullptr;
