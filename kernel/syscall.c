@@ -6,7 +6,38 @@
 #include "proc.h"
 #include "syscall.h"
 #include "defs.h"
+#include "stat.h"
 
+
+char *syscall_names[] = {
+    [SYS_fork] = "fork",
+    [SYS_exit] = "exit",
+    [SYS_wait] = "wait",
+    [SYS_pipe] = "pipe",
+    [SYS_read] = "read",
+    [SYS_write] = "write",
+    [SYS_close] = "close",
+    [SYS_kill] = "kill",
+    [SYS_exec] = "exec",
+    [SYS_open] = "open",
+    [SYS_mknod] = "mknod",
+    [SYS_unlink] = "unlink",
+    [SYS_fstat] = "fstat",
+    [SYS_link] = "link",
+    [SYS_mkdir] = "mkdir",
+    [SYS_chdir] = "chdir",
+    [SYS_dup] = "dup",
+    [SYS_getpid] = "getpid",
+    [SYS_sbrk] = "sbrk",
+    [SYS_sleep] = "sleep",
+    [SYS_uptime] = "uptime",
+    [SYS_history] = "history",
+    [SYS_settickets] ="settickets",
+    [SYS_getpinfo] = "getpinfo",
+    [SYS_setSeed] = "setSeed",
+    [SYS_getRandomNumber] = "getRandomNumber"
+
+  };
 // Fetch the uint64 at addr from the current process.
 int
 fetchaddr(uint64 addr, uint64 *ip)
@@ -101,6 +132,12 @@ extern uint64 sys_unlink(void);
 extern uint64 sys_link(void);
 extern uint64 sys_mkdir(void);
 extern uint64 sys_close(void);
+extern uint64 sys_history(void);
+extern uint64 sys_settickets(void);
+extern uint64 sys_getpinfo(void);
+extern uint64 sys_setSeed(void);
+extern uint64 sys_getRandomNumber(void);
+
 
 // An array mapping syscall numbers from syscall.h
 // to the function that handles the system call.
@@ -126,22 +163,55 @@ static uint64 (*syscalls[])(void) = {
 [SYS_link]    sys_link,
 [SYS_mkdir]   sys_mkdir,
 [SYS_close]   sys_close,
+[SYS_history] sys_history,
+[SYS_settickets] sys_settickets,
+[SYS_getpinfo] sys_getpinfo,
+[SYS_setSeed] sys_setSeed,
+[SYS_getRandomNumber] sys_getRandomNumber,
+
 };
 
-void
-syscall(void)
+struct syscall_stat syscall_stats[NELEM(syscalls)];
+struct spinlock syscall_locks[NELEM(syscalls)];
+void init_syscall_stats(void){
+
+  for (int i = 0; i < NELEM(syscalls); i++)
+  {
+    if(syscalls[i] != 0){
+      safestrcpy(syscall_stats[i].syscall_name,syscall_names[i],sizeof(syscall_stats[i].syscall_name));
+      syscall_stats[i].count=0;
+      syscall_stats[i].accum_time = 0;
+      initlock(&syscall_locks[i], syscall_names[i]);
+    }
+  }
+
+}
+void syscall(void)
 {
   int num;
   struct proc *p = myproc();
 
   num = p->trapframe->a7;
-  if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
+  if (num > 0 && num < NELEM(syscalls) && syscalls[num])
+  {
     // Use num to lookup the system call function for num, call it,
     // and store its return value in p->trapframe->a0
+
+    uint64 start_ticks = ticks;
     p->trapframe->a0 = syscalls[num]();
-  } else {
+    uint64 endticks = ticks;
+
+
+    safestrcpy(syscall_stats[num].syscall_name, syscall_names[num], sizeof(syscall_stats[num].syscall_name));
+    acquire(&syscall_locks[num]);
+    syscall_stats[num].count++;
+    syscall_stats[num].accum_time += (endticks - start_ticks);
+    release(&syscall_locks[num]);
+  }
+  else
+  {
     printf("%d %s: unknown sys call %d\n",
-            p->pid, p->name, num);
+           p->pid, p->name, num);
     p->trapframe->a0 = -1;
   }
 }

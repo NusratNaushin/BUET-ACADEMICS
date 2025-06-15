@@ -1,3 +1,6 @@
+#include "kernel/stat.h"
+#include "kernel/pstat.h"
+
 struct stat;
 
 // system calls
@@ -22,7 +25,11 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-
+int history(int hid, struct syscall_stat *st);
+int settickets(int number);
+int getpinfo(struct pstat*);
+int setSeed(int s);
+int getRandomNumber(int* , int);
 // ulib.c
 int stat(const char*, struct stat*);
 char* strcpy(char*, const char*);

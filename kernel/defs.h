@@ -1,3 +1,4 @@
+#include "pstat.h"
 struct buf;
 struct context;
 struct file;
@@ -8,6 +9,7 @@ struct spinlock;
 struct sleeplock;
 struct stat;
 struct superblock;
+
 
 // bio.c
 void            binit(void);
@@ -106,6 +108,12 @@ void            yield(void);
 int             either_copyout(int user_dst, uint64 dst, void *src, uint64 len);
 int             either_copyin(void *dst, int user_src, uint64 src, uint64 len);
 void            procdump(void);
+int             history(int  , uint64 ustats);
+int             settickets(int);
+int             getpinfo(struct pstat *);
+int             setSeed(int s);
+int             getRandomNumber(int* ,int n);
+
 
 // swtch.S
 void            swtch(struct context*, struct context*);
@@ -140,6 +148,7 @@ void            argaddr(int, uint64 *);
 int             fetchstr(uint64, char*, int);
 int             fetchaddr(uint64, uint64*);
 void            syscall();
+void            init_syscall_stats(void);
 
 // trap.c
 extern uint     ticks;

@@ -5,6 +5,7 @@
 #include "memlayout.h"
 #include "spinlock.h"
 #include "proc.h"
+#include "pstat.h"
 
 uint64
 sys_exit(void)
@@ -90,4 +91,80 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+uint64
+sys_history(){
+
+  int id;
+  uint64 ust;
+  argint(0,&id);
+  argaddr(1,&ust);
+  return history(id,ust);
+}
+uint64
+sys_settickets(void){
+  //printf("testing setticket");
+
+  int tickets;
+
+  argint(0, &tickets);
+
+  return settickets(tickets);
+
+  return 0;
+}
+
+uint64
+sys_getpinfo(void){
+  //printf("testing getpinfo");
+
+  uint64 addr;
+  struct pstat process_charactersitics;
+
+  argaddr(0, &addr);
+
+
+
+
+  getpinfo(&process_charactersitics);
+
+
+
+  if(copyout(myproc()->pagetable, addr, (char *)&process_charactersitics, sizeof(struct pstat)) < 0){
+    return -1;
+  }
+
+  return 0;
+}
+
+uint64
+sys_setSeed(void){
+
+
+  int seeds;
+
+  argint(0, &seeds);
+
+  return setSeed(seeds);
+
+  return 0;
+}
+
+uint64
+sys_getRandomNumber(void){
+
+  uint64 addr;
+  int n;
+
+  argaddr(0, &addr);
+  argint(1,&n);
+  int random_numbers[15];
+    
+    // Call the main implementation in proc.c
+  getRandomNumber(random_numbers, n);
+
+  if(copyout(myproc()->pagetable, addr, (char *)&random_numbers, n*sizeof(int)) < 0){
+    return -1;
+  }
+    return 0;
 }
