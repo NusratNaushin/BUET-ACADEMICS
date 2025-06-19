@@ -177,7 +177,7 @@ func_declaration
 func_definition
     returns[std::string text, int line]:
 	ts=type_specifier ID LPAREN 
-     pl=parameter_list RPAREN 
+     pl=parameter_list RPAREN
       cs=compound_statement {  
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
@@ -229,8 +229,9 @@ parameter_list
         $line = $ID->getLine();
         $plist = $pl.plist;
         $plist.push_back(std::make_pair($ts.text, $ID->getText()));
-        symbolTable->Insert($ID->getText(), "ID");
-        writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
+        if(!symbolTable->Insert($ID->getText(), "ID")){ 
+            writeIntoErrorFile("Error at line "+ std::to_string($line) +": Multiple declaration of "+$ID->getText()+" in parameter\n");
+        }        writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
 		}
 	| pl=parameter_list COMMA ts=type_specifier {
         $text =$pl.text + $COMMA->getText() +  $ts.text ;
@@ -243,7 +244,7 @@ parameter_list
         $text = $ts.text + " " + $ID->getText()   ;
         $line = $ID->getLine();
         $plist.push_back(std::make_pair($ts.text, $ID->getText()));
-        symbolTable->Insert($ID->getText(), "ID");
+
         writeIntoLexLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
 	| ts=type_specifier {
@@ -299,7 +300,7 @@ var_declaration
 
             if(!symbolTable->Insert(name,"ID")){   
                 writeIntoLexLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+name+"\n");
-
+                writeIntoErrorFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+name+"\n");
             }
          }
 
@@ -343,12 +344,12 @@ type_specifier
         };
 
 declaration_list
-    returns[std::string text , int line]:
+    returns[std::string text , int line,std::string type]:
 	dl=declaration_list COMMA ID { 
 
         $text = $dl.text + $COMMA->getText() + $ID->getText();
         $line = $ID->getLine();
-
+        
         writeIntoLexLogFile("Line " + std::to_string($line) + ": declaration_list : declaration_list COMMA ID\n\n" +$text + "\n");        
 
     }
@@ -369,17 +370,13 @@ declaration_list
 	| ID LTHIRD CONST_INT RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
         $line = $ID->getLine();
+        $type = "array";
+        
         
         writeIntoLexLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
     }
-    | ID LTHIRD CONST_FLOAT RTHIRD { 
-        $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
-        $line = $ID->getLine();
-        
-        writeIntoLexLogFile("Error at line " + std::to_string($line) + ":  Expression inside third brackets not an integer\n\n" +$text + "\n");        
 
-    }
     ; 
 
 statements
@@ -469,7 +466,7 @@ expression_statement returns[std::string text, int line]:
     };
 
 variable
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	ID {
         $text = $ID->getText();
         $line = $ID->getLine();
@@ -479,159 +476,200 @@ variable
 	| ID LTHIRD e=expression RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $e.text + $RTHIRD->getText();
         $line = $RTHIRD->getLine();
+        $type = $e.type;
+        if ($type != "INT"){  
+            writeIntoErrorFile("Error at line "+std::to_string($line)+": Expression inside third brackets not an integer\n");
+        }
         writeIntoLexLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD\n\n" + $text +"\n"); 
 
     };
 
 expression
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	l = logic_expression {
             $text=$l.text;
             $line=$l.line;
+            $type = $l.type;
             writeIntoLexLogFile("Line "+  std::to_string($l.line)+": expression : logic_expression\n\n" + $l.text + "\n"); 
         }
 	| v=variable ASSIGNOP le=logic_expression {
             $text= $v.text + $ASSIGNOP->getText() + $le.text;
             $line=$le.line;  
+            $type = $le.type;
+            SymbolInfo* v = symbolTable->LookUP($v.text);
+
+            if($v.type != $type ){
+                if(v == nullptr ){                  
+                    writeIntoErrorFile("Error at line "+std::to_string($line)+": Undeclared variable "+$v.text+"\n");  
+                 
+                }               
+                else{
+                    writeIntoErrorFile("Error at line "+std::to_string($line)+": Type mismatch\n");  
+                }
+            }
             writeIntoLexLogFile("Line "+  std::to_string($line)+": expression : variable ASSIGNOP logic_expression\n\n" + $text + "\n"); 
  
 
        };
 
 logic_expression
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	r = rel_expression {
             $text = $r.text;
             $line = $r.line;
+            $type = $r.type;
             writeIntoLexLogFile("Line "+  std::to_string($r.line)+": logic_expression : rel_expression\n\n" + $r.text + "\n"); 
 
         }
 	| re1=rel_expression LOGICOP re2=rel_expression {
             $text = $re1.text+$LOGICOP->getText() + $re2.text;
             $line = $re2.line;
+            $type = $re2.type;
             writeIntoLexLogFile("Line "+  std::to_string($line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + $text + "\n"); 
 
         };
 
 rel_expression
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	s = simple_expression {
             $text = $s.text;
             $line = $s.line;
+            $type = $s.type;
             writeIntoLexLogFile("Line "+  std::to_string($s.line)+": rel_expression : simple_expression\n\n" + $s.text + "\n"); 
             }
 	| s1=simple_expression RELOP s2=simple_expression {
             $text = $s1.text + $RELOP->getText() + $s2.text;
             $line = $RELOP->getLine();
+            $type = $s2.type;
             writeIntoLexLogFile("Line "+  std::to_string($line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + $text + "\n"); 
 
         };
 
 simple_expression
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	t = term {
             $text = $t.text;
             $line = $t.line;
+            $type = $t.type;
             writeIntoLexLogFile("Line "+  std::to_string($t.line)+": simple_expression : term\n\n" + $t.text + "\n"); 
             }
 	| s=simple_expression ADDOP t=term {
             $text = $s.text+$ADDOP->getText()+$t.text;
             $line = $t.line;
+            $type = $t.type;
             writeIntoLexLogFile("Line "+  std::to_string($line)+": simple_expression : simple_expression ADDOP term\n\n" + $text + "\n"); 
 
           };
 
 term
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	u = unary_expression {
          
             $text = $u.text;
             $line = $u.line;
-            writeIntoLexLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n"); 
+            $type = $u.type;
+            writeIntoLexLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n");
             }
 	| t=term MULOP ue=unary_expression {
             $text = $t.text+ $MULOP->getText() + $ue.text;
             $line = $ue.line;
-            writeIntoLexLogFile("Line "+  std::to_string($ue.line)+": term : term MULOP unary_expression\n\n" + $text + "\n"); 
+            $type = $ue.type;
+            if($t.type != $ue.type && $MULOP->getText() == "%"){
+                writeIntoErrorFile("Error at line "+std::to_string($line)+": Non-Integer operand on modulus operator\n");
+            }
+            writeIntoLexLogFile("Line "+  std::to_string($ue.line)+": term : term MULOP unary_expression\n\n" + $text + "\n");
 
         };
 
 unary_expression
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	ADDOP ue=unary_expression {
             $text = $ADDOP->getText() + $ue.text;
             $line = $ADDOP->getLine();
+            $type = $ue.type;
         }
 	| NOT ue=unary_expression {
             $text = $NOT->getText() + $ue.text;
             $line = $ue.line;
-            writeIntoLexLogFile("Line "+  std::to_string($line)+": unary_expression : NOT unary_expression\n\n" + $text + "\n"); 
+            $type = $ue.type;
+            writeIntoLexLogFile("Line "+  std::to_string($line)+": unary_expression : NOT unary_expression\n\n" + $text + "\n");
 
         }
 	| f = factor {
             $text = $f.text;
             $line = $f.line;
+            $type = $f.type;
             writeIntoLexLogFile("Line "+  std::to_string($f.line)+": unary_expression : factor\n\n" + $f.text + "\n"); 
             };
 
 factor
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
 	v = variable {
         $text = $v.text;
         $line = $v.line;
+        $type = $v.type;
         writeIntoLexLogFile("Line "+  std::to_string($v.line)+": factor : variable\n\n" + $v.text + "\n");
         }
 	| ID LPAREN a = argument_list RPAREN {
         $text = $ID->getText()+$LPAREN->getText()+ $a.text + $RPAREN->getText();
         $line = $ID->getLine();
+        $type = $ID->getType();
+         
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
 
     }
 	| LPAREN e = expression RPAREN { 
         $text = $LPAREN->getText() + $e.text + $RPAREN->getText();
         $line = $RPAREN->getLine();
+        $type = $e.type;
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : LPAREN expression RPAREN\n\n" + $text + "\n");
 
      }
 	| CONST_INT {
         $text = $CONST_INT->getText();
         $line = $CONST_INT->getLine();
+        $type = $CONST_INT->getType();
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : CONST_INT\n\n" + $text + "\n");
 
     }
 	| CONST_FLOAT {
         $text = $CONST_FLOAT->getText();
         $line = $CONST_FLOAT->getLine();
+        $type = $CONST_FLOAT->getType();
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : CONST_FLOAT\n\n" + $text + "\n");
 
     }
 	| v = variable INCOP {
         $text = $v.text+$INCOP->getText();
         $line = $INCOP->getLine();
+        $type = $v.type;
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : variable INCOP\n\n" + $text + "\n");
 
     }
 	| v = variable DECOP {
         $text = $v.text+$DECOP->getText();
         $line = $DECOP->getLine();
+        $type = $v.type;
         writeIntoLexLogFile("Line "+  std::to_string($line)+": factor : variable DECOP\n\n" + $text + "\n");
 
     };
 
 argument_list 
-	returns[std::string text, int line]:
+	returns[std::string text, int line,std::string type]:
           a=arguments {   
             $text = $a.text;
             $line = $a.line;
+            $type = $a.type;
             writeIntoLexLogFile("Line "+ std::to_string($line)+": argument_list : arguments\n\n"+$text+"\n");
           }
          |;
 
 arguments	
-    returns[std::string text, int line]:
+    returns[std::string text, int line,std::string type]:
          a=arguments COMMA le=logic_expression {    
             $text=$a.text +  $COMMA->getText()+  $le.text;
             $line=$le.line;
+            $type = $le.type;
             writeIntoLexLogFile("Line "+ std::to_string($line)+": arguments : arguments COMMA logic_expression\n\n"+$text+"\n");
 
          }
@@ -639,6 +677,7 @@ arguments
 
             $text=$le.text;
             $line=$le.line;
+            $type = $le.type;   
             writeIntoLexLogFile("Line "+ std::to_string($line)+": arguments : logic_expression\n\n"+$text+"\n");
 
 

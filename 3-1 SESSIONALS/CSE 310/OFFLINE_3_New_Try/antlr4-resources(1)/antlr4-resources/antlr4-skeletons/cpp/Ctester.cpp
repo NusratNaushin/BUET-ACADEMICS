@@ -13,6 +13,7 @@ ofstream errorFile; // global error stream
 ofstream lexLogFile; // global lexer log stream
 
 int syntaxErrorCount;
+bool isArray;
 
 int main(int argc, const char* argv[]) {
     if (argc < 2) {

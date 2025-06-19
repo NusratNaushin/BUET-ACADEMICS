@@ -335,6 +335,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
@@ -347,7 +348,6 @@ public:
     antlr4::tree::TerminalNode *LTHIRD();
     antlr4::tree::TerminalNode *CONST_INT();
     antlr4::tree::TerminalNode *RTHIRD();
-    antlr4::tree::TerminalNode *CONST_FLOAT();
     antlr4::tree::TerminalNode *COMMA();
     Declaration_listContext *declaration_list();
 
@@ -448,6 +448,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
     C8086Parser::ExpressionContext *e = nullptr;
@@ -470,6 +471,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Logic_expressionContext *l = nullptr;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *assignopToken = nullptr;
@@ -491,6 +493,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Rel_expressionContext *r = nullptr;
     C8086Parser::Rel_expressionContext *re1 = nullptr;
     antlr4::Token *logicopToken = nullptr;
@@ -512,6 +515,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Simple_expressionContext *s = nullptr;
     C8086Parser::Simple_expressionContext *s1 = nullptr;
     antlr4::Token *relopToken = nullptr;
@@ -533,6 +537,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Simple_expressionContext *s = nullptr;
     C8086Parser::TermContext *t = nullptr;
     antlr4::Token *addopToken = nullptr;
@@ -553,6 +558,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::TermContext *t = nullptr;
     C8086Parser::Unary_expressionContext *u = nullptr;
     antlr4::Token *mulopToken = nullptr;
@@ -574,6 +580,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     antlr4::Token *addopToken = nullptr;
     C8086Parser::Unary_expressionContext *ue = nullptr;
     antlr4::Token *notToken = nullptr;
@@ -596,6 +603,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
@@ -630,6 +638,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::ArgumentsContext *a = nullptr;
     Argument_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
@@ -646,6 +655,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::ArgumentsContext *a = nullptr;
     C8086Parser::Logic_expressionContext *le = nullptr;
     antlr4::Token *commaToken = nullptr;
