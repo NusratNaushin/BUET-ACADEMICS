@@ -57,6 +57,9 @@ return a;
 }
 
 ScopeTable # 1.1
+ScopeTable # 1
+2 --> < func : ID >
+6 --> < a : ID >
 Line 3: func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement
 
 int func(int a){
@@ -556,9 +559,12 @@ return 0;
 }
 
 ScopeTable # 1.2
-0-->< %s : %s >
-1-->< %s : %s >< %s : %s >
-6-->< %s : %s >
+0 --> < i : ID >
+1 --> < c : ID >< j : ID >
+6 --> < a[2] : ID >
+ScopeTable # 1
+2 --> < func : ID >
+6 --> < a : ID >< main : ID >
 Line 14: func_definition : type_specifier ID LPAREN RPAREN compound_statement
 
 int main(){
@@ -604,3 +610,12 @@ b=8;
 return 0;
 }
 
+Line 14: start : program
+
+
+ScopeTable # 1
+2 --> < func : ID >
+6 --> < a : ID >< main : ID >
+Total number of lines: 14
+
+Total number of errors:

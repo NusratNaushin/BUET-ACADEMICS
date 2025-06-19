@@ -274,9 +274,9 @@ public:
             if(temp != NULL)
             {
                 //fprintf(out, "%d --> ", i);
-                out << i << "-->";
+                out << i << " --> ";
                 while(temp != NULL){
-                    out<< "< %s : %s >", temp->getSymbolName().c_str(), temp->getSymbolType().c_str();
+                    out << "< " << temp->getSymbolName() << " : " << temp->getSymbolType() << " >";
                     temp = temp->getNext();
 
                 }

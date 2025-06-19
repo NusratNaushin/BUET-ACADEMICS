@@ -62,9 +62,23 @@ options {
 
 start
   
-	:program {
-        symbolTable->EnterScope();
+	returns[std::string text, int line]:
+    p=program {
+        
+        $text = $p.text;
+        $line = $p.line;
         writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
+
+
+        writeIntoLexLogFile("Line "+std::to_string($line)+": start : program\n\n");
+                symbolTable->print_current_scope_table(lexLogFile);
+
+        writeIntoLexLogFile("Total number of lines: "+std::to_string($line)+"\n");
+        writeIntoLexLogFile("Total number of errors:");
+
+
+
+
 	};
 
 
@@ -110,15 +124,51 @@ unit
 func_declaration
     returns[std::string text, int line]:
 
-	ts=type_specifier ID LPAREN pl=parameter_list RPAREN SEMICOLON {  
+	ts=type_specifier ID LPAREN pl=parameter_list
+     RPAREN SEMICOLON {  
         $text = $ts.text +" "+ $ID->getText() + $LPAREN->getText() + $pl.text+ $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine(); 
+         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+        funcSymbol->isFunction = true;
+        funcSymbol->isFunctiondefined = false;
+        funcSymbol->returnType = $ts.text;
+        funcSymbol->parameterList = $pl.plist;
+
+        SymbolInfo* existing = symbolTable->LookUP($ID->getText());
+        if (existing && existing->isFunction) {
+            writeIntoLexLogFile("Error at line " + std::to_string($line) + ": Redeclaration of function " + $ID->getText());
+        } else {
+            symbolTable->Insert(funcSymbol->getSymbolName(), funcSymbol->getSymbolType());
+        }
+    for (auto& param : $pl.plist) {
+
+
+
+
+        symbolTable->Insert(param.second, "ID");
+    }
+
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+$text+"\n");
 
     }
 	| ts=type_specifier ID LPAREN RPAREN SEMICOLON {  
         $text = $ts.text + " "+$ID->getText() + $LPAREN->getText() + $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine(); 
+          SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+        funcSymbol->isFunction = true;
+        funcSymbol->isFunctiondefined = false;
+        funcSymbol->returnType = $ts.text;
+
+        SymbolInfo* existing = symbolTable->LookUP($ID->getText());
+        if (existing && 
+        
+        existing->isFunction) {
+            writeIntoLexLogFile("Error at line " + std::to_string($line) + ": Redeclaration of function " + $ID->getText());
+        } else {
+            symbolTable->Insert(funcSymbol->getSymbolName(), funcSymbol->getSymbolType());
+        }
+
+
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON\n\n"+$text+"\n");
 
         
@@ -126,9 +176,27 @@ func_declaration
 
 func_definition
     returns[std::string text, int line]:
-	ts=type_specifier ID LPAREN pl=parameter_list RPAREN cs=compound_statement {  
+	ts=type_specifier ID LPAREN 
+     pl=parameter_list RPAREN 
+      cs=compound_statement {  
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+        funcSymbol->isFunction = true;
+        funcSymbol->isFunctiondefined = true;
+        funcSymbol->returnType = $ts.text;
+        funcSymbol->parameterList = $pl.plist;
+
+        SymbolInfo* existing = symbolTable->LookUP($ID->getText());
+        if (existing && existing->isFunction && existing->isFunctiondefined) {
+            writeIntoLexLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
+        } else {
+            symbolTable->Insert(funcSymbol->getSymbolName(), funcSymbol->getSymbolType());
+        }
+
+
+
+        symbolTable->print_current_scope_table(lexLogFile);
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
 
 
@@ -136,6 +204,18 @@ func_definition
 	| ts=type_specifier ID LPAREN RPAREN cs=compound_statement { 
         $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+        funcSymbol->isFunction = true;
+        funcSymbol->isFunctiondefined = true;
+        funcSymbol->returnType = $ts.text;
+
+        SymbolInfo* existing = symbolTable->LookUP($ID->getText());
+        if (existing && existing->isFunction && existing->isFunctiondefined) {
+            writeIntoLexLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
+        } else {
+            symbolTable->Insert(funcSymbol->getSymbolName(), funcSymbol->getSymbolType());
+        }
+        symbolTable->print_current_scope_table(lexLogFile);
         writeIntoLexLogFile("Line "+std::to_string($line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+$text+"\n");
 
 
@@ -143,26 +223,34 @@ func_definition
 
 
 parameter_list
-    returns[std::string text, int line]:
+    returns[std::string text, int line,std::vector<std::pair<std::string, std::string>> plist]:
 	pl=parameter_list COMMA ts=type_specifier ID {
         $text =$pl.text+$COMMA->getText()+ $ts.text +" " + $ID->getText();
         $line = $ID->getLine();
+        $plist = $pl.plist;
+        $plist.push_back(std::make_pair($ts.text, $ID->getText()));
+        symbolTable->Insert($ID->getText(), "ID");
         writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
 		}
 	| pl=parameter_list COMMA ts=type_specifier {
         $text =$pl.text + $COMMA->getText() +  $ts.text ;
         $line = $ts.line;
+        $plist = $pl.plist;
+        $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
 		}
 	| ts=type_specifier ID {
         $text = $ts.text + " " + $ID->getText()   ;
         $line = $ID->getLine();
+        $plist.push_back(std::make_pair($ts.text, $ID->getText()));
+        symbolTable->Insert($ID->getText(), "ID");
         writeIntoLexLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
 	| ts=type_specifier {
 
         $text = $ts.text ;
         $line = $ts.line;
+        $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoLexLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
 		};
 
@@ -209,7 +297,7 @@ var_declaration
             name.erase(0, name.find_first_not_of(" \t"));
             name.erase(name.find_last_not_of(" \t") + 1);
 
-            if(!symbolTable->Insert(name,$text)){   
+            if(!symbolTable->Insert(name,"ID")){   
                 writeIntoLexLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+name+"\n");
 
             }
@@ -281,7 +369,15 @@ declaration_list
 	| ID LTHIRD CONST_INT RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
         $line = $ID->getLine();
+        
         writeIntoLexLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
+
+    }
+    | ID LTHIRD CONST_FLOAT RTHIRD { 
+        $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
+        $line = $ID->getLine();
+        
+        writeIntoLexLogFile("Error at line " + std::to_string($line) + ":  Expression inside third brackets not an integer\n\n" +$text + "\n");        
 
     }
     ; 

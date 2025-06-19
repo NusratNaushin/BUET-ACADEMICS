@@ -51,6 +51,13 @@ public:
     void setNext(SymbolInfo *next){
         this->next = next;
     }
+
+
+    bool isFunction = false;
+    bool isFunctiondefined = false;
+    std::string returnType;
+    std::vector<std::pair<std::string, std::string>> parameterList;
+
 };
 
 // SymbolInfo::~SymbolInfo()

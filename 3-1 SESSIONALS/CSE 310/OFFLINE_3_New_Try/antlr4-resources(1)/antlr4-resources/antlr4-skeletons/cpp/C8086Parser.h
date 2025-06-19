@@ -129,6 +129,9 @@ public:
 
   class  StartContext : public antlr4::ParserRuleContext {
   public:
+    std::string text;
+    int line;
+    C8086Parser::ProgramContext *p = nullptr;
     StartContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     ProgramContext *program();
@@ -234,6 +237,7 @@ public:
   public:
     std::string text;
     int line;
+    std::vector<std::pair<std::string, std::string>> plist;
     C8086Parser::Parameter_listContext *pl = nullptr;
     C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
@@ -343,6 +347,7 @@ public:
     antlr4::tree::TerminalNode *LTHIRD();
     antlr4::tree::TerminalNode *CONST_INT();
     antlr4::tree::TerminalNode *RTHIRD();
+    antlr4::tree::TerminalNode *CONST_FLOAT();
     antlr4::tree::TerminalNode *COMMA();
     Declaration_listContext *declaration_list();
 
