@@ -90,6 +90,12 @@ int destructor_calls = 0;
         
     }
 
+    bool Insert(SymbolInfo *symbol_info)
+    {
+        if (!current_scope) return false;
+        return current_scope->Insert(symbol_info);
+    }
+
     bool Remove(std::string symbol_name)
     {
 
@@ -224,6 +230,7 @@ int destructor_calls = 0;
     int getDestructorCalls(){
         return destructor_calls;
     }
+
 };
 
 #endif

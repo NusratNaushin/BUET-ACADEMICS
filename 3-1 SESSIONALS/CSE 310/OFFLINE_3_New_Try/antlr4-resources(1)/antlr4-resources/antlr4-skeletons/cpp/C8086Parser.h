@@ -13,6 +13,9 @@
 
 
     extern int syntaxErrorCount;
+    extern std::string currentFunctionReturnType;
+    extern int argumentCount;
+    extern int paramCount;
 
 
 // Generated from C8086Parser.g4 by ANTLR 4.13.2
@@ -102,6 +105,7 @@ public:
       }
 
 
+
   class StartContext;
   class ProgramContext;
   class UnitContext;
@@ -185,6 +189,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
@@ -211,6 +216,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
@@ -260,6 +266,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     antlr4::Token *lcurlToken = nullptr;
     C8086Parser::StatementsContext *ss = nullptr;
     antlr4::Token *rcurlToken = nullptr;
@@ -315,6 +322,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     antlr4::Token *intToken = nullptr;
     antlr4::Token *floatToken = nullptr;
     antlr4::Token *voidToken = nullptr;
@@ -336,6 +344,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::vector<std::pair<std::string, bool>> varList;
     C8086Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
@@ -362,6 +371,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::StatementsContext *ss = nullptr;
     C8086Parser::StatementContext *s = nullptr;
     StatementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -380,6 +390,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string type;
     C8086Parser::Var_declarationContext *v = nullptr;
     C8086Parser::Expression_statementContext *es = nullptr;
     C8086Parser::Compound_statementContext *cs = nullptr;
@@ -604,6 +615,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argmismatcherr;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;

@@ -120,6 +120,48 @@ public:
         }
     }
 
+    bool Insert(SymbolInfo *symbol_info)
+    {
+
+        if (check_present_in_scopetable(symbol_info->getSymbolName()))
+        {
+            return false;
+        }
+
+        else
+        {
+
+            index = getHashIndex(symbol_info->getSymbolName()) % num_buckets;
+
+            chain_position = 1;
+            if (hashtable[index] == NULL)
+            {
+                hashtable[index] = symbol_info;
+                return true;
+            }
+
+            else
+            {
+
+                number_of_collisions++;
+
+                SymbolInfo *temp = hashtable[index];
+                // chain_position = 2;
+
+                while (temp->getNext() != NULL)
+                {
+                    temp = temp->getNext();
+                    chain_position++;
+                }
+
+                temp->setNext(symbol_info);
+
+                chain_position++;
+            }
+
+            return true;
+        }
+    }
     bool Delete(std::string symbol_name)
     {
 
