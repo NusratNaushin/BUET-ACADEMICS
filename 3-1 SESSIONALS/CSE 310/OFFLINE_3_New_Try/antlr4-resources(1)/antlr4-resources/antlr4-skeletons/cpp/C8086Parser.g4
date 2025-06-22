@@ -9,6 +9,7 @@ options {
     #include <fstream>
     #include <string>
     #include <cstdlib>
+
     #include "C8086Lexer.h"
 
     
@@ -23,6 +24,10 @@ options {
     extern int argumentCount;
     extern int paramCount;
     extern int errorCount;
+    extern bool multipleDeclaration;
+    extern std::vector<std::string> argumentTypes;
+    extern std::vector<bool> argumentIsArray;
+    extern std::vector<std::pair<std::string, std::string>> plist;
 }
 
 @parser::members {
@@ -75,7 +80,7 @@ start
 
 
         writeIntoparserLogFile("Line "+std::to_string($line)+": start : program\n");
-                symbolTable->print_current_scope_table(parserLogFile);
+        symbolTable->print_current_scope_table(parserLogFile);
 
 
         writeIntoparserLogFile("\nTotal number of lines: "+std::to_string($line));
@@ -201,6 +206,7 @@ func_definition
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
         funcSymbol->setParameterList($pl.plist);
+        plist = $pl.plist;
         // std::cout << $cs.type << " " << $ts.text << std::endl;
 
         // if($cs.type != $ts.text){ 
@@ -216,18 +222,17 @@ func_definition
         }
 
 
-        symbolTable->EnterScope();  
 
-        for(const auto& param : $pl.plist) {
-            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
-            paramSymbol->setIsArray(false);
-            paramSymbol->setSymbolDataType(param.first);
-            if(!symbolTable->Insert(param.second, "ID")){
-                writeIntoparserLogFile("Error at line "+std::to_string($pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
-                writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+param.second+" in parameter\n");
-                errorCount++;
-            }
-        }
+        // for(const auto& param : $pl.plist) {
+        //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+        //     paramSymbol->setIsArray(false);
+        //     paramSymbol->setSymbolDataType(param.first);
+        //     if(!symbolTable->Insert(param.second, "ID")){
+        //         // writeIntoparserLogFile("Error at line "+std::to_string($pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
+        //         // writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+param.second+" in parameter\n");
+        //         errorCount++;
+        //     }
+        // }
      } RPAREN 
      cs = compound_statement {  
 
@@ -236,13 +241,10 @@ func_definition
         $line = $cs.line;
         $type = $ts.text;
 
-
-        symbolTable->ExitScope();
-
-        symbolTable->print_current_scope_table(parserLogFile);
+        //symbolTable->print_current_scope_table(parserLogFile);
 
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
-
+ 
 
     }
 	| ts = type_specifier ID LPAREN RPAREN { 
@@ -263,15 +265,14 @@ func_definition
             symbolTable->Insert(funcSymbol);
         }
 
-        symbolTable->EnterScope(); } 
+        } 
         cs = compound_statement { 
 
         $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
 
 
-        symbolTable->ExitScope();
-        symbolTable->print_current_scope_table(parserLogFile);
+     //   symbolTable->print_current_scope_table(parserLogFile);
 
 
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+$text+"\n");
@@ -324,16 +325,29 @@ parameter_list
 
 compound_statement
 	returns[std::string text, int line , std::string type]:
-	LCURL
+	LCURL { symbolTable->EnterScope();  
+
+        for(const auto& param : plist) {
+            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+            paramSymbol->setIsArray(false);
+            paramSymbol->setSymbolDataType(param.first);
+            if(!symbolTable->Insert(param.second, "ID")){
+           //     errorCount++;
+            }
+        }
+        plist.clear();
+        
+         }
      ss = statements { 
         std::cout << "ss  type"<<$ss.type <<std::endl;
         $type = $ss.type;
     } RCURL {
         $text = $LCURL->getText()+"\n" + $ss.text +"\n" + $RCURL->getText();
         $line = $RCURL.line;
-        
         writeIntoparserLogFile("Line "+std::to_string($line)+": compound_statement : LCURL statements RCURL\n\n"+$text+"\n");
-        symbolTable->print_current_scope_table(parserLogFile);
+        symbolTable->print_all_scope_table2(parserLogFile);
+        symbolTable->ExitScope();
+
 
     }
 	| LCURL RCURL {
@@ -341,7 +355,7 @@ compound_statement
         $text = $LCURL->getText();
         $line = $LCURL->getLine();
         $type = "void"; 
-        symbolTable->print_current_scope_table(parserLogFile);
+    //    symbolTable->print_current_scope_table(parserLogFile);
 
 
     };
@@ -378,6 +392,7 @@ var_declaration
         for(const auto& var : $dl.varList) {
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
+            std::cout<<"is array true nakke"<<varSymbol->getIsArray()<<var.second << std::endl;
             varSymbol->setSymbolDataType($t.type);
             std::cout<<"vartype ki set hocche check"<<varSymbol->getSymbolDataType() << std::endl;
             if(!symbolTable->Insert(varSymbol)){
@@ -422,6 +437,9 @@ type_specifier
             $line = $INT->getLine();
             $type = "int";
 			writeIntoparserLogFile("Line " + std::to_string($INT->getLine()) + ": type_specifier : INT\n\n" + $INT->getText() + "\n");
+            if(multipleDeclaration){
+
+            }
         }
 	| FLOAT {
             $text = $FLOAT->getText();
@@ -526,13 +544,11 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN  {symbolTable->EnterScope();}
+	| IF LPAREN  
      e = expression RPAREN s = statement {
 
         $text = $IF->getText()+ $LPAREN->getText()+ $e.text  + $RPAREN->getText() +$s.text;
         $line = $IF->getLine();
-        symbolTable->print_current_scope_table(parserLogFile);
-        symbolTable->ExitScope();
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
@@ -594,7 +610,7 @@ expression_statement
     };
 
 variable
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type, bool isArray]:
 	ID {
         $text = $ID->getText();
         $line = $ID->getLine();
@@ -603,6 +619,7 @@ variable
 
             if(lookup && lookup->getIsArray()){
                 $type = "array";
+                $isArray = true;
             }
             else if (lookup){
                 $type = lookup->getSymbolDataType();
@@ -622,9 +639,9 @@ variable
 
             }
                 std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
-                if (lookup)
-                std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
-                                std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
+                // if (lookup)
+                // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
+                //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
 
 
         }
@@ -673,15 +690,15 @@ expression
 
             if(lookup->getIsArray()){
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch, "+$v.text+" is an array\n");
-                writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch "+$v.text+"  is an array\n");
+                writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch, "+$v.text+"  is an array\n");
                                 errorCount++;
 
 
             } else {
 
-                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch\n");  
+                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch yellow\n");  
 
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch\n\n"+$text+"\n");
+            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch yellow\n\n"+$text+"\n");
                             errorCount++;
 
              }
@@ -698,13 +715,13 @@ expression
        };
 
 logic_expression
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type , bool argIsArr ]:
 	r = rel_expression {
             $text = $r.text;
             $line = $r.line;
             $type = $r.type;
-
-                    std::cout << "r  type"<<$r.type <<std::endl;
+            $argIsArr = $r.argIsArray;
+            std::cout << "r  type"<<$r.type <<std::endl;
 
             writeIntoparserLogFile("Line "+  std::to_string($r.line)+": logic_expression : rel_expression\n\n" + $r.text + "\n"); 
 
@@ -713,17 +730,20 @@ logic_expression
             $text = $re1.text+$LOGICOP->getText() + $re2.text;
             $line = $re2.line;
             $type = $re2.type;
+            $argIsArr = false;
+
             std::cout << "re2 type"<<$re2.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + $text + "\n"); 
 
         };
 
 rel_expression
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type, bool argIsArray]:
 	s = simple_expression {
             $text = $s.text;
             $line = $s.line;
             $type = $s.type;
+            $argIsArray = $s.argIsArray;
             std::cout << "s type"<<$s.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($s.line)+": rel_expression : simple_expression\n\n" + $s.text + "\n"); 
             }
@@ -731,22 +751,25 @@ rel_expression
             $text = $s1.text + $RELOP->getText() + $s2.text;
             $line = $RELOP->getLine();
             $type = $s2.type;
+            $argIsArray = false;
             std::cout << "s2 type"<<$s2.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + $text + "\n"); 
 
         };
 
 simple_expression
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type, bool argIsArray]:
 	t = term {
             $text = $t.text;
             $line = $t.line;
             $type = $t.type;
+            $argIsArray = $t.argIsArray;
             writeIntoparserLogFile("Line "+  std::to_string($t.line)+": simple_expression : term\n\n" + $t.text + "\n"); 
             }
 	| s = simple_expression ADDOP t = term {
             $text = $s.text+$ADDOP->getText()+$t.text;
             $line = $t.line;
+            $argIsArray = false;
             if ($s.type == "float" || $t.type == "float") {
                 $type = "float";
             } else {
@@ -757,26 +780,29 @@ simple_expression
           };
 
 term
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type, bool argIsArray]:
 	u = unary_expression {
          
             $text = $u.text;
             $line = $u.line;
             $type = $u.type;
+           $argIsArray = $u.argIsArray; ;
             writeIntoparserLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n");
             }
 	| t = term MULOP ue = unary_expression {
     $text = $t.text + $MULOP->getText() + $ue.text;
     $line = $ue.line;
-
+    bool print = true;
+    
     if ($MULOP->getText() == "%") {
         if ($t.type != "int" || $ue.type != "int") {
             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Non-Integer operand on modulus operator\n");
             writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n");
             writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Non-Integer operand on modulus operator\n\n" + $text + "\n");
                             errorCount++;
-
+            print = false;
         }
+     
         $type = "int"; 
     } else {
         if ($t.type == "float" || $ue.type == "float") {
@@ -785,11 +811,13 @@ term
             $type = "int";
         }
     }
-
+    if(print){
     writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n\n" + $text + "\n");
+    }  
+
 };
 unary_expression
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type, bool argIsArray]:
 	ADDOP ue = unary_expression {
             $text = $ADDOP->getText() + $ue.text;
             $line = $ADDOP->getLine();
@@ -806,46 +834,67 @@ unary_expression
             $text = $f.text;
             $line = $f.line;
             $type = $f.type;
+            $argIsArray = $f.argIsArray;
             writeIntoparserLogFile("Line "+  std::to_string($f.line)+": unary_expression : factor\n\n" + $f.text + "\n"); 
             };
 
 factor
-	returns[std::string text, int line,std::string type , bool argmismatcherr]:
+	returns[std::string text, int line,std::string type , bool argIsArray]:
 	v = variable {
         $text = $v.text;
         $line = $v.line;
         $type = $v.type;
+        $argIsArray = $v.isArray;
         std::cout << "v type"<<$v.type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($v.line)+": factor : variable\n\n" + $v.text + "\n");
         }
 	| ID LPAREN {
         argumentCount = 0;
+        argumentTypes.clear();
+        argumentIsArray.clear();
     } a = argument_list RPAREN {
-        $text = $ID->getText()+$LPAREN->getText()+ $a.text + $RPAREN->getText();
-        $line = $ID->getLine();
-        $type = $ID->getType();
-          
+    $text = $ID->getText() + $LPAREN->getText() + $a.text + $RPAREN->getText();
+    $line = $ID->getLine();
+    $type = $ID->getType();
 
-        SymbolInfo* func = symbolTable->LookUP($ID->getText());
-        if(func == nullptr){ 
-            std::cout << "func is null" <<std::endl;
-        }
-        if(func && func->getIsFunction() && func->getIsFunctionDefined()) {
-            if(func->parameterList.size() != argumentCount) {
-                std::cout<<func->parameterList.size() << " " << argumentCount << $ID->getText() << std::endl;
-                writeIntoErrorFile("Error at line "+std::to_string($LPAREN->getLine())+": Total number of arguments mismatch with definition in function "+$ID->getText()+"\n");
-                errorCount++;
-
-            }
-        } else {
-            writeIntoErrorFile("Error at line "+std::to_string($LPAREN->getLine())+": Undefined function "+$ID->getText()+"\n");
-                            errorCount++;
-
-        }
+    SymbolInfo* func = symbolTable->LookUP($ID->getText());
     
-        writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
+    if (func == nullptr) {
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undefined function " + $ID->getText() + "\n");
+        errorCount++;
+    } 
+    else if (func->getIsFunction() && func->getIsFunctionDefined()) {
+        if ((int)func->parameterList.size() != argumentCount) {
+            writeIntoErrorFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with definition in function " + $ID->getText() + "\n");
+            errorCount++;
+        } 
+        else {
+            for (int i = 0; i < argumentCount; i++) {
+                std::string expectedType = func->parameterList[i].first;
+                std::string argType = argumentTypes[i];
+                bool argIsArray = argumentIsArray[i];
 
+                if (argIsArray && expectedType != "array") {
+                    writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
+                    writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
+                    errorCount++;
+                } 
+                else if (!argIsArray && expectedType != argType) {
+                    writeIntoErrorFile("Error at line " + std::to_string($line) + ": " + std::to_string(i + 1) + "th argument mismatch in function " + $ID->getText() + "\n");
+                    writeIntoparserLogFile("Error at line " + std::to_string($line) + ": " + std::to_string(i + 1) + "th argument mismatch in function " + $ID->getText() + "\n");
+                    errorCount++;
+                }
+            }
+        }
+    } 
+    else {
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undefined function " + $ID->getText() + "\n");
+        errorCount++;
     }
+
+    writeIntoparserLogFile("Line " + std::to_string($line) + ": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
+}
+
 	| LPAREN e = expression RPAREN { 
         $text = $LPAREN->getText() + $e.text + $RPAREN->getText();
         $line = $RPAREN->getLine();
@@ -901,6 +950,8 @@ arguments
             $line=$le.line;
             $type = $le.type;
             argumentCount++;
+            argumentTypes.push_back($le.type);
+            argumentIsArray.push_back($le.argIsArr);
             writeIntoparserLogFile("Line "+ std::to_string($line)+": arguments : arguments COMMA logic_expression\n\n"+$text+"\n");
 
          }
@@ -910,6 +961,8 @@ arguments
             $line=$le.line;
             $type = $le.type; 
             argumentCount++;  
+            argumentTypes.push_back($le.type);
+            argumentIsArray.push_back($le.argIsArr);
             writeIntoparserLogFile("Line "+ std::to_string($line)+": arguments : logic_expression\n\n"+$text+"\n");
 
 

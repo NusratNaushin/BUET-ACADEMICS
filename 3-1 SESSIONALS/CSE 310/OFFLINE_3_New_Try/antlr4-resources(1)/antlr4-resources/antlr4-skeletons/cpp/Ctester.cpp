@@ -18,6 +18,10 @@ std::string currentFunctionReturnType = "";
 int argumentCount = 0;
 int paramCount = 0;
 int errorCount = 0;
+bool multipleDeclaration=false;
+std::vector<std::string>argumentTypes;
+std::vector<bool>argumentIsArray;
+std::vector<std::pair<std::string, std::string>> plist;
 
 int main(int argc, const char* argv[]) {
     if (argc < 2) {

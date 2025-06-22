@@ -3,6 +3,7 @@
     #include <fstream>
     #include <string>
     #include <cstdlib>
+
     #include "C8086Lexer.h"
 
     
@@ -17,6 +18,10 @@
     extern int argumentCount;
     extern int paramCount;
     extern int errorCount;
+    extern bool multipleDeclaration;
+    extern std::vector<std::string> argumentTypes;
+    extern std::vector<bool> argumentIsArray;
+    extern std::vector<std::pair<std::string, std::string>> plist;
 
 
 // Generated from C8086Parser.g4 by ANTLR 4.13.2
@@ -461,6 +466,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool isArray;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
     C8086Parser::ExpressionContext *e = nullptr;
@@ -506,6 +512,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArr;
     C8086Parser::Rel_expressionContext *r = nullptr;
     C8086Parser::Rel_expressionContext *re1 = nullptr;
     antlr4::Token *logicopToken = nullptr;
@@ -528,6 +535,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArray;
     C8086Parser::Simple_expressionContext *s = nullptr;
     C8086Parser::Simple_expressionContext *s1 = nullptr;
     antlr4::Token *relopToken = nullptr;
@@ -550,6 +558,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArray;
     C8086Parser::Simple_expressionContext *s = nullptr;
     C8086Parser::TermContext *t = nullptr;
     antlr4::Token *addopToken = nullptr;
@@ -571,6 +580,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArray;
     C8086Parser::TermContext *t = nullptr;
     C8086Parser::Unary_expressionContext *u = nullptr;
     antlr4::Token *mulopToken = nullptr;
@@ -593,6 +603,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArray;
     antlr4::Token *addopToken = nullptr;
     C8086Parser::Unary_expressionContext *ue = nullptr;
     antlr4::Token *notToken = nullptr;
@@ -616,7 +627,7 @@ public:
     std::string text;
     int line;
     std::string type;
-    bool argmismatcherr;
+    bool argIsArray;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
