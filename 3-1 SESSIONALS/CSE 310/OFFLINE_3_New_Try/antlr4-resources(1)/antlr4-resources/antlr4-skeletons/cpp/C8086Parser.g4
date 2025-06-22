@@ -322,7 +322,8 @@ parameter_list
 
 compound_statement
 	returns[std::string text, int line , std::string type]:
-	LCURL ss = statements { 
+	LCURL
+     ss = statements { 
         std::cout << "ss  type"<<$ss.type <<std::endl;
         $type = $ss.type;
     } RCURL {
@@ -334,6 +335,7 @@ compound_statement
 
     }
 	| LCURL RCURL {
+
         $text = $LCURL->getText();
         $line = $LCURL->getLine();
         $type = "void"; 
@@ -374,8 +376,9 @@ var_declaration
         for(const auto& var : $dl.varList) {
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
-          //  varSymbol->setType($t.type);
-            if(!symbolTable->Insert(var.first, "ID")){
+            varSymbol->setType($t.type);
+            std::cout<<"vartype ki set hocche check"<<varSymbol->getType() << std::endl;
+            if(!symbolTable->Insert(varSymbol)){
                 writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+var.first+"\n");
                 writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+var.first+"\n");
             }
@@ -506,6 +509,7 @@ statement
         $text = $cs.text;
         $line = $cs.line;
         $type = $cs.type;
+
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : compound_statement\n\n"+$text + "\n" );
 
     }
@@ -516,9 +520,13 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN e = expression RPAREN s = statement {
+	| IF LPAREN  {symbolTable->EnterScope();}
+     e = expression RPAREN s = statement {
+
         $text = $IF->getText()+ $LPAREN->getText()+ $e.text  + $RPAREN->getText() +$s.text;
         $line = $IF->getLine();
+        symbolTable->print_current_scope_table(parserLogFile);
+        symbolTable->ExitScope();
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
@@ -559,7 +567,9 @@ statement
         // }
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + $RETURN->getText() +" "+ $e.text+ $SEMICOLON->getText() +"\n"); 
 
-      };
+      }
+
+      ;
 
 expression_statement
 	returns[std::string text, int line]:
@@ -582,6 +592,7 @@ variable
 	ID {
         $text = $ID->getText();
         $line = $ID->getLine();
+        $type = "int";;
         SymbolInfo* lookup = symbolTable->LookUP($ID->getText());
 
             if(lookup && lookup->getIsArray()){
@@ -589,6 +600,7 @@ variable
             }
             else if (lookup){
                 $type = lookup->getType();
+
             }
             if (lookup == nullptr) {
                         writeIntoparserLogFile("Line " + std::to_string($ID->getLine()) + ": variable : ID\n"); 
@@ -601,7 +613,10 @@ variable
             writeIntoparserLogFile("Line " + std::to_string($ID->getLine()) + ": variable : ID\n\n"+$ID->getText()+"\n"); 
 
             }
-    
+                std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
+                if (lookup)
+                std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
+
         }
 	| ID LTHIRD e = expression RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $e.text + $RTHIRD->getText();
@@ -640,7 +655,8 @@ expression
             SymbolInfo* lookup = symbolTable->LookUP($v.text);
 
             if (lookup && $v.type != $type) {
-        
+            
+            std::cout<<"v=le er bhitor type check"<<lookup->getType() << " " << $type << std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": expression : variable ASSIGNOP logic_expression\n"); 
 
             if(lookup->getIsArray()){
@@ -648,13 +664,17 @@ expression
                 writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch "+$v.text+"  is an array\n");
 
             } else {
+
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch\n");  
 
             writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch\n\n"+$text+"\n");
              }
+
+
             }
 
-            else{            writeIntoparserLogFile("Line "+  std::to_string($line)+": expression : variable ASSIGNOP logic_expression\n\n"+$text+"\n"); 
+            else{            
+                writeIntoparserLogFile("Line "+  std::to_string($line)+": expression : variable ASSIGNOP logic_expression\n\n"+$text+"\n"); 
             }
 
             
