@@ -1,8 +1,0 @@
-Error at line 8: Type Mismatch yellow
-
-Error at line 25: Type mismatcha is an array
-
-Error at line 25: Type mismatchb is an array
-
-Error at line 41: Type Mismatch yellow
-

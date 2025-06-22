@@ -2292,7 +2292,7 @@ C8086Parser::VariableContext* C8086Parser::variable() {
 
               antlrcpp::downCast<VariableContext *>(_localctx)->text =  antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText();
               antlrcpp::downCast<VariableContext *>(_localctx)->line =  antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getLine();
-              antlrcpp::downCast<VariableContext *>(_localctx)->type =  "int";;
+              antlrcpp::downCast<VariableContext *>(_localctx)->type =  "int";
               SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText());
 
                   if(lookup && lookup->getIsArray()){
@@ -3191,8 +3191,9 @@ C8086Parser::FactorContext* C8086Parser::factor() {
                       std::string expectedType = func->parameterList[i].first;
                       std::string argType = argumentTypes[i];
                       bool argIsArray = argumentIsArray[i];
-
-                      if (argIsArray && expectedType != "array") {
+                      std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+                      if (argIsArray && expectedType == "array") {
+                          std::cout<<"ekhane eshche"<<std::endl;
                           writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
                           writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
                           errorCount++;

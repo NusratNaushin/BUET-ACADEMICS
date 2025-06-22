@@ -614,7 +614,7 @@ variable
 	ID {
         $text = $ID->getText();
         $line = $ID->getLine();
-        $type = "int";;
+        $type = "int";
         SymbolInfo* lookup = symbolTable->LookUP($ID->getText());
 
             if(lookup && lookup->getIsArray()){
@@ -873,8 +873,9 @@ factor
                 std::string expectedType = func->parameterList[i].first;
                 std::string argType = argumentTypes[i];
                 bool argIsArray = argumentIsArray[i];
-
-                if (argIsArray && expectedType != "array") {
+                std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+                if (argIsArray && expectedType == "array") {
+                    std::cout<<"ekhane eshche"<<std::endl;
                     writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
                     writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
                     errorCount++;

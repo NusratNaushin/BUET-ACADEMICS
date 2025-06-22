@@ -1823,7 +1823,7 @@ public class C8086Parser extends Parser {
 
 				        ((VariableContext)_localctx).text =  ((VariableContext)_localctx).ID->getText();
 				        ((VariableContext)_localctx).line =  ((VariableContext)_localctx).ID->getLine();
-				        ((VariableContext)_localctx).type =  "int";;
+				        ((VariableContext)_localctx).type =  "int";
 				        SymbolInfo* lookup = symbolTable->LookUP(((VariableContext)_localctx).ID->getText());
 
 				            if(lookup && lookup->getIsArray()){
@@ -2571,8 +2571,9 @@ public class C8086Parser extends Parser {
 				                std::string expectedType = func->parameterList[i].first;
 				                std::string argType = argumentTypes[i];
 				                bool argIsArray = argumentIsArray[i];
-
-				                if (argIsArray && expectedType != "array") {
+				                std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+				                if (argIsArray && expectedType == "array") {
+				                    std::cout<<"ekhane eshche"<<std::endl;
 				                    writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
 				                    writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
 				                    errorCount++;
