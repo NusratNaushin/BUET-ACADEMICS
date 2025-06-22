@@ -11,6 +11,7 @@ private:
     /* data */
     std::string symbol_name;
     std::string symbol_type;
+    std::string symbol_data_type;
     SymbolInfo *next;
 
 
@@ -43,6 +44,13 @@ public:
 
     void setSymbolType(std::string symbol_type){
         this->symbol_type = symbol_type;
+    }
+
+    void setSymbolDataType(std::string symbol_data_type){
+        this->symbol_data_type = symbol_data_type;
+    }
+    std::string getSymbolDataType(){
+        return symbol_data_type;
     }
 
     SymbolInfo *getNext(){

@@ -16,6 +16,7 @@
     extern std::string currentFunctionReturnType;
     extern int argumentCount;
     extern int paramCount;
+    extern int errorCount;
 
 
 // Generated from C8086Parser.g4 by ANTLR 4.13.2

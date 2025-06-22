@@ -22,6 +22,7 @@ options {
     extern std::string currentFunctionReturnType;
     extern int argumentCount;
     extern int paramCount;
+    extern int errorCount;
 }
 
 @parser::members {
@@ -78,7 +79,7 @@ start
 
 
         writeIntoparserLogFile("\nTotal number of lines: "+std::to_string($line));
-        writeIntoparserLogFile("Total number of errors:");
+        writeIntoparserLogFile("Total number of errors: "+std::to_string(errorCount));
 
 
 
@@ -220,10 +221,11 @@ func_definition
         for(const auto& param : $pl.plist) {
             SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
             paramSymbol->setIsArray(false);
-            paramSymbol->setType(param.first);
+            paramSymbol->setSymbolDataType(param.first);
             if(!symbolTable->Insert(param.second, "ID")){
                 writeIntoparserLogFile("Error at line "+std::to_string($pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
                 writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+param.second+" in parameter\n");
+                errorCount++;
             }
         }
      } RPAREN 
@@ -376,16 +378,20 @@ var_declaration
         for(const auto& var : $dl.varList) {
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
-            varSymbol->setType($t.type);
-            std::cout<<"vartype ki set hocche check"<<varSymbol->getType() << std::endl;
+            varSymbol->setSymbolDataType($t.type);
+            std::cout<<"vartype ki set hocche check"<<varSymbol->getSymbolDataType() << std::endl;
             if(!symbolTable->Insert(varSymbol)){
                 writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+var.first+"\n");
                 writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+var.first+"\n");
+                                errorCount++;
+
             }
         }
 
         if($t.text == "void"){
             writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Variable type cannot be void\n");
+                            errorCount++;
+
         }
 
         
@@ -599,7 +605,7 @@ variable
                 $type = "array";
             }
             else if (lookup){
-                $type = lookup->getType();
+                $type = lookup->getSymbolDataType();
 
             }
             if (lookup == nullptr) {
@@ -607,6 +613,8 @@ variable
 
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undeclared variable " +$ID->getText() + "\n");  
                 writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Undeclared variable " + $ID->getText() + "\n\n" +$ID->getText()+"\n");
+                                errorCount++;
+
             }
 
             else{  
@@ -616,6 +624,8 @@ variable
                 std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
                 if (lookup)
                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
+                                std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
+
 
         }
 	| ID LTHIRD e = expression RTHIRD { 
@@ -628,6 +638,8 @@ variable
             writeIntoparserLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD" +"\n"); 
 
             writeIntoparserLogFile("Error at line "+std::to_string($line)+": Expression inside third brackets not an integer\n\n"+$text +"\n");
+                            errorCount++;
+
 
 
         }
@@ -656,18 +668,22 @@ expression
 
             if (lookup && $v.type != $type) {
             
-            std::cout<<"v=le er bhitor type check"<<lookup->getType() << " " << $type << std::endl;
+            std::cout<<std::to_string($line)<<" v=le er bhitor type check"<<lookup->getSymbolDataType() << " " << $type << std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": expression : variable ASSIGNOP logic_expression\n"); 
 
             if(lookup->getIsArray()){
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch, "+$v.text+" is an array\n");
                 writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch "+$v.text+"  is an array\n");
+                                errorCount++;
+
 
             } else {
 
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch\n");  
 
             writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch\n\n"+$text+"\n");
+                            errorCount++;
+
              }
 
 
@@ -731,7 +747,11 @@ simple_expression
 	| s = simple_expression ADDOP t = term {
             $text = $s.text+$ADDOP->getText()+$t.text;
             $line = $t.line;
-            $type = $t.type;
+            if ($s.type == "float" || $t.type == "float") {
+                $type = "float";
+            } else {
+                 $type = "int";
+            }
             writeIntoparserLogFile("Line "+  std::to_string($line)+": simple_expression : simple_expression ADDOP term\n\n" + $text + "\n"); 
 
           };
@@ -746,21 +766,28 @@ term
             writeIntoparserLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n");
             }
 	| t = term MULOP ue = unary_expression {
-            $text = $t.text+ $MULOP->getText() + $ue.text;
-            $line = $ue.line;
-            $type = $ue.type;
-            if($t.type != $ue.type && $MULOP->getText() == "%"){
-                writeIntoErrorFile("Error at line "+std::to_string($line)+": Non-Integer operand on modulus operator\n");
-                 writeIntoparserLogFile("Line "+  std::to_string($ue.line)+": term : term MULOP unary_expression\n");
+    $text = $t.text + $MULOP->getText() + $ue.text;
+    $line = $ue.line;
 
-                writeIntoparserLogFile("Error at line "+std::to_string($line)+": Non-Integer operand on modulus operator\n\n"+$text+"\n");
-            }
-            else{
-            writeIntoparserLogFile("Line "+  std::to_string($ue.line)+": term : term MULOP unary_expression\n\n" + $text + "\n");
-                
-            }
-        };
+    if ($MULOP->getText() == "%") {
+        if ($t.type != "int" || $ue.type != "int") {
+            writeIntoErrorFile("Error at line " + std::to_string($line) + ": Non-Integer operand on modulus operator\n");
+            writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n");
+            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Non-Integer operand on modulus operator\n\n" + $text + "\n");
+                            errorCount++;
 
+        }
+        $type = "int"; 
+    } else {
+        if ($t.type == "float" || $ue.type == "float") {
+            $type = "float";
+        } else {
+            $type = "int";
+        }
+    }
+
+    writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n\n" + $text + "\n");
+};
 unary_expression
 	returns[std::string text, int line,std::string type]:
 	ADDOP ue = unary_expression {
@@ -807,10 +834,13 @@ factor
             if(func->parameterList.size() != argumentCount) {
                 std::cout<<func->parameterList.size() << " " << argumentCount << $ID->getText() << std::endl;
                 writeIntoErrorFile("Error at line "+std::to_string($LPAREN->getLine())+": Total number of arguments mismatch with definition in function "+$ID->getText()+"\n");
+                errorCount++;
 
             }
         } else {
             writeIntoErrorFile("Error at line "+std::to_string($LPAREN->getLine())+": Undefined function "+$ID->getText()+"\n");
+                            errorCount++;
+
         }
     
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
