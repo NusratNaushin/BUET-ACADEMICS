@@ -65,9 +65,8 @@ options {
 }
 
 start
-  
 	returns[std::string text, int line]:
-    p=program {
+	p = program {
         
         $text = $p.text;
         $line = $p.line;
@@ -86,69 +85,64 @@ start
 
 	};
 
-
 program
-    returns[std::string text, int line]:
-        pu=program u=unit {  
+	returns[std::string text, int line]:
+	pu = program u = unit {  
         $text = $pu.text +"\n"+$u.text;
         $line = $u.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": program : program unit\n\n"+$text+"\n");
         }
-
-        |u=unit { 
+	| u = unit { 
         $text = $u.text;
         $line = $u.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": program : unit\n\n"+$text+"\n");
 
-         }
-        ;
+         };
 
-unit 
-    returns[std::string text, int line]:
-    vd=var_declaration {  
+unit
+	returns[std::string text, int line]:
+	vd = var_declaration {  
         $text = $vd.text;
         $line = $vd.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : var_declaration\n\n"+$text+"\n");
 
     }
-
-    | fdec=func_declaration {  
+	| fdec = func_declaration {  
         $text = $fdec.text;
         $line = $fdec.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : func_declaration\n\n"+$text+"\n");
 
     }
-
-    | fdef=func_definition {  
+	| fdef = func_definition {  
         $text = $fdef.text;
         $line = $fdef.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : func_definition\n\n"+$text+"\n");
         
-    }; 
+    };
 
 func_declaration
-    returns[std::string text, int line ,std::string type]:
-
-	ts=type_specifier ID {
+	returns[std::string text, int line ,std::string type]:
+	ts = type_specifier ID {
         paramCount = 0;
-    }
-    LPAREN 
-    pl=parameter_list 
+    } LPAREN pl = parameter_list RPAREN SEMICOLON {  
 
-     RPAREN 
-      SEMICOLON {  
         $text = $ts.text +" "+ $ID->getText() + $LPAREN->getText() + $pl.text+ $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine(); 
-          SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+        $type = $ts.text;
+
+
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
         funcSymbol->setParameterList($pl.plist);
-        $type = $ts.text;
+
+
 
         SymbolInfo* existing = symbolTable->LookUP($ID->getText());
         if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
+            // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
         } else {
             if(symbolTable->Insert(funcSymbol)){ 
                 std::cout << funcSymbol->getSymbolName() << $ID->getText() << std::endl;
@@ -158,21 +152,27 @@ func_declaration
             }
         }
 
-    for (auto& param : $pl.plist) {
-        symbolTable->Insert(param.second, "ID");
-    }
+    // for (auto& param : $pl.plist) {
+    //     symbolTable->Insert(param.second, "ID");
+    // }
+
+
         writeIntoparserLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+$text+"\n");
 
 
     }
-	| ts=type_specifier ID LPAREN RPAREN SEMICOLON {  
+	| ts = type_specifier ID LPAREN RPAREN SEMICOLON {  
         $text = $ts.text + " "+$ID->getText() + $LPAREN->getText() + $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine(); 
         $type = $ts.text;
-          SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+
+
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
+
+
 
         SymbolInfo* existing = symbolTable->LookUP($ID->getText());
         if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
@@ -185,71 +185,90 @@ func_declaration
             }        }
 
      
+
         writeIntoparserLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON\n\n"+$text+"\n");
 
         
     };
 
 func_definition
-    returns[std::string text, int line,std::string type]:
-	ts=type_specifier ID LPAREN
-     pl=parameter_list
-
-      RPAREN 
-      cs=compound_statement {  
-        $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
-        $line = $cs.line;
-        $type = $ts.text;
-          SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+	returns[std::string text, int line,std::string type]:
+	ts = type_specifier ID LPAREN pl = parameter_list {
+        
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
         funcSymbol->setParameterList($pl.plist);
-        std::cout << $cs.type << " " << $ts.text << std::endl;
+        // std::cout << $cs.type << " " << $ts.text << std::endl;
 
-        if($cs.type != $ts.text){ 
-            writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-        }
+        // if($cs.type != $ts.text){ 
+        //     writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+        // }
         
         SymbolInfo* existing = symbolTable->LookUP($ID->getText());
 
-//         if($type != $cs.type)
-//         {
-// std::cout << "[" << $cs.type << "]" << std::endl;
-// std::cout << "[" << $type << "]" << std::endl;
-
-//             writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-//         }
         if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
+           // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
         } else {
             symbolTable->Insert(funcSymbol);
         }
 
 
+        symbolTable->EnterScope();  
+
+        for(const auto& param : $pl.plist) {
+            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+            paramSymbol->setIsArray(false);
+            paramSymbol->setType(param.first);
+            if(!symbolTable->Insert(param.second, "ID")){
+                writeIntoparserLogFile("Error at line "+std::to_string($pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
+                writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+param.second+" in parameter\n");
+            }
+        }
+     } RPAREN 
+     cs = compound_statement {  
+
+
+        $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
+        $line = $cs.line;
+        $type = $ts.text;
+
+
+        symbolTable->ExitScope();
+
         symbolTable->print_current_scope_table(parserLogFile);
+
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
 
 
     }
-	| ts=type_specifier ID LPAREN RPAREN cs=compound_statement { 
-        $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
-        $line = $cs.line;
-          SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
+	| ts = type_specifier ID LPAREN RPAREN { 
+
+        SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
 
-        if($cs.type != $ts.text){ 
-            writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-        }
+        // if($cs.type != $ts.text){ 
+        //     writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+        // }
         
         SymbolInfo* existing = symbolTable->LookUP($ID->getText());
         if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
+           // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
         } else {
             symbolTable->Insert(funcSymbol);
         }
+
+        symbolTable->EnterScope(); } 
+        cs = compound_statement { 
+
+        $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
+        $line = $cs.line;
+
+
+        symbolTable->ExitScope();
         symbolTable->print_current_scope_table(parserLogFile);
 
 
@@ -258,35 +277,42 @@ func_definition
 
     };
 
-
 parameter_list
-    returns[std::string text, int line,std::vector<std::pair<std::string, std::string>> plist]:
-	pl=parameter_list COMMA ts=type_specifier ID {
+	returns[std::string text, int line,std::vector<std::pair<std::string, std::string>> plist]:
+	pl = parameter_list COMMA ts = type_specifier ID {
         $text =$pl.text+$COMMA->getText()+ $ts.text +" " + $ID->getText();
         $line = $ID->getLine();
         $plist = $pl.plist;
                 paramCount++;
 
         $plist.push_back(std::make_pair($ts.text, $ID->getText()));
-            
         
+
+
          writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
 		}
-	| pl=parameter_list COMMA ts=type_specifier {
+	| pl = parameter_list COMMA ts = type_specifier {
         $text =$pl.text + $COMMA->getText() +  $ts.text ;
         $line = $ts.line;
         $plist = $pl.plist;
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
 		}
-	| ts=type_specifier ID {
+	| ts = type_specifier ID {
         $text = $ts.text + " " + $ID->getText()   ;
         $line = $ID->getLine();
         $plist.push_back(std::make_pair($ts.text, $ID->getText()));
-       
+
+        SymbolInfo* paramSymbol = new SymbolInfo($ID->getText(), "ID");
+        paramSymbol->setIsArray(false);
+        paramSymbol->setType($ts.text);
+        // if(!symbolTable->Insert(paramSymbol)){
+        //     writeIntoparserLogFile("Error at line "+std::to_string($line)+": Multiple declaration of "+$ID->getText()+" in parameter\n");
+        //     writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+$ID->getText()+" in parameter\n");
+        // }
         writeIntoparserLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
-	| ts=type_specifier {
+	| ts = type_specifier {
 
         $text = $ts.text ;
         $line = $ts.line;
@@ -295,34 +321,29 @@ parameter_list
 		};
 
 compound_statement
-    returns[std::string text, int line , std::string type]:
-    LCURL {  symbolTable->EnterScope(); }
-    ss=statements { 
+	returns[std::string text, int line , std::string type]:
+	LCURL ss = statements { 
         std::cout << "ss  type"<<$ss.type <<std::endl;
         $type = $ss.type;
-    }
-    RCURL  {
+    } RCURL {
         $text = $LCURL->getText()+"\n" + $ss.text +"\n" + $RCURL->getText();
         $line = $RCURL.line;
         
         writeIntoparserLogFile("Line "+std::to_string($line)+": compound_statement : LCURL statements RCURL\n\n"+$text+"\n");
         symbolTable->print_current_scope_table(parserLogFile);
 
-        symbolTable->ExitScope();
     }
-    | LCURL {  symbolTable->EnterScope(); }
-    RCURL {
+	| LCURL RCURL {
         $text = $LCURL->getText();
         $line = $LCURL->getLine();
         $type = "void"; 
         symbolTable->print_current_scope_table(parserLogFile);
 
-        symbolTable->ExitScope();
 
     };
 
 var_declaration
-    returns[std::string text, int line]:
+	returns[std::string text, int line]:
 	t = type_specifier dl = declaration_list sm = SEMICOLON {
         $text = $t.text +" "+ $dl.text + $sm->getText() ;
         $line = $t.line;
@@ -354,7 +375,7 @@ var_declaration
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
           //  varSymbol->setType($t.type);
-            if(!symbolTable->Insert(varSymbol)){
+            if(!symbolTable->Insert(var.first, "ID")){
                 writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+var.first+"\n");
                 writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+var.first+"\n");
             }
@@ -366,7 +387,6 @@ var_declaration
 
         
       }
-
 	| t = type_specifier de = declaration_list_err sm = SEMICOLON {
         $text = $t.text;
         $line = $t.line;
@@ -408,8 +428,9 @@ type_specifier
         };
 
 declaration_list
-    returns[std::string text , int line,std::string type,std::vector<std::pair<std::string, bool>> varList]:
-	dl=declaration_list COMMA ID { 
+	returns[std::string text , int line,std::string type,std::vector<std::pair<std::string, bool>> varList]
+		:
+	dl = declaration_list COMMA ID { 
 
         $text = $dl.text + $COMMA->getText() + $ID->getText();
         $line = $ID->getLine();
@@ -420,8 +441,7 @@ declaration_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : declaration_list COMMA ID\n\n" +$text + "\n");        
 
     }
-	| dl=declaration_list COMMA ID LTHIRD CONST_INT RTHIRD
-    { 
+	| dl = declaration_list COMMA ID LTHIRD CONST_INT RTHIRD { 
         $text = $dl.text + $COMMA->getText() + $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
         $line = $RTHIRD->getLine();
         $varList = $dl.varList;
@@ -437,7 +457,6 @@ declaration_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID\n\n" +$text + "\n");        
 
     }
-    
 	| ID LTHIRD CONST_INT RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
         $line = $ID->getLine();
@@ -448,13 +467,11 @@ declaration_list
         
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
-    }
-
-    ; 
+    };
 
 statements
-    returns[std::string text , int line,std::string type]:
-	s=statement {
+	returns[std::string text , int line,std::string type]:
+	s = statement {
         $text = $s.text;
         $line = $s.line;
         $type = $s.type;
@@ -462,7 +479,7 @@ statements
 
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statements : statement\n\n" + $text+"\n"); 
     }
-	| ss=statements s=statement {
+	| ss = statements s = statement {
         $text = $ss.text +"\n" + $s.text;
         $line = $s.line;
         $type = $s.type;
@@ -472,46 +489,46 @@ statements
 
     };
 
-
 statement
 	returns[std::string text, int line,std::string type]:
-	v=var_declaration {
+	v = var_declaration {
         $text = $v.text;
         $line = $v.line;
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : var_declaration\n\n"+$text + "\n" );
     }
-	| es=expression_statement {
+	| es = expression_statement {
         $text = $es.text;
         $line = $es.line;
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : expression_statement\n\n"+$text + "\n" );
 
     }
-	| cs=compound_statement {
+	| cs = compound_statement {
         $text = $cs.text;
         $line = $cs.line;
         $type = $cs.type;
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : compound_statement\n\n"+$text + "\n" );
 
     }
-	| FOR LPAREN es1=expression_statement es2=expression_statement e=expression RPAREN s=statement {
+	| FOR LPAREN es1 = expression_statement es2 = expression_statement e = expression RPAREN s =
+		statement {
         $text = $FOR.text +  $LPAREN->getText() +  $es1.text + $es2.text + $e.text   + $RPAREN->getText() + $s.text;
         $line = $s.line;
         writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN e=expression RPAREN s=statement {
+	| IF LPAREN e = expression RPAREN s = statement {
         $text = $IF->getText()+ $LPAREN->getText()+ $e.text  + $RPAREN->getText() +$s.text;
         $line = $IF->getLine();
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN e=expression RPAREN s1=statement ELSE s2=statement {
+	| IF LPAREN e = expression RPAREN s1 = statement ELSE s2 = statement {
         $text = $IF->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s1.text+ $ELSE->getText() +" "+  $s2.text ;
        $line = $IF->getLine();
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + $text +"\n"); 
 
     }
-	| WHILE LPAREN e=expression RPAREN s=statement {
+	| WHILE LPAREN e = expression RPAREN s = statement {
         $text = $WHILE->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s.text;
         $line = $s.line;
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
@@ -523,7 +540,7 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n\n" + $text +"\n"); 
 
     }
-	| RETURN e=expression SEMICOLON {
+	| RETURN e = expression SEMICOLON {
         $text = $RETURN->getText() + " " + $e.text + $SEMICOLON->getText();
         $line = $RETURN->getLine();
         
@@ -531,28 +548,29 @@ statement
                 std::cout << "e type"<<$e.type<<"e.text" <<$e.text <<std::endl;
 
 
-        SymbolInfo* paramSymbol = new SymbolInfo($e.text, "ID");
-        if($e.text != "0"){
-        if(!symbolTable->Insert($e.text, "ID")){ 
-            writeIntoErrorFile("Error at line "+ std::to_string($line) +": Multiple declaration of "+$e.text+" in parameter\n");
-        }    
-        else{   
-            std::cout << "inserted return : "<< $e.text <<std::endl;
-        }
-        }
+        // SymbolInfo* paramSymbol = new SymbolInfo($e.text, "ID");
+        // if($e.text != "0"){
+        // if(!symbolTable->Insert($e.text, "ID")){ 
+        //     writeIntoErrorFile("Error at line "+ std::to_string($line) +": Multiple declaration of "+$e.text+" in parameter\n");
+        // }    
+        // else{   
+        //     std::cout << "inserted return : "<< $e.text <<std::endl;
+        // }
+        // }
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + $RETURN->getText() +" "+ $e.text+ $SEMICOLON->getText() +"\n"); 
 
       };
 
-expression_statement returns[std::string text, int line]: 
-    SEMICOLON {
+expression_statement
+	returns[std::string text, int line]:
+	SEMICOLON {
         $text = $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
 
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": expression_statement : SEMICOLON\n\n" + $text +"\n"); 
 
     }
-    | e=expression SEMICOLON {
+	| e = expression SEMICOLON {
         $text = $e.text + $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": expression_statement : expression SEMICOLON\n\n" + $text +"\n"); 
@@ -585,11 +603,11 @@ variable
             }
     
         }
-	| ID LTHIRD e=expression RTHIRD { 
+	| ID LTHIRD e = expression RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $e.text + $RTHIRD->getText();
         $line = $RTHIRD->getLine();
         $type = $e.type;
-        if ($type != "INT"){  
+        if ($type != "int"){  
             writeIntoErrorFile("Error at line "+std::to_string($line)+": Expression inside third brackets not an integer\n");
 
             writeIntoparserLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD" +"\n"); 
@@ -599,7 +617,7 @@ variable
 
         }
         else{
-        writeIntoparserLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD"+"\n"); 
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD\n\n"+$text+"\n"); 
 
         }
 
@@ -615,7 +633,7 @@ expression
 
             writeIntoparserLogFile("Line "+  std::to_string($l.line)+": expression : logic_expression\n\n" + $l.text + "\n"); 
         }
-	| v=variable ASSIGNOP le=logic_expression {
+	| v = variable ASSIGNOP le = logic_expression {
             $text= $v.text + $ASSIGNOP->getText() + $le.text;
             $line=$le.line;  
             $type = $le.type;
@@ -655,7 +673,7 @@ logic_expression
             writeIntoparserLogFile("Line "+  std::to_string($r.line)+": logic_expression : rel_expression\n\n" + $r.text + "\n"); 
 
         }
-	| re1=rel_expression LOGICOP re2=rel_expression {
+	| re1 = rel_expression LOGICOP re2 = rel_expression {
             $text = $re1.text+$LOGICOP->getText() + $re2.text;
             $line = $re2.line;
             $type = $re2.type;
@@ -673,7 +691,7 @@ rel_expression
             std::cout << "s type"<<$s.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($s.line)+": rel_expression : simple_expression\n\n" + $s.text + "\n"); 
             }
-	| s1=simple_expression RELOP s2=simple_expression {
+	| s1 = simple_expression RELOP s2 = simple_expression {
             $text = $s1.text + $RELOP->getText() + $s2.text;
             $line = $RELOP->getLine();
             $type = $s2.type;
@@ -690,7 +708,7 @@ simple_expression
             $type = $t.type;
             writeIntoparserLogFile("Line "+  std::to_string($t.line)+": simple_expression : term\n\n" + $t.text + "\n"); 
             }
-	| s=simple_expression ADDOP t=term {
+	| s = simple_expression ADDOP t = term {
             $text = $s.text+$ADDOP->getText()+$t.text;
             $line = $t.line;
             $type = $t.type;
@@ -707,7 +725,7 @@ term
             $type = $u.type;
             writeIntoparserLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n");
             }
-	| t=term MULOP ue=unary_expression {
+	| t = term MULOP ue = unary_expression {
             $text = $t.text+ $MULOP->getText() + $ue.text;
             $line = $ue.line;
             $type = $ue.type;
@@ -725,12 +743,12 @@ term
 
 unary_expression
 	returns[std::string text, int line,std::string type]:
-	ADDOP ue=unary_expression {
+	ADDOP ue = unary_expression {
             $text = $ADDOP->getText() + $ue.text;
             $line = $ADDOP->getLine();
             $type = $ue.type;
         }
-	| NOT ue=unary_expression {
+	| NOT ue = unary_expression {
             $text = $NOT->getText() + $ue.text;
             $line = $ue.line;
             $type = $ue.type;
@@ -755,8 +773,7 @@ factor
         }
 	| ID LPAREN {
         argumentCount = 0;
-    }
-     a = argument_list RPAREN {
+    } a = argument_list RPAREN {
         $text = $ID->getText()+$LPAREN->getText()+ $a.text + $RPAREN->getText();
         $line = $ID->getLine();
         $type = $ID->getType();
@@ -816,20 +833,20 @@ factor
 
     };
 
-argument_list 
+argument_list
 	returns[std::string text, int line,std::string type]:
-          a=arguments {   
+	a = arguments {   
             $text = $a.text;
             $line = $a.line;
             $type = $a.type;
             
             writeIntoparserLogFile("Line "+ std::to_string($line)+": argument_list : arguments\n\n"+$text+"\n");
           }
-         |;
+	|;
 
-arguments	
-    returns[std::string text, int line,std::string type]:
-         a=arguments COMMA le=logic_expression {    
+arguments
+	returns[std::string text, int line,std::string type]:
+	a = arguments COMMA le = logic_expression {    
             $text=$a.text +  $COMMA->getText()+  $le.text;
             $line=$le.line;
             $type = $le.type;
@@ -837,7 +854,7 @@ arguments
             writeIntoparserLogFile("Line "+ std::to_string($line)+": arguments : arguments COMMA logic_expression\n\n"+$text+"\n");
 
          }
-        | le=logic_expression{
+	| le = logic_expression {
 
             $text=$le.text;
             $line=$le.line;
@@ -847,5 +864,3 @@ arguments
 
 
         };
-
-

@@ -99,8 +99,8 @@ void c8086parserParserInitialize() {
   	1,60,8,1,10,1,12,1,63,9,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,74,
   	8,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,
   	3,92,8,3,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,
-  	3,4,109,8,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,119,8,5,1,5,1,5,1,5,1,
-  	5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,5,5,132,8,5,10,5,12,5,135,9,5,1,6,1,6,1,
+  	1,4,1,4,3,4,111,8,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,121,8,5,1,5,1,
+  	5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,5,5,134,8,5,10,5,12,5,137,9,5,1,
   	6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,3,6,148,8,6,1,7,1,7,1,7,1,7,1,7,1,7,
   	1,7,1,7,1,7,1,7,3,7,160,8,7,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,3,9,170,8,
   	9,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,3,10,180,8,10,1,10,1,10,1,10,
@@ -123,7 +123,7 @@ void c8086parserParserInitialize() {
   	23,1,23,1,23,1,23,1,23,1,23,5,23,398,8,23,10,23,12,23,401,9,23,1,23,0,
   	7,2,10,20,22,36,38,46,24,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,
   	34,36,38,40,42,44,46,0,0,419,0,48,1,0,0,0,2,51,1,0,0,0,4,73,1,0,0,0,6,
-  	91,1,0,0,0,8,108,1,0,0,0,10,118,1,0,0,0,12,147,1,0,0,0,14,159,1,0,0,0,
+  	91,1,0,0,0,8,110,1,0,0,0,10,120,1,0,0,0,12,147,1,0,0,0,14,159,1,0,0,0,
   	16,161,1,0,0,0,18,169,1,0,0,0,20,179,1,0,0,0,22,197,1,0,0,0,24,262,1,
   	0,0,0,26,270,1,0,0,0,28,280,1,0,0,0,30,290,1,0,0,0,32,300,1,0,0,0,34,
   	310,1,0,0,0,36,312,1,0,0,0,38,326,1,0,0,0,40,351,1,0,0,0,42,380,1,0,0,
@@ -138,24 +138,24 @@ void c8086parserParserInitialize() {
   	0,82,83,6,3,-1,0,83,92,1,0,0,0,84,85,3,18,9,0,85,86,5,32,0,0,86,87,5,
   	14,0,0,87,88,5,15,0,0,88,89,5,20,0,0,89,90,6,3,-1,0,90,92,1,0,0,0,91,
   	75,1,0,0,0,91,84,1,0,0,0,92,7,1,0,0,0,93,94,3,18,9,0,94,95,5,32,0,0,95,
-  	96,5,14,0,0,96,97,3,10,5,0,97,98,5,15,0,0,98,99,3,12,6,0,99,100,6,4,-1,
-  	0,100,109,1,0,0,0,101,102,3,18,9,0,102,103,5,32,0,0,103,104,5,14,0,0,
-  	104,105,5,15,0,0,105,106,3,12,6,0,106,107,6,4,-1,0,107,109,1,0,0,0,108,
-  	93,1,0,0,0,108,101,1,0,0,0,109,9,1,0,0,0,110,111,6,5,-1,0,111,112,3,18,
-  	9,0,112,113,5,32,0,0,113,114,6,5,-1,0,114,119,1,0,0,0,115,116,3,18,9,
-  	0,116,117,6,5,-1,0,117,119,1,0,0,0,118,110,1,0,0,0,118,115,1,0,0,0,119,
-  	133,1,0,0,0,120,121,10,4,0,0,121,122,5,21,0,0,122,123,3,18,9,0,123,124,
-  	5,32,0,0,124,125,6,5,-1,0,125,132,1,0,0,0,126,127,10,3,0,0,127,128,5,
-  	21,0,0,128,129,3,18,9,0,129,130,6,5,-1,0,130,132,1,0,0,0,131,120,1,0,
-  	0,0,131,126,1,0,0,0,132,135,1,0,0,0,133,131,1,0,0,0,133,134,1,0,0,0,134,
-  	11,1,0,0,0,135,133,1,0,0,0,136,137,5,16,0,0,137,138,6,6,-1,0,138,139,
-  	3,22,11,0,139,140,6,6,-1,0,140,141,5,17,0,0,141,142,6,6,-1,0,142,148,
-  	1,0,0,0,143,144,5,16,0,0,144,145,6,6,-1,0,145,146,5,17,0,0,146,148,6,
-  	6,-1,0,147,136,1,0,0,0,147,143,1,0,0,0,148,13,1,0,0,0,149,150,3,18,9,
-  	0,150,151,3,20,10,0,151,152,5,20,0,0,152,153,6,7,-1,0,153,160,1,0,0,0,
-  	154,155,3,18,9,0,155,156,3,16,8,0,156,157,5,20,0,0,157,158,6,7,-1,0,158,
-  	160,1,0,0,0,159,149,1,0,0,0,159,154,1,0,0,0,160,15,1,0,0,0,161,162,6,
-  	8,-1,0,162,17,1,0,0,0,163,164,5,11,0,0,164,170,6,9,-1,0,165,166,5,12,
+  	96,5,14,0,0,96,97,3,10,5,0,97,98,6,4,-1,0,98,99,5,15,0,0,99,100,3,12,
+  	6,0,100,101,6,4,-1,0,101,111,1,0,0,0,102,103,3,18,9,0,103,104,5,32,0,
+  	0,104,105,5,14,0,0,105,106,5,15,0,0,106,107,6,4,-1,0,107,108,3,12,6,0,
+  	108,109,6,4,-1,0,109,111,1,0,0,0,110,93,1,0,0,0,110,102,1,0,0,0,111,9,
+  	1,0,0,0,112,113,6,5,-1,0,113,114,3,18,9,0,114,115,5,32,0,0,115,116,6,
+  	5,-1,0,116,121,1,0,0,0,117,118,3,18,9,0,118,119,6,5,-1,0,119,121,1,0,
+  	0,0,120,112,1,0,0,0,120,117,1,0,0,0,121,135,1,0,0,0,122,123,10,4,0,0,
+  	123,124,5,21,0,0,124,125,3,18,9,0,125,126,5,32,0,0,126,127,6,5,-1,0,127,
+  	134,1,0,0,0,128,129,10,3,0,0,129,130,5,21,0,0,130,131,3,18,9,0,131,132,
+  	6,5,-1,0,132,134,1,0,0,0,133,122,1,0,0,0,133,128,1,0,0,0,134,137,1,0,
+  	0,0,135,133,1,0,0,0,135,136,1,0,0,0,136,11,1,0,0,0,137,135,1,0,0,0,138,
+  	139,5,16,0,0,139,140,3,22,11,0,140,141,6,6,-1,0,141,142,5,17,0,0,142,
+  	143,6,6,-1,0,143,148,1,0,0,0,144,145,5,16,0,0,145,146,5,17,0,0,146,148,
+  	6,6,-1,0,147,138,1,0,0,0,147,144,1,0,0,0,148,13,1,0,0,0,149,150,3,18,
+  	9,0,150,151,3,20,10,0,151,152,5,20,0,0,152,153,6,7,-1,0,153,160,1,0,0,
+  	0,154,155,3,18,9,0,155,156,3,16,8,0,156,157,5,20,0,0,157,158,6,7,-1,0,
+  	158,160,1,0,0,0,159,149,1,0,0,0,159,154,1,0,0,0,160,15,1,0,0,0,161,162,
+  	6,8,-1,0,162,17,1,0,0,0,163,164,5,11,0,0,164,170,6,9,-1,0,165,166,5,12,
   	0,0,166,170,6,9,-1,0,167,168,5,13,0,0,168,170,6,9,-1,0,169,163,1,0,0,
   	0,169,165,1,0,0,0,169,167,1,0,0,0,170,19,1,0,0,0,171,172,6,10,-1,0,172,
   	173,5,32,0,0,173,180,6,10,-1,0,174,175,5,32,0,0,175,176,5,18,0,0,176,
@@ -220,7 +220,7 @@ void c8086parserParserInitialize() {
   	389,390,3,32,16,0,390,391,6,23,-1,0,391,399,1,0,0,0,392,393,10,2,0,0,
   	393,394,5,21,0,0,394,395,3,32,16,0,395,396,6,23,-1,0,396,398,1,0,0,0,
   	397,392,1,0,0,0,398,401,1,0,0,0,399,397,1,0,0,0,399,400,1,0,0,0,400,47,
-  	1,0,0,0,401,399,1,0,0,0,26,61,73,91,108,118,131,133,147,159,169,179,192,
+  	1,0,0,0,401,399,1,0,0,0,26,61,73,91,110,120,133,135,147,159,169,179,192,
   	194,207,262,270,280,290,300,310,323,337,351,380,386,399
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
@@ -625,18 +625,24 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
       setState(81);
       antlrcpp::downCast<Func_declarationContext *>(_localctx)->semicolonToken = match(C8086Parser::SEMICOLON);
         
+
               antlrcpp::downCast<Func_declarationContext *>(_localctx)->text =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text +" "+ antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<Func_declarationContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_declarationContext *>(_localctx)->pl->text+ antlrcpp::downCast<Func_declarationContext *>(_localctx)->rparenToken->getText() +  antlrcpp::downCast<Func_declarationContext *>(_localctx)->semicolonToken->getText();
               antlrcpp::downCast<Func_declarationContext *>(_localctx)->line =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->semicolonToken->getLine(); 
-                SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText(), "ID");
+              antlrcpp::downCast<Func_declarationContext *>(_localctx)->type =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text;
+
+
+              SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText(), "ID");
+
               funcSymbol->setIsFunction(true);
               funcSymbol->setIsFunctionDefined(true);
               funcSymbol->setReturnType(antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text);
               funcSymbol->setParameterList(antlrcpp::downCast<Func_declarationContext *>(_localctx)->pl->plist);
-              antlrcpp::downCast<Func_declarationContext *>(_localctx)->type =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text;
+
+
 
               SymbolInfo* existing = symbolTable->LookUP(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
               if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-                  writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
+                  // writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
               } else {
                   if(symbolTable->Insert(funcSymbol)){ 
                       std::cout << funcSymbol->getSymbolName() << antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() << std::endl;
@@ -646,9 +652,11 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
                   }
               }
 
-          for (auto& param : antlrcpp::downCast<Func_declarationContext *>(_localctx)->pl->plist) {
-              symbolTable->Insert(param.second, "ID");
-          }
+          // for (auto& param : antlrcpp::downCast<Func_declarationContext *>(_localctx)->pl->plist) {
+          //     symbolTable->Insert(param.second, "ID");
+          // }
+
+
               writeIntoparserLogFile("Line "+std::to_string(_localctx->line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+_localctx->text+"\n");
 
 
@@ -672,10 +680,14 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
               antlrcpp::downCast<Func_declarationContext *>(_localctx)->text =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text + " "+antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<Func_declarationContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_declarationContext *>(_localctx)->rparenToken->getText() +  antlrcpp::downCast<Func_declarationContext *>(_localctx)->semicolonToken->getText();
               antlrcpp::downCast<Func_declarationContext *>(_localctx)->line =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->semicolonToken->getLine(); 
               antlrcpp::downCast<Func_declarationContext *>(_localctx)->type =  antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text;
-                SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText(), "ID");
+
+
+              SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText(), "ID");
               funcSymbol->setIsFunction(true);
               funcSymbol->setIsFunctionDefined(true);
               funcSymbol->setReturnType(antlrcpp::downCast<Func_declarationContext *>(_localctx)->ts->text);
+
+
 
               SymbolInfo* existing = symbolTable->LookUP(antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
               if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
@@ -688,6 +700,7 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
                   }        }
 
            
+
               writeIntoparserLogFile("Line "+std::to_string(_localctx->line)+": func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON\n\n"+_localctx->text+"\n");
 
               
@@ -768,7 +781,7 @@ C8086Parser::Func_definitionContext* C8086Parser::func_definition() {
     exitRule();
   });
   try {
-    setState(108);
+    setState(110);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 3, _ctx)) {
     case 1: {
@@ -781,42 +794,56 @@ C8086Parser::Func_definitionContext* C8086Parser::func_definition() {
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
       setState(96);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl = parameter_list(0);
-      setState(97);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(98);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
-        
-              antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text+" "  + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText()+ antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->text + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
-              antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
-              antlrcpp::downCast<Func_definitionContext *>(_localctx)->type =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text;
-                SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
+
+              
+              SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
               funcSymbol->setIsFunction(true);
               funcSymbol->setIsFunctionDefined(true);
               funcSymbol->setReturnType(antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text);
               funcSymbol->setParameterList(antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->plist);
-              std::cout << antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type << " " << antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text << std::endl;
+              // std::cout << antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type << " " << antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text << std::endl;
 
-              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text){ 
-                  writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-              }
+              // if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text){ 
+              //     writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+              // }
               
               SymbolInfo* existing = symbolTable->LookUP(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
 
-      //         if(_localctx->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type)
-      //         {
-      // std::cout << "[" << antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type << "]" << std::endl;
-      // std::cout << "[" << _localctx->type << "]" << std::endl;
-
-      //             writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-      //         }
               if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-                  writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
+                 // writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
               } else {
                   symbolTable->Insert(funcSymbol);
               }
 
 
+              symbolTable->EnterScope();  
+
+              for(const auto& param : antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->plist) {
+                  SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+                  paramSymbol->setIsArray(false);
+                  paramSymbol->setType(param.first);
+                  if(!symbolTable->Insert(param.second, "ID")){
+                      writeIntoparserLogFile("Error at line "+std::to_string(antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->line)+": Multiple declaration of "+param.second+" in parameter\n");
+                      writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+param.second+" in parameter\n");
+                  }
+              }
+           
+      setState(98);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
+      setState(99);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
+        
+
+
+              antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text+" "  + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText()+ antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->text + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
+              antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
+              antlrcpp::downCast<Func_definitionContext *>(_localctx)->type =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text;
+
+
+              symbolTable->ExitScope();
+
               symbolTable->print_current_scope_table(parserLogFile);
+
               writeIntoparserLogFile("\nLine "+std::to_string(_localctx->line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+_localctx->text+"\n");
 
 
@@ -826,34 +853,42 @@ C8086Parser::Func_definitionContext* C8086Parser::func_definition() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(101);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts = type_specifier();
       setState(102);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken = match(C8086Parser::ID);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts = type_specifier();
       setState(103);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken = match(C8086Parser::ID);
       setState(104);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
       setState(105);
-      antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
        
-              antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
-              antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
-                SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
+
+              SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
               funcSymbol->setIsFunction(true);
               funcSymbol->setIsFunctionDefined(true);
               funcSymbol->setReturnType(antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text);
 
-              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text){ 
-                  writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-              }
+              // if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text){ 
+              //     writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+              // }
               
               SymbolInfo* existing = symbolTable->LookUP(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
               if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-                  writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
+                 // writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
               } else {
                   symbolTable->Insert(funcSymbol);
               }
+
+              symbolTable->EnterScope(); 
+      setState(107);
+      antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
+       
+
+              antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
+              antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
+
+
+              symbolTable->ExitScope();
               symbolTable->print_current_scope_table(parserLogFile);
 
 
@@ -943,26 +978,33 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(118);
+    setState(120);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
     case 1: {
-      setState(111);
+      setState(113);
       antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
-      setState(112);
+      setState(114);
       antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
 
               antlrcpp::downCast<Parameter_listContext *>(_localctx)->text =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text + " " + antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText()   ;
               antlrcpp::downCast<Parameter_listContext *>(_localctx)->line =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getLine();
               _localctx->plist.push_back(std::make_pair(antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text, antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText()));
-             
+
+              SymbolInfo* paramSymbol = new SymbolInfo(antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText(), "ID");
+              paramSymbol->setIsArray(false);
+              paramSymbol->setType(antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text);
+              // if(!symbolTable->Insert(paramSymbol)){
+              //     writeIntoparserLogFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText()+" in parameter\n");
+              //     writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText()+" in parameter\n");
+              // }
               writeIntoparserLogFile("Line " + std::to_string(_localctx->line) +": parameter_list : type_specifier ID\n\n" + _localctx->text + "\n");
       		
       break;
     }
 
     case 2: {
-      setState(115);
+      setState(117);
       antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
 
 
@@ -978,7 +1020,7 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
       break;
     }
     _ctx->stop = _input->LT(-1);
-    setState(133);
+    setState(135);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -986,21 +1028,21 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(131);
+        setState(133);
         _errHandler->sync(this);
         switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
         case 1: {
           _localctx = _tracker.createInstance<Parameter_listContext>(parentContext, parentState);
           _localctx->pl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleParameter_list);
-          setState(120);
+          setState(122);
 
           if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-          setState(121);
-          antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(122);
-          antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
           setState(123);
+          antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
+          setState(124);
+          antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
+          setState(125);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
 
                             antlrcpp::downCast<Parameter_listContext *>(_localctx)->text = antlrcpp::downCast<Parameter_listContext *>(_localctx)->pl->text+antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken->getText()+ antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText();
@@ -1009,8 +1051,9 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
                                     paramCount++;
 
                             _localctx->plist.push_back(std::make_pair(antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text, antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText()));
-                                
                             
+
+
                              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+_localctx->text+"\n");
                     		
           break;
@@ -1020,12 +1063,12 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
           _localctx = _tracker.createInstance<Parameter_listContext>(parentContext, parentState);
           _localctx->pl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleParameter_list);
-          setState(126);
+          setState(128);
 
           if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(127);
+          setState(129);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(128);
+          setState(130);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
 
                             antlrcpp::downCast<Parameter_listContext *>(_localctx)->text = antlrcpp::downCast<Parameter_listContext *>(_localctx)->pl->text + antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken->getText() +  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text ;
@@ -1041,7 +1084,7 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
           break;
         } 
       }
-      setState(135);
+      setState(137);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
     }
@@ -1106,16 +1149,15 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(136);
-      antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C8086Parser::LCURL);
-        symbolTable->EnterScope(); 
       setState(138);
+      antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C8086Parser::LCURL);
+      setState(139);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss = statements(0);
        
               std::cout << "ss  type"<<antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type <<std::endl;
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->type =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type;
           
-      setState(140);
+      setState(141);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->rcurlToken = match(C8086Parser::RCURL);
 
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->text =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken->getText()+"\n" + antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->text +"\n" + antlrcpp::downCast<Compound_statementContext *>(_localctx)->rcurlToken->getText();
@@ -1124,16 +1166,14 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
               writeIntoparserLogFile("Line "+std::to_string(_localctx->line)+": compound_statement : LCURL statements RCURL\n\n"+_localctx->text+"\n");
               symbolTable->print_current_scope_table(parserLogFile);
 
-              symbolTable->ExitScope();
           
       break;
     }
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(143);
+      setState(144);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C8086Parser::LCURL);
-        symbolTable->EnterScope(); 
       setState(145);
       match(C8086Parser::RCURL);
 
@@ -1142,7 +1182,6 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->type =  "void"; 
               symbolTable->print_current_scope_table(parserLogFile);
 
-              symbolTable->ExitScope();
 
           
       break;
@@ -1255,7 +1294,7 @@ C8086Parser::Var_declarationContext* C8086Parser::var_declaration() {
                   SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
                   varSymbol->setIsArray(var.second);
                 //  varSymbol->setType(antlrcpp::downCast<Var_declarationContext *>(_localctx)->t->type);
-                  if(!symbolTable->Insert(varSymbol)){
+                  if(!symbolTable->Insert(var.first, "ID")){
                       writeIntoparserLogFile("Error at line "+std::to_string(_localctx->line)+":  Multiple declaration of "+var.first+"\n");
                       writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+var.first+"\n");
                   }
@@ -2039,15 +2078,15 @@ C8086Parser::StatementContext* C8086Parser::statement() {
                       std::cout << "e type"<<antlrcpp::downCast<StatementContext *>(_localctx)->e->type<<"e.text" <<antlrcpp::downCast<StatementContext *>(_localctx)->e->text <<std::endl;
 
 
-              SymbolInfo* paramSymbol = new SymbolInfo(antlrcpp::downCast<StatementContext *>(_localctx)->e->text, "ID");
-              if(antlrcpp::downCast<StatementContext *>(_localctx)->e->text != "0"){
-              if(!symbolTable->Insert(antlrcpp::downCast<StatementContext *>(_localctx)->e->text, "ID")){ 
-                  writeIntoErrorFile("Error at line "+ std::to_string(_localctx->line) +": Multiple declaration of "+antlrcpp::downCast<StatementContext *>(_localctx)->e->text+" in parameter\n");
-              }    
-              else{   
-                  std::cout << "inserted return : "<< antlrcpp::downCast<StatementContext *>(_localctx)->e->text <<std::endl;
-              }
-              }
+              // SymbolInfo* paramSymbol = new SymbolInfo(antlrcpp::downCast<StatementContext *>(_localctx)->e->text, "ID");
+              // if(antlrcpp::downCast<StatementContext *>(_localctx)->e->text != "0"){
+              // if(!symbolTable->Insert(antlrcpp::downCast<StatementContext *>(_localctx)->e->text, "ID")){ 
+              //     writeIntoErrorFile("Error at line "+ std::to_string(_localctx->line) +": Multiple declaration of "+antlrcpp::downCast<StatementContext *>(_localctx)->e->text+" in parameter\n");
+              // }    
+              // else{   
+              //     std::cout << "inserted return : "<< antlrcpp::downCast<StatementContext *>(_localctx)->e->text <<std::endl;
+              // }
+              // }
               writeIntoparserLogFile("Line " + std::to_string(antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + antlrcpp::downCast<StatementContext *>(_localctx)->returnToken->getText() +" "+ antlrcpp::downCast<StatementContext *>(_localctx)->e->text+ antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken->getText() +"\n"); 
 
             
@@ -2261,7 +2300,7 @@ C8086Parser::VariableContext* C8086Parser::variable() {
               antlrcpp::downCast<VariableContext *>(_localctx)->text =  antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<VariableContext *>(_localctx)->lthirdToken->getText() + antlrcpp::downCast<VariableContext *>(_localctx)->e->text + antlrcpp::downCast<VariableContext *>(_localctx)->rthirdToken->getText();
               antlrcpp::downCast<VariableContext *>(_localctx)->line =  antlrcpp::downCast<VariableContext *>(_localctx)->rthirdToken->getLine();
               antlrcpp::downCast<VariableContext *>(_localctx)->type =  antlrcpp::downCast<VariableContext *>(_localctx)->e->type;
-              if (_localctx->type != "INT"){  
+              if (_localctx->type != "int"){  
                   writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Expression inside third brackets not an integer\n");
 
                   writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": variable : ID LTHIRD expression RTHIRD" +"\n"); 
@@ -2271,7 +2310,7 @@ C8086Parser::VariableContext* C8086Parser::variable() {
 
               }
               else{
-              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": variable : ID LTHIRD expression RTHIRD"+"\n"); 
+              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": variable : ID LTHIRD expression RTHIRD\n\n"+_localctx->text+"\n"); 
 
               }
 

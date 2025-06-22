@@ -440,18 +440,24 @@ public class C8086Parser extends Parser {
 				setState(81);
 				((Func_declarationContext)_localctx).SEMICOLON = match(SEMICOLON);
 				  
+
 				        ((Func_declarationContext)_localctx).text =  ((Func_declarationContext)_localctx).ts.text +" "+ ((Func_declarationContext)_localctx).ID->getText() + ((Func_declarationContext)_localctx).LPAREN->getText() + ((Func_declarationContext)_localctx).pl.text+ ((Func_declarationContext)_localctx).RPAREN->getText() +  ((Func_declarationContext)_localctx).SEMICOLON->getText();
 				        ((Func_declarationContext)_localctx).line =  ((Func_declarationContext)_localctx).SEMICOLON->getLine(); 
-				          SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
+				        ((Func_declarationContext)_localctx).type =  ((Func_declarationContext)_localctx).ts.text;
+
+
+				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
+
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_declarationContext)_localctx).ts.text);
 				        funcSymbol->setParameterList(((Func_declarationContext)_localctx).pl.plist);
-				        ((Func_declarationContext)_localctx).type =  ((Func_declarationContext)_localctx).ts.text;
+
+
 
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_declarationContext)_localctx).ID->getText());
 				        if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-				            writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_declarationContext)_localctx).ID->getText());
+				            // writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_declarationContext)_localctx).ID->getText());
 				        } else {
 				            if(symbolTable->Insert(funcSymbol)){ 
 				                std::cout << funcSymbol->getSymbolName() << ((Func_declarationContext)_localctx).ID->getText() << std::endl;
@@ -461,9 +467,11 @@ public class C8086Parser extends Parser {
 				            }
 				        }
 
-				    for (auto& param : ((Func_declarationContext)_localctx).pl.plist) {
-				        symbolTable->Insert(param.second, "ID");
-				    }
+				    // for (auto& param : ((Func_declarationContext)_localctx).pl.plist) {
+				    //     symbolTable->Insert(param.second, "ID");
+				    // }
+
+
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+_localctx.text+"\n");
 
 
@@ -487,10 +495,14 @@ public class C8086Parser extends Parser {
 				        ((Func_declarationContext)_localctx).text =  ((Func_declarationContext)_localctx).ts.text + " "+((Func_declarationContext)_localctx).ID->getText() + ((Func_declarationContext)_localctx).LPAREN->getText() + ((Func_declarationContext)_localctx).RPAREN->getText() +  ((Func_declarationContext)_localctx).SEMICOLON->getText();
 				        ((Func_declarationContext)_localctx).line =  ((Func_declarationContext)_localctx).SEMICOLON->getLine(); 
 				        ((Func_declarationContext)_localctx).type =  ((Func_declarationContext)_localctx).ts.text;
-				          SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
+
+
+				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_declarationContext)_localctx).ts.text);
+
+
 
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_declarationContext)_localctx).ID->getText());
 				        if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
@@ -503,6 +515,7 @@ public class C8086Parser extends Parser {
 				            }        }
 
 				     
+
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": func_declaration : type_specifier ID LPAREN RPAREN SEMICOLON\n\n"+_localctx.text+"\n");
 
 				        
@@ -555,7 +568,7 @@ public class C8086Parser extends Parser {
 		Func_definitionContext _localctx = new Func_definitionContext(_ctx, getState());
 		enterRule(_localctx, 8, RULE_func_definition);
 		try {
-			setState(108);
+			setState(110);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 			case 1:
@@ -569,42 +582,56 @@ public class C8086Parser extends Parser {
 				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
 				setState(96);
 				((Func_definitionContext)_localctx).pl = parameter_list(0);
-				setState(97);
-				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
-				setState(98);
-				((Func_definitionContext)_localctx).cs = compound_statement();
-				  
-				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
-				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
-				        ((Func_definitionContext)_localctx).type =  ((Func_definitionContext)_localctx).ts.text;
-				          SymbolInfo* funcSymbol = new SymbolInfo(((Func_definitionContext)_localctx).ID->getText(), "ID");
+
+				        
+				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_definitionContext)_localctx).ID->getText(), "ID");
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_definitionContext)_localctx).ts.text);
 				        funcSymbol->setParameterList(((Func_definitionContext)_localctx).pl.plist);
-				        std::cout << ((Func_definitionContext)_localctx).cs.type << " " << ((Func_definitionContext)_localctx).ts.text << std::endl;
+				        // std::cout << ((Func_definitionContext)_localctx).cs.type << " " << ((Func_definitionContext)_localctx).ts.text << std::endl;
 
-				        if(((Func_definitionContext)_localctx).cs.type != ((Func_definitionContext)_localctx).ts.text){ 
-				            writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-				        }
+				        // if(((Func_definitionContext)_localctx).cs.type != ((Func_definitionContext)_localctx).ts.text){ 
+				        //     writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+				        // }
 				        
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_definitionContext)_localctx).ID->getText());
 
-				//         if(_localctx.type != ((Func_definitionContext)_localctx).cs.type)
-				//         {
-				// std::cout << "[" << ((Func_definitionContext)_localctx).cs.type << "]" << std::endl;
-				// std::cout << "[" << _localctx.type << "]" << std::endl;
-
-				//             writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-				//         }
 				        if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-				            writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_definitionContext)_localctx).ID->getText());
+				           // writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_definitionContext)_localctx).ID->getText());
 				        } else {
 				            symbolTable->Insert(funcSymbol);
 				        }
 
 
+				        symbolTable->EnterScope();  
+
+				        for(const auto& param : ((Func_definitionContext)_localctx).pl.plist) {
+				            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+				            paramSymbol->setIsArray(false);
+				            paramSymbol->setType(param.first);
+				            if(!symbolTable->Insert(param.second, "ID")){
+				                writeIntoparserLogFile("Error at line "+std::to_string(((Func_definitionContext)_localctx).pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
+				                writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+param.second+" in parameter\n");
+				            }
+				        }
+				     
+				setState(98);
+				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
+				setState(99);
+				((Func_definitionContext)_localctx).cs = compound_statement();
+				  
+
+
+				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
+				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
+				        ((Func_definitionContext)_localctx).type =  ((Func_definitionContext)_localctx).ts.text;
+
+
+				        symbolTable->ExitScope();
+
 				        symbolTable->print_current_scope_table(parserLogFile);
+
 				        writeIntoparserLogFile("\nLine "+std::to_string(_localctx.line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+_localctx.text+"\n");
 
 
@@ -614,34 +641,42 @@ public class C8086Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(101);
-				((Func_definitionContext)_localctx).ts = type_specifier();
 				setState(102);
-				((Func_definitionContext)_localctx).ID = match(ID);
+				((Func_definitionContext)_localctx).ts = type_specifier();
 				setState(103);
-				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
+				((Func_definitionContext)_localctx).ID = match(ID);
 				setState(104);
-				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
+				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
 				setState(105);
-				((Func_definitionContext)_localctx).cs = compound_statement();
+				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
 				 
-				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text +" " + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText() + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
-				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
-				          SymbolInfo* funcSymbol = new SymbolInfo(((Func_definitionContext)_localctx).ID->getText(), "ID");
+
+				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_definitionContext)_localctx).ID->getText(), "ID");
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_definitionContext)_localctx).ts.text);
 
-				        if(((Func_definitionContext)_localctx).cs.type != ((Func_definitionContext)_localctx).ts.text){ 
-				            writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-				        }
+				        // if(((Func_definitionContext)_localctx).cs.type != ((Func_definitionContext)_localctx).ts.text){ 
+				        //     writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
+				        // }
 				        
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_definitionContext)_localctx).ID->getText());
 				        if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
-				            writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_definitionContext)_localctx).ID->getText());
+				           // writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple definition of function " + ((Func_definitionContext)_localctx).ID->getText());
 				        } else {
 				            symbolTable->Insert(funcSymbol);
 				        }
+
+				        symbolTable->EnterScope(); 
+				setState(107);
+				((Func_definitionContext)_localctx).cs = compound_statement();
+				 
+
+				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text +" " + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText() + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
+				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
+
+
+				        symbolTable->ExitScope();
 				        symbolTable->print_current_scope_table(parserLogFile);
 
 
@@ -702,27 +737,34 @@ public class C8086Parser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(118);
+			setState(120);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 			case 1:
 				{
-				setState(111);
+				setState(113);
 				((Parameter_listContext)_localctx).ts = type_specifier();
-				setState(112);
+				setState(114);
 				((Parameter_listContext)_localctx).ID = match(ID);
 
 				        ((Parameter_listContext)_localctx).text =  ((Parameter_listContext)_localctx).ts.text + " " + ((Parameter_listContext)_localctx).ID->getText()   ;
 				        ((Parameter_listContext)_localctx).line =  ((Parameter_listContext)_localctx).ID->getLine();
 				        _localctx.plist.push_back(std::make_pair(((Parameter_listContext)_localctx).ts.text, ((Parameter_listContext)_localctx).ID->getText()));
-				       
+
+				        SymbolInfo* paramSymbol = new SymbolInfo(((Parameter_listContext)_localctx).ID->getText(), "ID");
+				        paramSymbol->setIsArray(false);
+				        paramSymbol->setType(((Parameter_listContext)_localctx).ts.text);
+				        // if(!symbolTable->Insert(paramSymbol)){
+				        //     writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+((Parameter_listContext)_localctx).ID->getText()+" in parameter\n");
+				        //     writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+((Parameter_listContext)_localctx).ID->getText()+" in parameter\n");
+				        // }
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) +": parameter_list : type_specifier ID\n\n" + _localctx.text + "\n");
 						
 				}
 				break;
 			case 2:
 				{
-				setState(115);
+				setState(117);
 				((Parameter_listContext)_localctx).ts = type_specifier();
 
 
@@ -735,7 +777,7 @@ public class C8086Parser extends Parser {
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(133);
+			setState(135);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -743,7 +785,7 @@ public class C8086Parser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(131);
+					setState(133);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
@@ -751,13 +793,13 @@ public class C8086Parser extends Parser {
 						_localctx = new Parameter_listContext(_parentctx, _parentState);
 						_localctx.pl = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_parameter_list);
-						setState(120);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(121);
-						((Parameter_listContext)_localctx).COMMA = match(COMMA);
 						setState(122);
-						((Parameter_listContext)_localctx).ts = type_specifier();
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(123);
+						((Parameter_listContext)_localctx).COMMA = match(COMMA);
+						setState(124);
+						((Parameter_listContext)_localctx).ts = type_specifier();
+						setState(125);
 						((Parameter_listContext)_localctx).ID = match(ID);
 
 						                  ((Parameter_listContext)_localctx).text = ((Parameter_listContext)_localctx).pl.text+((Parameter_listContext)_localctx).COMMA->getText()+ ((Parameter_listContext)_localctx).ts.text +" " + ((Parameter_listContext)_localctx).ID->getText();
@@ -766,8 +808,9 @@ public class C8086Parser extends Parser {
 						                          paramCount++;
 
 						                  _localctx.plist.push_back(std::make_pair(((Parameter_listContext)_localctx).ts.text, ((Parameter_listContext)_localctx).ID->getText()));
-						                      
 						                  
+
+
 						                   writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+_localctx.text+"\n");
 						          		
 						}
@@ -777,11 +820,11 @@ public class C8086Parser extends Parser {
 						_localctx = new Parameter_listContext(_parentctx, _parentState);
 						_localctx.pl = _prevctx;
 						pushNewRecursionContext(_localctx, _startState, RULE_parameter_list);
-						setState(126);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(127);
-						((Parameter_listContext)_localctx).COMMA = match(COMMA);
 						setState(128);
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						setState(129);
+						((Parameter_listContext)_localctx).COMMA = match(COMMA);
+						setState(130);
 						((Parameter_listContext)_localctx).ts = type_specifier();
 
 						                  ((Parameter_listContext)_localctx).text = ((Parameter_listContext)_localctx).pl.text + ((Parameter_listContext)_localctx).COMMA->getText() +  ((Parameter_listContext)_localctx).ts.text ;
@@ -795,7 +838,7 @@ public class C8086Parser extends Parser {
 					}
 					} 
 				}
-				setState(135);
+				setState(137);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
@@ -841,16 +884,15 @@ public class C8086Parser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(136);
-				((Compound_statementContext)_localctx).LCURL = match(LCURL);
-				  symbolTable->EnterScope(); 
 				setState(138);
+				((Compound_statementContext)_localctx).LCURL = match(LCURL);
+				setState(139);
 				((Compound_statementContext)_localctx).ss = statements(0);
 				 
 				        std::cout << "ss  type"<<((Compound_statementContext)_localctx).ss.type <<std::endl;
 				        ((Compound_statementContext)_localctx).type =  ((Compound_statementContext)_localctx).ss.type;
 				    
-				setState(140);
+				setState(141);
 				((Compound_statementContext)_localctx).RCURL = match(RCURL);
 
 				        ((Compound_statementContext)_localctx).text =  ((Compound_statementContext)_localctx).LCURL->getText()+"\n" + ((Compound_statementContext)_localctx).ss.text +"\n" + ((Compound_statementContext)_localctx).RCURL->getText();
@@ -859,16 +901,14 @@ public class C8086Parser extends Parser {
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": compound_statement : LCURL statements RCURL\n\n"+_localctx.text+"\n");
 				        symbolTable->print_current_scope_table(parserLogFile);
 
-				        symbolTable->ExitScope();
 				    
 				}
 				break;
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(143);
+				setState(144);
 				((Compound_statementContext)_localctx).LCURL = match(LCURL);
-				  symbolTable->EnterScope(); 
 				setState(145);
 				match(RCURL);
 
@@ -877,7 +917,6 @@ public class C8086Parser extends Parser {
 				        ((Compound_statementContext)_localctx).type =  "void"; 
 				        symbolTable->print_current_scope_table(parserLogFile);
 
-				        symbolTable->ExitScope();
 
 				    
 				}
@@ -966,7 +1005,7 @@ public class C8086Parser extends Parser {
 				            SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
 				            varSymbol->setIsArray(var.second);
 				          //  varSymbol->setType(((Var_declarationContext)_localctx).t.type);
-				            if(!symbolTable->Insert(varSymbol)){
+				            if(!symbolTable->Insert(var.first, "ID")){
 				                writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+":  Multiple declaration of "+var.first+"\n");
 				                writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+var.first+"\n");
 				            }
@@ -1619,15 +1658,15 @@ public class C8086Parser extends Parser {
 				                std::cout << "e type"<<((StatementContext)_localctx).e.type<<"e.text" <<((StatementContext)_localctx).e.text <<std::endl;
 
 
-				        SymbolInfo* paramSymbol = new SymbolInfo(((StatementContext)_localctx).e.text, "ID");
-				        if(((StatementContext)_localctx).e.text != "0"){
-				        if(!symbolTable->Insert(((StatementContext)_localctx).e.text, "ID")){ 
-				            writeIntoErrorFile("Error at line "+ std::to_string(_localctx.line) +": Multiple declaration of "+((StatementContext)_localctx).e.text+" in parameter\n");
-				        }    
-				        else{   
-				            std::cout << "inserted return : "<< ((StatementContext)_localctx).e.text <<std::endl;
-				        }
-				        }
+				        // SymbolInfo* paramSymbol = new SymbolInfo(((StatementContext)_localctx).e.text, "ID");
+				        // if(((StatementContext)_localctx).e.text != "0"){
+				        // if(!symbolTable->Insert(((StatementContext)_localctx).e.text, "ID")){ 
+				        //     writeIntoErrorFile("Error at line "+ std::to_string(_localctx.line) +": Multiple declaration of "+((StatementContext)_localctx).e.text+" in parameter\n");
+				        // }    
+				        // else{   
+				        //     std::cout << "inserted return : "<< ((StatementContext)_localctx).e.text <<std::endl;
+				        // }
+				        // }
 				        writeIntoparserLogFile("Line " + std::to_string(((StatementContext)_localctx).SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + ((StatementContext)_localctx).RETURN->getText() +" "+ ((StatementContext)_localctx).e.text+ ((StatementContext)_localctx).SEMICOLON->getText() +"\n"); 
 
 				      
@@ -1792,7 +1831,7 @@ public class C8086Parser extends Parser {
 				        ((VariableContext)_localctx).text =  ((VariableContext)_localctx).ID->getText() + ((VariableContext)_localctx).LTHIRD->getText() + ((VariableContext)_localctx).e.text + ((VariableContext)_localctx).RTHIRD->getText();
 				        ((VariableContext)_localctx).line =  ((VariableContext)_localctx).RTHIRD->getLine();
 				        ((VariableContext)_localctx).type =  ((VariableContext)_localctx).e.type;
-				        if (_localctx.type != "INT"){  
+				        if (_localctx.type != "int"){  
 				            writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Expression inside third brackets not an integer\n");
 
 				            writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": variable : ID LTHIRD expression RTHIRD" +"\n"); 
@@ -1802,7 +1841,7 @@ public class C8086Parser extends Parser {
 
 				        }
 				        else{
-				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": variable : ID LTHIRD expression RTHIRD"+"\n"); 
+				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": variable : ID LTHIRD expression RTHIRD\n\n"+_localctx.text+"\n"); 
 
 				        }
 
@@ -2794,12 +2833,12 @@ public class C8086Parser extends Parser {
 		"\u0001\u0003\u0001\u0003\u0001\u0003\u0001\u0003\u0003\u0003\\\b\u0003"+
 		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
 		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004"+
-		"\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004m\b\u0004\u0001\u0005"+
+		"\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0001\u0004\u0003\u0004"+
+		"o\b\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
+		"\u0001\u0005\u0001\u0005\u0001\u0005\u0003\u0005y\b\u0005\u0001\u0005"+
 		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0003\u0005w\b\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005"+
-		"\u0001\u0005\u0001\u0005\u0005\u0005\u0084\b\u0005\n\u0005\f\u0005\u0087"+
-		"\t\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
+		"\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0005\u0005\u0086\b\u0005"+
+		"\n\u0005\f\u0005\u0089\t\u0005\u0001\u0006\u0001\u0006\u0001\u0006\u0001"+
 		"\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0001\u0006\u0003"+
 		"\u0006\u0094\b\u0006\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001"+
 		"\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0001\u0007\u0003"+
@@ -2841,8 +2880,8 @@ public class C8086Parser extends Parser {
 		"\u0002\n\u0014\u0016$&.\u0018\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010"+
 		"\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*,.\u0000\u0000\u01a3"+
 		"\u00000\u0001\u0000\u0000\u0000\u00023\u0001\u0000\u0000\u0000\u0004I"+
-		"\u0001\u0000\u0000\u0000\u0006[\u0001\u0000\u0000\u0000\bl\u0001\u0000"+
-		"\u0000\u0000\nv\u0001\u0000\u0000\u0000\f\u0093\u0001\u0000\u0000\u0000"+
+		"\u0001\u0000\u0000\u0000\u0006[\u0001\u0000\u0000\u0000\bn\u0001\u0000"+
+		"\u0000\u0000\nx\u0001\u0000\u0000\u0000\f\u0093\u0001\u0000\u0000\u0000"+
 		"\u000e\u009f\u0001\u0000\u0000\u0000\u0010\u00a1\u0001\u0000\u0000\u0000"+
 		"\u0012\u00a9\u0001\u0000\u0000\u0000\u0014\u00b3\u0001\u0000\u0000\u0000"+
 		"\u0016\u00c5\u0001\u0000\u0000\u0000\u0018\u0106\u0001\u0000\u0000\u0000"+
@@ -2870,175 +2909,174 @@ public class C8086Parser extends Parser {
 		"\u0000\u0000XY\u0005\u0014\u0000\u0000YZ\u0006\u0003\uffff\uffff\u0000"+
 		"Z\\\u0001\u0000\u0000\u0000[K\u0001\u0000\u0000\u0000[T\u0001\u0000\u0000"+
 		"\u0000\\\u0007\u0001\u0000\u0000\u0000]^\u0003\u0012\t\u0000^_\u0005 "+
-		"\u0000\u0000_`\u0005\u000e\u0000\u0000`a\u0003\n\u0005\u0000ab\u0005\u000f"+
-		"\u0000\u0000bc\u0003\f\u0006\u0000cd\u0006\u0004\uffff\uffff\u0000dm\u0001"+
-		"\u0000\u0000\u0000ef\u0003\u0012\t\u0000fg\u0005 \u0000\u0000gh\u0005"+
-		"\u000e\u0000\u0000hi\u0005\u000f\u0000\u0000ij\u0003\f\u0006\u0000jk\u0006"+
-		"\u0004\uffff\uffff\u0000km\u0001\u0000\u0000\u0000l]\u0001\u0000\u0000"+
-		"\u0000le\u0001\u0000\u0000\u0000m\t\u0001\u0000\u0000\u0000no\u0006\u0005"+
-		"\uffff\uffff\u0000op\u0003\u0012\t\u0000pq\u0005 \u0000\u0000qr\u0006"+
-		"\u0005\uffff\uffff\u0000rw\u0001\u0000\u0000\u0000st\u0003\u0012\t\u0000"+
-		"tu\u0006\u0005\uffff\uffff\u0000uw\u0001\u0000\u0000\u0000vn\u0001\u0000"+
-		"\u0000\u0000vs\u0001\u0000\u0000\u0000w\u0085\u0001\u0000\u0000\u0000"+
-		"xy\n\u0004\u0000\u0000yz\u0005\u0015\u0000\u0000z{\u0003\u0012\t\u0000"+
-		"{|\u0005 \u0000\u0000|}\u0006\u0005\uffff\uffff\u0000}\u0084\u0001\u0000"+
-		"\u0000\u0000~\u007f\n\u0003\u0000\u0000\u007f\u0080\u0005\u0015\u0000"+
-		"\u0000\u0080\u0081\u0003\u0012\t\u0000\u0081\u0082\u0006\u0005\uffff\uffff"+
-		"\u0000\u0082\u0084\u0001\u0000\u0000\u0000\u0083x\u0001\u0000\u0000\u0000"+
-		"\u0083~\u0001\u0000\u0000\u0000\u0084\u0087\u0001\u0000\u0000\u0000\u0085"+
-		"\u0083\u0001\u0000\u0000\u0000\u0085\u0086\u0001\u0000\u0000\u0000\u0086"+
-		"\u000b\u0001\u0000\u0000\u0000\u0087\u0085\u0001\u0000\u0000\u0000\u0088"+
-		"\u0089\u0005\u0010\u0000\u0000\u0089\u008a\u0006\u0006\uffff\uffff\u0000"+
-		"\u008a\u008b\u0003\u0016\u000b\u0000\u008b\u008c\u0006\u0006\uffff\uffff"+
-		"\u0000\u008c\u008d\u0005\u0011\u0000\u0000\u008d\u008e\u0006\u0006\uffff"+
-		"\uffff\u0000\u008e\u0094\u0001\u0000\u0000\u0000\u008f\u0090\u0005\u0010"+
-		"\u0000\u0000\u0090\u0091\u0006\u0006\uffff\uffff\u0000\u0091\u0092\u0005"+
-		"\u0011\u0000\u0000\u0092\u0094\u0006\u0006\uffff\uffff\u0000\u0093\u0088"+
-		"\u0001\u0000\u0000\u0000\u0093\u008f\u0001\u0000\u0000\u0000\u0094\r\u0001"+
-		"\u0000\u0000\u0000\u0095\u0096\u0003\u0012\t\u0000\u0096\u0097\u0003\u0014"+
-		"\n\u0000\u0097\u0098\u0005\u0014\u0000\u0000\u0098\u0099\u0006\u0007\uffff"+
-		"\uffff\u0000\u0099\u00a0\u0001\u0000\u0000\u0000\u009a\u009b\u0003\u0012"+
-		"\t\u0000\u009b\u009c\u0003\u0010\b\u0000\u009c\u009d\u0005\u0014\u0000"+
-		"\u0000\u009d\u009e\u0006\u0007\uffff\uffff\u0000\u009e\u00a0\u0001\u0000"+
-		"\u0000\u0000\u009f\u0095\u0001\u0000\u0000\u0000\u009f\u009a\u0001\u0000"+
-		"\u0000\u0000\u00a0\u000f\u0001\u0000\u0000\u0000\u00a1\u00a2\u0006\b\uffff"+
-		"\uffff\u0000\u00a2\u0011\u0001\u0000\u0000\u0000\u00a3\u00a4\u0005\u000b"+
-		"\u0000\u0000\u00a4\u00aa\u0006\t\uffff\uffff\u0000\u00a5\u00a6\u0005\f"+
-		"\u0000\u0000\u00a6\u00aa\u0006\t\uffff\uffff\u0000\u00a7\u00a8\u0005\r"+
-		"\u0000\u0000\u00a8\u00aa\u0006\t\uffff\uffff\u0000\u00a9\u00a3\u0001\u0000"+
-		"\u0000\u0000\u00a9\u00a5\u0001\u0000\u0000\u0000\u00a9\u00a7\u0001\u0000"+
-		"\u0000\u0000\u00aa\u0013\u0001\u0000\u0000\u0000\u00ab\u00ac\u0006\n\uffff"+
-		"\uffff\u0000\u00ac\u00ad\u0005 \u0000\u0000\u00ad\u00b4\u0006\n\uffff"+
-		"\uffff\u0000\u00ae\u00af\u0005 \u0000\u0000\u00af\u00b0\u0005\u0012\u0000"+
-		"\u0000\u00b0\u00b1\u0005!\u0000\u0000\u00b1\u00b2\u0005\u0013\u0000\u0000"+
-		"\u00b2\u00b4\u0006\n\uffff\uffff\u0000\u00b3\u00ab\u0001\u0000\u0000\u0000"+
-		"\u00b3\u00ae\u0001\u0000\u0000\u0000\u00b4\u00c2\u0001\u0000\u0000\u0000"+
-		"\u00b5\u00b6\n\u0004\u0000\u0000\u00b6\u00b7\u0005\u0015\u0000\u0000\u00b7"+
-		"\u00b8\u0005 \u0000\u0000\u00b8\u00c1\u0006\n\uffff\uffff\u0000\u00b9"+
-		"\u00ba\n\u0003\u0000\u0000\u00ba\u00bb\u0005\u0015\u0000\u0000\u00bb\u00bc"+
-		"\u0005 \u0000\u0000\u00bc\u00bd\u0005\u0012\u0000\u0000\u00bd\u00be\u0005"+
-		"!\u0000\u0000\u00be\u00bf\u0005\u0013\u0000\u0000\u00bf\u00c1\u0006\n"+
-		"\uffff\uffff\u0000\u00c0\u00b5\u0001\u0000\u0000\u0000\u00c0\u00b9\u0001"+
-		"\u0000\u0000\u0000\u00c1\u00c4\u0001\u0000\u0000\u0000\u00c2\u00c0\u0001"+
-		"\u0000\u0000\u0000\u00c2\u00c3\u0001\u0000\u0000\u0000\u00c3\u0015\u0001"+
-		"\u0000\u0000\u0000\u00c4\u00c2\u0001\u0000\u0000\u0000\u00c5\u00c6\u0006"+
-		"\u000b\uffff\uffff\u0000\u00c6\u00c7\u0003\u0018\f\u0000\u00c7\u00c8\u0006"+
-		"\u000b\uffff\uffff\u0000\u00c8\u00cf\u0001\u0000\u0000\u0000\u00c9\u00ca"+
-		"\n\u0001\u0000\u0000\u00ca\u00cb\u0003\u0018\f\u0000\u00cb\u00cc\u0006"+
-		"\u000b\uffff\uffff\u0000\u00cc\u00ce\u0001\u0000\u0000\u0000\u00cd\u00c9"+
-		"\u0001\u0000\u0000\u0000\u00ce\u00d1\u0001\u0000\u0000\u0000\u00cf\u00cd"+
-		"\u0001\u0000\u0000\u0000\u00cf\u00d0\u0001\u0000\u0000\u0000\u00d0\u0017"+
-		"\u0001\u0000\u0000\u0000\u00d1\u00cf\u0001\u0000\u0000\u0000\u00d2\u00d3"+
-		"\u0003\u000e\u0007\u0000\u00d3\u00d4\u0006\f\uffff\uffff\u0000\u00d4\u0107"+
-		"\u0001\u0000\u0000\u0000\u00d5\u00d6\u0003\u001a\r\u0000\u00d6\u00d7\u0006"+
-		"\f\uffff\uffff\u0000\u00d7\u0107\u0001\u0000\u0000\u0000\u00d8\u00d9\u0003"+
-		"\f\u0006\u0000\u00d9\u00da\u0006\f\uffff\uffff\u0000\u00da\u0107\u0001"+
-		"\u0000\u0000\u0000\u00db\u00dc\u0005\u0007\u0000\u0000\u00dc\u00dd\u0005"+
-		"\u000e\u0000\u0000\u00dd\u00de\u0003\u001a\r\u0000\u00de\u00df\u0003\u001a"+
-		"\r\u0000\u00df\u00e0\u0003\u001e\u000f\u0000\u00e0\u00e1\u0005\u000f\u0000"+
-		"\u0000\u00e1\u00e2\u0003\u0018\f\u0000\u00e2\u00e3\u0006\f\uffff\uffff"+
-		"\u0000\u00e3\u0107\u0001\u0000\u0000\u0000\u00e4\u00e5\u0005\u0005\u0000"+
-		"\u0000\u00e5\u00e6\u0005\u000e\u0000\u0000\u00e6\u00e7\u0003\u001e\u000f"+
-		"\u0000\u00e7\u00e8\u0005\u000f\u0000\u0000\u00e8\u00e9\u0003\u0018\f\u0000"+
-		"\u00e9\u00ea\u0006\f\uffff\uffff\u0000\u00ea\u0107\u0001\u0000\u0000\u0000"+
-		"\u00eb\u00ec\u0005\u0005\u0000\u0000\u00ec\u00ed\u0005\u000e\u0000\u0000"+
-		"\u00ed\u00ee\u0003\u001e\u000f\u0000\u00ee\u00ef\u0005\u000f\u0000\u0000"+
-		"\u00ef\u00f0\u0003\u0018\f\u0000\u00f0\u00f1\u0005\u0006\u0000\u0000\u00f1"+
-		"\u00f2\u0003\u0018\f\u0000\u00f2\u00f3\u0006\f\uffff\uffff\u0000\u00f3"+
-		"\u0107\u0001\u0000\u0000\u0000\u00f4\u00f5\u0005\b\u0000\u0000\u00f5\u00f6"+
-		"\u0005\u000e\u0000\u0000\u00f6\u00f7\u0003\u001e\u000f\u0000\u00f7\u00f8"+
-		"\u0005\u000f\u0000\u0000\u00f8\u00f9\u0003\u0018\f\u0000\u00f9\u00fa\u0006"+
-		"\f\uffff\uffff\u0000\u00fa\u0107\u0001\u0000\u0000\u0000\u00fb\u00fc\u0005"+
-		"\t\u0000\u0000\u00fc\u00fd\u0005\u000e\u0000\u0000\u00fd\u00fe\u0005 "+
-		"\u0000\u0000\u00fe\u00ff\u0005\u000f\u0000\u0000\u00ff\u0100\u0005\u0014"+
-		"\u0000\u0000\u0100\u0107\u0006\f\uffff\uffff\u0000\u0101\u0102\u0005\n"+
-		"\u0000\u0000\u0102\u0103\u0003\u001e\u000f\u0000\u0103\u0104\u0005\u0014"+
-		"\u0000\u0000\u0104\u0105\u0006\f\uffff\uffff\u0000\u0105\u0107\u0001\u0000"+
-		"\u0000\u0000\u0106\u00d2\u0001\u0000\u0000\u0000\u0106\u00d5\u0001\u0000"+
-		"\u0000\u0000\u0106\u00d8\u0001\u0000\u0000\u0000\u0106\u00db\u0001\u0000"+
-		"\u0000\u0000\u0106\u00e4\u0001\u0000\u0000\u0000\u0106\u00eb\u0001\u0000"+
-		"\u0000\u0000\u0106\u00f4\u0001\u0000\u0000\u0000\u0106\u00fb\u0001\u0000"+
-		"\u0000\u0000\u0106\u0101\u0001\u0000\u0000\u0000\u0107\u0019\u0001\u0000"+
-		"\u0000\u0000\u0108\u0109\u0005\u0014\u0000\u0000\u0109\u010f\u0006\r\uffff"+
-		"\uffff\u0000\u010a\u010b\u0003\u001e\u000f\u0000\u010b\u010c\u0005\u0014"+
-		"\u0000\u0000\u010c\u010d\u0006\r\uffff\uffff\u0000\u010d\u010f\u0001\u0000"+
-		"\u0000\u0000\u010e\u0108\u0001\u0000\u0000\u0000\u010e\u010a\u0001\u0000"+
-		"\u0000\u0000\u010f\u001b\u0001\u0000\u0000\u0000\u0110\u0111\u0005 \u0000"+
-		"\u0000\u0111\u0119\u0006\u000e\uffff\uffff\u0000\u0112\u0113\u0005 \u0000"+
-		"\u0000\u0113\u0114\u0005\u0012\u0000\u0000\u0114\u0115\u0003\u001e\u000f"+
-		"\u0000\u0115\u0116\u0005\u0013\u0000\u0000\u0116\u0117\u0006\u000e\uffff"+
-		"\uffff\u0000\u0117\u0119\u0001\u0000\u0000\u0000\u0118\u0110\u0001\u0000"+
-		"\u0000\u0000\u0118\u0112\u0001\u0000\u0000\u0000\u0119\u001d\u0001\u0000"+
-		"\u0000\u0000\u011a\u011b\u0003 \u0010\u0000\u011b\u011c\u0006\u000f\uffff"+
-		"\uffff\u0000\u011c\u0123\u0001\u0000\u0000\u0000\u011d\u011e\u0003\u001c"+
-		"\u000e\u0000\u011e\u011f\u0005\u001f\u0000\u0000\u011f\u0120\u0003 \u0010"+
-		"\u0000\u0120\u0121\u0006\u000f\uffff\uffff\u0000\u0121\u0123\u0001\u0000"+
-		"\u0000\u0000\u0122\u011a\u0001\u0000\u0000\u0000\u0122\u011d\u0001\u0000"+
-		"\u0000\u0000\u0123\u001f\u0001\u0000\u0000\u0000\u0124\u0125\u0003\"\u0011"+
-		"\u0000\u0125\u0126\u0006\u0010\uffff\uffff\u0000\u0126\u012d\u0001\u0000"+
-		"\u0000\u0000\u0127\u0128\u0003\"\u0011\u0000\u0128\u0129\u0005\u001e\u0000"+
-		"\u0000\u0129\u012a\u0003\"\u0011\u0000\u012a\u012b\u0006\u0010\uffff\uffff"+
-		"\u0000\u012b\u012d\u0001\u0000\u0000\u0000\u012c\u0124\u0001\u0000\u0000"+
-		"\u0000\u012c\u0127\u0001\u0000\u0000\u0000\u012d!\u0001\u0000\u0000\u0000"+
-		"\u012e\u012f\u0003$\u0012\u0000\u012f\u0130\u0006\u0011\uffff\uffff\u0000"+
-		"\u0130\u0137\u0001\u0000\u0000\u0000\u0131\u0132\u0003$\u0012\u0000\u0132"+
-		"\u0133\u0005\u001d\u0000\u0000\u0133\u0134\u0003$\u0012\u0000\u0134\u0135"+
-		"\u0006\u0011\uffff\uffff\u0000\u0135\u0137\u0001\u0000\u0000\u0000\u0136"+
-		"\u012e\u0001\u0000\u0000\u0000\u0136\u0131\u0001\u0000\u0000\u0000\u0137"+
-		"#\u0001\u0000\u0000\u0000\u0138\u0139\u0006\u0012\uffff\uffff\u0000\u0139"+
-		"\u013a\u0003&\u0013\u0000\u013a\u013b\u0006\u0012\uffff\uffff\u0000\u013b"+
-		"\u0143\u0001\u0000\u0000\u0000\u013c\u013d\n\u0001\u0000\u0000\u013d\u013e"+
-		"\u0005\u0017\u0000\u0000\u013e\u013f\u0003&\u0013\u0000\u013f\u0140\u0006"+
-		"\u0012\uffff\uffff\u0000\u0140\u0142\u0001\u0000\u0000\u0000\u0141\u013c"+
-		"\u0001\u0000\u0000\u0000\u0142\u0145\u0001\u0000\u0000\u0000\u0143\u0141"+
-		"\u0001\u0000\u0000\u0000\u0143\u0144\u0001\u0000\u0000\u0000\u0144%\u0001"+
-		"\u0000\u0000\u0000\u0145\u0143\u0001\u0000\u0000\u0000\u0146\u0147\u0006"+
-		"\u0013\uffff\uffff\u0000\u0147\u0148\u0003(\u0014\u0000\u0148\u0149\u0006"+
-		"\u0013\uffff\uffff\u0000\u0149\u0151\u0001\u0000\u0000\u0000\u014a\u014b"+
-		"\n\u0001\u0000\u0000\u014b\u014c\u0005\u0019\u0000\u0000\u014c\u014d\u0003"+
-		"(\u0014\u0000\u014d\u014e\u0006\u0013\uffff\uffff\u0000\u014e\u0150\u0001"+
-		"\u0000\u0000\u0000\u014f\u014a\u0001\u0000\u0000\u0000\u0150\u0153\u0001"+
-		"\u0000\u0000\u0000\u0151\u014f\u0001\u0000\u0000\u0000\u0151\u0152\u0001"+
-		"\u0000\u0000\u0000\u0152\'\u0001\u0000\u0000\u0000\u0153\u0151\u0001\u0000"+
-		"\u0000\u0000\u0154\u0155\u0005\u0017\u0000\u0000\u0155\u0156\u0003(\u0014"+
-		"\u0000\u0156\u0157\u0006\u0014\uffff\uffff\u0000\u0157\u0160\u0001\u0000"+
-		"\u0000\u0000\u0158\u0159\u0005\u001c\u0000\u0000\u0159\u015a\u0003(\u0014"+
-		"\u0000\u015a\u015b\u0006\u0014\uffff\uffff\u0000\u015b\u0160\u0001\u0000"+
-		"\u0000\u0000\u015c\u015d\u0003*\u0015\u0000\u015d\u015e\u0006\u0014\uffff"+
-		"\uffff\u0000\u015e\u0160\u0001\u0000\u0000\u0000\u015f\u0154\u0001\u0000"+
-		"\u0000\u0000\u015f\u0158\u0001\u0000\u0000\u0000\u015f\u015c\u0001\u0000"+
-		"\u0000\u0000\u0160)\u0001\u0000\u0000\u0000\u0161\u0162\u0003\u001c\u000e"+
-		"\u0000\u0162\u0163\u0006\u0015\uffff\uffff\u0000\u0163\u017d\u0001\u0000"+
-		"\u0000\u0000\u0164\u0165\u0005 \u0000\u0000\u0165\u0166\u0005\u000e\u0000"+
-		"\u0000\u0166\u0167\u0006\u0015\uffff\uffff\u0000\u0167\u0168\u0003,\u0016"+
-		"\u0000\u0168\u0169\u0005\u000f\u0000\u0000\u0169\u016a\u0006\u0015\uffff"+
-		"\uffff\u0000\u016a\u017d\u0001\u0000\u0000\u0000\u016b\u016c\u0005\u000e"+
-		"\u0000\u0000\u016c\u016d\u0003\u001e\u000f\u0000\u016d\u016e\u0005\u000f"+
-		"\u0000\u0000\u016e\u016f\u0006\u0015\uffff\uffff\u0000\u016f\u017d\u0001"+
-		"\u0000\u0000\u0000\u0170\u0171\u0005!\u0000\u0000\u0171\u017d\u0006\u0015"+
-		"\uffff\uffff\u0000\u0172\u0173\u0005\"\u0000\u0000\u0173\u017d\u0006\u0015"+
-		"\uffff\uffff\u0000\u0174\u0175\u0003\u001c\u000e\u0000\u0175\u0176\u0005"+
-		"\u001a\u0000\u0000\u0176\u0177\u0006\u0015\uffff\uffff\u0000\u0177\u017d"+
-		"\u0001\u0000\u0000\u0000\u0178\u0179\u0003\u001c\u000e\u0000\u0179\u017a"+
-		"\u0005\u001b\u0000\u0000\u017a\u017b\u0006\u0015\uffff\uffff\u0000\u017b"+
-		"\u017d\u0001\u0000\u0000\u0000\u017c\u0161\u0001\u0000\u0000\u0000\u017c"+
-		"\u0164\u0001\u0000\u0000\u0000\u017c\u016b\u0001\u0000\u0000\u0000\u017c"+
-		"\u0170\u0001\u0000\u0000\u0000\u017c\u0172\u0001\u0000\u0000\u0000\u017c"+
-		"\u0174\u0001\u0000\u0000\u0000\u017c\u0178\u0001\u0000\u0000\u0000\u017d"+
-		"+\u0001\u0000\u0000\u0000\u017e\u017f\u0003.\u0017\u0000\u017f\u0180\u0006"+
-		"\u0016\uffff\uffff\u0000\u0180\u0183\u0001\u0000\u0000\u0000\u0181\u0183"+
-		"\u0001\u0000\u0000\u0000\u0182\u017e\u0001\u0000\u0000\u0000\u0182\u0181"+
-		"\u0001\u0000\u0000\u0000\u0183-\u0001\u0000\u0000\u0000\u0184\u0185\u0006"+
-		"\u0017\uffff\uffff\u0000\u0185\u0186\u0003 \u0010\u0000\u0186\u0187\u0006"+
-		"\u0017\uffff\uffff\u0000\u0187\u018f\u0001\u0000\u0000\u0000\u0188\u0189"+
-		"\n\u0002\u0000\u0000\u0189\u018a\u0005\u0015\u0000\u0000\u018a\u018b\u0003"+
-		" \u0010\u0000\u018b\u018c\u0006\u0017\uffff\uffff\u0000\u018c\u018e\u0001"+
-		"\u0000\u0000\u0000\u018d\u0188\u0001\u0000\u0000\u0000\u018e\u0191\u0001"+
-		"\u0000\u0000\u0000\u018f\u018d\u0001\u0000\u0000\u0000\u018f\u0190\u0001"+
-		"\u0000\u0000\u0000\u0190/\u0001\u0000\u0000\u0000\u0191\u018f\u0001\u0000"+
-		"\u0000\u0000\u001a=I[lv\u0083\u0085\u0093\u009f\u00a9\u00b3\u00c0\u00c2"+
-		"\u00cf\u0106\u010e\u0118\u0122\u012c\u0136\u0143\u0151\u015f\u017c\u0182"+
-		"\u018f";
+		"\u0000\u0000_`\u0005\u000e\u0000\u0000`a\u0003\n\u0005\u0000ab\u0006\u0004"+
+		"\uffff\uffff\u0000bc\u0005\u000f\u0000\u0000cd\u0003\f\u0006\u0000de\u0006"+
+		"\u0004\uffff\uffff\u0000eo\u0001\u0000\u0000\u0000fg\u0003\u0012\t\u0000"+
+		"gh\u0005 \u0000\u0000hi\u0005\u000e\u0000\u0000ij\u0005\u000f\u0000\u0000"+
+		"jk\u0006\u0004\uffff\uffff\u0000kl\u0003\f\u0006\u0000lm\u0006\u0004\uffff"+
+		"\uffff\u0000mo\u0001\u0000\u0000\u0000n]\u0001\u0000\u0000\u0000nf\u0001"+
+		"\u0000\u0000\u0000o\t\u0001\u0000\u0000\u0000pq\u0006\u0005\uffff\uffff"+
+		"\u0000qr\u0003\u0012\t\u0000rs\u0005 \u0000\u0000st\u0006\u0005\uffff"+
+		"\uffff\u0000ty\u0001\u0000\u0000\u0000uv\u0003\u0012\t\u0000vw\u0006\u0005"+
+		"\uffff\uffff\u0000wy\u0001\u0000\u0000\u0000xp\u0001\u0000\u0000\u0000"+
+		"xu\u0001\u0000\u0000\u0000y\u0087\u0001\u0000\u0000\u0000z{\n\u0004\u0000"+
+		"\u0000{|\u0005\u0015\u0000\u0000|}\u0003\u0012\t\u0000}~\u0005 \u0000"+
+		"\u0000~\u007f\u0006\u0005\uffff\uffff\u0000\u007f\u0086\u0001\u0000\u0000"+
+		"\u0000\u0080\u0081\n\u0003\u0000\u0000\u0081\u0082\u0005\u0015\u0000\u0000"+
+		"\u0082\u0083\u0003\u0012\t\u0000\u0083\u0084\u0006\u0005\uffff\uffff\u0000"+
+		"\u0084\u0086\u0001\u0000\u0000\u0000\u0085z\u0001\u0000\u0000\u0000\u0085"+
+		"\u0080\u0001\u0000\u0000\u0000\u0086\u0089\u0001\u0000\u0000\u0000\u0087"+
+		"\u0085\u0001\u0000\u0000\u0000\u0087\u0088\u0001\u0000\u0000\u0000\u0088"+
+		"\u000b\u0001\u0000\u0000\u0000\u0089\u0087\u0001\u0000\u0000\u0000\u008a"+
+		"\u008b\u0005\u0010\u0000\u0000\u008b\u008c\u0003\u0016\u000b\u0000\u008c"+
+		"\u008d\u0006\u0006\uffff\uffff\u0000\u008d\u008e\u0005\u0011\u0000\u0000"+
+		"\u008e\u008f\u0006\u0006\uffff\uffff\u0000\u008f\u0094\u0001\u0000\u0000"+
+		"\u0000\u0090\u0091\u0005\u0010\u0000\u0000\u0091\u0092\u0005\u0011\u0000"+
+		"\u0000\u0092\u0094\u0006\u0006\uffff\uffff\u0000\u0093\u008a\u0001\u0000"+
+		"\u0000\u0000\u0093\u0090\u0001\u0000\u0000\u0000\u0094\r\u0001\u0000\u0000"+
+		"\u0000\u0095\u0096\u0003\u0012\t\u0000\u0096\u0097\u0003\u0014\n\u0000"+
+		"\u0097\u0098\u0005\u0014\u0000\u0000\u0098\u0099\u0006\u0007\uffff\uffff"+
+		"\u0000\u0099\u00a0\u0001\u0000\u0000\u0000\u009a\u009b\u0003\u0012\t\u0000"+
+		"\u009b\u009c\u0003\u0010\b\u0000\u009c\u009d\u0005\u0014\u0000\u0000\u009d"+
+		"\u009e\u0006\u0007\uffff\uffff\u0000\u009e\u00a0\u0001\u0000\u0000\u0000"+
+		"\u009f\u0095\u0001\u0000\u0000\u0000\u009f\u009a\u0001\u0000\u0000\u0000"+
+		"\u00a0\u000f\u0001\u0000\u0000\u0000\u00a1\u00a2\u0006\b\uffff\uffff\u0000"+
+		"\u00a2\u0011\u0001\u0000\u0000\u0000\u00a3\u00a4\u0005\u000b\u0000\u0000"+
+		"\u00a4\u00aa\u0006\t\uffff\uffff\u0000\u00a5\u00a6\u0005\f\u0000\u0000"+
+		"\u00a6\u00aa\u0006\t\uffff\uffff\u0000\u00a7\u00a8\u0005\r\u0000\u0000"+
+		"\u00a8\u00aa\u0006\t\uffff\uffff\u0000\u00a9\u00a3\u0001\u0000\u0000\u0000"+
+		"\u00a9\u00a5\u0001\u0000\u0000\u0000\u00a9\u00a7\u0001\u0000\u0000\u0000"+
+		"\u00aa\u0013\u0001\u0000\u0000\u0000\u00ab\u00ac\u0006\n\uffff\uffff\u0000"+
+		"\u00ac\u00ad\u0005 \u0000\u0000\u00ad\u00b4\u0006\n\uffff\uffff\u0000"+
+		"\u00ae\u00af\u0005 \u0000\u0000\u00af\u00b0\u0005\u0012\u0000\u0000\u00b0"+
+		"\u00b1\u0005!\u0000\u0000\u00b1\u00b2\u0005\u0013\u0000\u0000\u00b2\u00b4"+
+		"\u0006\n\uffff\uffff\u0000\u00b3\u00ab\u0001\u0000\u0000\u0000\u00b3\u00ae"+
+		"\u0001\u0000\u0000\u0000\u00b4\u00c2\u0001\u0000\u0000\u0000\u00b5\u00b6"+
+		"\n\u0004\u0000\u0000\u00b6\u00b7\u0005\u0015\u0000\u0000\u00b7\u00b8\u0005"+
+		" \u0000\u0000\u00b8\u00c1\u0006\n\uffff\uffff\u0000\u00b9\u00ba\n\u0003"+
+		"\u0000\u0000\u00ba\u00bb\u0005\u0015\u0000\u0000\u00bb\u00bc\u0005 \u0000"+
+		"\u0000\u00bc\u00bd\u0005\u0012\u0000\u0000\u00bd\u00be\u0005!\u0000\u0000"+
+		"\u00be\u00bf\u0005\u0013\u0000\u0000\u00bf\u00c1\u0006\n\uffff\uffff\u0000"+
+		"\u00c0\u00b5\u0001\u0000\u0000\u0000\u00c0\u00b9\u0001\u0000\u0000\u0000"+
+		"\u00c1\u00c4\u0001\u0000\u0000\u0000\u00c2\u00c0\u0001\u0000\u0000\u0000"+
+		"\u00c2\u00c3\u0001\u0000\u0000\u0000\u00c3\u0015\u0001\u0000\u0000\u0000"+
+		"\u00c4\u00c2\u0001\u0000\u0000\u0000\u00c5\u00c6\u0006\u000b\uffff\uffff"+
+		"\u0000\u00c6\u00c7\u0003\u0018\f\u0000\u00c7\u00c8\u0006\u000b\uffff\uffff"+
+		"\u0000\u00c8\u00cf\u0001\u0000\u0000\u0000\u00c9\u00ca\n\u0001\u0000\u0000"+
+		"\u00ca\u00cb\u0003\u0018\f\u0000\u00cb\u00cc\u0006\u000b\uffff\uffff\u0000"+
+		"\u00cc\u00ce\u0001\u0000\u0000\u0000\u00cd\u00c9\u0001\u0000\u0000\u0000"+
+		"\u00ce\u00d1\u0001\u0000\u0000\u0000\u00cf\u00cd\u0001\u0000\u0000\u0000"+
+		"\u00cf\u00d0\u0001\u0000\u0000\u0000\u00d0\u0017\u0001\u0000\u0000\u0000"+
+		"\u00d1\u00cf\u0001\u0000\u0000\u0000\u00d2\u00d3\u0003\u000e\u0007\u0000"+
+		"\u00d3\u00d4\u0006\f\uffff\uffff\u0000\u00d4\u0107\u0001\u0000\u0000\u0000"+
+		"\u00d5\u00d6\u0003\u001a\r\u0000\u00d6\u00d7\u0006\f\uffff\uffff\u0000"+
+		"\u00d7\u0107\u0001\u0000\u0000\u0000\u00d8\u00d9\u0003\f\u0006\u0000\u00d9"+
+		"\u00da\u0006\f\uffff\uffff\u0000\u00da\u0107\u0001\u0000\u0000\u0000\u00db"+
+		"\u00dc\u0005\u0007\u0000\u0000\u00dc\u00dd\u0005\u000e\u0000\u0000\u00dd"+
+		"\u00de\u0003\u001a\r\u0000\u00de\u00df\u0003\u001a\r\u0000\u00df\u00e0"+
+		"\u0003\u001e\u000f\u0000\u00e0\u00e1\u0005\u000f\u0000\u0000\u00e1\u00e2"+
+		"\u0003\u0018\f\u0000\u00e2\u00e3\u0006\f\uffff\uffff\u0000\u00e3\u0107"+
+		"\u0001\u0000\u0000\u0000\u00e4\u00e5\u0005\u0005\u0000\u0000\u00e5\u00e6"+
+		"\u0005\u000e\u0000\u0000\u00e6\u00e7\u0003\u001e\u000f\u0000\u00e7\u00e8"+
+		"\u0005\u000f\u0000\u0000\u00e8\u00e9\u0003\u0018\f\u0000\u00e9\u00ea\u0006"+
+		"\f\uffff\uffff\u0000\u00ea\u0107\u0001\u0000\u0000\u0000\u00eb\u00ec\u0005"+
+		"\u0005\u0000\u0000\u00ec\u00ed\u0005\u000e\u0000\u0000\u00ed\u00ee\u0003"+
+		"\u001e\u000f\u0000\u00ee\u00ef\u0005\u000f\u0000\u0000\u00ef\u00f0\u0003"+
+		"\u0018\f\u0000\u00f0\u00f1\u0005\u0006\u0000\u0000\u00f1\u00f2\u0003\u0018"+
+		"\f\u0000\u00f2\u00f3\u0006\f\uffff\uffff\u0000\u00f3\u0107\u0001\u0000"+
+		"\u0000\u0000\u00f4\u00f5\u0005\b\u0000\u0000\u00f5\u00f6\u0005\u000e\u0000"+
+		"\u0000\u00f6\u00f7\u0003\u001e\u000f\u0000\u00f7\u00f8\u0005\u000f\u0000"+
+		"\u0000\u00f8\u00f9\u0003\u0018\f\u0000\u00f9\u00fa\u0006\f\uffff\uffff"+
+		"\u0000\u00fa\u0107\u0001\u0000\u0000\u0000\u00fb\u00fc\u0005\t\u0000\u0000"+
+		"\u00fc\u00fd\u0005\u000e\u0000\u0000\u00fd\u00fe\u0005 \u0000\u0000\u00fe"+
+		"\u00ff\u0005\u000f\u0000\u0000\u00ff\u0100\u0005\u0014\u0000\u0000\u0100"+
+		"\u0107\u0006\f\uffff\uffff\u0000\u0101\u0102\u0005\n\u0000\u0000\u0102"+
+		"\u0103\u0003\u001e\u000f\u0000\u0103\u0104\u0005\u0014\u0000\u0000\u0104"+
+		"\u0105\u0006\f\uffff\uffff\u0000\u0105\u0107\u0001\u0000\u0000\u0000\u0106"+
+		"\u00d2\u0001\u0000\u0000\u0000\u0106\u00d5\u0001\u0000\u0000\u0000\u0106"+
+		"\u00d8\u0001\u0000\u0000\u0000\u0106\u00db\u0001\u0000\u0000\u0000\u0106"+
+		"\u00e4\u0001\u0000\u0000\u0000\u0106\u00eb\u0001\u0000\u0000\u0000\u0106"+
+		"\u00f4\u0001\u0000\u0000\u0000\u0106\u00fb\u0001\u0000\u0000\u0000\u0106"+
+		"\u0101\u0001\u0000\u0000\u0000\u0107\u0019\u0001\u0000\u0000\u0000\u0108"+
+		"\u0109\u0005\u0014\u0000\u0000\u0109\u010f\u0006\r\uffff\uffff\u0000\u010a"+
+		"\u010b\u0003\u001e\u000f\u0000\u010b\u010c\u0005\u0014\u0000\u0000\u010c"+
+		"\u010d\u0006\r\uffff\uffff\u0000\u010d\u010f\u0001\u0000\u0000\u0000\u010e"+
+		"\u0108\u0001\u0000\u0000\u0000\u010e\u010a\u0001\u0000\u0000\u0000\u010f"+
+		"\u001b\u0001\u0000\u0000\u0000\u0110\u0111\u0005 \u0000\u0000\u0111\u0119"+
+		"\u0006\u000e\uffff\uffff\u0000\u0112\u0113\u0005 \u0000\u0000\u0113\u0114"+
+		"\u0005\u0012\u0000\u0000\u0114\u0115\u0003\u001e\u000f\u0000\u0115\u0116"+
+		"\u0005\u0013\u0000\u0000\u0116\u0117\u0006\u000e\uffff\uffff\u0000\u0117"+
+		"\u0119\u0001\u0000\u0000\u0000\u0118\u0110\u0001\u0000\u0000\u0000\u0118"+
+		"\u0112\u0001\u0000\u0000\u0000\u0119\u001d\u0001\u0000\u0000\u0000\u011a"+
+		"\u011b\u0003 \u0010\u0000\u011b\u011c\u0006\u000f\uffff\uffff\u0000\u011c"+
+		"\u0123\u0001\u0000\u0000\u0000\u011d\u011e\u0003\u001c\u000e\u0000\u011e"+
+		"\u011f\u0005\u001f\u0000\u0000\u011f\u0120\u0003 \u0010\u0000\u0120\u0121"+
+		"\u0006\u000f\uffff\uffff\u0000\u0121\u0123\u0001\u0000\u0000\u0000\u0122"+
+		"\u011a\u0001\u0000\u0000\u0000\u0122\u011d\u0001\u0000\u0000\u0000\u0123"+
+		"\u001f\u0001\u0000\u0000\u0000\u0124\u0125\u0003\"\u0011\u0000\u0125\u0126"+
+		"\u0006\u0010\uffff\uffff\u0000\u0126\u012d\u0001\u0000\u0000\u0000\u0127"+
+		"\u0128\u0003\"\u0011\u0000\u0128\u0129\u0005\u001e\u0000\u0000\u0129\u012a"+
+		"\u0003\"\u0011\u0000\u012a\u012b\u0006\u0010\uffff\uffff\u0000\u012b\u012d"+
+		"\u0001\u0000\u0000\u0000\u012c\u0124\u0001\u0000\u0000\u0000\u012c\u0127"+
+		"\u0001\u0000\u0000\u0000\u012d!\u0001\u0000\u0000\u0000\u012e\u012f\u0003"+
+		"$\u0012\u0000\u012f\u0130\u0006\u0011\uffff\uffff\u0000\u0130\u0137\u0001"+
+		"\u0000\u0000\u0000\u0131\u0132\u0003$\u0012\u0000\u0132\u0133\u0005\u001d"+
+		"\u0000\u0000\u0133\u0134\u0003$\u0012\u0000\u0134\u0135\u0006\u0011\uffff"+
+		"\uffff\u0000\u0135\u0137\u0001\u0000\u0000\u0000\u0136\u012e\u0001\u0000"+
+		"\u0000\u0000\u0136\u0131\u0001\u0000\u0000\u0000\u0137#\u0001\u0000\u0000"+
+		"\u0000\u0138\u0139\u0006\u0012\uffff\uffff\u0000\u0139\u013a\u0003&\u0013"+
+		"\u0000\u013a\u013b\u0006\u0012\uffff\uffff\u0000\u013b\u0143\u0001\u0000"+
+		"\u0000\u0000\u013c\u013d\n\u0001\u0000\u0000\u013d\u013e\u0005\u0017\u0000"+
+		"\u0000\u013e\u013f\u0003&\u0013\u0000\u013f\u0140\u0006\u0012\uffff\uffff"+
+		"\u0000\u0140\u0142\u0001\u0000\u0000\u0000\u0141\u013c\u0001\u0000\u0000"+
+		"\u0000\u0142\u0145\u0001\u0000\u0000\u0000\u0143\u0141\u0001\u0000\u0000"+
+		"\u0000\u0143\u0144\u0001\u0000\u0000\u0000\u0144%\u0001\u0000\u0000\u0000"+
+		"\u0145\u0143\u0001\u0000\u0000\u0000\u0146\u0147\u0006\u0013\uffff\uffff"+
+		"\u0000\u0147\u0148\u0003(\u0014\u0000\u0148\u0149\u0006\u0013\uffff\uffff"+
+		"\u0000\u0149\u0151\u0001\u0000\u0000\u0000\u014a\u014b\n\u0001\u0000\u0000"+
+		"\u014b\u014c\u0005\u0019\u0000\u0000\u014c\u014d\u0003(\u0014\u0000\u014d"+
+		"\u014e\u0006\u0013\uffff\uffff\u0000\u014e\u0150\u0001\u0000\u0000\u0000"+
+		"\u014f\u014a\u0001\u0000\u0000\u0000\u0150\u0153\u0001\u0000\u0000\u0000"+
+		"\u0151\u014f\u0001\u0000\u0000\u0000\u0151\u0152\u0001\u0000\u0000\u0000"+
+		"\u0152\'\u0001\u0000\u0000\u0000\u0153\u0151\u0001\u0000\u0000\u0000\u0154"+
+		"\u0155\u0005\u0017\u0000\u0000\u0155\u0156\u0003(\u0014\u0000\u0156\u0157"+
+		"\u0006\u0014\uffff\uffff\u0000\u0157\u0160\u0001\u0000\u0000\u0000\u0158"+
+		"\u0159\u0005\u001c\u0000\u0000\u0159\u015a\u0003(\u0014\u0000\u015a\u015b"+
+		"\u0006\u0014\uffff\uffff\u0000\u015b\u0160\u0001\u0000\u0000\u0000\u015c"+
+		"\u015d\u0003*\u0015\u0000\u015d\u015e\u0006\u0014\uffff\uffff\u0000\u015e"+
+		"\u0160\u0001\u0000\u0000\u0000\u015f\u0154\u0001\u0000\u0000\u0000\u015f"+
+		"\u0158\u0001\u0000\u0000\u0000\u015f\u015c\u0001\u0000\u0000\u0000\u0160"+
+		")\u0001\u0000\u0000\u0000\u0161\u0162\u0003\u001c\u000e\u0000\u0162\u0163"+
+		"\u0006\u0015\uffff\uffff\u0000\u0163\u017d\u0001\u0000\u0000\u0000\u0164"+
+		"\u0165\u0005 \u0000\u0000\u0165\u0166\u0005\u000e\u0000\u0000\u0166\u0167"+
+		"\u0006\u0015\uffff\uffff\u0000\u0167\u0168\u0003,\u0016\u0000\u0168\u0169"+
+		"\u0005\u000f\u0000\u0000\u0169\u016a\u0006\u0015\uffff\uffff\u0000\u016a"+
+		"\u017d\u0001\u0000\u0000\u0000\u016b\u016c\u0005\u000e\u0000\u0000\u016c"+
+		"\u016d\u0003\u001e\u000f\u0000\u016d\u016e\u0005\u000f\u0000\u0000\u016e"+
+		"\u016f\u0006\u0015\uffff\uffff\u0000\u016f\u017d\u0001\u0000\u0000\u0000"+
+		"\u0170\u0171\u0005!\u0000\u0000\u0171\u017d\u0006\u0015\uffff\uffff\u0000"+
+		"\u0172\u0173\u0005\"\u0000\u0000\u0173\u017d\u0006\u0015\uffff\uffff\u0000"+
+		"\u0174\u0175\u0003\u001c\u000e\u0000\u0175\u0176\u0005\u001a\u0000\u0000"+
+		"\u0176\u0177\u0006\u0015\uffff\uffff\u0000\u0177\u017d\u0001\u0000\u0000"+
+		"\u0000\u0178\u0179\u0003\u001c\u000e\u0000\u0179\u017a\u0005\u001b\u0000"+
+		"\u0000\u017a\u017b\u0006\u0015\uffff\uffff\u0000\u017b\u017d\u0001\u0000"+
+		"\u0000\u0000\u017c\u0161\u0001\u0000\u0000\u0000\u017c\u0164\u0001\u0000"+
+		"\u0000\u0000\u017c\u016b\u0001\u0000\u0000\u0000\u017c\u0170\u0001\u0000"+
+		"\u0000\u0000\u017c\u0172\u0001\u0000\u0000\u0000\u017c\u0174\u0001\u0000"+
+		"\u0000\u0000\u017c\u0178\u0001\u0000\u0000\u0000\u017d+\u0001\u0000\u0000"+
+		"\u0000\u017e\u017f\u0003.\u0017\u0000\u017f\u0180\u0006\u0016\uffff\uffff"+
+		"\u0000\u0180\u0183\u0001\u0000\u0000\u0000\u0181\u0183\u0001\u0000\u0000"+
+		"\u0000\u0182\u017e\u0001\u0000\u0000\u0000\u0182\u0181\u0001\u0000\u0000"+
+		"\u0000\u0183-\u0001\u0000\u0000\u0000\u0184\u0185\u0006\u0017\uffff\uffff"+
+		"\u0000\u0185\u0186\u0003 \u0010\u0000\u0186\u0187\u0006\u0017\uffff\uffff"+
+		"\u0000\u0187\u018f\u0001\u0000\u0000\u0000\u0188\u0189\n\u0002\u0000\u0000"+
+		"\u0189\u018a\u0005\u0015\u0000\u0000\u018a\u018b\u0003 \u0010\u0000\u018b"+
+		"\u018c\u0006\u0017\uffff\uffff\u0000\u018c\u018e\u0001\u0000\u0000\u0000"+
+		"\u018d\u0188\u0001\u0000\u0000\u0000\u018e\u0191\u0001\u0000\u0000\u0000"+
+		"\u018f\u018d\u0001\u0000\u0000\u0000\u018f\u0190\u0001\u0000\u0000\u0000"+
+		"\u0190/\u0001\u0000\u0000\u0000\u0191\u018f\u0001\u0000\u0000\u0000\u001a"+
+		"=I[nx\u0085\u0087\u0093\u009f\u00a9\u00b3\u00c0\u00c2\u00cf\u0106\u010e"+
+		"\u0118\u0122\u012c\u0136\u0143\u0151\u015f\u017c\u0182\u018f";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
