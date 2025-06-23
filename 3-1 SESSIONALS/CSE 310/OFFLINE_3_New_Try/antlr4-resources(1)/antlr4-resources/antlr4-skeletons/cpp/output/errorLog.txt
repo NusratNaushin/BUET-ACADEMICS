@@ -1,4 +1,4 @@
-Error at line 8: Type Mismatch
+Error at line 3: syntax error, unexpected ADDOP, expecting RPAREN or COMMA
 
-Error at line 41: Type Mismatch
+Error at line 0: Type Mismatch
 

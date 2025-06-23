@@ -102,137 +102,140 @@ void c8086parserParserInitialize() {
     }
   );
   static const int32_t serializedATNSegment[] = {
-  	4,1,34,404,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
+  	4,1,34,414,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,6,2,
   	7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,13,7,13,2,14,7,
   	14,2,15,7,15,2,16,7,16,2,17,7,17,2,18,7,18,2,19,7,19,2,20,7,20,2,21,7,
   	21,2,22,7,22,2,23,7,23,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5,
   	1,60,8,1,10,1,12,1,63,9,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,74,
   	8,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,
   	3,92,8,3,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,1,4,
-  	1,4,1,4,3,4,111,8,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,3,5,121,8,5,1,5,1,
-  	5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,5,5,134,8,5,10,5,12,5,137,9,5,1,
-  	6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,3,6,149,8,6,1,7,1,7,1,7,1,7,1,7,
-  	1,7,1,7,1,7,1,7,1,7,3,7,161,8,7,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,3,9,171,
-  	8,9,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,3,10,181,8,10,1,10,1,10,1,
-  	10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,5,10,194,8,10,10,10,12,10,
-  	197,9,10,1,11,1,11,1,11,1,11,1,11,1,11,1,11,1,11,5,11,207,8,11,10,11,
-  	12,11,210,9,11,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
+  	1,4,1,4,3,4,111,8,4,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,
+  	5,1,5,3,5,127,8,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,1,5,
+  	1,5,1,5,5,5,144,8,5,10,5,12,5,147,9,5,1,6,1,6,1,6,1,6,1,6,1,6,1,6,1,6,
+  	1,6,1,6,3,6,159,8,6,1,7,1,7,1,7,1,7,1,7,1,7,1,7,1,7,1,7,1,7,3,7,171,8,
+  	7,1,8,1,8,1,9,1,9,1,9,1,9,1,9,1,9,3,9,181,8,9,1,10,1,10,1,10,1,10,1,10,
+  	1,10,1,10,1,10,3,10,191,8,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,1,10,
+  	1,10,1,10,1,10,5,10,204,8,10,10,10,12,10,207,9,10,1,11,1,11,1,11,1,11,
+  	1,11,1,11,1,11,1,11,5,11,217,8,11,10,11,12,11,220,9,11,1,12,1,12,1,12,
   	1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
   	1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
-  	1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,3,12,
-  	264,8,12,1,13,1,13,1,13,1,13,1,13,1,13,3,13,272,8,13,1,14,1,14,1,14,1,
-  	14,1,14,1,14,1,14,1,14,3,14,282,8,14,1,15,1,15,1,15,1,15,1,15,1,15,1,
-  	15,1,15,3,15,292,8,15,1,16,1,16,1,16,1,16,1,16,1,16,1,16,1,16,3,16,302,
-  	8,16,1,17,1,17,1,17,1,17,1,17,1,17,1,17,1,17,3,17,312,8,17,1,18,1,18,
-  	1,18,1,18,1,18,1,18,1,18,1,18,1,18,5,18,323,8,18,10,18,12,18,326,9,18,
-  	1,19,1,19,1,19,1,19,1,19,1,19,1,19,1,19,1,19,5,19,337,8,19,10,19,12,19,
-  	340,9,19,1,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,3,20,
-  	353,8,20,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,
-  	1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,
-  	1,21,3,21,382,8,21,1,22,1,22,1,22,1,22,3,22,388,8,22,1,23,1,23,1,23,1,
-  	23,1,23,1,23,1,23,1,23,1,23,5,23,399,8,23,10,23,12,23,402,9,23,1,23,0,
-  	7,2,10,20,22,36,38,46,24,0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,
-  	34,36,38,40,42,44,46,0,0,420,0,48,1,0,0,0,2,51,1,0,0,0,4,73,1,0,0,0,6,
-  	91,1,0,0,0,8,110,1,0,0,0,10,120,1,0,0,0,12,148,1,0,0,0,14,160,1,0,0,0,
-  	16,162,1,0,0,0,18,170,1,0,0,0,20,180,1,0,0,0,22,198,1,0,0,0,24,263,1,
-  	0,0,0,26,271,1,0,0,0,28,281,1,0,0,0,30,291,1,0,0,0,32,301,1,0,0,0,34,
-  	311,1,0,0,0,36,313,1,0,0,0,38,327,1,0,0,0,40,352,1,0,0,0,42,381,1,0,0,
-  	0,44,387,1,0,0,0,46,389,1,0,0,0,48,49,3,2,1,0,49,50,6,0,-1,0,50,1,1,0,
-  	0,0,51,52,6,1,-1,0,52,53,3,4,2,0,53,54,6,1,-1,0,54,61,1,0,0,0,55,56,10,
-  	2,0,0,56,57,3,4,2,0,57,58,6,1,-1,0,58,60,1,0,0,0,59,55,1,0,0,0,60,63,
-  	1,0,0,0,61,59,1,0,0,0,61,62,1,0,0,0,62,3,1,0,0,0,63,61,1,0,0,0,64,65,
-  	3,14,7,0,65,66,6,2,-1,0,66,74,1,0,0,0,67,68,3,6,3,0,68,69,6,2,-1,0,69,
-  	74,1,0,0,0,70,71,3,8,4,0,71,72,6,2,-1,0,72,74,1,0,0,0,73,64,1,0,0,0,73,
-  	67,1,0,0,0,73,70,1,0,0,0,74,5,1,0,0,0,75,76,3,18,9,0,76,77,5,32,0,0,77,
-  	78,6,3,-1,0,78,79,5,14,0,0,79,80,3,10,5,0,80,81,5,15,0,0,81,82,5,20,0,
-  	0,82,83,6,3,-1,0,83,92,1,0,0,0,84,85,3,18,9,0,85,86,5,32,0,0,86,87,5,
-  	14,0,0,87,88,5,15,0,0,88,89,5,20,0,0,89,90,6,3,-1,0,90,92,1,0,0,0,91,
-  	75,1,0,0,0,91,84,1,0,0,0,92,7,1,0,0,0,93,94,3,18,9,0,94,95,5,32,0,0,95,
-  	96,5,14,0,0,96,97,3,10,5,0,97,98,6,4,-1,0,98,99,5,15,0,0,99,100,3,12,
-  	6,0,100,101,6,4,-1,0,101,111,1,0,0,0,102,103,3,18,9,0,103,104,5,32,0,
-  	0,104,105,5,14,0,0,105,106,5,15,0,0,106,107,6,4,-1,0,107,108,3,12,6,0,
-  	108,109,6,4,-1,0,109,111,1,0,0,0,110,93,1,0,0,0,110,102,1,0,0,0,111,9,
-  	1,0,0,0,112,113,6,5,-1,0,113,114,3,18,9,0,114,115,5,32,0,0,115,116,6,
-  	5,-1,0,116,121,1,0,0,0,117,118,3,18,9,0,118,119,6,5,-1,0,119,121,1,0,
-  	0,0,120,112,1,0,0,0,120,117,1,0,0,0,121,135,1,0,0,0,122,123,10,4,0,0,
-  	123,124,5,21,0,0,124,125,3,18,9,0,125,126,5,32,0,0,126,127,6,5,-1,0,127,
-  	134,1,0,0,0,128,129,10,3,0,0,129,130,5,21,0,0,130,131,3,18,9,0,131,132,
-  	6,5,-1,0,132,134,1,0,0,0,133,122,1,0,0,0,133,128,1,0,0,0,134,137,1,0,
-  	0,0,135,133,1,0,0,0,135,136,1,0,0,0,136,11,1,0,0,0,137,135,1,0,0,0,138,
-  	139,5,16,0,0,139,140,6,6,-1,0,140,141,3,22,11,0,141,142,6,6,-1,0,142,
-  	143,5,17,0,0,143,144,6,6,-1,0,144,149,1,0,0,0,145,146,5,16,0,0,146,147,
-  	5,17,0,0,147,149,6,6,-1,0,148,138,1,0,0,0,148,145,1,0,0,0,149,13,1,0,
-  	0,0,150,151,3,18,9,0,151,152,3,20,10,0,152,153,5,20,0,0,153,154,6,7,-1,
-  	0,154,161,1,0,0,0,155,156,3,18,9,0,156,157,3,16,8,0,157,158,5,20,0,0,
-  	158,159,6,7,-1,0,159,161,1,0,0,0,160,150,1,0,0,0,160,155,1,0,0,0,161,
-  	15,1,0,0,0,162,163,6,8,-1,0,163,17,1,0,0,0,164,165,5,11,0,0,165,171,6,
-  	9,-1,0,166,167,5,12,0,0,167,171,6,9,-1,0,168,169,5,13,0,0,169,171,6,9,
-  	-1,0,170,164,1,0,0,0,170,166,1,0,0,0,170,168,1,0,0,0,171,19,1,0,0,0,172,
-  	173,6,10,-1,0,173,174,5,32,0,0,174,181,6,10,-1,0,175,176,5,32,0,0,176,
-  	177,5,18,0,0,177,178,5,33,0,0,178,179,5,19,0,0,179,181,6,10,-1,0,180,
-  	172,1,0,0,0,180,175,1,0,0,0,181,195,1,0,0,0,182,183,10,4,0,0,183,184,
-  	5,21,0,0,184,185,5,32,0,0,185,194,6,10,-1,0,186,187,10,3,0,0,187,188,
-  	5,21,0,0,188,189,5,32,0,0,189,190,5,18,0,0,190,191,5,33,0,0,191,192,5,
-  	19,0,0,192,194,6,10,-1,0,193,182,1,0,0,0,193,186,1,0,0,0,194,197,1,0,
-  	0,0,195,193,1,0,0,0,195,196,1,0,0,0,196,21,1,0,0,0,197,195,1,0,0,0,198,
-  	199,6,11,-1,0,199,200,3,24,12,0,200,201,6,11,-1,0,201,208,1,0,0,0,202,
-  	203,10,1,0,0,203,204,3,24,12,0,204,205,6,11,-1,0,205,207,1,0,0,0,206,
-  	202,1,0,0,0,207,210,1,0,0,0,208,206,1,0,0,0,208,209,1,0,0,0,209,23,1,
-  	0,0,0,210,208,1,0,0,0,211,212,3,14,7,0,212,213,6,12,-1,0,213,264,1,0,
-  	0,0,214,215,3,26,13,0,215,216,6,12,-1,0,216,264,1,0,0,0,217,218,3,12,
-  	6,0,218,219,6,12,-1,0,219,264,1,0,0,0,220,221,5,7,0,0,221,222,5,14,0,
-  	0,222,223,3,26,13,0,223,224,3,26,13,0,224,225,3,30,15,0,225,226,5,15,
-  	0,0,226,227,3,24,12,0,227,228,6,12,-1,0,228,264,1,0,0,0,229,230,5,5,0,
-  	0,230,231,5,14,0,0,231,232,3,30,15,0,232,233,5,15,0,0,233,234,3,24,12,
-  	0,234,235,6,12,-1,0,235,264,1,0,0,0,236,237,5,5,0,0,237,238,5,14,0,0,
-  	238,239,3,30,15,0,239,240,5,15,0,0,240,241,3,24,12,0,241,242,5,6,0,0,
-  	242,243,3,24,12,0,243,244,6,12,-1,0,244,264,1,0,0,0,245,246,5,8,0,0,246,
-  	247,5,14,0,0,247,248,3,30,15,0,248,249,5,15,0,0,249,250,3,24,12,0,250,
-  	251,6,12,-1,0,251,264,1,0,0,0,252,253,5,9,0,0,253,254,5,14,0,0,254,255,
-  	5,32,0,0,255,256,5,15,0,0,256,257,5,20,0,0,257,264,6,12,-1,0,258,259,
-  	5,10,0,0,259,260,3,30,15,0,260,261,5,20,0,0,261,262,6,12,-1,0,262,264,
-  	1,0,0,0,263,211,1,0,0,0,263,214,1,0,0,0,263,217,1,0,0,0,263,220,1,0,0,
-  	0,263,229,1,0,0,0,263,236,1,0,0,0,263,245,1,0,0,0,263,252,1,0,0,0,263,
-  	258,1,0,0,0,264,25,1,0,0,0,265,266,5,20,0,0,266,272,6,13,-1,0,267,268,
-  	3,30,15,0,268,269,5,20,0,0,269,270,6,13,-1,0,270,272,1,0,0,0,271,265,
-  	1,0,0,0,271,267,1,0,0,0,272,27,1,0,0,0,273,274,5,32,0,0,274,282,6,14,
-  	-1,0,275,276,5,32,0,0,276,277,5,18,0,0,277,278,3,30,15,0,278,279,5,19,
-  	0,0,279,280,6,14,-1,0,280,282,1,0,0,0,281,273,1,0,0,0,281,275,1,0,0,0,
-  	282,29,1,0,0,0,283,284,3,32,16,0,284,285,6,15,-1,0,285,292,1,0,0,0,286,
-  	287,3,28,14,0,287,288,5,31,0,0,288,289,3,32,16,0,289,290,6,15,-1,0,290,
-  	292,1,0,0,0,291,283,1,0,0,0,291,286,1,0,0,0,292,31,1,0,0,0,293,294,3,
-  	34,17,0,294,295,6,16,-1,0,295,302,1,0,0,0,296,297,3,34,17,0,297,298,5,
-  	30,0,0,298,299,3,34,17,0,299,300,6,16,-1,0,300,302,1,0,0,0,301,293,1,
-  	0,0,0,301,296,1,0,0,0,302,33,1,0,0,0,303,304,3,36,18,0,304,305,6,17,-1,
-  	0,305,312,1,0,0,0,306,307,3,36,18,0,307,308,5,29,0,0,308,309,3,36,18,
-  	0,309,310,6,17,-1,0,310,312,1,0,0,0,311,303,1,0,0,0,311,306,1,0,0,0,312,
-  	35,1,0,0,0,313,314,6,18,-1,0,314,315,3,38,19,0,315,316,6,18,-1,0,316,
-  	324,1,0,0,0,317,318,10,1,0,0,318,319,5,23,0,0,319,320,3,38,19,0,320,321,
-  	6,18,-1,0,321,323,1,0,0,0,322,317,1,0,0,0,323,326,1,0,0,0,324,322,1,0,
-  	0,0,324,325,1,0,0,0,325,37,1,0,0,0,326,324,1,0,0,0,327,328,6,19,-1,0,
-  	328,329,3,40,20,0,329,330,6,19,-1,0,330,338,1,0,0,0,331,332,10,1,0,0,
-  	332,333,5,25,0,0,333,334,3,40,20,0,334,335,6,19,-1,0,335,337,1,0,0,0,
-  	336,331,1,0,0,0,337,340,1,0,0,0,338,336,1,0,0,0,338,339,1,0,0,0,339,39,
-  	1,0,0,0,340,338,1,0,0,0,341,342,5,23,0,0,342,343,3,40,20,0,343,344,6,
-  	20,-1,0,344,353,1,0,0,0,345,346,5,28,0,0,346,347,3,40,20,0,347,348,6,
-  	20,-1,0,348,353,1,0,0,0,349,350,3,42,21,0,350,351,6,20,-1,0,351,353,1,
-  	0,0,0,352,341,1,0,0,0,352,345,1,0,0,0,352,349,1,0,0,0,353,41,1,0,0,0,
-  	354,355,3,28,14,0,355,356,6,21,-1,0,356,382,1,0,0,0,357,358,5,32,0,0,
-  	358,359,5,14,0,0,359,360,6,21,-1,0,360,361,3,44,22,0,361,362,5,15,0,0,
-  	362,363,6,21,-1,0,363,382,1,0,0,0,364,365,5,14,0,0,365,366,3,30,15,0,
-  	366,367,5,15,0,0,367,368,6,21,-1,0,368,382,1,0,0,0,369,370,5,33,0,0,370,
-  	382,6,21,-1,0,371,372,5,34,0,0,372,382,6,21,-1,0,373,374,3,28,14,0,374,
-  	375,5,26,0,0,375,376,6,21,-1,0,376,382,1,0,0,0,377,378,3,28,14,0,378,
-  	379,5,27,0,0,379,380,6,21,-1,0,380,382,1,0,0,0,381,354,1,0,0,0,381,357,
-  	1,0,0,0,381,364,1,0,0,0,381,369,1,0,0,0,381,371,1,0,0,0,381,373,1,0,0,
-  	0,381,377,1,0,0,0,382,43,1,0,0,0,383,384,3,46,23,0,384,385,6,22,-1,0,
-  	385,388,1,0,0,0,386,388,1,0,0,0,387,383,1,0,0,0,387,386,1,0,0,0,388,45,
-  	1,0,0,0,389,390,6,23,-1,0,390,391,3,32,16,0,391,392,6,23,-1,0,392,400,
-  	1,0,0,0,393,394,10,2,0,0,394,395,5,21,0,0,395,396,3,32,16,0,396,397,6,
-  	23,-1,0,397,399,1,0,0,0,398,393,1,0,0,0,399,402,1,0,0,0,400,398,1,0,0,
-  	0,400,401,1,0,0,0,401,47,1,0,0,0,402,400,1,0,0,0,26,61,73,91,110,120,
-  	133,135,148,160,170,180,193,195,208,263,271,281,291,301,311,324,338,352,
-  	381,387,400
+  	1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,1,12,
+  	1,12,1,12,1,12,1,12,1,12,1,12,1,12,3,12,274,8,12,1,13,1,13,1,13,1,13,
+  	1,13,1,13,3,13,282,8,13,1,14,1,14,1,14,1,14,1,14,1,14,1,14,1,14,3,14,
+  	292,8,14,1,15,1,15,1,15,1,15,1,15,1,15,1,15,1,15,3,15,302,8,15,1,16,1,
+  	16,1,16,1,16,1,16,1,16,1,16,1,16,3,16,312,8,16,1,17,1,17,1,17,1,17,1,
+  	17,1,17,1,17,1,17,3,17,322,8,17,1,18,1,18,1,18,1,18,1,18,1,18,1,18,1,
+  	18,1,18,5,18,333,8,18,10,18,12,18,336,9,18,1,19,1,19,1,19,1,19,1,19,1,
+  	19,1,19,1,19,1,19,5,19,347,8,19,10,19,12,19,350,9,19,1,20,1,20,1,20,1,
+  	20,1,20,1,20,1,20,1,20,1,20,1,20,1,20,3,20,363,8,20,1,21,1,21,1,21,1,
+  	21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,
+  	21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,1,21,3,21,392,8,21,1,22,1,
+  	22,1,22,1,22,3,22,398,8,22,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,23,1,
+  	23,5,23,409,8,23,10,23,12,23,412,9,23,1,23,0,7,2,10,20,22,36,38,46,24,
+  	0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,0,
+  	0,433,0,48,1,0,0,0,2,51,1,0,0,0,4,73,1,0,0,0,6,91,1,0,0,0,8,110,1,0,0,
+  	0,10,126,1,0,0,0,12,158,1,0,0,0,14,170,1,0,0,0,16,172,1,0,0,0,18,180,
+  	1,0,0,0,20,190,1,0,0,0,22,208,1,0,0,0,24,273,1,0,0,0,26,281,1,0,0,0,28,
+  	291,1,0,0,0,30,301,1,0,0,0,32,311,1,0,0,0,34,321,1,0,0,0,36,323,1,0,0,
+  	0,38,337,1,0,0,0,40,362,1,0,0,0,42,391,1,0,0,0,44,397,1,0,0,0,46,399,
+  	1,0,0,0,48,49,3,2,1,0,49,50,6,0,-1,0,50,1,1,0,0,0,51,52,6,1,-1,0,52,53,
+  	3,4,2,0,53,54,6,1,-1,0,54,61,1,0,0,0,55,56,10,2,0,0,56,57,3,4,2,0,57,
+  	58,6,1,-1,0,58,60,1,0,0,0,59,55,1,0,0,0,60,63,1,0,0,0,61,59,1,0,0,0,61,
+  	62,1,0,0,0,62,3,1,0,0,0,63,61,1,0,0,0,64,65,3,14,7,0,65,66,6,2,-1,0,66,
+  	74,1,0,0,0,67,68,3,6,3,0,68,69,6,2,-1,0,69,74,1,0,0,0,70,71,3,8,4,0,71,
+  	72,6,2,-1,0,72,74,1,0,0,0,73,64,1,0,0,0,73,67,1,0,0,0,73,70,1,0,0,0,74,
+  	5,1,0,0,0,75,76,3,18,9,0,76,77,5,32,0,0,77,78,6,3,-1,0,78,79,5,14,0,0,
+  	79,80,3,10,5,0,80,81,5,15,0,0,81,82,5,20,0,0,82,83,6,3,-1,0,83,92,1,0,
+  	0,0,84,85,3,18,9,0,85,86,5,32,0,0,86,87,5,14,0,0,87,88,5,15,0,0,88,89,
+  	5,20,0,0,89,90,6,3,-1,0,90,92,1,0,0,0,91,75,1,0,0,0,91,84,1,0,0,0,92,
+  	7,1,0,0,0,93,94,3,18,9,0,94,95,5,32,0,0,95,96,5,14,0,0,96,97,3,10,5,0,
+  	97,98,6,4,-1,0,98,99,5,15,0,0,99,100,3,12,6,0,100,101,6,4,-1,0,101,111,
+  	1,0,0,0,102,103,3,18,9,0,103,104,5,32,0,0,104,105,5,14,0,0,105,106,5,
+  	15,0,0,106,107,6,4,-1,0,107,108,3,12,6,0,108,109,6,4,-1,0,109,111,1,0,
+  	0,0,110,93,1,0,0,0,110,102,1,0,0,0,111,9,1,0,0,0,112,113,6,5,-1,0,113,
+  	114,3,18,9,0,114,115,5,32,0,0,115,116,6,5,-1,0,116,127,1,0,0,0,117,118,
+  	3,18,9,0,118,119,5,23,0,0,119,120,6,5,-1,0,120,127,1,0,0,0,121,122,3,
+  	18,9,0,122,123,6,5,-1,0,123,127,1,0,0,0,124,125,5,23,0,0,125,127,6,5,
+  	-1,0,126,112,1,0,0,0,126,117,1,0,0,0,126,121,1,0,0,0,126,124,1,0,0,0,
+  	127,145,1,0,0,0,128,129,10,7,0,0,129,130,5,21,0,0,130,131,3,18,9,0,131,
+  	132,5,32,0,0,132,133,6,5,-1,0,133,144,1,0,0,0,134,135,10,6,0,0,135,136,
+  	5,21,0,0,136,137,3,18,9,0,137,138,6,5,-1,0,138,144,1,0,0,0,139,140,10,
+  	5,0,0,140,141,5,21,0,0,141,142,5,23,0,0,142,144,6,5,-1,0,143,128,1,0,
+  	0,0,143,134,1,0,0,0,143,139,1,0,0,0,144,147,1,0,0,0,145,143,1,0,0,0,145,
+  	146,1,0,0,0,146,11,1,0,0,0,147,145,1,0,0,0,148,149,5,16,0,0,149,150,6,
+  	6,-1,0,150,151,3,22,11,0,151,152,6,6,-1,0,152,153,5,17,0,0,153,154,6,
+  	6,-1,0,154,159,1,0,0,0,155,156,5,16,0,0,156,157,5,17,0,0,157,159,6,6,
+  	-1,0,158,148,1,0,0,0,158,155,1,0,0,0,159,13,1,0,0,0,160,161,3,18,9,0,
+  	161,162,3,20,10,0,162,163,5,20,0,0,163,164,6,7,-1,0,164,171,1,0,0,0,165,
+  	166,3,18,9,0,166,167,3,16,8,0,167,168,5,20,0,0,168,169,6,7,-1,0,169,171,
+  	1,0,0,0,170,160,1,0,0,0,170,165,1,0,0,0,171,15,1,0,0,0,172,173,6,8,-1,
+  	0,173,17,1,0,0,0,174,175,5,11,0,0,175,181,6,9,-1,0,176,177,5,12,0,0,177,
+  	181,6,9,-1,0,178,179,5,13,0,0,179,181,6,9,-1,0,180,174,1,0,0,0,180,176,
+  	1,0,0,0,180,178,1,0,0,0,181,19,1,0,0,0,182,183,6,10,-1,0,183,184,5,32,
+  	0,0,184,191,6,10,-1,0,185,186,5,32,0,0,186,187,5,18,0,0,187,188,5,33,
+  	0,0,188,189,5,19,0,0,189,191,6,10,-1,0,190,182,1,0,0,0,190,185,1,0,0,
+  	0,191,205,1,0,0,0,192,193,10,4,0,0,193,194,5,21,0,0,194,195,5,32,0,0,
+  	195,204,6,10,-1,0,196,197,10,3,0,0,197,198,5,21,0,0,198,199,5,32,0,0,
+  	199,200,5,18,0,0,200,201,5,33,0,0,201,202,5,19,0,0,202,204,6,10,-1,0,
+  	203,192,1,0,0,0,203,196,1,0,0,0,204,207,1,0,0,0,205,203,1,0,0,0,205,206,
+  	1,0,0,0,206,21,1,0,0,0,207,205,1,0,0,0,208,209,6,11,-1,0,209,210,3,24,
+  	12,0,210,211,6,11,-1,0,211,218,1,0,0,0,212,213,10,1,0,0,213,214,3,24,
+  	12,0,214,215,6,11,-1,0,215,217,1,0,0,0,216,212,1,0,0,0,217,220,1,0,0,
+  	0,218,216,1,0,0,0,218,219,1,0,0,0,219,23,1,0,0,0,220,218,1,0,0,0,221,
+  	222,3,14,7,0,222,223,6,12,-1,0,223,274,1,0,0,0,224,225,3,26,13,0,225,
+  	226,6,12,-1,0,226,274,1,0,0,0,227,228,3,12,6,0,228,229,6,12,-1,0,229,
+  	274,1,0,0,0,230,231,5,7,0,0,231,232,5,14,0,0,232,233,3,26,13,0,233,234,
+  	3,26,13,0,234,235,3,30,15,0,235,236,5,15,0,0,236,237,3,24,12,0,237,238,
+  	6,12,-1,0,238,274,1,0,0,0,239,240,5,5,0,0,240,241,5,14,0,0,241,242,3,
+  	30,15,0,242,243,5,15,0,0,243,244,3,24,12,0,244,245,6,12,-1,0,245,274,
+  	1,0,0,0,246,247,5,5,0,0,247,248,5,14,0,0,248,249,3,30,15,0,249,250,5,
+  	15,0,0,250,251,3,24,12,0,251,252,5,6,0,0,252,253,3,24,12,0,253,254,6,
+  	12,-1,0,254,274,1,0,0,0,255,256,5,8,0,0,256,257,5,14,0,0,257,258,3,30,
+  	15,0,258,259,5,15,0,0,259,260,3,24,12,0,260,261,6,12,-1,0,261,274,1,0,
+  	0,0,262,263,5,9,0,0,263,264,5,14,0,0,264,265,5,32,0,0,265,266,5,15,0,
+  	0,266,267,5,20,0,0,267,274,6,12,-1,0,268,269,5,10,0,0,269,270,3,30,15,
+  	0,270,271,5,20,0,0,271,272,6,12,-1,0,272,274,1,0,0,0,273,221,1,0,0,0,
+  	273,224,1,0,0,0,273,227,1,0,0,0,273,230,1,0,0,0,273,239,1,0,0,0,273,246,
+  	1,0,0,0,273,255,1,0,0,0,273,262,1,0,0,0,273,268,1,0,0,0,274,25,1,0,0,
+  	0,275,276,5,20,0,0,276,282,6,13,-1,0,277,278,3,30,15,0,278,279,5,20,0,
+  	0,279,280,6,13,-1,0,280,282,1,0,0,0,281,275,1,0,0,0,281,277,1,0,0,0,282,
+  	27,1,0,0,0,283,284,5,32,0,0,284,292,6,14,-1,0,285,286,5,32,0,0,286,287,
+  	5,18,0,0,287,288,3,30,15,0,288,289,5,19,0,0,289,290,6,14,-1,0,290,292,
+  	1,0,0,0,291,283,1,0,0,0,291,285,1,0,0,0,292,29,1,0,0,0,293,294,3,32,16,
+  	0,294,295,6,15,-1,0,295,302,1,0,0,0,296,297,3,28,14,0,297,298,5,31,0,
+  	0,298,299,3,32,16,0,299,300,6,15,-1,0,300,302,1,0,0,0,301,293,1,0,0,0,
+  	301,296,1,0,0,0,302,31,1,0,0,0,303,304,3,34,17,0,304,305,6,16,-1,0,305,
+  	312,1,0,0,0,306,307,3,34,17,0,307,308,5,30,0,0,308,309,3,34,17,0,309,
+  	310,6,16,-1,0,310,312,1,0,0,0,311,303,1,0,0,0,311,306,1,0,0,0,312,33,
+  	1,0,0,0,313,314,3,36,18,0,314,315,6,17,-1,0,315,322,1,0,0,0,316,317,3,
+  	36,18,0,317,318,5,29,0,0,318,319,3,36,18,0,319,320,6,17,-1,0,320,322,
+  	1,0,0,0,321,313,1,0,0,0,321,316,1,0,0,0,322,35,1,0,0,0,323,324,6,18,-1,
+  	0,324,325,3,38,19,0,325,326,6,18,-1,0,326,334,1,0,0,0,327,328,10,1,0,
+  	0,328,329,5,23,0,0,329,330,3,38,19,0,330,331,6,18,-1,0,331,333,1,0,0,
+  	0,332,327,1,0,0,0,333,336,1,0,0,0,334,332,1,0,0,0,334,335,1,0,0,0,335,
+  	37,1,0,0,0,336,334,1,0,0,0,337,338,6,19,-1,0,338,339,3,40,20,0,339,340,
+  	6,19,-1,0,340,348,1,0,0,0,341,342,10,1,0,0,342,343,5,25,0,0,343,344,3,
+  	40,20,0,344,345,6,19,-1,0,345,347,1,0,0,0,346,341,1,0,0,0,347,350,1,0,
+  	0,0,348,346,1,0,0,0,348,349,1,0,0,0,349,39,1,0,0,0,350,348,1,0,0,0,351,
+  	352,5,23,0,0,352,353,3,40,20,0,353,354,6,20,-1,0,354,363,1,0,0,0,355,
+  	356,5,28,0,0,356,357,3,40,20,0,357,358,6,20,-1,0,358,363,1,0,0,0,359,
+  	360,3,42,21,0,360,361,6,20,-1,0,361,363,1,0,0,0,362,351,1,0,0,0,362,355,
+  	1,0,0,0,362,359,1,0,0,0,363,41,1,0,0,0,364,365,3,28,14,0,365,366,6,21,
+  	-1,0,366,392,1,0,0,0,367,368,5,32,0,0,368,369,5,14,0,0,369,370,6,21,-1,
+  	0,370,371,3,44,22,0,371,372,5,15,0,0,372,373,6,21,-1,0,373,392,1,0,0,
+  	0,374,375,5,14,0,0,375,376,3,30,15,0,376,377,5,15,0,0,377,378,6,21,-1,
+  	0,378,392,1,0,0,0,379,380,5,33,0,0,380,392,6,21,-1,0,381,382,5,34,0,0,
+  	382,392,6,21,-1,0,383,384,3,28,14,0,384,385,5,26,0,0,385,386,6,21,-1,
+  	0,386,392,1,0,0,0,387,388,3,28,14,0,388,389,5,27,0,0,389,390,6,21,-1,
+  	0,390,392,1,0,0,0,391,364,1,0,0,0,391,367,1,0,0,0,391,374,1,0,0,0,391,
+  	379,1,0,0,0,391,381,1,0,0,0,391,383,1,0,0,0,391,387,1,0,0,0,392,43,1,
+  	0,0,0,393,394,3,46,23,0,394,395,6,22,-1,0,395,398,1,0,0,0,396,398,1,0,
+  	0,0,397,393,1,0,0,0,397,396,1,0,0,0,398,45,1,0,0,0,399,400,6,23,-1,0,
+  	400,401,3,32,16,0,401,402,6,23,-1,0,402,410,1,0,0,0,403,404,10,2,0,0,
+  	404,405,5,21,0,0,405,406,3,32,16,0,406,407,6,23,-1,0,407,409,1,0,0,0,
+  	408,403,1,0,0,0,409,412,1,0,0,0,410,408,1,0,0,0,410,411,1,0,0,0,411,47,
+  	1,0,0,0,412,410,1,0,0,0,26,61,73,91,110,126,143,145,158,170,180,190,203,
+  	205,218,273,281,291,301,311,321,334,348,362,391,397,410
   };
   staticData->serializedATN = antlr4::atn::SerializedATNView(serializedATNSegment, sizeof(serializedATNSegment) / sizeof(serializedATNSegment[0]));
 
@@ -886,7 +889,6 @@ C8086Parser::Func_definitionContext* C8086Parser::func_definition() {
 
               SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
               funcSymbol->setIsFunction(true);
-              funcSymbol->setIsFunctionDefined(true);
               funcSymbol->setReturnType(antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text);
 
               // if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type != antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text){ 
@@ -898,6 +900,8 @@ C8086Parser::Func_definitionContext* C8086Parser::func_definition() {
                  // writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText());
               } else {
                   symbolTable->Insert(funcSymbol);
+                  funcSymbol->setIsFunctionDefined(true);
+
               }
 
               
@@ -945,6 +949,10 @@ tree::TerminalNode* C8086Parser::Parameter_listContext::ID() {
 
 C8086Parser::Type_specifierContext* C8086Parser::Parameter_listContext::type_specifier() {
   return getRuleContext<C8086Parser::Type_specifierContext>(0);
+}
+
+tree::TerminalNode* C8086Parser::Parameter_listContext::ADDOP() {
+  return getToken(C8086Parser::ADDOP, 0);
 }
 
 tree::TerminalNode* C8086Parser::Parameter_listContext::COMMA() {
@@ -998,7 +1006,7 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(120);
+    setState(126);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 4, _ctx)) {
     case 1: {
@@ -1026,6 +1034,19 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
     case 2: {
       setState(117);
       antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
+      setState(118);
+      antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken = match(C8086Parser::ADDOP);
+
+              antlrcpp::downCast<Parameter_listContext *>(_localctx)->line =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken->getLine();
+              writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+              writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+              
+      break;
+    }
+
+    case 3: {
+      setState(121);
+      antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
 
 
               antlrcpp::downCast<Parameter_listContext *>(_localctx)->text =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text ;
@@ -1036,11 +1057,22 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
       break;
     }
 
+    case 4: {
+      setState(124);
+      antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken = match(C8086Parser::ADDOP);
+
+              antlrcpp::downCast<Parameter_listContext *>(_localctx)->line =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken->getLine();
+              writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+              writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+              
+      break;
+    }
+
     default:
       break;
     }
     _ctx->stop = _input->LT(-1);
-    setState(135);
+    setState(145);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -1048,21 +1080,21 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(133);
+        setState(143);
         _errHandler->sync(this);
         switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 5, _ctx)) {
         case 1: {
           _localctx = _tracker.createInstance<Parameter_listContext>(parentContext, parentState);
           _localctx->pl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleParameter_list);
-          setState(122);
+          setState(128);
 
-          if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-          setState(123);
+          if (!(precpred(_ctx, 7))) throw FailedPredicateException(this, "precpred(_ctx, 7)");
+          setState(129);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(124);
+          setState(130);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
-          setState(125);
+          setState(131);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
 
                             antlrcpp::downCast<Parameter_listContext *>(_localctx)->text = antlrcpp::downCast<Parameter_listContext *>(_localctx)->pl->text+antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken->getText()+ antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Parameter_listContext *>(_localctx)->idToken->getText();
@@ -1081,12 +1113,12 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
           _localctx = _tracker.createInstance<Parameter_listContext>(parentContext, parentState);
           _localctx->pl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleParameter_list);
-          setState(128);
+          setState(134);
 
-          if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(129);
+          if (!(precpred(_ctx, 6))) throw FailedPredicateException(this, "precpred(_ctx, 6)");
+          setState(135);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(130);
+          setState(136);
           antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts = type_specifier();
 
                             antlrcpp::downCast<Parameter_listContext *>(_localctx)->text = antlrcpp::downCast<Parameter_listContext *>(_localctx)->pl->text + antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken->getText() +  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text ;
@@ -1098,11 +1130,32 @@ C8086Parser::Parameter_listContext* C8086Parser::parameter_list(int precedence) 
           break;
         }
 
+        case 3: {
+          _localctx = _tracker.createInstance<Parameter_listContext>(parentContext, parentState);
+          _localctx->pl = previousContext;
+          pushNewRecursionContext(_localctx, startState, RuleParameter_list);
+          setState(139);
+
+          if (!(precpred(_ctx, 5))) throw FailedPredicateException(this, "precpred(_ctx, 5)");
+          setState(140);
+          antlrcpp::downCast<Parameter_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
+          setState(141);
+          antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken = match(C8086Parser::ADDOP);
+
+                            antlrcpp::downCast<Parameter_listContext *>(_localctx)->line =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->addopToken->getLine();
+                            writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + 
+                                ": syntax error, unexpected ADDOP, expecting type_specifier\n");
+                            writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + 
+                                ": syntax error, unexpected ADDOP, expecting type_specifier\n");
+                        
+          break;
+        }
+
         default:
           break;
         } 
       }
-      setState(137);
+      setState(147);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 6, _ctx);
     }
@@ -1162,12 +1215,12 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
     exitRule();
   });
   try {
-    setState(148);
+    setState(158);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 7, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(138);
+      setState(148);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C8086Parser::LCURL);
        symbolTable->EnterScope();  
 
@@ -1187,13 +1240,13 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
               plist.clear();
               
                
-      setState(140);
+      setState(150);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss = statements(0);
        
               // std::cout << "ss  type"<<antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type <<std::endl;
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->type =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type;
           
-      setState(142);
+      setState(152);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->rcurlToken = match(C8086Parser::RCURL);
 
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->text =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken->getText()+"\n" + antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->text +"\n" + antlrcpp::downCast<Compound_statementContext *>(_localctx)->rcurlToken->getText();
@@ -1209,9 +1262,9 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(145);
+      setState(155);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C8086Parser::LCURL);
-      setState(146);
+      setState(156);
       match(C8086Parser::RCURL);
 
 
@@ -1290,16 +1343,16 @@ C8086Parser::Var_declarationContext* C8086Parser::var_declaration() {
     exitRule();
   });
   try {
-    setState(160);
+    setState(170);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 8, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(150);
+      setState(160);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->t = type_specifier();
-      setState(151);
+      setState(161);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->dl = declaration_list(0);
-      setState(152);
+      setState(162);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->sm = match(C8086Parser::SEMICOLON);
 
               antlrcpp::downCast<Var_declarationContext *>(_localctx)->text =  antlrcpp::downCast<Var_declarationContext *>(_localctx)->t->text +" "+ antlrcpp::downCast<Var_declarationContext *>(_localctx)->dl->text + antlrcpp::downCast<Var_declarationContext *>(_localctx)->sm->getText() ;
@@ -1358,11 +1411,11 @@ C8086Parser::Var_declarationContext* C8086Parser::var_declaration() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(155);
+      setState(165);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->t = type_specifier();
-      setState(156);
+      setState(166);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->de = declaration_list_err();
-      setState(157);
+      setState(167);
       antlrcpp::downCast<Var_declarationContext *>(_localctx)->sm = match(C8086Parser::SEMICOLON);
 
               antlrcpp::downCast<Var_declarationContext *>(_localctx)->text =  antlrcpp::downCast<Var_declarationContext *>(_localctx)->t->text;
@@ -1490,12 +1543,12 @@ C8086Parser::Type_specifierContext* C8086Parser::type_specifier() {
     exitRule();
   });
   try {
-    setState(170);
+    setState(180);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case C8086Parser::INT: {
         enterOuterAlt(_localctx, 1);
-        setState(164);
+        setState(174);
         antlrcpp::downCast<Type_specifierContext *>(_localctx)->intToken = match(C8086Parser::INT);
 
                     antlrcpp::downCast<Type_specifierContext *>(_localctx)->text =  antlrcpp::downCast<Type_specifierContext *>(_localctx)->intToken->getText();
@@ -1511,7 +1564,7 @@ C8086Parser::Type_specifierContext* C8086Parser::type_specifier() {
 
       case C8086Parser::FLOAT: {
         enterOuterAlt(_localctx, 2);
-        setState(166);
+        setState(176);
         antlrcpp::downCast<Type_specifierContext *>(_localctx)->floatToken = match(C8086Parser::FLOAT);
 
                     antlrcpp::downCast<Type_specifierContext *>(_localctx)->text =  antlrcpp::downCast<Type_specifierContext *>(_localctx)->floatToken->getText();
@@ -1524,7 +1577,7 @@ C8086Parser::Type_specifierContext* C8086Parser::type_specifier() {
 
       case C8086Parser::VOID: {
         enterOuterAlt(_localctx, 3);
-        setState(168);
+        setState(178);
         antlrcpp::downCast<Type_specifierContext *>(_localctx)->voidToken = match(C8086Parser::VOID);
 
                     antlrcpp::downCast<Type_specifierContext *>(_localctx)->text =  antlrcpp::downCast<Type_specifierContext *>(_localctx)->voidToken->getText();
@@ -1622,11 +1675,11 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(180);
+    setState(190);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 10, _ctx)) {
     case 1: {
-      setState(173);
+      setState(183);
       antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
        
               antlrcpp::downCast<Declaration_listContext *>(_localctx)->text =  antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken->getText();
@@ -1639,13 +1692,13 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
     }
 
     case 2: {
-      setState(175);
+      setState(185);
       antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
-      setState(176);
+      setState(186);
       antlrcpp::downCast<Declaration_listContext *>(_localctx)->lthirdToken = match(C8086Parser::LTHIRD);
-      setState(177);
+      setState(187);
       antlrcpp::downCast<Declaration_listContext *>(_localctx)->const_intToken = match(C8086Parser::CONST_INT);
-      setState(178);
+      setState(188);
       antlrcpp::downCast<Declaration_listContext *>(_localctx)->rthirdToken = match(C8086Parser::RTHIRD);
        
               antlrcpp::downCast<Declaration_listContext *>(_localctx)->text =  antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->lthirdToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->const_intToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->rthirdToken->getText();
@@ -1665,7 +1718,7 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
       break;
     }
     _ctx->stop = _input->LT(-1);
-    setState(195);
+    setState(205);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 12, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -1673,19 +1726,19 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
         if (!_parseListeners.empty())
           triggerExitRuleEvent();
         previousContext = _localctx;
-        setState(193);
+        setState(203);
         _errHandler->sync(this);
         switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 11, _ctx)) {
         case 1: {
           _localctx = _tracker.createInstance<Declaration_listContext>(parentContext, parentState);
           _localctx->dl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleDeclaration_list);
-          setState(182);
+          setState(192);
 
           if (!(precpred(_ctx, 4))) throw FailedPredicateException(this, "precpred(_ctx, 4)");
-          setState(183);
+          setState(193);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(184);
+          setState(194);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
            
 
@@ -1705,18 +1758,18 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
           _localctx = _tracker.createInstance<Declaration_listContext>(parentContext, parentState);
           _localctx->dl = previousContext;
           pushNewRecursionContext(_localctx, startState, RuleDeclaration_list);
-          setState(186);
+          setState(196);
 
           if (!(precpred(_ctx, 3))) throw FailedPredicateException(this, "precpred(_ctx, 3)");
-          setState(187);
+          setState(197);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-          setState(188);
+          setState(198);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken = match(C8086Parser::ID);
-          setState(189);
+          setState(199);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->lthirdToken = match(C8086Parser::LTHIRD);
-          setState(190);
+          setState(200);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->const_intToken = match(C8086Parser::CONST_INT);
-          setState(191);
+          setState(201);
           antlrcpp::downCast<Declaration_listContext *>(_localctx)->rthirdToken = match(C8086Parser::RTHIRD);
            
                             antlrcpp::downCast<Declaration_listContext *>(_localctx)->text =  antlrcpp::downCast<Declaration_listContext *>(_localctx)->dl->text + antlrcpp::downCast<Declaration_listContext *>(_localctx)->commaToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->lthirdToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->const_intToken->getText() + antlrcpp::downCast<Declaration_listContext *>(_localctx)->rthirdToken->getText();
@@ -1734,7 +1787,7 @@ C8086Parser::Declaration_listContext* C8086Parser::declaration_list(int preceden
           break;
         } 
       }
-      setState(197);
+      setState(207);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 12, _ctx);
     }
@@ -1804,7 +1857,7 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(199);
+    setState(209);
     antlrcpp::downCast<StatementsContext *>(_localctx)->s = statement();
 
             antlrcpp::downCast<StatementsContext *>(_localctx)->text =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->text;
@@ -1815,7 +1868,7 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
             writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": statements : statement\n\n" + _localctx->text+"\n"); 
         
     _ctx->stop = _input->LT(-1);
-    setState(208);
+    setState(218);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 13, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -1826,10 +1879,10 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
         _localctx = _tracker.createInstance<StatementsContext>(parentContext, parentState);
         _localctx->ss = previousContext;
         pushNewRecursionContext(_localctx, startState, RuleStatements);
-        setState(202);
+        setState(212);
 
         if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-        setState(203);
+        setState(213);
         antlrcpp::downCast<StatementsContext *>(_localctx)->s = statement();
 
                           antlrcpp::downCast<StatementsContext *>(_localctx)->text =  antlrcpp::downCast<StatementsContext *>(_localctx)->ss->text +"\n" + antlrcpp::downCast<StatementsContext *>(_localctx)->s->text;
@@ -1841,7 +1894,7 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
 
                        
       }
-      setState(210);
+      setState(220);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 13, _ctx);
     }
@@ -1957,12 +2010,12 @@ C8086Parser::StatementContext* C8086Parser::statement() {
     exitRule();
   });
   try {
-    setState(263);
+    setState(273);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 14, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(211);
+      setState(221);
       antlrcpp::downCast<StatementContext *>(_localctx)->v = var_declaration();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->v->text;
@@ -1975,7 +2028,7 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(214);
+      setState(224);
       antlrcpp::downCast<StatementContext *>(_localctx)->es = expression_statement();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->es->text;
@@ -1990,7 +2043,7 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(217);
+      setState(227);
       antlrcpp::downCast<StatementContext *>(_localctx)->cs = compound_statement();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->cs->text;
@@ -2006,19 +2059,19 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(220);
+      setState(230);
       antlrcpp::downCast<StatementContext *>(_localctx)->forToken = match(C8086Parser::FOR);
-      setState(221);
+      setState(231);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(222);
+      setState(232);
       antlrcpp::downCast<StatementContext *>(_localctx)->es1 = expression_statement();
-      setState(223);
+      setState(233);
       antlrcpp::downCast<StatementContext *>(_localctx)->es2 = expression_statement();
-      setState(224);
+      setState(234);
       antlrcpp::downCast<StatementContext *>(_localctx)->e = expression();
-      setState(225);
+      setState(235);
       antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(226);
+      setState(236);
       antlrcpp::downCast<StatementContext *>(_localctx)->s = statement();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  (antlrcpp::downCast<StatementContext *>(_localctx)->forToken != nullptr ? antlrcpp::downCast<StatementContext *>(_localctx)->forToken->getText() : "") +  antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken->getText() +  antlrcpp::downCast<StatementContext *>(_localctx)->es1->text + antlrcpp::downCast<StatementContext *>(_localctx)->es2->text + antlrcpp::downCast<StatementContext *>(_localctx)->e->text   + antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->s->text;
@@ -2033,15 +2086,15 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 5: {
       enterOuterAlt(_localctx, 5);
-      setState(229);
+      setState(239);
       antlrcpp::downCast<StatementContext *>(_localctx)->ifToken = match(C8086Parser::IF);
-      setState(230);
+      setState(240);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(231);
+      setState(241);
       antlrcpp::downCast<StatementContext *>(_localctx)->e = expression();
-      setState(232);
+      setState(242);
       antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(233);
+      setState(243);
       antlrcpp::downCast<StatementContext *>(_localctx)->s = statement();
 
 
@@ -2057,19 +2110,19 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 6: {
       enterOuterAlt(_localctx, 6);
-      setState(236);
+      setState(246);
       antlrcpp::downCast<StatementContext *>(_localctx)->ifToken = match(C8086Parser::IF);
-      setState(237);
+      setState(247);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(238);
+      setState(248);
       antlrcpp::downCast<StatementContext *>(_localctx)->e = expression();
-      setState(239);
+      setState(249);
       antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(240);
+      setState(250);
       antlrcpp::downCast<StatementContext *>(_localctx)->s1 = statement();
-      setState(241);
+      setState(251);
       antlrcpp::downCast<StatementContext *>(_localctx)->elseToken = match(C8086Parser::ELSE);
-      setState(242);
+      setState(252);
       antlrcpp::downCast<StatementContext *>(_localctx)->s2 = statement();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->ifToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->e->text  + antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->s1->text+ antlrcpp::downCast<StatementContext *>(_localctx)->elseToken->getText() +" "+  antlrcpp::downCast<StatementContext *>(_localctx)->s2->text ;
@@ -2084,15 +2137,15 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 7: {
       enterOuterAlt(_localctx, 7);
-      setState(245);
+      setState(255);
       antlrcpp::downCast<StatementContext *>(_localctx)->whileToken = match(C8086Parser::WHILE);
-      setState(246);
+      setState(256);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(247);
+      setState(257);
       antlrcpp::downCast<StatementContext *>(_localctx)->e = expression();
-      setState(248);
+      setState(258);
       antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(249);
+      setState(259);
       antlrcpp::downCast<StatementContext *>(_localctx)->s = statement();
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->whileToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->e->text  + antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->s->text;
@@ -2107,15 +2160,15 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 8: {
       enterOuterAlt(_localctx, 8);
-      setState(252);
+      setState(262);
       antlrcpp::downCast<StatementContext *>(_localctx)->printlnToken = match(C8086Parser::PRINTLN);
-      setState(253);
+      setState(263);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(254);
+      setState(264);
       antlrcpp::downCast<StatementContext *>(_localctx)->idToken = match(C8086Parser::ID);
-      setState(255);
+      setState(265);
       antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
-      setState(256);
+      setState(266);
       antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken = match(C8086Parser::SEMICOLON);
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->printlnToken->getText() + antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken->getText() +  antlrcpp::downCast<StatementContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<StatementContext *>(_localctx)->rparenToken->getText() +  antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken->getText();
@@ -2131,11 +2184,11 @@ C8086Parser::StatementContext* C8086Parser::statement() {
 
     case 9: {
       enterOuterAlt(_localctx, 9);
-      setState(258);
+      setState(268);
       antlrcpp::downCast<StatementContext *>(_localctx)->returnToken = match(C8086Parser::RETURN);
-      setState(259);
+      setState(269);
       antlrcpp::downCast<StatementContext *>(_localctx)->e = expression();
-      setState(260);
+      setState(270);
       antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken = match(C8086Parser::SEMICOLON);
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->returnToken->getText() + " " + antlrcpp::downCast<StatementContext *>(_localctx)->e->text + antlrcpp::downCast<StatementContext *>(_localctx)->semicolonToken->getText();
@@ -2223,12 +2276,12 @@ C8086Parser::Expression_statementContext* C8086Parser::expression_statement() {
     exitRule();
   });
   try {
-    setState(271);
+    setState(281);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case C8086Parser::SEMICOLON: {
         enterOuterAlt(_localctx, 1);
-        setState(265);
+        setState(275);
         antlrcpp::downCast<Expression_statementContext *>(_localctx)->semicolonToken = match(C8086Parser::SEMICOLON);
 
                 antlrcpp::downCast<Expression_statementContext *>(_localctx)->text =  antlrcpp::downCast<Expression_statementContext *>(_localctx)->semicolonToken->getText();
@@ -2247,9 +2300,9 @@ C8086Parser::Expression_statementContext* C8086Parser::expression_statement() {
       case C8086Parser::CONST_INT:
       case C8086Parser::CONST_FLOAT: {
         enterOuterAlt(_localctx, 2);
-        setState(267);
+        setState(277);
         antlrcpp::downCast<Expression_statementContext *>(_localctx)->e = expression();
-        setState(268);
+        setState(278);
         antlrcpp::downCast<Expression_statementContext *>(_localctx)->semicolonToken = match(C8086Parser::SEMICOLON);
 
                 antlrcpp::downCast<Expression_statementContext *>(_localctx)->text =  antlrcpp::downCast<Expression_statementContext *>(_localctx)->e->text + antlrcpp::downCast<Expression_statementContext *>(_localctx)->semicolonToken->getText();
@@ -2325,12 +2378,12 @@ C8086Parser::VariableContext* C8086Parser::variable() {
     exitRule();
   });
   try {
-    setState(281);
+    setState(291);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 16, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(273);
+      setState(283);
       antlrcpp::downCast<VariableContext *>(_localctx)->idToken = match(C8086Parser::ID);
 
               antlrcpp::downCast<VariableContext *>(_localctx)->text =  antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText();
@@ -2371,13 +2424,13 @@ C8086Parser::VariableContext* C8086Parser::variable() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(275);
+      setState(285);
       antlrcpp::downCast<VariableContext *>(_localctx)->idToken = match(C8086Parser::ID);
-      setState(276);
+      setState(286);
       antlrcpp::downCast<VariableContext *>(_localctx)->lthirdToken = match(C8086Parser::LTHIRD);
-      setState(277);
+      setState(287);
       antlrcpp::downCast<VariableContext *>(_localctx)->e = expression();
-      setState(278);
+      setState(288);
       antlrcpp::downCast<VariableContext *>(_localctx)->rthirdToken = match(C8086Parser::RTHIRD);
        
               antlrcpp::downCast<VariableContext *>(_localctx)->text =  antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<VariableContext *>(_localctx)->lthirdToken->getText() + antlrcpp::downCast<VariableContext *>(_localctx)->e->text + antlrcpp::downCast<VariableContext *>(_localctx)->rthirdToken->getText();
@@ -2464,17 +2517,18 @@ C8086Parser::ExpressionContext* C8086Parser::expression() {
     exitRule();
   });
   try {
-    setState(291);
+    setState(301);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 17, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(283);
+      setState(293);
       antlrcpp::downCast<ExpressionContext *>(_localctx)->l = logic_expression();
 
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->text = antlrcpp::downCast<ExpressionContext *>(_localctx)->l->text;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->line = antlrcpp::downCast<ExpressionContext *>(_localctx)->l->line;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->type =  antlrcpp::downCast<ExpressionContext *>(_localctx)->l->type;
+                     antlrcpp::downCast<ExpressionContext *>(_localctx)->argIsArray =  false;
                   // std::cout << "l type"<<antlrcpp::downCast<ExpressionContext *>(_localctx)->l->type <<std::endl;
 
                   writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<ExpressionContext *>(_localctx)->l->line)+": expression : logic_expression\n\n" + antlrcpp::downCast<ExpressionContext *>(_localctx)->l->text + "\n"); 
@@ -2484,17 +2538,20 @@ C8086Parser::ExpressionContext* C8086Parser::expression() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(286);
+      setState(296);
       antlrcpp::downCast<ExpressionContext *>(_localctx)->v = variable();
-      setState(287);
+      setState(297);
       antlrcpp::downCast<ExpressionContext *>(_localctx)->assignopToken = match(C8086Parser::ASSIGNOP);
-      setState(288);
+      setState(298);
       antlrcpp::downCast<ExpressionContext *>(_localctx)->le = logic_expression();
 
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->text =  antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + antlrcpp::downCast<ExpressionContext *>(_localctx)->assignopToken->getText() + antlrcpp::downCast<ExpressionContext *>(_localctx)->le->text;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->line = antlrcpp::downCast<ExpressionContext *>(_localctx)->le->line;  
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->type =  antlrcpp::downCast<ExpressionContext *>(_localctx)->le->type;
+                   antlrcpp::downCast<ExpressionContext *>(_localctx)->argIsArray =  false;
                   SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text);
+
+
 
                   if (lookup && antlrcpp::downCast<ExpressionContext *>(_localctx)->v->type != _localctx->type) {
                   
@@ -2590,12 +2647,12 @@ C8086Parser::Logic_expressionContext* C8086Parser::logic_expression() {
     exitRule();
   });
   try {
-    setState(301);
+    setState(311);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 18, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(293);
+      setState(303);
       antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r = rel_expression();
 
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->text;
@@ -2612,11 +2669,11 @@ C8086Parser::Logic_expressionContext* C8086Parser::logic_expression() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(296);
+      setState(306);
       antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re1 = rel_expression();
-      setState(297);
+      setState(307);
       antlrcpp::downCast<Logic_expressionContext *>(_localctx)->logicopToken = match(C8086Parser::LOGICOP);
-      setState(298);
+      setState(308);
       antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re2 = rel_expression();
 
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re1->text+antlrcpp::downCast<Logic_expressionContext *>(_localctx)->logicopToken->getText() + antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re2->text;
@@ -2692,12 +2749,12 @@ C8086Parser::Rel_expressionContext* C8086Parser::rel_expression() {
     exitRule();
   });
   try {
-    setState(311);
+    setState(321);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 19, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(303);
+      setState(313);
       antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s = simple_expression(0);
 
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->text;
@@ -2712,11 +2769,11 @@ C8086Parser::Rel_expressionContext* C8086Parser::rel_expression() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(306);
+      setState(316);
       antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s1 = simple_expression(0);
-      setState(307);
+      setState(317);
       antlrcpp::downCast<Rel_expressionContext *>(_localctx)->relopToken = match(C8086Parser::RELOP);
-      setState(308);
+      setState(318);
       antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s2 = simple_expression(0);
 
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s1->text + antlrcpp::downCast<Rel_expressionContext *>(_localctx)->relopToken->getText() + antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s2->text;
@@ -2805,7 +2862,7 @@ C8086Parser::Simple_expressionContext* C8086Parser::simple_expression(int preced
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(314);
+    setState(324);
     antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t = term(0);
 
                 antlrcpp::downCast<Simple_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t->text;
@@ -2815,7 +2872,7 @@ C8086Parser::Simple_expressionContext* C8086Parser::simple_expression(int preced
                 writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t->line)+": simple_expression : term\n\n" + antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t->text + "\n"); 
                 
     _ctx->stop = _input->LT(-1);
-    setState(324);
+    setState(334);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 20, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -2826,12 +2883,12 @@ C8086Parser::Simple_expressionContext* C8086Parser::simple_expression(int preced
         _localctx = _tracker.createInstance<Simple_expressionContext>(parentContext, parentState);
         _localctx->s = previousContext;
         pushNewRecursionContext(_localctx, startState, RuleSimple_expression);
-        setState(317);
+        setState(327);
 
         if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-        setState(318);
+        setState(328);
         antlrcpp::downCast<Simple_expressionContext *>(_localctx)->addopToken = match(C8086Parser::ADDOP);
-        setState(319);
+        setState(329);
         antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t = term(0);
 
                               antlrcpp::downCast<Simple_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Simple_expressionContext *>(_localctx)->s->text+antlrcpp::downCast<Simple_expressionContext *>(_localctx)->addopToken->getText()+antlrcpp::downCast<Simple_expressionContext *>(_localctx)->t->text;
@@ -2846,7 +2903,7 @@ C8086Parser::Simple_expressionContext* C8086Parser::simple_expression(int preced
 
                              
       }
-      setState(326);
+      setState(336);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 20, _ctx);
     }
@@ -2920,7 +2977,7 @@ C8086Parser::TermContext* C8086Parser::term(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(328);
+    setState(338);
     antlrcpp::downCast<TermContext *>(_localctx)->u = unary_expression();
 
              
@@ -2931,7 +2988,7 @@ C8086Parser::TermContext* C8086Parser::term(int precedence) {
                 writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<TermContext *>(_localctx)->u->line)+": term : unary_expression\n\n" + antlrcpp::downCast<TermContext *>(_localctx)->u->text + "\n");
                 
     _ctx->stop = _input->LT(-1);
-    setState(338);
+    setState(348);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 21, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -2942,12 +2999,12 @@ C8086Parser::TermContext* C8086Parser::term(int precedence) {
         _localctx = _tracker.createInstance<TermContext>(parentContext, parentState);
         _localctx->t = previousContext;
         pushNewRecursionContext(_localctx, startState, RuleTerm);
-        setState(331);
+        setState(341);
 
         if (!(precpred(_ctx, 1))) throw FailedPredicateException(this, "precpred(_ctx, 1)");
-        setState(332);
+        setState(342);
         antlrcpp::downCast<TermContext *>(_localctx)->mulopToken = match(C8086Parser::MULOP);
-        setState(333);
+        setState(343);
         antlrcpp::downCast<TermContext *>(_localctx)->ue = unary_expression();
 
                       antlrcpp::downCast<TermContext *>(_localctx)->text =  antlrcpp::downCast<TermContext *>(_localctx)->t->text + antlrcpp::downCast<TermContext *>(_localctx)->mulopToken->getText() + antlrcpp::downCast<TermContext *>(_localctx)->ue->text;
@@ -2981,9 +3038,11 @@ C8086Parser::TermContext* C8086Parser::term(int precedence) {
                       writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": term : term MULOP unary_expression\n\n" + _localctx->text + "\n");
                       }  
 
+
+
                    
       }
-      setState(340);
+      setState(350);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 21, _ctx);
     }
@@ -3047,14 +3106,14 @@ C8086Parser::Unary_expressionContext* C8086Parser::unary_expression() {
     exitRule();
   });
   try {
-    setState(352);
+    setState(362);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case C8086Parser::ADDOP: {
         enterOuterAlt(_localctx, 1);
-        setState(341);
+        setState(351);
         antlrcpp::downCast<Unary_expressionContext *>(_localctx)->addopToken = match(C8086Parser::ADDOP);
-        setState(342);
+        setState(352);
         antlrcpp::downCast<Unary_expressionContext *>(_localctx)->ue = unary_expression();
 
                     antlrcpp::downCast<Unary_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Unary_expressionContext *>(_localctx)->addopToken->getText() + antlrcpp::downCast<Unary_expressionContext *>(_localctx)->ue->text;
@@ -3066,9 +3125,9 @@ C8086Parser::Unary_expressionContext* C8086Parser::unary_expression() {
 
       case C8086Parser::NOT: {
         enterOuterAlt(_localctx, 2);
-        setState(345);
+        setState(355);
         antlrcpp::downCast<Unary_expressionContext *>(_localctx)->notToken = match(C8086Parser::NOT);
-        setState(346);
+        setState(356);
         antlrcpp::downCast<Unary_expressionContext *>(_localctx)->ue = unary_expression();
 
                     antlrcpp::downCast<Unary_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Unary_expressionContext *>(_localctx)->notToken->getText() + antlrcpp::downCast<Unary_expressionContext *>(_localctx)->ue->text;
@@ -3085,7 +3144,7 @@ C8086Parser::Unary_expressionContext* C8086Parser::unary_expression() {
       case C8086Parser::CONST_INT:
       case C8086Parser::CONST_FLOAT: {
         enterOuterAlt(_localctx, 3);
-        setState(349);
+        setState(359);
         antlrcpp::downCast<Unary_expressionContext *>(_localctx)->f = factor();
 
                     antlrcpp::downCast<Unary_expressionContext *>(_localctx)->text =  antlrcpp::downCast<Unary_expressionContext *>(_localctx)->f->text;
@@ -3186,12 +3245,12 @@ C8086Parser::FactorContext* C8086Parser::factor() {
     exitRule();
   });
   try {
-    setState(381);
+    setState(391);
     _errHandler->sync(this);
     switch (getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 23, _ctx)) {
     case 1: {
       enterOuterAlt(_localctx, 1);
-      setState(354);
+      setState(364);
       antlrcpp::downCast<FactorContext *>(_localctx)->v = variable();
 
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->v->text;
@@ -3206,18 +3265,18 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 2: {
       enterOuterAlt(_localctx, 2);
-      setState(357);
+      setState(367);
       antlrcpp::downCast<FactorContext *>(_localctx)->idToken = match(C8086Parser::ID);
-      setState(358);
+      setState(368);
       antlrcpp::downCast<FactorContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
 
               argumentCount = 0;
               argumentTypes.clear();
               argumentIsArray.clear();
           
-      setState(360);
+      setState(370);
       antlrcpp::downCast<FactorContext *>(_localctx)->a = argument_list();
-      setState(361);
+      setState(371);
       antlrcpp::downCast<FactorContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
 
           antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->idToken->getText() + antlrcpp::downCast<FactorContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<FactorContext *>(_localctx)->a->text + antlrcpp::downCast<FactorContext *>(_localctx)->rparenToken->getText();
@@ -3233,6 +3292,8 @@ C8086Parser::FactorContext* C8086Parser::factor() {
           else if (func->getIsFunction() && func->getIsFunctionDefined()) {
               if ((int)func->parameterList.size()!= argumentCount) {
                   writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Total number of arguments mismatch with declaration in function " + antlrcpp::downCast<FactorContext *>(_localctx)->idToken->getText() + "\n");
+                              writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Total number of arguments mismatch with declaration in function " + antlrcpp::downCast<FactorContext *>(_localctx)->idToken->getText() + "\n");
+
                   errorCount++;
               } 
               else {
@@ -3241,7 +3302,7 @@ C8086Parser::FactorContext* C8086Parser::factor() {
                     //  std::cout<<func->parameterList[i].first <<std::endl;
                       std::string argType = argumentTypes[i];
                       bool argIsArray = argumentIsArray[i];
-                    //  std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+                      std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
                       if (argIsArray && expectedType !=argType) {
                          // std::cout<<"ekhane eshche"<<std::endl;
                           writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch, " + func->parameterList[i].second + " is an array\n");
@@ -3254,6 +3315,9 @@ C8086Parser::FactorContext* C8086Parser::factor() {
                           errorCount++;
                       }
                   }
+
+                  std::cout << "argumentCount: " << argumentCount << std::endl;
+
               }
           } 
           else {
@@ -3268,16 +3332,17 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 3: {
       enterOuterAlt(_localctx, 3);
-      setState(364);
+      setState(374);
       antlrcpp::downCast<FactorContext *>(_localctx)->lparenToken = match(C8086Parser::LPAREN);
-      setState(365);
+      setState(375);
       antlrcpp::downCast<FactorContext *>(_localctx)->e = expression();
-      setState(366);
+      setState(376);
       antlrcpp::downCast<FactorContext *>(_localctx)->rparenToken = match(C8086Parser::RPAREN);
        
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<FactorContext *>(_localctx)->e->text + antlrcpp::downCast<FactorContext *>(_localctx)->rparenToken->getText();
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->rparenToken->getLine();
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  antlrcpp::downCast<FactorContext *>(_localctx)->e->type;
+               antlrcpp::downCast<FactorContext *>(_localctx)->argIsArray =  false;
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : LPAREN expression RPAREN\n\n" + _localctx->text + "\n");
 
            
@@ -3286,12 +3351,13 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 4: {
       enterOuterAlt(_localctx, 4);
-      setState(369);
+      setState(379);
       antlrcpp::downCast<FactorContext *>(_localctx)->const_intToken = match(C8086Parser::CONST_INT);
 
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->const_intToken->getText();
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->const_intToken->getLine();
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  "int";
+               antlrcpp::downCast<FactorContext *>(_localctx)->argIsArray =  false;
              // std::cout << "CONST_INT type"<<_localctx->type <<std::endl;
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : CONST_INT\n\n" + _localctx->text + "\n");
 
@@ -3301,12 +3367,13 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 5: {
       enterOuterAlt(_localctx, 5);
-      setState(371);
+      setState(381);
       antlrcpp::downCast<FactorContext *>(_localctx)->const_floatToken = match(C8086Parser::CONST_FLOAT);
 
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->const_floatToken->getText();
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->const_floatToken->getLine();
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  "float";
+               antlrcpp::downCast<FactorContext *>(_localctx)->argIsArray =  false;
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : CONST_FLOAT\n\n" + _localctx->text + "\n");
 
           
@@ -3315,9 +3382,9 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 6: {
       enterOuterAlt(_localctx, 6);
-      setState(373);
+      setState(383);
       antlrcpp::downCast<FactorContext *>(_localctx)->v = variable();
-      setState(374);
+      setState(384);
       antlrcpp::downCast<FactorContext *>(_localctx)->incopToken = match(C8086Parser::INCOP);
 
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->v->text+antlrcpp::downCast<FactorContext *>(_localctx)->incopToken->getText();
@@ -3331,9 +3398,9 @@ C8086Parser::FactorContext* C8086Parser::factor() {
 
     case 7: {
       enterOuterAlt(_localctx, 7);
-      setState(377);
+      setState(387);
       antlrcpp::downCast<FactorContext *>(_localctx)->v = variable();
-      setState(378);
+      setState(388);
       antlrcpp::downCast<FactorContext *>(_localctx)->decopToken = match(C8086Parser::DECOP);
 
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->v->text+antlrcpp::downCast<FactorContext *>(_localctx)->decopToken->getText();
@@ -3398,7 +3465,7 @@ C8086Parser::Argument_listContext* C8086Parser::argument_list() {
     exitRule();
   });
   try {
-    setState(387);
+    setState(397);
     _errHandler->sync(this);
     switch (_input->LA(1)) {
       case C8086Parser::LPAREN:
@@ -3408,7 +3475,7 @@ C8086Parser::Argument_listContext* C8086Parser::argument_list() {
       case C8086Parser::CONST_INT:
       case C8086Parser::CONST_FLOAT: {
         enterOuterAlt(_localctx, 1);
-        setState(383);
+        setState(393);
         antlrcpp::downCast<Argument_listContext *>(_localctx)->a = arguments(0);
            
                     antlrcpp::downCast<Argument_listContext *>(_localctx)->text =  antlrcpp::downCast<Argument_listContext *>(_localctx)->a->text;
@@ -3501,7 +3568,7 @@ C8086Parser::ArgumentsContext* C8086Parser::arguments(int precedence) {
   try {
     size_t alt;
     enterOuterAlt(_localctx, 1);
-    setState(390);
+    setState(400);
     antlrcpp::downCast<ArgumentsContext *>(_localctx)->le = logic_expression();
 
 
@@ -3516,7 +3583,7 @@ C8086Parser::ArgumentsContext* C8086Parser::arguments(int precedence) {
 
             
     _ctx->stop = _input->LT(-1);
-    setState(400);
+    setState(410);
     _errHandler->sync(this);
     alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 25, _ctx);
     while (alt != 2 && alt != atn::ATN::INVALID_ALT_NUMBER) {
@@ -3527,12 +3594,12 @@ C8086Parser::ArgumentsContext* C8086Parser::arguments(int precedence) {
         _localctx = _tracker.createInstance<ArgumentsContext>(parentContext, parentState);
         _localctx->a = previousContext;
         pushNewRecursionContext(_localctx, startState, RuleArguments);
-        setState(393);
+        setState(403);
 
         if (!(precpred(_ctx, 2))) throw FailedPredicateException(this, "precpred(_ctx, 2)");
-        setState(394);
+        setState(404);
         antlrcpp::downCast<ArgumentsContext *>(_localctx)->commaToken = match(C8086Parser::COMMA);
-        setState(395);
+        setState(405);
         antlrcpp::downCast<ArgumentsContext *>(_localctx)->le = logic_expression();
             
                               antlrcpp::downCast<ArgumentsContext *>(_localctx)->text = antlrcpp::downCast<ArgumentsContext *>(_localctx)->a->text +  antlrcpp::downCast<ArgumentsContext *>(_localctx)->commaToken->getText()+  antlrcpp::downCast<ArgumentsContext *>(_localctx)->le->text;
@@ -3545,7 +3612,7 @@ C8086Parser::ArgumentsContext* C8086Parser::arguments(int precedence) {
 
                             
       }
-      setState(402);
+      setState(412);
       _errHandler->sync(this);
       alt = getInterpreter<atn::ParserATNSimulator>()->adaptivePredict(_input, 25, _ctx);
     }
@@ -3586,8 +3653,9 @@ bool C8086Parser::programSempred(ProgramContext *_localctx, size_t predicateInde
 
 bool C8086Parser::parameter_listSempred(Parameter_listContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 1: return precpred(_ctx, 4);
-    case 2: return precpred(_ctx, 3);
+    case 1: return precpred(_ctx, 7);
+    case 2: return precpred(_ctx, 6);
+    case 3: return precpred(_ctx, 5);
 
   default:
     break;
@@ -3597,8 +3665,8 @@ bool C8086Parser::parameter_listSempred(Parameter_listContext *_localctx, size_t
 
 bool C8086Parser::declaration_listSempred(Declaration_listContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 3: return precpred(_ctx, 4);
-    case 4: return precpred(_ctx, 3);
+    case 4: return precpred(_ctx, 4);
+    case 5: return precpred(_ctx, 3);
 
   default:
     break;
@@ -3608,7 +3676,7 @@ bool C8086Parser::declaration_listSempred(Declaration_listContext *_localctx, si
 
 bool C8086Parser::statementsSempred(StatementsContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 5: return precpred(_ctx, 1);
+    case 6: return precpred(_ctx, 1);
 
   default:
     break;
@@ -3618,7 +3686,7 @@ bool C8086Parser::statementsSempred(StatementsContext *_localctx, size_t predica
 
 bool C8086Parser::simple_expressionSempred(Simple_expressionContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 6: return precpred(_ctx, 1);
+    case 7: return precpred(_ctx, 1);
 
   default:
     break;
@@ -3628,7 +3696,7 @@ bool C8086Parser::simple_expressionSempred(Simple_expressionContext *_localctx, 
 
 bool C8086Parser::termSempred(TermContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 7: return precpred(_ctx, 1);
+    case 8: return precpred(_ctx, 1);
 
   default:
     break;
@@ -3638,7 +3706,7 @@ bool C8086Parser::termSempred(TermContext *_localctx, size_t predicateIndex) {
 
 bool C8086Parser::argumentsSempred(ArgumentsContext *_localctx, size_t predicateIndex) {
   switch (predicateIndex) {
-    case 8: return precpred(_ctx, 2);
+    case 9: return precpred(_ctx, 2);
 
   default:
     break;

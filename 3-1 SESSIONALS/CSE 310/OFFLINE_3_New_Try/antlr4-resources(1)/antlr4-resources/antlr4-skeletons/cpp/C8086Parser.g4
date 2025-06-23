@@ -266,7 +266,6 @@ func_definition
 
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
-        funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
 
         // if($cs.type != $ts.text){ 
@@ -278,6 +277,8 @@ func_definition
            // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
         } else {
             symbolTable->Insert(funcSymbol);
+            funcSymbol->setIsFunctionDefined(true);
+
         }
 
         } cs = compound_statement { 
@@ -314,6 +315,13 @@ parameter_list
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
 		}
+    | pl = parameter_list COMMA ADDOP {
+        $line = $ADDOP->getLine();
+        writeIntoparserLogFile("Error at line " + std::to_string($line) + 
+            ": syntax error, unexpected ADDOP, expecting type_specifier\n");
+        writeIntoErrorFile("Error at line " + std::to_string($line) + 
+            ": syntax error, unexpected ADDOP, expecting type_specifier\n");
+    }
 	| ts = type_specifier ID {
         $text = $ts.text + " " + $ID->getText()   ;
         $line = $ID->getLine();
@@ -328,13 +336,25 @@ parameter_list
         // }
         writeIntoparserLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
-	| ts = type_specifier {
+        | ts = type_specifier ADDOP {
+        $line = $ADDOP->getLine();
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+        }
+         |ts = type_specifier {
 
         $text = $ts.text ;
         $line = $ts.line;
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
-		};
+		}
+        | ADDOP {
+        $line = $ADDOP->getLine();
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
+        }
+    
+   ;
 
 compound_statement
 	returns[std::string text, int line , std::string type]:
@@ -706,11 +726,12 @@ variable
     };
 
 expression
-	returns[std::string text, int line,std::string type]:
+	returns[std::string text, int line,std::string type,bool argIsArray]:
 	l = logic_expression {
             $text=$l.text;
             $line=$l.line;
             $type = $l.type;
+               $argIsArray = false;
             // std::cout << "l type"<<$l.type <<std::endl;
 
             writeIntoparserLogFile("Line "+  std::to_string($l.line)+": expression : logic_expression\n\n" + $l.text + "\n"); 
@@ -719,7 +740,10 @@ expression
             $text= $v.text + $ASSIGNOP->getText() + $le.text;
             $line=$le.line;  
             $type = $le.type;
+             $argIsArray = false;
             SymbolInfo* lookup = symbolTable->LookUP($v.text);
+
+
 
             if (lookup && $v.type != $type) {
             
@@ -859,6 +883,8 @@ term
     writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n\n" + $text + "\n");
     }  
 
+
+
 };
 unary_expression
 	returns[std::string text, int line,std::string type, bool argIsArray]:
@@ -910,6 +936,8 @@ factor
     else if (func->getIsFunction() && func->getIsFunctionDefined()) {
         if ((int)func->parameterList.size()!= argumentCount) {
             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with declaration in function " + $ID->getText() + "\n");
+                        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with declaration in function " + $ID->getText() + "\n");
+
             errorCount++;
         } 
         else {
@@ -918,7 +946,7 @@ factor
               //  std::cout<<func->parameterList[i].first <<std::endl;
                 std::string argType = argumentTypes[i];
                 bool argIsArray = argumentIsArray[i];
-              //  std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+                std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
                 if (argIsArray && expectedType !=argType) {
                    // std::cout<<"ekhane eshche"<<std::endl;
                     writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch, " + func->parameterList[i].second + " is an array\n");
@@ -931,6 +959,9 @@ factor
                     errorCount++;
                 }
             }
+
+            std::cout << "argumentCount: " << argumentCount << std::endl;
+
         }
     } 
     else {
@@ -944,6 +975,7 @@ factor
         $text = $LPAREN->getText() + $e.text + $RPAREN->getText();
         $line = $RPAREN->getLine();
         $type = $e.type;
+         $argIsArray = false;
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : LPAREN expression RPAREN\n\n" + $text + "\n");
 
      }
@@ -951,6 +983,7 @@ factor
         $text = $CONST_INT->getText();
         $line = $CONST_INT->getLine();
         $type = "int";
+         $argIsArray = false;
        // std::cout << "CONST_INT type"<<$type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : CONST_INT\n\n" + $text + "\n");
 
@@ -959,6 +992,7 @@ factor
         $text = $CONST_FLOAT->getText();
         $line = $CONST_FLOAT->getLine();
         $type = "float";
+         $argIsArray = false;
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : CONST_FLOAT\n\n" + $text + "\n");
 
     }

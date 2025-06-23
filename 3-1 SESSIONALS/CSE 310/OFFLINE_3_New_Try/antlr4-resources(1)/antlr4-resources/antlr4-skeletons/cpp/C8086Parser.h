@@ -258,11 +258,13 @@ public:
     C8086Parser::Parameter_listContext *pl = nullptr;
     C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
+    antlr4::Token *addopToken = nullptr;
     antlr4::Token *commaToken = nullptr;
     Parameter_listContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;
     antlr4::tree::TerminalNode *ID();
     Type_specifierContext *type_specifier();
+    antlr4::tree::TerminalNode *ADDOP();
     antlr4::tree::TerminalNode *COMMA();
     Parameter_listContext *parameter_list();
 
@@ -495,6 +497,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    bool argIsArray;
     C8086Parser::Logic_expressionContext *l = nullptr;
     C8086Parser::VariableContext *v = nullptr;
     antlr4::Token *assignopToken = nullptr;
