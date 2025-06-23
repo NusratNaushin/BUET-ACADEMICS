@@ -22,6 +22,10 @@ bool multipleDeclaration=false;
 std::vector<std::string>argumentTypes;
 std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;
+std::vector<std::string>fndecreturnTypes;
+std::vector<std::string>fndefreturnTypes;
+
+
 std::vector<std::pair<std::string, std::string>> plist;
 
 int main(int argc, const char* argv[]) {

@@ -23,6 +23,10 @@
     extern std::vector<std::string> argumentTypes;
     extern std::vector<bool> argumentIsArray;
     extern std::vector<std::pair<std::string, std::string>> plist;
+    extern std::vector<std::string>returnTypes;
+    extern std::vector<std::string>fndecreturnTypes;
+    extern std::vector<std::string>fndefreturnTypes;
+
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -458,7 +462,9 @@ public class C8086Parser extends Parser {
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_declarationContext)_localctx).ts.text);
 				        funcSymbol->setParameterList(((Func_declarationContext)_localctx).pl.plist);
+				        plist = ((Func_declarationContext)_localctx).pl.plist;  
 
+				        fndecreturnTypes.push_back(((Func_declarationContext)_localctx).ts.text);
 
 
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_declarationContext)_localctx).ID->getText());
@@ -471,6 +477,8 @@ public class C8086Parser extends Parser {
 				              //  writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+((Func_declarationContext)_localctx).ID->getText()+"\n");
 
 				            }
+
+
 				        }
 
 				    // for (auto& param : ((Func_declarationContext)_localctx).pl.plist) {
@@ -546,6 +554,7 @@ public class C8086Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string type;
+		public std::string returnType;
 		public Type_specifierContext ts;
 		public Token ID;
 		public Token LPAREN;
@@ -594,14 +603,11 @@ public class C8086Parser extends Parser {
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_definitionContext)_localctx).ts.text);
+				       // std::cout<< "return type "<< funcSymbol->getSymbolName() << funcSymbol->getReturnType() << std::endl;
 				        funcSymbol->setParameterList(((Func_definitionContext)_localctx).pl.plist);
 				        plist = ((Func_definitionContext)_localctx).pl.plist;
-				        // std::cout << ((Func_definitionContext)_localctx).cs.type << " " << ((Func_definitionContext)_localctx).ts.text << std::endl;
+				        fndefreturnTypes.push_back(((Func_definitionContext)_localctx).ts.text);
 
-				        // if(((Func_definitionContext)_localctx).cs.type != ((Func_definitionContext)_localctx).ts.text){ 
-				        //     writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-				        // }
-				        
 				        SymbolInfo* existing = symbolTable->LookUP(((Func_definitionContext)_localctx).ID->getText());
 
 				        if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
@@ -611,17 +617,20 @@ public class C8086Parser extends Parser {
 				        }
 
 
+				        SymbolInfo* lookup = symbolTable->LookUP(((Func_definitionContext)_localctx).ID->getText());       
+				        if(((Func_definitionContext)_localctx).ts.text != lookup->getReturnType() ){
 
-				        // for(const auto& param : ((Func_definitionContext)_localctx).pl.plist) {
-				        //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
-				        //     paramSymbol->setIsArray(false);
-				        //     paramSymbol->setSymbolDataType(param.first);
-				        //     if(!symbolTable->Insert(param.second, "ID")){
-				        //         // writeIntoparserLogFile("Error at line "+std::to_string(((Func_definitionContext)_localctx).pl.line)+": Multiple declaration of "+param.second+" in parameter\n");
-				        //         // writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+param.second+" in parameter\n");
-				        //         errorCount++;
-				        //     }
-				        // }
+				        writeIntoparserLogFile("Error at line "+std::to_string(((Func_definitionContext)_localctx).ts.line)+": Return type mismatch of "+lookup->getSymbolName()+"\n");
+				        writeIntoErrorFile("Error at line "+std::to_string(((Func_definitionContext)_localctx).ts.line)+": Return type mismatch of "+lookup->getSymbolName()+"\n");
+
+				                errorCount++;
+				        }
+
+
+				        
+
+
+
 				     
 				setState(98);
 				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
@@ -633,6 +642,14 @@ public class C8086Parser extends Parser {
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 				        ((Func_definitionContext)_localctx).type =  ((Func_definitionContext)_localctx).ts.text;
+
+				        ((Func_definitionContext)_localctx).returnType =  ((Func_definitionContext)_localctx).cs.type;
+
+				        if (((Func_definitionContext)_localctx).ts.text == "void" && _localctx.returnType != "void") {
+				            writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Cannot return value from function "+  ((Func_definitionContext)_localctx).ID->getText() + " with void return type\n");
+				             writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Cannot return value from function "+  ((Func_definitionContext)_localctx).ID->getText() + " with void return type\n");
+				            errorCount++;
+				        } 
 
 				        //symbolTable->print_current_scope_table(parserLogFile);
 
@@ -812,10 +829,8 @@ public class C8086Parser extends Parser {
 
 						                  _localctx.plist.push_back(std::make_pair(((Parameter_listContext)_localctx).ts.text, ((Parameter_listContext)_localctx).ID->getText()));
 						                  
-
-
 						                   writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+_localctx.text+"\n");
-						          		
+						              
 						}
 						break;
 					case 2:
@@ -892,11 +907,16 @@ public class C8086Parser extends Parser {
 				 symbolTable->EnterScope();  
 
 				        for(const auto& param : plist) {
+
+				            ((Compound_statementContext)_localctx).line =  ((Compound_statementContext)_localctx).LCURL->getLine();
 				            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
 				            paramSymbol->setIsArray(false);
 				            paramSymbol->setSymbolDataType(param.first);
 				            if(!symbolTable->Insert(param.second, "ID")){
-				           //     errorCount++;
+				                writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple declaration of " + param.second + " in parameter\n");
+				                writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Multiple declaration of " + param.second + " in parameter\n");
+
+				                errorCount++;
 				            }
 				        }
 				        plist.clear();
@@ -1022,9 +1042,9 @@ public class C8086Parser extends Parser {
 				        for(const auto& var : ((Var_declarationContext)_localctx).dl.varList) {
 				            SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
 				            varSymbol->setIsArray(var.second);
-				            std::cout<<"is array true nakke"<<varSymbol->getIsArray()<<var.second << std::endl;
+				           // std::cout<<"is array true nakke"<<varSymbol->getIsArray()<<var.second << std::endl;
 				            varSymbol->setSymbolDataType(((Var_declarationContext)_localctx).t.type);
-				            std::cout<<"vartype ki set hocche check"<<varSymbol->getSymbolDataType() << std::endl;
+				           // std::cout<<"vartype ki set hocche check"<<varSymbol->getSymbolDataType() << std::endl;
 				            if(!symbolTable->Insert(varSymbol)){
 				                writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+":  Multiple declaration of "+var.first+"\n");
 				                writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+var.first+"\n");
@@ -1035,6 +1055,9 @@ public class C8086Parser extends Parser {
 
 				        if(((Var_declarationContext)_localctx).t.text == "void"){
 				            writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+":  Variable type cannot be void\n");
+				            writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Variable type cannot be void\n");
+
+
 				                            errorCount++;
 
 				        }
@@ -1524,6 +1547,7 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).v.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).v.line;
+				        ((StatementContext)_localctx).type =  "void";
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : var_declaration\n\n"+_localctx.text + "\n" );
 				    
 				}
@@ -1536,6 +1560,8 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).es.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).es.line;
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : expression_statement\n\n"+_localctx.text + "\n" );
 
 				    
@@ -1550,6 +1576,7 @@ public class C8086Parser extends Parser {
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).cs.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).cs.line;
 				        ((StatementContext)_localctx).type =  ((StatementContext)_localctx).cs.type;
+				        ((StatementContext)_localctx).type =  "void";
 
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : compound_statement\n\n"+_localctx.text + "\n" );
 
@@ -1576,6 +1603,8 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  (((StatementContext)_localctx).FOR!=null?((StatementContext)_localctx).FOR.getText():null) +  ((StatementContext)_localctx).LPAREN->getText() +  ((StatementContext)_localctx).es1.text + ((StatementContext)_localctx).es2.text + ((StatementContext)_localctx).e.text   + ((StatementContext)_localctx).RPAREN->getText() + ((StatementContext)_localctx).s.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).s.line;
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line " + std::to_string(((StatementContext)_localctx).s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1598,6 +1627,8 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).IF->getText()+ ((StatementContext)_localctx).LPAREN->getText()+ ((StatementContext)_localctx).e.text  + ((StatementContext)_localctx).RPAREN->getText() +((StatementContext)_localctx).s.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).IF->getLine();
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1623,6 +1654,8 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).IF->getText() + ((StatementContext)_localctx).LPAREN->getText() + ((StatementContext)_localctx).e.text  + ((StatementContext)_localctx).RPAREN->getText() + ((StatementContext)_localctx).s1.text+ ((StatementContext)_localctx).ELSE->getText() +" "+  ((StatementContext)_localctx).s2.text ;
 				       ((StatementContext)_localctx).line =  ((StatementContext)_localctx).IF->getLine();
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1644,6 +1677,8 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).WHILE->getText() + ((StatementContext)_localctx).LPAREN->getText() + ((StatementContext)_localctx).e.text  + ((StatementContext)_localctx).RPAREN->getText() + ((StatementContext)_localctx).s.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).s.line;
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1665,6 +1700,9 @@ public class C8086Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).PRINTLN->getText() + ((StatementContext)_localctx).LPAREN->getText() +  ((StatementContext)_localctx).ID->getText() +  ((StatementContext)_localctx).RPAREN->getText() +  ((StatementContext)_localctx).SEMICOLON->getText();
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).SEMICOLON->getLine();
+
+				        ((StatementContext)_localctx).type =  "void";
+
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1684,9 +1722,15 @@ public class C8086Parser extends Parser {
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).RETURN->getLine();
 				        
 				        ((StatementContext)_localctx).type =  ((StatementContext)_localctx).e.type;
-				                // std::cout << "e type"<<((StatementContext)_localctx).e.type<<"e.text" <<((StatementContext)_localctx).e.text <<std::endl;
 
 
+				       // std::cout << std::to_string(_localctx.line)<<"return type"<<((StatementContext)_localctx).e.type<<"return " <<((StatementContext)_localctx).e.text <<std::endl;
+
+				        SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).e.text);
+
+				        if(lookup){
+				           // std::cout << lookup->getSymbolName() << " has return type " << lookup->getReturnType() <<"and e.type "<< ((StatementContext)_localctx).e.type << std::endl;
+				        }
 				        // SymbolInfo* paramSymbol = new SymbolInfo(((StatementContext)_localctx).e.text, "ID");
 				        // if(((StatementContext)_localctx).e.text != "0"){
 				        // if(!symbolTable->Insert(((StatementContext)_localctx).e.text, "ID")){ 
@@ -1964,7 +2008,7 @@ public class C8086Parser extends Parser {
 
 				            if (lookup && ((ExpressionContext)_localctx).v.type != _localctx.type) {
 				            
-				            std::cout<<std::to_string(_localctx.line)<<" v=le er bhitor type check"<<lookup->getSymbolDataType() << " " << _localctx.type << std::endl;
+				           // std::cout<<std::to_string(_localctx.line)<<" v=le er bhitor type check v"<<lookup->getSymbolDataType() << " le" << _localctx.type << std::endl;
 				            writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": expression : variable ASSIGNOP logic_expression\n"); 
 
 				            if(lookup->getIsArray()){
@@ -2347,6 +2391,12 @@ public class C8086Parser extends Parser {
 					                                      errorCount++;
 					                      print = false;
 					                  }
+					                  else if(((TermContext)_localctx).ue.text == "0"){
+					                                  writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Modulus by Zero\n");
+
+					                      writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Modulus by Zero\n\n" + _localctx.text + "\n");
+					                      errorCount++;
+					                  }
 					               
 					                  ((TermContext)_localctx).type =  "int"; 
 					              } else {
@@ -2562,19 +2612,19 @@ public class C8086Parser extends Parser {
 				        errorCount++;
 				    } 
 				    else if (func->getIsFunction() && func->getIsFunctionDefined()) {
-				        if ((int)func->parameterList.size() != argumentCount) {
-				            writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Total number of arguments mismatch with definition in function " + ((FactorContext)_localctx).ID->getText() + "\n");
+				        if ((int)func->parameterList.size()!= argumentCount) {
+				            writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Total number of arguments mismatch with declaration in function " + ((FactorContext)_localctx).ID->getText() + "\n");
 				            errorCount++;
 				        } 
 				        else {
 				            for (int i = 0; i < argumentCount; i++) {
 				                std::string expectedType = func->parameterList[i].first;
-				                std::cout<<func->parameterList[i].first <<std::endl;
+				              //  std::cout<<func->parameterList[i].first <<std::endl;
 				                std::string argType = argumentTypes[i];
 				                bool argIsArray = argumentIsArray[i];
-				                std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
+				              //  std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
 				                if (argIsArray && expectedType !=argType) {
-				                    std::cout<<"ekhane eshche"<<std::endl;
+				                   // std::cout<<"ekhane eshche"<<std::endl;
 				                    writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Type mismatch, " + func->parameterList[i].second + " is an array\n");
 				                    writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
 				                    errorCount++;

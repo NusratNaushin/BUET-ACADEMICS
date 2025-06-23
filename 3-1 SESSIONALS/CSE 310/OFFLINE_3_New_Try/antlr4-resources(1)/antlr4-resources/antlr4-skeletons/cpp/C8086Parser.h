@@ -22,6 +22,10 @@
     extern std::vector<std::string> argumentTypes;
     extern std::vector<bool> argumentIsArray;
     extern std::vector<std::pair<std::string, std::string>> plist;
+    extern std::vector<std::string>returnTypes;
+    extern std::vector<std::string>fndecreturnTypes;
+    extern std::vector<std::string>fndefreturnTypes;
+
 
 
 // Generated from C8086Parser.g4 by ANTLR 4.13.2
@@ -223,6 +227,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::string returnType;
     C8086Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
