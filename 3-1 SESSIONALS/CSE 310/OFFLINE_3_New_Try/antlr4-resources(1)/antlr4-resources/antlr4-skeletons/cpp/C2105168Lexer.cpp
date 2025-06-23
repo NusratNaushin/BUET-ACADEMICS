@@ -6,10 +6,10 @@
     extern std::ofstream lexLogFile;
 
 
-// Generated from C8086Lexer.g4 by ANTLR 4.13.2
+// Generated from C2105168Lexer.g4 by ANTLR 4.13.2
 
 
-#include "C8086Lexer.h"
+#include "C2105168Lexer.h"
 
 
 using namespace antlr4;
@@ -20,8 +20,8 @@ using namespace antlr4;
 
 namespace {
 
-struct C8086LexerStaticData final {
-  C8086LexerStaticData(std::vector<std::string> ruleNames,
+struct C2105168LexerStaticData final {
+  C2105168LexerStaticData(std::vector<std::string> ruleNames,
                           std::vector<std::string> channelNames,
                           std::vector<std::string> modeNames,
                           std::vector<std::string> literalNames,
@@ -31,10 +31,10 @@ struct C8086LexerStaticData final {
         symbolicNames(std::move(symbolicNames)),
         vocabulary(this->literalNames, this->symbolicNames) {}
 
-  C8086LexerStaticData(const C8086LexerStaticData&) = delete;
-  C8086LexerStaticData(C8086LexerStaticData&&) = delete;
-  C8086LexerStaticData& operator=(const C8086LexerStaticData&) = delete;
-  C8086LexerStaticData& operator=(C8086LexerStaticData&&) = delete;
+  C2105168LexerStaticData(const C2105168LexerStaticData&) = delete;
+  C2105168LexerStaticData(C2105168LexerStaticData&&) = delete;
+  C2105168LexerStaticData& operator=(const C2105168LexerStaticData&) = delete;
+  C2105168LexerStaticData& operator=(C2105168LexerStaticData&&) = delete;
 
   std::vector<antlr4::dfa::DFA> decisionToDFA;
   antlr4::atn::PredictionContextCache sharedContextCache;
@@ -48,21 +48,21 @@ struct C8086LexerStaticData final {
   std::unique_ptr<antlr4::atn::ATN> atn;
 };
 
-::antlr4::internal::OnceFlag c8086lexerLexerOnceFlag;
+::antlr4::internal::OnceFlag c2105168lexerLexerOnceFlag;
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
 static thread_local
 #endif
-std::unique_ptr<C8086LexerStaticData> c8086lexerLexerStaticData = nullptr;
+std::unique_ptr<C2105168LexerStaticData> c2105168lexerLexerStaticData = nullptr;
 
-void c8086lexerLexerInitialize() {
+void c2105168lexerLexerInitialize() {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
-  if (c8086lexerLexerStaticData != nullptr) {
+  if (c2105168lexerLexerStaticData != nullptr) {
     return;
   }
 #else
-  assert(c8086lexerLexerStaticData == nullptr);
+  assert(c2105168lexerLexerStaticData == nullptr);
 #endif
-  auto staticData = std::make_unique<C8086LexerStaticData>(
+  auto staticData = std::make_unique<C2105168LexerStaticData>(
     std::vector<std::string>{
       "LINE_COMMENT", "BLOCK_COMMENT", "STRING", "WS", "IF", "ELSE", "FOR", 
       "WHILE", "PRINTLN", "RETURN", "INT", "FLOAT", "VOID", "LPAREN", "RPAREN", 
@@ -195,50 +195,50 @@ void c8086lexerLexerInitialize() {
   for (size_t i = 0; i < count; i++) { 
     staticData->decisionToDFA.emplace_back(staticData->atn->getDecisionState(i), i);
   }
-  c8086lexerLexerStaticData = std::move(staticData);
+  c2105168lexerLexerStaticData = std::move(staticData);
 }
 
 }
 
-C8086Lexer::C8086Lexer(CharStream *input) : Lexer(input) {
-  C8086Lexer::initialize();
-  _interpreter = new atn::LexerATNSimulator(this, *c8086lexerLexerStaticData->atn, c8086lexerLexerStaticData->decisionToDFA, c8086lexerLexerStaticData->sharedContextCache);
+C2105168Lexer::C2105168Lexer(CharStream *input) : Lexer(input) {
+  C2105168Lexer::initialize();
+  _interpreter = new atn::LexerATNSimulator(this, *c2105168lexerLexerStaticData->atn, c2105168lexerLexerStaticData->decisionToDFA, c2105168lexerLexerStaticData->sharedContextCache);
 }
 
-C8086Lexer::~C8086Lexer() {
+C2105168Lexer::~C2105168Lexer() {
   delete _interpreter;
 }
 
-std::string C8086Lexer::getGrammarFileName() const {
-  return "C8086Lexer.g4";
+std::string C2105168Lexer::getGrammarFileName() const {
+  return "C2105168Lexer.g4";
 }
 
-const std::vector<std::string>& C8086Lexer::getRuleNames() const {
-  return c8086lexerLexerStaticData->ruleNames;
+const std::vector<std::string>& C2105168Lexer::getRuleNames() const {
+  return c2105168lexerLexerStaticData->ruleNames;
 }
 
-const std::vector<std::string>& C8086Lexer::getChannelNames() const {
-  return c8086lexerLexerStaticData->channelNames;
+const std::vector<std::string>& C2105168Lexer::getChannelNames() const {
+  return c2105168lexerLexerStaticData->channelNames;
 }
 
-const std::vector<std::string>& C8086Lexer::getModeNames() const {
-  return c8086lexerLexerStaticData->modeNames;
+const std::vector<std::string>& C2105168Lexer::getModeNames() const {
+  return c2105168lexerLexerStaticData->modeNames;
 }
 
-const dfa::Vocabulary& C8086Lexer::getVocabulary() const {
-  return c8086lexerLexerStaticData->vocabulary;
+const dfa::Vocabulary& C2105168Lexer::getVocabulary() const {
+  return c2105168lexerLexerStaticData->vocabulary;
 }
 
-antlr4::atn::SerializedATNView C8086Lexer::getSerializedATN() const {
-  return c8086lexerLexerStaticData->serializedATN;
+antlr4::atn::SerializedATNView C2105168Lexer::getSerializedATN() const {
+  return c2105168lexerLexerStaticData->serializedATN;
 }
 
-const atn::ATN& C8086Lexer::getATN() const {
-  return *c8086lexerLexerStaticData->atn;
+const atn::ATN& C2105168Lexer::getATN() const {
+  return *c2105168lexerLexerStaticData->atn;
 }
 
 
-void C8086Lexer::action(RuleContext *context, size_t ruleIndex, size_t actionIndex) {
+void C2105168Lexer::action(RuleContext *context, size_t ruleIndex, size_t actionIndex) {
   switch (ruleIndex) {
     case 0: LINE_COMMENTAction(antlrcpp::downCast<antlr4::RuleContext *>(context), actionIndex); break;
     case 1: BLOCK_COMMENTAction(antlrcpp::downCast<antlr4::RuleContext *>(context), actionIndex); break;
@@ -249,7 +249,7 @@ void C8086Lexer::action(RuleContext *context, size_t ruleIndex, size_t actionInd
   }
 }
 
-void C8086Lexer::LINE_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex) {
+void C2105168Lexer::LINE_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
     case 0: 
             writeIntoLexLogFile(
@@ -264,7 +264,7 @@ void C8086Lexer::LINE_COMMENTAction(antlr4::RuleContext *context, size_t actionI
   }
 }
 
-void C8086Lexer::BLOCK_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex) {
+void C2105168Lexer::BLOCK_COMMENTAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
     case 1: 
           // extra braces create a new scope for your variables
@@ -284,7 +284,7 @@ void C8086Lexer::BLOCK_COMMENTAction(antlr4::RuleContext *context, size_t action
   }
 }
 
-void C8086Lexer::STRINGAction(antlr4::RuleContext *context, size_t actionIndex) {
+void C2105168Lexer::STRINGAction(antlr4::RuleContext *context, size_t actionIndex) {
   switch (actionIndex) {
     case 2: 
             writeIntoLexLogFile(
@@ -300,10 +300,10 @@ void C8086Lexer::STRINGAction(antlr4::RuleContext *context, size_t actionIndex) 
 
 
 
-void C8086Lexer::initialize() {
+void C2105168Lexer::initialize() {
 #if ANTLR4_USE_THREAD_LOCAL_CACHE
-  c8086lexerLexerInitialize();
+  c2105168lexerLexerInitialize();
 #else
-  ::antlr4::internal::call_once(c8086lexerLexerOnceFlag, c8086lexerLexerInitialize);
+  ::antlr4::internal::call_once(c2105168lexerLexerOnceFlag, c2105168lexerLexerInitialize);
 #endif
 }

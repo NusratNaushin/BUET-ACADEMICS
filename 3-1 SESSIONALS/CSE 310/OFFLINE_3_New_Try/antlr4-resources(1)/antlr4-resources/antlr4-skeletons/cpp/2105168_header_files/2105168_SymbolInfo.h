@@ -64,6 +64,7 @@ public:
 
     bool isFunction = false;
     bool isFunctiondefined = false;
+    bool isDeclared = false;
     std::string returnType;
     std::vector<std::pair<std::string, std::string>> parameterList;
 
@@ -84,6 +85,12 @@ public:
         this->isFunctiondefined = isFunctiondefined;
     }
     bool getIsFunctionDefined(){
+        return isFunctiondefined;
+    }
+    void setIsDeclared(bool isFunctiondefined){
+        this->isFunctiondefined = isFunctiondefined;
+    }
+    bool getIsDeclared(){
         return isFunctiondefined;
     }
     void addParameter(std::string paramName, std::string paramType){

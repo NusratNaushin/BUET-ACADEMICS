@@ -1,7 +1,7 @@
-parser grammar C8086Parser;
+parser grammar C2105168Parser;
 
 options {
-	tokenVocab = C8086Lexer;
+	tokenVocab = C2105168Lexer;
 }
 
 @parser::header {
@@ -10,7 +10,7 @@ options {
     #include <string>
     #include <cstdlib>
 
-    #include "C8086Lexer.h"
+    #include "C2105168Lexer.h"
 
     
 
@@ -147,6 +147,7 @@ func_declaration
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
         funcSymbol->setParameterList($pl.plist);
+        funcSymbol->setIsDeclared(true);
         plist = $pl.plist;  
 
         fndecreturnTypes.push_back($ts.text);
@@ -185,6 +186,7 @@ func_declaration
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
         funcSymbol->setReturnType($ts.text);
+        funcSymbol->setIsDeclared(true);
 
 
 
@@ -207,8 +209,8 @@ func_declaration
 
 func_definition
 	returns[std::string text, int line,std::string type,std::string returnType]:
-	ts = type_specifier ID LPAREN pl = parameter_list {
-        
+	ts = type_specifier ID LPAREN {    std::cout << "DEBUG: About to parse parameter_list" << std::endl;} pl = parameter_list {
+            std::cout << "DEBUG: Successfully parsed parameter_list, pl.text = '" << $pl.text << "'" << std::endl;
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
@@ -237,10 +239,6 @@ func_definition
         }
 
 
-        
-
-
-
      } RPAREN cs = compound_statement {  
 
 
@@ -255,6 +253,7 @@ func_definition
              writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Cannot return value from function "+  $ID->getText() + " with void return type\n");
             errorCount++;
         } 
+        
 
         //symbolTable->print_current_scope_table(parserLogFile);
 
@@ -316,6 +315,7 @@ parameter_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
 		}
     | pl = parameter_list COMMA ADDOP {
+        $text = $pl.text;
         $line = $ADDOP->getLine();
         writeIntoparserLogFile("Error at line " + std::to_string($line) + 
             ": syntax error, unexpected ADDOP, expecting type_specifier\n");
@@ -337,6 +337,7 @@ parameter_list
         writeIntoparserLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
         | ts = type_specifier ADDOP {
+        $text = $ts.text;
         $line = $ADDOP->getLine();
         writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
         writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
@@ -345,6 +346,8 @@ parameter_list
 
         $text = $ts.text ;
         $line = $ts.line;
+            std::cout << "DEBUG: ts.text = '" << $ts.text << "'" << std::endl;
+    std::cout << "DEBUG: ts.line = " << $ts.line << std::endl;
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
 		}
@@ -387,13 +390,15 @@ compound_statement
 
 
     }
-	| LCURL RCURL {
+	| LCURL {symbolTable->EnterScope();} RCURL {
 
-        $text = $LCURL->getText();
-        $line = $LCURL->getLine();
+        $text = $LCURL->getText()+$RCURL->getText();
+        $line = $RCURL->getLine();
         $type = "void"; 
-    //    symbolTable->print_current_scope_table(parserLogFile);
+        writeIntoparserLogFile("Line "+std::to_string($line)+": compound_statement : LCURL RCURL\n\n"+$text+"\n");
 
+        symbolTable->print_all_scope_table2(parserLogFile);
+        symbolTable->ExitScope();
 
     };
 
@@ -517,6 +522,18 @@ declaration_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
     }
+    | dl = declaration_list COMMA ID ADDOP {
+        $text = $dl.text + $COMMA->getText() + $ID->getText();
+        $line = $ADDOP->getLine();
+        $varList = $dl.varList;
+        $varList.push_back(std::make_pair($ID->getText(), false));
+                std::cout<<"help"<<std::endl;
+
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : declaration_list COMMA ID\n\n" +$dl.text + "\n");        
+
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting COMMA or SEMICOLON\n");
+        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting COMMA or SEMICOLON\n");
+        }
 	| ID { 
         $text = $ID->getText();
         $line = $ID->getLine();
@@ -534,7 +551,19 @@ declaration_list
         
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
-    };
+    }
+        | ID ADDOP declaration_list {
+        $text = $ID->getText() + "," + $declaration_list.text;
+        $line = $ADDOP->getLine();
+        $varList.push_back(std::make_pair($ID->getText(), false));
+        for(auto var : $declaration_list.varList) {
+            $varList.push_back(var);
+        }
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID\n\n" + $ID->getText() + "\n");
+        writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting COMMA or SEMICOLON\n");
+        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting COMMA or SEMICOLON\n");
+        writeIntoparserLogFile("Line " + std::to_string($declaration_list.line) + ": declaration_list : declaration_list COMMA ID\n\n" + $text + "\n");
+        };
 
 statements
 	returns[std::string text , int line,std::string type]:
@@ -621,7 +650,16 @@ statement
 
         $type = "void";
 
-        writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n\n" + $text +"\n"); 
+        SymbolInfo* lookup = symbolTable->LookUP($ID->getText());
+
+
+
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n"); 
+        if(lookup == nullptr){
+                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undeclared variable " +$ID->getText() + "\n");  
+                writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Undeclared variable " + $ID->getText() + "\n\n" +$text+"\n");
+                                errorCount++;
+        }
 
     }
 	| RETURN e = expression SEMICOLON {
@@ -855,7 +893,7 @@ term
     $text = $t.text + $MULOP->getText() + $ue.text;
     $line = $ue.line;
     bool print = true;
-    
+    bool zeroprint = false;
     if ($MULOP->getText() == "%") {
         if ($t.type != "int" || $ue.type != "int") {
             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Non-Integer operand on modulus operator\n");
@@ -865,9 +903,7 @@ term
             print = false;
         }
         else if($ue.text == "0"){
-                        writeIntoErrorFile("Error at line " + std::to_string($line) + ": Modulus by Zero\n");
-
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Modulus by Zero\n\n" + $text + "\n");
+            zeroprint = true;
             errorCount++;
         }
      
@@ -879,9 +915,16 @@ term
             $type = "int";
         }
     }
-    if(print){
+    if(print && zeroprint == false){
     writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n\n" + $text + "\n");
     }  
+
+    if(zeroprint){
+             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Modulus by Zero\n");
+    writeIntoparserLogFile("Line " + std::to_string($line) + ": term : term MULOP unary_expression\n");
+
+            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Modulus by Zero\n\n" + $text + "\n");
+    }
 
 
 
@@ -892,6 +935,8 @@ unary_expression
             $text = $ADDOP->getText() + $ue.text;
             $line = $ADDOP->getLine();
             $type = $ue.type;
+            writeIntoparserLogFile("Line "+  std::to_string($line)+": unary_expression : ADDOP unary_expression\n\n" + $text + "\n");
+
         }
 	| NOT ue = unary_expression {
             $text = $NOT->getText() + $ue.text;
@@ -928,15 +973,18 @@ factor
     $type = $ID->getType();
 
     SymbolInfo* func = symbolTable->LookUP($ID->getText());
-    
+
     if (func == nullptr) {
         writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undefined function " + $ID->getText() + "\n");
         errorCount++;
     } 
     else if (func->getIsFunction() && func->getIsFunctionDefined()) {
+                //            std::cout<<std::to_string($line)<<func->getSymbolName()<<(int)func->parameterList.size()<< argumentCount<<std::endl;
+
         if ((int)func->parameterList.size()!= argumentCount) {
+
             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with declaration in function " + $ID->getText() + "\n");
-                        writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with declaration in function " + $ID->getText() + "\n");
+            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Total number of arguments mismatch with declaration in function " + $ID->getText() + "\n");
 
             errorCount++;
         } 
@@ -957,6 +1005,7 @@ factor
                     writeIntoErrorFile("Error at line " + std::to_string($line) + ": " + std::to_string(i + 1) + "th argument mismatch in function " + $ID->getText() + "\n");
                     writeIntoparserLogFile("Error at line " + std::to_string($line) + ": " + std::to_string(i + 1) + "th argument mismatch in function " + $ID->getText() + "\n");
                     errorCount++;
+                    break;
                 }
             }
 
