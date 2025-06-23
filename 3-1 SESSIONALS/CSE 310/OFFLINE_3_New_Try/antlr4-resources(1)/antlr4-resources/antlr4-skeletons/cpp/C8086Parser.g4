@@ -151,7 +151,7 @@ func_declaration
             // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
         } else {
             if(symbolTable->Insert(funcSymbol)){ 
-                std::cout << funcSymbol->getSymbolName() << $ID->getText() << std::endl;
+               // std::cout << funcSymbol->getSymbolName() << $ID->getText() << std::endl;
 
               //  writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+$ID->getText()+"\n");
 
@@ -185,7 +185,7 @@ func_declaration
             writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Redeclaration of function " + $ID->getText());
         } else {
             if(symbolTable->Insert(funcSymbol)){ 
-                    std::cout << funcSymbol->getSymbolName() << $ID->getText() << std::endl;
+                   // std::cout << funcSymbol->getSymbolName() << $ID->getText() << std::endl;
                          //       writeIntoErrorFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+$ID->getText()+"\n");
 
             }        }
@@ -339,7 +339,7 @@ compound_statement
         
          }
      ss = statements { 
-        std::cout << "ss  type"<<$ss.type <<std::endl;
+        // std::cout << "ss  type"<<$ss.type <<std::endl;
         $type = $ss.type;
     } RCURL {
         $text = $LCURL->getText()+"\n" + $ss.text +"\n" + $RCURL->getText();
@@ -502,7 +502,7 @@ statements
         $text = $s.text;
         $line = $s.line;
         $type = $s.type;
-                std::cout << "s  type"<<$s.type <<std::endl;
+                // std::cout << "s  type"<<$s.type <<std::endl;
 
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statements : statement\n\n" + $text+"\n"); 
     }
@@ -510,7 +510,7 @@ statements
         $text = $ss.text +"\n" + $s.text;
         $line = $s.line;
         $type = $s.type;
-                std::cout << "s  type"<<$s.type <<std::endl;
+                // std::cout << "s  type"<<$s.type <<std::endl;
 
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statements : statements statement\n\n" +$text+"\n"); 
 
@@ -575,7 +575,7 @@ statement
         $line = $RETURN->getLine();
         
         $type = $e.type;
-                std::cout << "e type"<<$e.type<<"e.text" <<$e.text <<std::endl;
+                // std::cout << "e type"<<$e.type<<"e.text" <<$e.text <<std::endl;
 
 
         // SymbolInfo* paramSymbol = new SymbolInfo($e.text, "ID");
@@ -638,7 +638,7 @@ variable
             writeIntoparserLogFile("Line " + std::to_string($ID->getLine()) + ": variable : ID\n\n"+$ID->getText()+"\n"); 
 
             }
-                std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
+                // std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
                 // if (lookup)
                 // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
                 //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
@@ -673,7 +673,7 @@ expression
             $text=$l.text;
             $line=$l.line;
             $type = $l.type;
-            std::cout << "l type"<<$l.type <<std::endl;
+            // std::cout << "l type"<<$l.type <<std::endl;
 
             writeIntoparserLogFile("Line "+  std::to_string($l.line)+": expression : logic_expression\n\n" + $l.text + "\n"); 
         }
@@ -696,9 +696,9 @@ expression
 
             } else {
 
-                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch yellow\n");  
+                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type Mismatch\n");  
 
-            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch yellow\n\n"+$text+"\n");
+            writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type Mismatch\n\n"+$text+"\n");
                             errorCount++;
 
              }
@@ -721,7 +721,7 @@ logic_expression
             $line = $r.line;
             $type = $r.type;
             $argIsArr = $r.argIsArray;
-            std::cout << "r  type"<<$r.type <<std::endl;
+            // std::cout << "r  type"<<$r.type <<std::endl;
 
             writeIntoparserLogFile("Line "+  std::to_string($r.line)+": logic_expression : rel_expression\n\n" + $r.text + "\n"); 
 
@@ -732,7 +732,7 @@ logic_expression
             $type = $re2.type;
             $argIsArr = false;
 
-            std::cout << "re2 type"<<$re2.type <<std::endl;
+            // std::cout << "re2 type"<<$re2.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + $text + "\n"); 
 
         };
@@ -744,7 +744,7 @@ rel_expression
             $line = $s.line;
             $type = $s.type;
             $argIsArray = $s.argIsArray;
-            std::cout << "s type"<<$s.type <<std::endl;
+            // std::cout << "s type"<<$s.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($s.line)+": rel_expression : simple_expression\n\n" + $s.text + "\n"); 
             }
 	| s1 = simple_expression RELOP s2 = simple_expression {
@@ -752,7 +752,7 @@ rel_expression
             $line = $RELOP->getLine();
             $type = $s2.type;
             $argIsArray = false;
-            std::cout << "s2 type"<<$s2.type <<std::endl;
+            // std::cout << "s2 type"<<$s2.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + $text + "\n"); 
 
         };
@@ -845,7 +845,7 @@ factor
         $line = $v.line;
         $type = $v.type;
         $argIsArray = $v.isArray;
-        std::cout << "v type"<<$v.type <<std::endl;
+        // std::cout << "v type"<<$v.type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($v.line)+": factor : variable\n\n" + $v.text + "\n");
         }
 	| ID LPAREN {
@@ -871,12 +871,13 @@ factor
         else {
             for (int i = 0; i < argumentCount; i++) {
                 std::string expectedType = func->parameterList[i].first;
+                std::cout<<func->parameterList[i].first <<std::endl;
                 std::string argType = argumentTypes[i];
                 bool argIsArray = argumentIsArray[i];
                 std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
-                if (argIsArray && expectedType == "array") {
+                if (argIsArray && expectedType !=argType) {
                     std::cout<<"ekhane eshche"<<std::endl;
-                    writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
+                    writeIntoErrorFile("Error at line " + std::to_string($line) + ": Type mismatch, " + func->parameterList[i].second + " is an array\n");
                     writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
                     errorCount++;
                 } 
@@ -907,7 +908,7 @@ factor
         $text = $CONST_INT->getText();
         $line = $CONST_INT->getLine();
         $type = "int";
-        std::cout << "CONST_INT type"<<$type <<std::endl;
+       // std::cout << "CONST_INT type"<<$type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : CONST_INT\n\n" + $text + "\n");
 
     }

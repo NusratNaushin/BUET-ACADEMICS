@@ -20,6 +20,7 @@ int paramCount = 0;
 int errorCount = 0;
 bool multipleDeclaration=false;
 std::vector<std::string>argumentTypes;
+std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;
 std::vector<std::pair<std::string, std::string>> plist;
 

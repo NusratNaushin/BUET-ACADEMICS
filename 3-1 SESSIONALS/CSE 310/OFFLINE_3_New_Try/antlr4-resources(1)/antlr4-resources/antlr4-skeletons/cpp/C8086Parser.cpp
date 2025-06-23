@@ -652,7 +652,7 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
                   // writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple definition of function " + antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
               } else {
                   if(symbolTable->Insert(funcSymbol)){ 
-                      std::cout << funcSymbol->getSymbolName() << antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() << std::endl;
+                     // std::cout << funcSymbol->getSymbolName() << antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() << std::endl;
 
                     //  writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText()+"\n");
 
@@ -701,7 +701,7 @@ C8086Parser::Func_declarationContext* C8086Parser::func_declaration() {
                   writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Redeclaration of function " + antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText());
               } else {
                   if(symbolTable->Insert(funcSymbol)){ 
-                          std::cout << funcSymbol->getSymbolName() << antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() << std::endl;
+                         // std::cout << funcSymbol->getSymbolName() << antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText() << std::endl;
                                //       writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+":  Multiple declaration of "+antlrcpp::downCast<Func_declarationContext *>(_localctx)->idToken->getText()+"\n");
 
                   }        }
@@ -1171,7 +1171,7 @@ C8086Parser::Compound_statementContext* C8086Parser::compound_statement() {
       setState(140);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss = statements(0);
        
-              std::cout << "ss  type"<<antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type <<std::endl;
+              // std::cout << "ss  type"<<antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type <<std::endl;
               antlrcpp::downCast<Compound_statementContext *>(_localctx)->type =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->ss->type;
           
       setState(142);
@@ -1788,7 +1788,7 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
             antlrcpp::downCast<StatementsContext *>(_localctx)->text =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->text;
             antlrcpp::downCast<StatementsContext *>(_localctx)->line =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->line;
             antlrcpp::downCast<StatementsContext *>(_localctx)->type =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->type;
-                    std::cout << "s  type"<<antlrcpp::downCast<StatementsContext *>(_localctx)->s->type <<std::endl;
+                    // std::cout << "s  type"<<antlrcpp::downCast<StatementsContext *>(_localctx)->s->type <<std::endl;
 
             writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": statements : statement\n\n" + _localctx->text+"\n"); 
         
@@ -1813,7 +1813,7 @@ C8086Parser::StatementsContext* C8086Parser::statements(int precedence) {
                           antlrcpp::downCast<StatementsContext *>(_localctx)->text =  antlrcpp::downCast<StatementsContext *>(_localctx)->ss->text +"\n" + antlrcpp::downCast<StatementsContext *>(_localctx)->s->text;
                           antlrcpp::downCast<StatementsContext *>(_localctx)->line =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->line;
                           antlrcpp::downCast<StatementsContext *>(_localctx)->type =  antlrcpp::downCast<StatementsContext *>(_localctx)->s->type;
-                                  std::cout << "s  type"<<antlrcpp::downCast<StatementsContext *>(_localctx)->s->type <<std::endl;
+                                  // std::cout << "s  type"<<antlrcpp::downCast<StatementsContext *>(_localctx)->s->type <<std::endl;
 
                           writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": statements : statements statement\n\n" +_localctx->text+"\n"); 
 
@@ -2105,7 +2105,7 @@ C8086Parser::StatementContext* C8086Parser::statement() {
               antlrcpp::downCast<StatementContext *>(_localctx)->line =  antlrcpp::downCast<StatementContext *>(_localctx)->returnToken->getLine();
               
               antlrcpp::downCast<StatementContext *>(_localctx)->type =  antlrcpp::downCast<StatementContext *>(_localctx)->e->type;
-                      std::cout << "e type"<<antlrcpp::downCast<StatementContext *>(_localctx)->e->type<<"e.text" <<antlrcpp::downCast<StatementContext *>(_localctx)->e->text <<std::endl;
+                      // std::cout << "e type"<<antlrcpp::downCast<StatementContext *>(_localctx)->e->type<<"e.text" <<antlrcpp::downCast<StatementContext *>(_localctx)->e->text <<std::endl;
 
 
               // SymbolInfo* paramSymbol = new SymbolInfo(antlrcpp::downCast<StatementContext *>(_localctx)->e->text, "ID");
@@ -2316,7 +2316,7 @@ C8086Parser::VariableContext* C8086Parser::variable() {
                   writeIntoparserLogFile("Line " + std::to_string(antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getLine()) + ": variable : ID\n\n"+antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText()+"\n"); 
 
                   }
-                      std::cout << "ID type: " << _localctx->type <<"for "<< antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText() << std::endl;
+                      // std::cout << "ID type: " << _localctx->type <<"for "<< antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText() << std::endl;
                       // if (lookup)
                       // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
                       //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
@@ -2432,7 +2432,7 @@ C8086Parser::ExpressionContext* C8086Parser::expression() {
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->text = antlrcpp::downCast<ExpressionContext *>(_localctx)->l->text;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->line = antlrcpp::downCast<ExpressionContext *>(_localctx)->l->line;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->type =  antlrcpp::downCast<ExpressionContext *>(_localctx)->l->type;
-                  std::cout << "l type"<<antlrcpp::downCast<ExpressionContext *>(_localctx)->l->type <<std::endl;
+                  // std::cout << "l type"<<antlrcpp::downCast<ExpressionContext *>(_localctx)->l->type <<std::endl;
 
                   writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<ExpressionContext *>(_localctx)->l->line)+": expression : logic_expression\n\n" + antlrcpp::downCast<ExpressionContext *>(_localctx)->l->text + "\n"); 
               
@@ -2466,9 +2466,9 @@ C8086Parser::ExpressionContext* C8086Parser::expression() {
 
                   } else {
 
-                      writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type Mismatch yellow\n");  
+                      writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type Mismatch\n");  
 
-                  writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Type Mismatch yellow\n\n"+_localctx->text+"\n");
+                  writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Type Mismatch\n\n"+_localctx->text+"\n");
                                   errorCount++;
 
                    }
@@ -2559,7 +2559,7 @@ C8086Parser::Logic_expressionContext* C8086Parser::logic_expression() {
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->line =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->line;
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->type =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->type;
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->argIsArr =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->argIsArray;
-                  std::cout << "r  type"<<antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->type <<std::endl;
+                  // std::cout << "r  type"<<antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->type <<std::endl;
 
                   writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->line)+": logic_expression : rel_expression\n\n" + antlrcpp::downCast<Logic_expressionContext *>(_localctx)->r->text + "\n"); 
 
@@ -2581,7 +2581,7 @@ C8086Parser::Logic_expressionContext* C8086Parser::logic_expression() {
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->type =  antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re2->type;
                   antlrcpp::downCast<Logic_expressionContext *>(_localctx)->argIsArr =  false;
 
-                  std::cout << "re2 type"<<antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re2->type <<std::endl;
+                  // std::cout << "re2 type"<<antlrcpp::downCast<Logic_expressionContext *>(_localctx)->re2->type <<std::endl;
                   writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + _localctx->text + "\n"); 
 
               
@@ -2661,7 +2661,7 @@ C8086Parser::Rel_expressionContext* C8086Parser::rel_expression() {
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->line =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->line;
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->type =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->type;
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->argIsArray =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->argIsArray;
-                  std::cout << "s type"<<antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->type <<std::endl;
+                  // std::cout << "s type"<<antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->type <<std::endl;
                   writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->line)+": rel_expression : simple_expression\n\n" + antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s->text + "\n"); 
                   
       break;
@@ -2680,7 +2680,7 @@ C8086Parser::Rel_expressionContext* C8086Parser::rel_expression() {
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->line =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->relopToken->getLine();
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->type =  antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s2->type;
                   antlrcpp::downCast<Rel_expressionContext *>(_localctx)->argIsArray =  false;
-                  std::cout << "s2 type"<<antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s2->type <<std::endl;
+                  // std::cout << "s2 type"<<antlrcpp::downCast<Rel_expressionContext *>(_localctx)->s2->type <<std::endl;
                   writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + _localctx->text + "\n"); 
 
               
@@ -3149,7 +3149,7 @@ C8086Parser::FactorContext* C8086Parser::factor() {
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->v->line;
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  antlrcpp::downCast<FactorContext *>(_localctx)->v->type;
               antlrcpp::downCast<FactorContext *>(_localctx)->argIsArray =  antlrcpp::downCast<FactorContext *>(_localctx)->v->isArray;
-              std::cout << "v type"<<antlrcpp::downCast<FactorContext *>(_localctx)->v->type <<std::endl;
+              // std::cout << "v type"<<antlrcpp::downCast<FactorContext *>(_localctx)->v->type <<std::endl;
               writeIntoparserLogFile("Line "+  std::to_string(antlrcpp::downCast<FactorContext *>(_localctx)->v->line)+": factor : variable\n\n" + antlrcpp::downCast<FactorContext *>(_localctx)->v->text + "\n");
               
       break;
@@ -3189,12 +3189,13 @@ C8086Parser::FactorContext* C8086Parser::factor() {
               else {
                   for (int i = 0; i < argumentCount; i++) {
                       std::string expectedType = func->parameterList[i].first;
+                      std::cout<<func->parameterList[i].first <<std::endl;
                       std::string argType = argumentTypes[i];
                       bool argIsArray = argumentIsArray[i];
                       std::cout << "expectedType: " << expectedType << ", argType: " << argType << ", argIsArray: " << argIsArray << std::endl;
-                      if (argIsArray && expectedType == "array") {
+                      if (argIsArray && expectedType !=argType) {
                           std::cout<<"ekhane eshche"<<std::endl;
-                          writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch" + func->parameterList[i].second + " is an array\n");
+                          writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch, " + func->parameterList[i].second + " is an array\n");
                           writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Type mismatch " + func->parameterList[i].second + " is an array\n");
                           errorCount++;
                       } 
@@ -3242,7 +3243,7 @@ C8086Parser::FactorContext* C8086Parser::factor() {
               antlrcpp::downCast<FactorContext *>(_localctx)->text =  antlrcpp::downCast<FactorContext *>(_localctx)->const_intToken->getText();
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->const_intToken->getLine();
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  "int";
-              std::cout << "CONST_INT type"<<_localctx->type <<std::endl;
+             // std::cout << "CONST_INT type"<<_localctx->type <<std::endl;
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : CONST_INT\n\n" + _localctx->text + "\n");
 
           
