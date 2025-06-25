@@ -1,0 +1,242 @@
+
+// SJF
+// void
+// scheduler(void)
+// {
+//   struct proc *p;
+//   struct cpu *c = mycpu();
+
+//   c->proc = 0;
+//   for(;;){
+//     // The most recent process to run may have had interrupts
+//     // turned off; enable them to avoid a deadlock if all
+//     // processes are waiting.
+//     intr_on();
+//     struct proc* shortest_job = 0;
+
+//     int found = 0;
+//     for(p = proc; p < &proc[NPROC]; p++) {
+//       acquire(&p->lock);
+//       if(p->state == RUNNABLE) {
+//         if(shortest_job == 0 || (p->jobLength <shortest_job->jobLength)){
+//           shortest_job = p;
+//         }
+//       }
+//       release(&p->lock);
+//     }
+
+//     p=shortest_job;
+//     if(p){
+//       acquire(&p->lock);
+
+//       if(p->state == RUNNABLE){
+//         p->state = RUNNING;
+//         c->proc = p;
+//         swtch(&c->context, &p->context);
+
+//         c->proc = 0;
+//         found = 1;
+//       }
+
+//       release(&p->lock);
+//     }
+//     if(found == 0) {
+//       // nothing to run; stop running on this core until an interrupt.
+//       intr_on();
+//       asm volatile("wfi");
+//     }
+//   }
+// }
+// fcfs
+// void
+// scheduler(void)
+// {
+//   struct proc *p;
+//   struct cpu *c = mycpu();
+
+//   c->proc = 0;
+//   for(;;){
+//     // The most recent process to run may have had interrupts
+//     // turned off; enable them to avoid a deadlock if all
+//     // processes are waiting.
+//     intr_on();
+//    // struct proc* shortest_job = 0;
+//     struct proc *first_come= 0;
+
+//     int found = 0;
+//     for(p = proc; p < &proc[NPROC]; p++) {
+//       acquire(&p->lock);
+//       if(p->state == RUNNABLE) {
+//         if(first_come == 0 || (p->ctime <first_come->ctime)){
+//          first_come = p;
+//         }
+//       }
+//       release(&p->lock);
+//     }
+
+//     //p=shortest_job;
+//     if (first_come != 0){
+
+//       acquire(&first_come->lock);
+
+//       if(first_come->state == RUNNABLE){
+//         first_come->state = RUNNING;
+//         c->proc = first_come;
+//         swtch(&c->context, &first_come->context);
+
+//         c->proc = 0;
+//         found = 1;
+//       }
+
+//       release(&first_come->lock);
+
+//     }
+
+//     //sjf
+//     // if(p){
+//     //   acquire(&p->lock);
+
+//     //   if(p->state == RUNNABLE){
+//     //     p->state = RUNNING;
+//     //     c->proc = p;
+//     //     swtch(&c->context, &p->context);
+
+//     //     c->proc = 0;
+//     //     found = 1;
+//     //   }
+
+//     //   release(&p->lock);
+//     // }
+//     if(found == 0) {
+//       // nothing to run; stop running on this core until an interrupt.
+//       intr_on();
+//       asm volatile("wfi");
+//     }
+//   }
+// }
+//priority
+void scheduler(void)
+{
+
+  struct proc *p;
+  struct cpu *c = mycpu();
+  c->proc = 0;
+
+  for (;;)
+  {
+
+    int found = 0;
+
+
+    struct proc *highPriority = 0;
+    for(p = proc; p < &proc[NPROC]; p++) {
+      acquire(&p->lock);
+      if(p->state == RUNNABLE) {
+        if(highPriority == 0 || (p->priority  > highPriority->priority)){
+         highPriority = p;
+        }
+      }
+      release(&p->lock);
+    }
+
+//     //p=shortest_job;
+    if (highPriority != 0){
+
+      acquire(&highPriority->lock);
+
+      if(highPriority->state == RUNNABLE){
+        highPriority->state = RUNNING;
+        c->proc = highPriority;
+        swtch(&c->context, &highPriority->context);
+
+        c->proc = 0;
+        found = 1;
+      }
+
+      release(&highPriority->lock);
+
+    }
+    if (found == 0)
+    {
+      // nothing to run; stop running on this core until an interrupt.
+      intr_on();
+      asm volatile("wfi");
+    }
+  }
+}
+
+
+
+preemptive sjf
+
+void
+scheduler(void)
+{
+  struct proc *p;
+  struct cpu *c = mycpu();
+  c->proc = 0;
+
+  for(;;){
+    intr_on();
+    struct proc *shortest_job = 0;
+
+    for(p = proc; p < &proc[NPROC]; p++){
+      acquire(&p->lock);
+      if(p->state == RUNNABLE){
+        if(shortest_job == 0 || p->remaining_time < shortest_job->remaining_time){
+          if(shortest_job)
+            release(&shortest_job->lock);
+          shortest_job = p;
+        } else {
+          release(&p->lock);
+        }
+      } else {
+        release(&p->lock);
+      }
+    }
+
+    if(shortest_job != 0){
+      // Run the shortest job
+      shortest_job->state = RUNNING;
+      c->proc = shortest_job;
+      swtch(&c->context, &shortest_job->context);
+      c->proc = 0;
+      release(&shortest_job->lock);
+    } else {
+      asm volatile("wfi");
+    }
+  }
+}
+
+
+round robin
+
+void
+scheduler(void)
+{
+  struct proc *p;
+  struct cpu *c = mycpu();
+  c->proc = 0;
+
+  for(;;){
+    // enable interrupts
+    intr_on();
+
+    for(p = proc; p < &proc[NPROC]; p++){
+      acquire(&p->lock);
+      if(p->state == RUNNABLE){
+        // Assign process to CPU and switch to it
+        p->state = RUNNING;
+        c->proc = p;
+        swtch(&c->context, &p->context);
+        // Process yielded
+        c->proc = 0;
+      }
+      release(&p->lock);
+    }
+
+    // If no RUNNABLE process was found, sleep
+    asm volatile("wfi");
+  }
+}
+
