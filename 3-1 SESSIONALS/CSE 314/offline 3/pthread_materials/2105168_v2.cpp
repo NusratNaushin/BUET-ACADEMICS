@@ -101,13 +101,14 @@ void *writerUnitLeader(void *arg)
   int unit_id = operative->unit_id;
     usleep(logbook_entry_relative_time * SLEEP_MULTIPLIER);
 
-  pthread_mutex_lock(&mutex);
-    completed_operations++;
-  pthread_mutex_unlock(&mutex);
+
 
   
   write_output("Unit leader of unit " + std::to_string(unit_id) +
                " has completed intelligence distribution at time " + std::to_string(get_time()) + " ms\n");
+  pthread_mutex_lock(&mutex);
+    completed_operations++;
+  pthread_mutex_unlock(&mutex);
   sem_post(&LogBook);
 
   return NULL;
