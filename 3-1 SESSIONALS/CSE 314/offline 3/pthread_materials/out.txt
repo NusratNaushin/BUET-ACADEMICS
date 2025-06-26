@@ -1,0 +1,30 @@
+Operative 4 has arrived at typewriting station TS-1 at time 0 ms
+Operative 9 has arrived at typewriting station TS-2 at time 1 ms
+Operative 10 has arrived at typewriting station TS-3 at time 2 ms
+Operative 15 has arrived at typewriting station TS-4 at time 3 ms
+Operative 4 has completed document recreation at time 10 ms
+Operative 12 has arrived at typewriting station TS-1 at time 10 ms
+Operative 9 has completed document recreation at time 11 ms
+Operative 13 has arrived at typewriting station TS-2 at time 11 ms
+Operative 10 has completed document recreation at time 12 ms
+Operative 14 has arrived at typewriting station TS-3 at time 12 ms
+Operative 15 has completed document recreation at time 14 ms
+Operative 7 has arrived at typewriting station TS-4 at time 14 ms
+Operative 12 has completed document recreation at time 20 ms
+Operative 8 has arrived at typewriting station TS-1 at time 20 ms
+Operative 13 has completed document recreation at time 21 ms
+Operative 5 has arrived at typewriting station TS-2 at time 21 ms
+Operative 14 has completed document recreation at time 23 ms
+Operative 2 has arrived at typewriting station TS-3 at time 23 ms
+Operative 7 has completed document recreation at time 24 ms
+Operative 11 has arrived at typewriting station TS-4 at time 24 ms
+Operative 8 has completed document recreation at time 31 ms
+Operative 5 has completed document recreation at time 31 ms
+Operative 1 has arrived at typewriting station TS-2 at time 32 ms
+Operative 2 has completed document recreation at time 33 ms
+Operative 6 has arrived at typewriting station TS-3 at time 33 ms
+Operative 11 has completed document recreation at time 34 ms
+Operative 3 has arrived at typewriting station TS-4 at time 34 ms
+Operative 1 has completed document recreation at time 42 ms
+Operative 6 has completed document recreation at time 43 ms
+Operative 3 has completed document recreation at time 44 ms

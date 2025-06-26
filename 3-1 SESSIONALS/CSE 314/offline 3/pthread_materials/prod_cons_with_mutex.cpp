@@ -2,20 +2,22 @@
 #include<pthread.h>
 #include<semaphore.h>
 #include<queue>
+#include <unistd.h>
+
 using namespace std;
 
 
 //semaphore to control sleep and wake up
-sem_t empty;
-sem_t full;
+sem_t sem_empty;
+sem_t sem_full;
 queue<int> q;
 pthread_mutex_t lock;
 
 
 void init_semaphore()
 {
-	sem_init(&empty,0,5);
-	sem_init(&full,0,0);
+	sem_init(&sem_empty,0,5);
+	sem_init(&sem_full,0,0);
 	pthread_mutex_init(&lock,0);
 }
 
@@ -25,7 +27,7 @@ void * ProducerFunc(void * arg)
 	int i;
 	for(i=1;i<=10;i++)
 	{
-		sem_wait(&empty);
+		sem_wait(&sem_empty);
 
 		pthread_mutex_lock(&lock);		
 		sleep(1);	
@@ -34,8 +36,9 @@ void * ProducerFunc(void * arg)
 		
 		pthread_mutex_unlock(&lock);
 	
-		sem_post(&full);
+		sem_post(&sem_full);
 	}
+	return NULL;
 }
 
 void * ConsumerFunc(void * arg)
@@ -44,7 +47,7 @@ void * ConsumerFunc(void * arg)
 	int i;
 	for(i=1;i<=10;i++)
 	{	
-		sem_wait(&full);
+		sem_wait(&sem_full);
  		
 		pthread_mutex_lock(&lock);
 			
@@ -55,8 +58,10 @@ void * ConsumerFunc(void * arg)
 
 		pthread_mutex_unlock(&lock);
 		
-		sem_post(&empty);
+		sem_post(&sem_empty);
 	}
+
+	return NULL;
 }
 
 
@@ -70,8 +75,8 @@ int main(void)
 	
 	init_semaphore();
 	
-	char * message1 = "i am producer";
-	char * message2 = "i am consumer";	
+	const char * message1 = "i am producer";
+	const char * message2 = "i am consumer";	
 	
 	pthread_create(&thread1,NULL,ProducerFunc,(void*)message1 );
 	pthread_create(&thread2,NULL,ConsumerFunc,(void*)message2 );
