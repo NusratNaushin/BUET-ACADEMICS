@@ -33,7 +33,7 @@ public class AttributeSelectionStrat {
         return totalEntropy - weightedEntropy;
     }
 
-    public static Map<String, List<AttributeLabel>> partition(List<AttributeLabel> data, int attrIndex) {
+    public static Map<String, List<AttributeLabel>> partition_by_attribute(List<AttributeLabel> data, int attrIndex) {
         Map<String, List<AttributeLabel>> map = new HashMap<>();
         for (AttributeLabel inst : data) {
             String val = inst.attributes[attrIndex];
