@@ -1,5 +1,6 @@
 import java.util.*;
 
+
 public class AttributeSelectionStrat {
     
     public static double calc_entropy(List<AttributeLabel> dataset) {
@@ -19,26 +20,88 @@ public class AttributeSelectionStrat {
         return entropy;
     }
 
-    public static double calc_info_gain(List<AttributeLabel> dataset, int attributeIndex) {
-        Map<String, List<AttributeLabel>> subsets = partition_by_attribute(dataset, attributeIndex);
-        
-        double totalEntropy = calc_entropy(dataset);
-        double weightedEntropy = 0.0;
-        
-        for (List<AttributeLabel> subset : subsets.values()) {
-            double subsetEntropy = calc_entropy(subset);
-            weightedEntropy += ((double) subset.size() / dataset.size()) * subsetEntropy;
+private static double calculateIG(List<AttributeLabel> instances, String attribute) {
+    double totalEntropy = calc_entropy(instances);
+    
+    Map<String, List<AttributeLabel>> subsets = new HashMap<>();
+    for (AttributeLabel instance : instances) {
+        String value = instance.attributes.get(attribute);
+        if (!subsets.containsKey(value)) {
+            subsets.put(value, new ArrayList<>());
         }
-        
-        return totalEntropy - weightedEntropy;
+        subsets.get(value).add(instance);
+    }
+    double splitEntropy = 0;
+    int totalInstances = instances.size();
+
+    for (List<AttributeLabel> subset : subsets.values()) {
+        double weight = (double) subset.size() / totalInstances;
+        splitEntropy += weight * calc_entropy(subset);
     }
 
-    public static Map<String, List<AttributeLabel>> partition_by_attribute(List<AttributeLabel> data, int attrIndex) {
-        Map<String, List<AttributeLabel>> map = new HashMap<>();
-        for (AttributeLabel inst : data) {
-            String val = inst.attributes[attrIndex];
-            map.computeIfAbsent(val, v -> new ArrayList<>()).add(inst);
+    return totalEntropy - splitEntropy;
+}
+
+public static double IGR(List<AttributeLabel> instances, String attribute){
+
+    double igr = 0.0;
+     Map<String, Integer> valueCounts = new HashMap<>();
+        for (AttributeLabel instance : instances) {
+            String value = instance.attributes.get(attribute);
+            valueCounts.put(value, valueCounts.getOrDefault(value, 0) + 1);
         }
-        return map;
+        
+        double iv = 0;
+        int totalInstances = instances.size();
+        
+        for (int count : valueCounts.values()) {
+            if (count > 0) {
+                double probability = (double) count / totalInstances;
+                iv -= probability * Math.log(probability) / Math.log(2);
+            }
+        }
+
+        double ig = calculateIG(instances, attribute);
+        if(iv == 0){
+            return 0;
+        }
+        else{
+            igr = ig/iv;
+            return igr;
+        }
+        
+}
+
+
+     public static double NWIG(List<AttributeLabel> data, String attribute){
+
+        double ig = calculateIG(data, attribute);
+
+        double nwig = 0.0;
+
+        Set<String> distinct_k_values = new HashSet<>();
+        for (AttributeLabel instance : data) {
+            String value = instance.attributes.get(attribute);
+            distinct_k_values.add(value);
+     }
+
+     int k = distinct_k_values.size();
+    int s = data.size();
+
+    if (s == 0 || k == 0) {
+        return 0;
     }
+
+    double penalty = (1- (double)(k-1)/s);
+    nwig = (ig/(Math.log(k+1)/Math.log(2)))*penalty;
+
+    return nwig;
+
+
+
+
+
+
+}
+
 }

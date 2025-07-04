@@ -38,9 +38,13 @@ public class DataSetLoad {
                 for (int i = 0; i < parts.length; i++) {
                     parts[i] = parts[i].trim();
                 }
-                String []attributes = Arrays.copyOf(parts, parts.length - 1);
+                Map<String, String> attributeMap = new HashMap<>();
+                for (int i = 0; i < parts.length - 1; i++) {
+                    attributeMap.put(AttributeLabel.headerNames[i], parts[i]);
+                }
                 String label = parts[parts.length - 1].trim();
-                dataset.add(new AttributeLabel(attributes,label));
+dataset.add(new AttributeLabel(attributeMap, label));
+
                // System.out.println(dataset.get(dataset.size() - 1).label);
             }
 

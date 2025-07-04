@@ -1,12 +1,15 @@
+import java.util.HashMap;
+import java.util.Map;
+
+
 public class AttributeLabel {
-    public String[] attributes;
-    public String label;
+        Map<String, String> attributes;
+        String label;
 
-    public AttributeLabel(String[] attributes, String label) {
-        this.attributes = attributes;
-        this.label = label;
-    }
-
+        public AttributeLabel(Map<String, String> attributes, String label) {
+            this.attributes = new HashMap<>(attributes);
+            this.label = label;
+        }
     public static String[] headerNames;
 
     public static void setHeaderNames(String[] headerNames) {
