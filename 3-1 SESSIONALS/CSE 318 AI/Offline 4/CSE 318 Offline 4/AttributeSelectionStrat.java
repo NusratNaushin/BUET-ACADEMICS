@@ -20,7 +20,7 @@ public class AttributeSelectionStrat {
         return entropy;
     }
 
-private static double calculateIG(List<AttributeLabel> instances, String attribute) {
+public static double calculateIG(List<AttributeLabel> instances, String attribute) {
     double totalEntropy = calc_entropy(instances);
     
     Map<String, List<AttributeLabel>> subsets = new HashMap<>();

@@ -7,6 +7,7 @@ public class Node {
     String label;
     public Map<String, Node> children_map;
     public boolean is_leaf = false;
+    int splitting_attribute = -1;
 
      
 
@@ -18,6 +19,10 @@ public class Node {
         this.is_leaf = false;
     }
 
+    public Node(boolean is_leaf, String label) {
+        this.is_leaf = is_leaf;
+        this.label = label;
+    }
 
 
         public Node() {
