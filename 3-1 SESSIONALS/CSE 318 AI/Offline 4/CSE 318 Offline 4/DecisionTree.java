@@ -1,8 +1,8 @@
 import java.util.List;
 
-public class DecisionTree{
+public class DecisionTree {
 
-public static void main(String[] args) {
+    public static void main(String[] args) {
         if (args.length < 3) {
             System.out.println("Usage: java Main <filepath> <criterion: IG|IGR|NWIG> <maxDepth>");
             return;
@@ -12,8 +12,11 @@ public static void main(String[] args) {
         int maxDepth = Integer.parseInt(args[2]);
 
         double totalAccuracy = 0.0;
+        double nodeCount = 0.0;
 
-        for(int i = 0 ; i < 20 ; i++){
+        double unpruned_depth_count_in_main = 0.0;
+
+        for (int i = 0; i < 20; i++) {
 
             List<AttributeLabel> dataset = DataSetLoad.loadDataSet(filepath);
 
@@ -24,11 +27,22 @@ public static void main(String[] args) {
 
             // Evaluate on test set
             double accuracy = tree.calculateAccuracy(split.testSet);
+            // tree te koita node ase count korbo
+            nodeCount += tree.countNodes(tree.root_attribute);
             totalAccuracy += accuracy;
-            System.out.printf("Run %d accuracy: %.2f%%\n", i + 1, accuracy * 100);
+            unpruned_depth_count_in_main += tree.unpruned_depth_count;
+            // System.out.printf("Run %d accuracy: %.2f%%\n", i + 1, accuracy * 100);
         }
 
-                System.out.printf("Average Accuracy over 20 runs: %.2f%%\n", (totalAccuracy / 20.0) * 100);
+        // avg node count korbo
+        double avgNodeCount = nodeCount / 20.0;
+        System.out.printf("Node Count: %.2f max depth %d and chosen Criteria %s  \n", avgNodeCount, maxDepth,
+                criterion);
+        if (maxDepth == 0) {
+            System.out.printf("Unpruned depth count : %.2f\n", unpruned_depth_count_in_main / 20.0);
+        }
+        System.out.printf("Average Accuracy over 20 runs for max depth %d: and chosen Criteria %s :%.2f%%\n", maxDepth,
+                criterion, (totalAccuracy / 20.0) * 100);
     }
 
 }

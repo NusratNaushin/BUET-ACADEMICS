@@ -68,7 +68,7 @@ public class DataSetLoad {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Loading complete");
+       // System.out.println("Loading complete");
 
         return dataset;
     }

@@ -8,6 +8,7 @@ public class DecisionTreeBuild {
     public int max_depth;
     public int currentDepth = 0;
     public String attribute_selection_criteria;
+    public int unpruned_depth_count = 0;
 
     public DecisionTreeBuild(String attribute_selection_criteria, int max_depth) {
         this.root_attribute = null;
@@ -20,11 +21,13 @@ public class DecisionTreeBuild {
     }
 
     private Node buildTree(List<AttributeLabel> data, int depth) {
+            unpruned_depth_count = Math.max(unpruned_depth_count, depth);
 
-System.out.println("depth = " + depth + " / max_depth = " + max_depth + " / data size = " + data.size());
+        // System.out.println("depth = " + depth + " / max_depth = " + max_depth + " /
+        // data size = " + data.size());
 
         if (data.isEmpty() || (max_depth > 0 && depth >= max_depth)) {
-            System.out.println("Reached max depth or empty data at depth: " + depth);
+            // System.out.println("Reached max depth or empty data at depth: " + depth);
             return new Node(true, getLabelWithMajorityFrequency(data));
         }
 
@@ -69,15 +72,18 @@ System.out.println("depth = " + depth + " / max_depth = " + max_depth + " / data
 
         }
 
+        if (groupedDataByAttributeValue.size() <= 1) {
+            return new Node(true, getLabelWithMajorityFrequency(data));
+        }
+
         for (Map.Entry<String, List<AttributeLabel>> entry : groupedDataByAttributeValue.entrySet()) {
             String attributeValue = entry.getKey();
             List<AttributeLabel> subsetForThatValue = entry.getValue();
             Node childNode = buildTree(subsetForThatValue, depth + 1);
-
             node.children_map.put(attributeValue, childNode);
         }
 
-       // System.out.println("depth " + depth + " max depth " + max_depth);
+        // System.out.println("depth " + depth + " max depth " + max_depth);
 
         return node;
 
@@ -137,7 +143,8 @@ System.out.println("depth = " + depth + " / max_depth = " + max_depth + " / data
             }
         }
 
-      //  System.out.println("Majority Label: " + majorityLabel + " with count: " + maxCount);
+        // System.out.println("Majority Label: " + majorityLabel + " with count: " +
+        // maxCount);
         return majorityLabel;
     }
 
@@ -168,7 +175,8 @@ System.out.println("depth = " + depth + " / max_depth = " + max_depth + " / data
 
             String predictedLabel = predictResult(attributeList);
 
-        //    System.out.println("Predicted: " + predictedLabel + ", Actual: " + sample.label);
+            // System.out.println("Predicted: " + predictedLabel + ", Actual: " +
+            // sample.label);
             if (predictedLabel.equals(sample.label)) {
                 correctPredictions++;
             }
@@ -176,4 +184,20 @@ System.out.println("depth = " + depth + " / max_depth = " + max_depth + " / data
 
         return (double) correctPredictions / testData.size();
     }
+
+    // node count korar jonno
+    public int countNodes(Node node) {
+        if (node == null)
+            return 0;
+
+        int count = 1;
+        if (!node.is_leaf) {
+            for (Node child : node.children_map.values()) {
+                count += countNodes(child);
+            }
+        }
+
+        return count;
+    }
+
 }
