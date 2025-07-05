@@ -6,6 +6,7 @@ import java.util.HashMap;
 public class DecisionTreeBuild {
     public Node root_attribute;
     public int max_depth;
+    public int currentDepth = 0;
     public String attribute_selection_criteria;
 
    public DecisionTreeBuild(String attribute_selection_criteria , int max_depth) {
@@ -20,7 +21,11 @@ public class DecisionTreeBuild {
 
    private Node buildTree(List<AttributeLabel> data, int depth){
 
+    System.out.println("DEBUG: buildTree called at depth " + depth + ", data size = " + data.size());
+
+
     if(data.isEmpty()||(max_depth>0 && depth >= max_depth)){
+        System.out.println("Reached max depth or empty data at depth: " + depth);
         return new Node(true , getLabelWithMajorityFrequency(data));
     }
 
@@ -49,6 +54,7 @@ public class DecisionTreeBuild {
 
     Node node = new Node(false , null);
     node.splitting_attribute = selectAttribute;
+    node.majorityLabel = getLabelWithMajorityFrequency(data);
 
     Map<String, List<AttributeLabel>> groupedDataByAttributeValue = new HashMap<>();
 
@@ -136,7 +142,49 @@ public class DecisionTreeBuild {
             majorityLabel = currentLabel;
         }
     }
+
+
+    System.out.println("Majority Label: " + majorityLabel + " with count: " + maxCount);
     return majorityLabel;
 }
 
+
+
+
+    public String predictResult(List<String> attributes) {
+        Node currentNode = root_attribute;
+
+        while(currentNode.is_leaf == false){
+            String attributeValue = attributes.get(currentNode.splitting_attribute);
+            if (currentNode.children_map.containsKey(attributeValue)) {
+                currentNode = currentNode.children_map.get(attributeValue);
+            } else {
+                return currentNode.majorityLabel;
+            }
+        }
+        return currentNode.label;
+    }
+
+    public double calculateAccuracy(List<AttributeLabel> testData) {
+        int correctPredictions = 0;
+
+        for (AttributeLabel sample : testData) {
+
+        List<String> attributeList = new ArrayList<>();
+
+        for (String header : AttributeLabel.headerNames) {
+            attributeList.add(sample.attributes.get(header));
+        }
+
+
+        String predictedLabel = predictResult(attributeList);
+
+            System.out.println("Predicted: " + predictedLabel + ", Actual: " + sample.label);
+            if (predictedLabel.equals(sample.label)) {
+                correctPredictions++;
+            }
+        }
+
+        return (double) correctPredictions / testData.size();
+    }
 }

@@ -17,17 +17,18 @@ public static void main(String[] args) {
 
             List<AttributeLabel> dataset = DataSetLoad.loadDataSet(filepath);
 
-            // Split dataset
             Split_Train_and_Test.SplitResult split = Split_Train_and_Test.splitData(dataset, 0.8);
 
-            // Train decision tree
-            DecisionTreeBuild tree = new DecisionTreeBuild(split.trainSet, criterion, maxDepth);
-            tree.train();
+            DecisionTreeBuild tree = new DecisionTreeBuild(criterion, maxDepth);
+            tree.train(split.trainSet);
 
             // Evaluate on test set
-            double accuracy = tree.evaluate(split.testSet);
+            double accuracy = tree.calculateAccuracy(split.testSet);
             totalAccuracy += accuracy;
+            System.out.printf("Run %d accuracy: %.2f%%\n", i + 1, accuracy * 100);
         }
+
+                System.out.printf("Average Accuracy over 20 runs: %.2f%%\n", (totalAccuracy / 20.0) * 100);
     }
 
 }
