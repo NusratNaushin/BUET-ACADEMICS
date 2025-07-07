@@ -11,7 +11,6 @@ fi
 source $VENV_DIR/bin/activate
 
 pip install --quiet matplotlib
-pip install pyplot
 python3 plot.py
 
 deactivate

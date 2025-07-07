@@ -5,7 +5,7 @@ public class DataSetLoad {
     public static List<AttributeLabel> loadDataSet(String filepath) {
         List<AttributeLabel> dataset = new ArrayList<>();
         String[] adultHeader = null;
-        String[] irisHeader = null;
+       // String[] irisHeader = null;
         String line;
 
         try (BufferedReader br = new BufferedReader(new FileReader(filepath))) {

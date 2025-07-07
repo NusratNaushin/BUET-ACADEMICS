@@ -1,0 +1,10 @@
+#!/bin/sh
+'''exec' "/home/nidhi/3-1/LABS/BUET-ACADEMICS/3-1 SESSIONALS/CSE 318 AI/Offline 4/CSE 318 Offline 4/.venv_plot/bin/python3" "$0" "$@"
+' '''
+# -*- coding: utf-8 -*-
+import re
+import sys
+from fontTools.merge import main
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
