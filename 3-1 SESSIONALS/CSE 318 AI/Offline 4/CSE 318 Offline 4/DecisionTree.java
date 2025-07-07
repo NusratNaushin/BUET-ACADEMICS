@@ -36,13 +36,12 @@ public class DecisionTree {
 
         // avg node count korbo
         double avgNodeCount = nodeCount / 20.0;
-        System.out.printf("Node Count: %.2f max depth %d and chosen Criteria %s  \n", avgNodeCount, maxDepth,
-                criterion);
+        System.out.printf("Chosen Criteria %s , Node Count: %.2f , max depth %d \n", criterion.toUpperCase(), avgNodeCount, maxDepth);
         if (maxDepth == 0) {
             System.out.printf("Unpruned depth count : %.2f\n", unpruned_depth_count_in_main / 20.0);
         }
-        System.out.printf("Average Accuracy over 20 runs for max depth %d: and chosen Criteria %s :%.2f%%\n", maxDepth,
-                criterion, (totalAccuracy / 20.0) * 100);
+        System.out.printf("Runs : 20 , Chosen Criteria : %s , Average Accuracy : %.2f%% , Max Depth : %d\n", criterion.toUpperCase(), (totalAccuracy / 20.0) * 100,
+                maxDepth);
     }
 
 }

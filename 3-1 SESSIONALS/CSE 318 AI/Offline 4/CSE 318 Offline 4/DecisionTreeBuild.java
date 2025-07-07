@@ -1,7 +1,9 @@
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class DecisionTreeBuild {
     public Node root_attribute;
@@ -17,10 +19,10 @@ public class DecisionTreeBuild {
     }
 
     public void train(List<AttributeLabel> dataset) {
-        this.root_attribute = buildTree(dataset, 0);
+        this.root_attribute = buildTree(dataset,  0, new HashSet<>());
     }
 
-    private Node buildTree(List<AttributeLabel> data, int depth) {
+    private Node buildTree(List<AttributeLabel> data, int depth, Set<Integer> visitedAttributes) {
             unpruned_depth_count = Math.max(unpruned_depth_count, depth);
 
         // System.out.println("depth = " + depth + " / max_depth = " + max_depth + " /
@@ -46,7 +48,16 @@ public class DecisionTreeBuild {
 
         }
 
-        int selectAttribute = chooseAttributeWithCrieterion(data);
+        int selectAttribute = chooseAttributeWithCrieterion(data, visitedAttributes);
+
+        // System.out.println("Selected attribute: " + selectAttribute + " at depth: " +
+        // depth);
+
+        if (selectAttribute == -1) {
+            return new Node(true, getLabelWithMajorityFrequency(data));
+        }
+
+visitedAttributes.add(selectAttribute);
 
         if (selectAttribute == -1) {
             return new Node(true, getLabelWithMajorityFrequency(data));
@@ -72,14 +83,14 @@ public class DecisionTreeBuild {
 
         }
 
-        if (groupedDataByAttributeValue.size() <= 1) {
-            return new Node(true, getLabelWithMajorityFrequency(data));
-        }
+        // if (groupedDataByAttributeValue.size() <= 1) {
+        //     return new Node(true, getLabelWithMajorityFrequency(data));
+        // }
 
         for (Map.Entry<String, List<AttributeLabel>> entry : groupedDataByAttributeValue.entrySet()) {
             String attributeValue = entry.getKey();
             List<AttributeLabel> subsetForThatValue = entry.getValue();
-            Node childNode = buildTree(subsetForThatValue, depth + 1);
+            Node childNode = buildTree(subsetForThatValue, depth + 1, new HashSet<>(visitedAttributes));
             node.children_map.put(attributeValue, childNode);
         }
 
@@ -89,32 +100,29 @@ public class DecisionTreeBuild {
 
     }
 
-    private int chooseAttributeWithCrieterion(List<AttributeLabel> data) {
+  private int chooseAttributeWithCrieterion(List<AttributeLabel> data, Set<Integer> usedAttributes) {
+    int bestAttribute = -1;
+    double bestScore = -1;
 
-        int bestAttribute = -1;
-        double bestScore = -1;
+    for (int i = 0; i < AttributeLabel.headerNames.length - 1; i++) {
+        if (usedAttributes.contains(i)) continue;
 
         double score = -1;
-        for (int i = 0; i < AttributeLabel.headerNames.length - 1; i++) {
-            if (attribute_selection_criteria.toLowerCase().equals("ig")) {
-                score = AttributeSelectionStrat.calculateIG(data, AttributeLabel.headerNames[i]);
-            }
-
-            else if (attribute_selection_criteria.toLowerCase().equals("igr")) {
-                score = AttributeSelectionStrat.IGR(data, AttributeLabel.headerNames[i]);
-            }
-
-            else if (attribute_selection_criteria.toLowerCase().equals("nwig")) {
-                score = AttributeSelectionStrat.NWIG(data, AttributeLabel.headerNames[i]);
-            }
-
-            if (score > bestScore) {
-                bestScore = score;
-                bestAttribute = i;
-            }
+        if (attribute_selection_criteria.toLowerCase().equals("ig")) {
+            score = AttributeSelectionStrat.calculateIG(data, AttributeLabel.headerNames[i]);
+        } else if (attribute_selection_criteria.toLowerCase().equals("igr")) {
+            score = AttributeSelectionStrat.IGR(data, AttributeLabel.headerNames[i]);
+        } else if (attribute_selection_criteria.toLowerCase().equals("nwig")) {
+            score = AttributeSelectionStrat.NWIG(data, AttributeLabel.headerNames[i]);
         }
-        return bestAttribute;
+
+        if (score > bestScore) {
+            bestScore = score;
+            bestAttribute = i;
+        }
     }
+    return bestAttribute;
+}
 
     private String getLabelWithMajorityFrequency(List<AttributeLabel> data) {
         Map<String, Integer> labelCount = new HashMap<>();

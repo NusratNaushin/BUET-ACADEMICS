@@ -1,3 +1,3 @@
 #!/bin/bash
 javac *.java
-java DecisionTree Datasets/adult.data ig 0
+java DecisionTree Datasets/adult.data igr 0
