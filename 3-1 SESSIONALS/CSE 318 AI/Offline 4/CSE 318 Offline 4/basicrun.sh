@@ -1,3 +1,5 @@
 #!/bin/bash
+find . -name "*.class" -type f -delete
+
 javac *.java
-java DecisionTree Datasets/adult.data igr 0
+java DecisionTree Datasets/adult.data nwig 1

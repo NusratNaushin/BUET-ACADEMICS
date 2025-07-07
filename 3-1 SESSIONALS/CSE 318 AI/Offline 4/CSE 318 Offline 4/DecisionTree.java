@@ -42,6 +42,17 @@ public class DecisionTree {
         }
         System.out.printf("Runs : 20 , Chosen Criteria : %s , Average Accuracy : %.2f%% , Max Depth : %d\n", criterion.toUpperCase(), (totalAccuracy / 20.0) * 100,
                 maxDepth);
+
+
+    result.log(
+    result.getDatasetName(filepath),
+    criterion,
+    maxDepth,
+    totalAccuracy / 20.0,
+    avgNodeCount,
+    unpruned_depth_count_in_main / 20.0
+);
+
     }
 
 }
