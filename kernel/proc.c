@@ -670,7 +670,7 @@ void scheduler(void)
       release(&p->lock);
     }
 
-    if (cpuid() == 1)
+    if (cpuid() == 0)
     {
       if (total_tickets == 0)
       {
