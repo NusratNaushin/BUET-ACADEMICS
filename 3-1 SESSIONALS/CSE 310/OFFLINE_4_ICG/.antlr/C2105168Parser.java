@@ -77,7 +77,7 @@ public class C2105168Parser extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, null, null, null, "'if'", "'else'", "'for'", "'while'", "'printf'", 
+			null, null, null, null, null, "'if'", "'else'", "'for'", "'while'", "'println'", 
 			"'return'", "'int'", "'float'", "'void'", "'('", "')'", "'{'", "'}'", 
 			"'['", "']'", "';'", "','", "'#'", null, null, null, "'++'", "'--'", 
 			"'!'", null, null, "'='"
@@ -195,6 +195,59 @@ public class C2105168Parser extends Parser {
 	        asmfile.flush();
 	    }
 
+	    std::string Print_assembly= R"(new_line proc
+	    push ax
+	    push dx
+	    mov ah,2
+	    mov dl,0Dh
+	    int 21h
+	    mov ah,2
+	    mov dl,0Ah
+	    int 21h
+	    pop dx
+	    pop ax
+	    ret
+	    new_line endp
+	print_output proc  ;print what is in ax
+	    push ax
+	    push bx
+	    push cx
+	    push dx
+	    push si
+	    lea si,number
+	    mov bx,10
+	    add si,4
+	    cmp ax,0
+	    jnge negate
+	    print:
+	    xor dx,dx
+	    div bx
+	    mov [si],dl
+	    add [si],'0'
+	    dec si
+	    cmp ax,0
+	    jne print
+	    inc si
+	    lea dx,si
+	    mov ah,9
+	    int 21h
+	    pop si
+	    pop dx
+	    pop cx
+	    pop bx
+	    pop ax
+	    ret
+	    negate:
+	    push ax
+	    mov ah,2
+	    mov dl,'-'
+	    int 21h
+	    pop ax
+	    neg ax
+	    jmp print
+	    print_output endp)";
+
+
 	    
 
 	public C2105168Parser(TokenStream input) {
@@ -246,7 +299,7 @@ public class C2105168Parser extends Parser {
 			        writeIntoparserLogFile("\nTotal number of lines: "+std::to_string(_localctx.line));
 			        writeIntoparserLogFile("Total number of errors: "+std::to_string(errorCount));
 
-
+			        writeIntoAsmFile(Print_assembly);
 			        writeIntoAsmFile("END main");
 			        std::cout << "here" <<std::endl;
 
@@ -699,7 +752,7 @@ public class C2105168Parser extends Parser {
 				            errorCount++;
 				        } 
 
-				        
+				        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
 				        
 				        writeIntoparserLogFile("\nLine "+std::to_string(_localctx.line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+_localctx.text+"\n");
@@ -748,6 +801,7 @@ public class C2105168Parser extends Parser {
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 				        std::cout << "DEBUG: func_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 
+				        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
 
@@ -1711,7 +1765,7 @@ public class C2105168Parser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 24, RULE_statement);
 		try {
-			setState(289);
+			setState(288);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,14,_ctx) ) {
 			case 1:
@@ -1864,17 +1918,13 @@ public class C2105168Parser extends Parser {
 				{
 				setState(277);
 				((StatementContext)_localctx).PRINTLN = match(PRINTLN);
-				   
-				        writeIntoAsmFile("CALL print_output");
-				        writeIntoAsmFile("CALL new_line");
-				     
-				setState(279);
+				setState(278);
 				((StatementContext)_localctx).LPAREN = match(LPAREN);
-				setState(280);
+				setState(279);
 				((StatementContext)_localctx).ID = match(ID);
-				setState(281);
+				setState(280);
 				((StatementContext)_localctx).RPAREN = match(RPAREN);
-				setState(282);
+				setState(281);
 				((StatementContext)_localctx).SEMICOLON = match(SEMICOLON);
 
 
@@ -1884,8 +1934,18 @@ public class C2105168Parser extends Parser {
 				        ((StatementContext)_localctx).type =  "void";
 
 				        SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).ID->getText());
+				        SymbolInfo* existing = symbolTable->LookUP(((StatementContext)_localctx).ID->getText());
+				            std::string currentScopeId = symbolTable->getCurrentScopeID();
+				            if(existing->getIsGlobal()){
+				                ((StatementContext)_localctx).code_section =  "\tMOV AX, "+ ((StatementContext)_localctx).ID->getText();
+				            } else {
+				                ((StatementContext)_localctx).code_section =  "\tMOV AX, [BP-" + std::to_string(existing->getStackOffset()) + "]";
+				            }
 
-
+				        writeIntoAsmFile("L" + std::to_string(label_count++)+":");
+				        writeIntoAsmFile(_localctx.code_section+"       ; Line "+std::to_string(_localctx.line));
+				        writeIntoAsmFile("\tCALL print_output");
+				        writeIntoAsmFile("\tCALL new_line");
 
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n"); 
 				        if(lookup == nullptr){
@@ -1900,11 +1960,11 @@ public class C2105168Parser extends Parser {
 			case 9:
 				enterOuterAlt(_localctx, 9);
 				{
-				setState(284);
+				setState(283);
 				((StatementContext)_localctx).RETURN = match(RETURN);
-				setState(285);
+				setState(284);
 				((StatementContext)_localctx).e = expression();
-				setState(286);
+				setState(285);
 				((StatementContext)_localctx).SEMICOLON = match(SEMICOLON);
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).RETURN->getText() + " " + ((StatementContext)_localctx).e.text + ((StatementContext)_localctx).SEMICOLON->getText();
@@ -1913,22 +1973,11 @@ public class C2105168Parser extends Parser {
 				        ((StatementContext)_localctx).type =  ((StatementContext)_localctx).e.type;
 
 
-				       // std::cout << std::to_string(_localctx.line)<<"return type"<<((StatementContext)_localctx).e.type<<"return " <<((StatementContext)_localctx).e.text <<std::endl;
+
 
 				        SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).e.text);
 
-				        if(lookup){
-				           // std::cout << lookup->getSymbolName() << " has return type " << lookup->getReturnType() <<"and e.type "<< ((StatementContext)_localctx).e.type << std::endl;
-				        }
-				        // SymbolInfo* paramSymbol = new SymbolInfo(((StatementContext)_localctx).e.text, "ID");
-				        // if(((StatementContext)_localctx).e.text != "0"){
-				        // if(!symbolTable->Insert(((StatementContext)_localctx).e.text, "ID")){ 
-				        //     writeIntoErrorFile("Error at line "+ std::to_string(_localctx.line) +": Multiple declaration of "+((StatementContext)_localctx).e.text+" in parameter\n");
-				        // }    
-				        // else{   
-				        //     std::cout << "inserted return : "<< ((StatementContext)_localctx).e.text <<std::endl;
-				        // }
-				        // }
+
 				        writeIntoparserLogFile("Line " + std::to_string(((StatementContext)_localctx).SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + ((StatementContext)_localctx).RETURN->getText() +" "+ ((StatementContext)_localctx).e.text+ ((StatementContext)_localctx).SEMICOLON->getText() +"\n"); 
 
 				      
@@ -1968,13 +2017,13 @@ public class C2105168Parser extends Parser {
 		Expression_statementContext _localctx = new Expression_statementContext(_ctx, getState());
 		enterRule(_localctx, 26, RULE_expression_statement);
 		try {
-			setState(297);
+			setState(296);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case SEMICOLON:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(291);
+				setState(290);
 				((Expression_statementContext)_localctx).SEMICOLON = match(SEMICOLON);
 
 				        ((Expression_statementContext)_localctx).text =  ((Expression_statementContext)_localctx).SEMICOLON->getText();
@@ -1993,9 +2042,9 @@ public class C2105168Parser extends Parser {
 			case CONST_FLOAT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(293);
+				setState(292);
 				((Expression_statementContext)_localctx).e = expression();
-				setState(294);
+				setState(293);
 				((Expression_statementContext)_localctx).SEMICOLON = match(SEMICOLON);
 
 				        ((Expression_statementContext)_localctx).text =  ((Expression_statementContext)_localctx).e.text + ((Expression_statementContext)_localctx).SEMICOLON->getText();
@@ -2048,13 +2097,13 @@ public class C2105168Parser extends Parser {
 		VariableContext _localctx = new VariableContext(_ctx, getState());
 		enterRule(_localctx, 28, RULE_variable);
 		try {
-			setState(307);
+			setState(306);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,16,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(299);
+				setState(298);
 				((VariableContext)_localctx).ID = match(ID);
 
 				        ((VariableContext)_localctx).text =  ((VariableContext)_localctx).ID->getText();
@@ -2095,13 +2144,13 @@ public class C2105168Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(301);
+				setState(300);
 				((VariableContext)_localctx).ID = match(ID);
-				setState(302);
+				setState(301);
 				((VariableContext)_localctx).LTHIRD = match(LTHIRD);
-				setState(303);
+				setState(302);
 				((VariableContext)_localctx).e = expression();
-				setState(304);
+				setState(303);
 				((VariableContext)_localctx).RTHIRD = match(RTHIRD);
 				 
 				        ((VariableContext)_localctx).text =  ((VariableContext)_localctx).ID->getText() + ((VariableContext)_localctx).LTHIRD->getText() + ((VariableContext)_localctx).e.text + ((VariableContext)_localctx).RTHIRD->getText();
@@ -2167,13 +2216,13 @@ public class C2105168Parser extends Parser {
 		ExpressionContext _localctx = new ExpressionContext(_ctx, getState());
 		enterRule(_localctx, 30, RULE_expression);
 		try {
-			setState(317);
+			setState(316);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,17,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(309);
+				setState(308);
 				((ExpressionContext)_localctx).l = logic_expression();
 
 				            ((ExpressionContext)_localctx).text = ((ExpressionContext)_localctx).l.text;
@@ -2190,11 +2239,11 @@ public class C2105168Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(312);
+				setState(311);
 				((ExpressionContext)_localctx).v = variable();
-				setState(313);
+				setState(312);
 				((ExpressionContext)_localctx).ASSIGNOP = match(ASSIGNOP);
-				setState(314);
+				setState(313);
 				((ExpressionContext)_localctx).le = logic_expression();
 
 				            ((ExpressionContext)_localctx).text =  ((ExpressionContext)_localctx).v.text + ((ExpressionContext)_localctx).ASSIGNOP->getText() + ((ExpressionContext)_localctx).le.text;
@@ -2210,10 +2259,10 @@ public class C2105168Parser extends Parser {
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
 				            }
 
+				                        writeIntoAsmFile("\tPOP AX");
 
 				            writeIntoAsmFile(_localctx.code_section);
-				            writeIntoAsmFile("\tPUSH AX");
-				            writeIntoAsmFile("\tPOP AX");
+
 
 				            
 				            std::cout << "DEBUG: expression code_section = '" << _localctx.code_section << "'" << std::endl;
@@ -2293,13 +2342,13 @@ public class C2105168Parser extends Parser {
 		Logic_expressionContext _localctx = new Logic_expressionContext(_ctx, getState());
 		enterRule(_localctx, 32, RULE_logic_expression);
 		try {
-			setState(327);
+			setState(326);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,18,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(319);
+				setState(318);
 				((Logic_expressionContext)_localctx).r = rel_expression();
 
 				            ((Logic_expressionContext)_localctx).text =  ((Logic_expressionContext)_localctx).r.text;
@@ -2316,19 +2365,49 @@ public class C2105168Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(322);
+				setState(321);
 				((Logic_expressionContext)_localctx).re1 = rel_expression();
-				setState(323);
+				setState(322);
 				((Logic_expressionContext)_localctx).LOGICOP = match(LOGICOP);
-				setState(324);
+				setState(323);
 				((Logic_expressionContext)_localctx).re2 = rel_expression();
 
 				            ((Logic_expressionContext)_localctx).text =  ((Logic_expressionContext)_localctx).re1.text+((Logic_expressionContext)_localctx).LOGICOP->getText() + ((Logic_expressionContext)_localctx).re2.text;
 				            ((Logic_expressionContext)_localctx).line =  ((Logic_expressionContext)_localctx).re2.line;
 				            ((Logic_expressionContext)_localctx).type =  ((Logic_expressionContext)_localctx).re2.type;
 				            ((Logic_expressionContext)_localctx).argIsArr =  false;
+				            int labelEnd = 0;
 
-				            // std::cout << "re2 type"<<((Logic_expressionContext)_localctx).re2.type <<std::endl;
+				         writeIntoAsmFile("\tPOP DX");  
+				          writeIntoAsmFile("\tPOP AX");  
+				    
+				    if (((Logic_expressionContext)_localctx).LOGICOP->getText() == "&&") {
+				        int labelFalse = label_count++;
+				        labelEnd = label_count++;
+				        
+				        writeIntoAsmFile("\tCMP AX, 0\n\tJE L" + std::to_string(labelFalse));  
+				        writeIntoAsmFile("\tCMP DX, 0\n\tJE L" + std::to_string(labelFalse));  
+				        
+				        writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				        
+				        writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				        writeIntoAsmFile("\tMOV AX, 0");
+				        
+				    } else if (((Logic_expressionContext)_localctx).LOGICOP->getText() == "||") {
+				        int labelTrue = label_count++;
+				        labelEnd = label_count++;
+				        
+				        writeIntoAsmFile("\tCMP AX, 0\n\tJNE L" + std::to_string(labelTrue));  
+				        writeIntoAsmFile("\tCMP DX, 0\n\tJNE L" + std::to_string(labelTrue));  
+				        
+				        writeIntoAsmFile("\tMOV AX, 0\n\tJMP L" + std::to_string(labelEnd));
+				        
+				        writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				        writeIntoAsmFile("\tMOV AX, 1");
+				    }
+
+				    writeIntoAsmFile("L" + std::to_string(labelEnd) + ":");
+				    writeIntoAsmFile("\n\tPUSH AX");
 				            writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + _localctx.text + "\n"); 
 
 				        
@@ -2375,13 +2454,13 @@ public class C2105168Parser extends Parser {
 		Rel_expressionContext _localctx = new Rel_expressionContext(_ctx, getState());
 		enterRule(_localctx, 34, RULE_rel_expression);
 		try {
-			setState(337);
+			setState(336);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,19,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(329);
+				setState(328);
 				((Rel_expressionContext)_localctx).s = simple_expression(0);
 
 				            ((Rel_expressionContext)_localctx).text =  ((Rel_expressionContext)_localctx).s.text;
@@ -2396,17 +2475,89 @@ public class C2105168Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(332);
+				setState(331);
 				((Rel_expressionContext)_localctx).s1 = simple_expression(0);
-				setState(333);
+				setState(332);
 				((Rel_expressionContext)_localctx).RELOP = match(RELOP);
-				setState(334);
+				setState(333);
 				((Rel_expressionContext)_localctx).s2 = simple_expression(0);
 
 				            ((Rel_expressionContext)_localctx).text =  ((Rel_expressionContext)_localctx).s1.text + ((Rel_expressionContext)_localctx).RELOP->getText() + ((Rel_expressionContext)_localctx).s2.text;
 				            ((Rel_expressionContext)_localctx).line =  ((Rel_expressionContext)_localctx).RELOP->getLine();
 				            ((Rel_expressionContext)_localctx).type =  ((Rel_expressionContext)_localctx).s2.type;
 				            ((Rel_expressionContext)_localctx).argIsArray =  false;
+				            int labelEnd = 0;
+
+				            writeIntoAsmFile("\tPOP DX");
+				            writeIntoAsmFile("\tPOP AX");
+				            if (((Rel_expressionContext)_localctx).RELOP->getText() == "==") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJE L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+
+				            } else if (((Rel_expressionContext)_localctx).RELOP->getText() == "!=") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJNE L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+				              } else if (((Rel_expressionContext)_localctx).RELOP->getText() == "<") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJL L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+				            } else if (((Rel_expressionContext)_localctx).RELOP->getText() == ">") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJG L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+				            } else if (((Rel_expressionContext)_localctx).RELOP->getText() == "<=") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJLE L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+
+				            } 
+				            else if (((Rel_expressionContext)_localctx).RELOP->getText() == ">=") {
+				                int labelTrue = label_count++;
+				                int labelFalse = label_count++;
+				                labelEnd = label_count++;
+				                writeIntoAsmFile("\tCMP AX, DX\n\tJGE L" + std::to_string(labelTrue));
+				                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+				                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+				                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+				                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+				                writeIntoAsmFile("\tMOV AX, 0");
+				            }
+
+				            writeIntoAsmFile("L" + std::to_string(labelEnd) + ":");
+				            writeIntoAsmFile("\n\tPUSH AX");
+
 				            // std::cout << "s2 type"<<((Rel_expressionContext)_localctx).s2.type <<std::endl;
 				            writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + _localctx.text + "\n"); 
 
@@ -2465,18 +2616,21 @@ public class C2105168Parser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(340);
+			setState(339);
 			((Simple_expressionContext)_localctx).t = term(0);
 
 			            ((Simple_expressionContext)_localctx).text =  ((Simple_expressionContext)_localctx).t.text;
 			            ((Simple_expressionContext)_localctx).line =  ((Simple_expressionContext)_localctx).t.line;
 			            ((Simple_expressionContext)_localctx).type =  ((Simple_expressionContext)_localctx).t.type;
 			            ((Simple_expressionContext)_localctx).argIsArray =  ((Simple_expressionContext)_localctx).t.argIsArray;
+
+
+
 			            writeIntoparserLogFile("Line "+  std::to_string(((Simple_expressionContext)_localctx).t.line)+": simple_expression : term\n\n" + ((Simple_expressionContext)_localctx).t.text + "\n"); 
 			            
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(350);
+			setState(349);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -2488,11 +2642,11 @@ public class C2105168Parser extends Parser {
 					_localctx = new Simple_expressionContext(_parentctx, _parentState);
 					_localctx.s = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_simple_expression);
-					setState(343);
+					setState(342);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(344);
+					setState(343);
 					((Simple_expressionContext)_localctx).ADDOP = match(ADDOP);
-					setState(345);
+					setState(344);
 					((Simple_expressionContext)_localctx).t = term(0);
 
 					                      ((Simple_expressionContext)_localctx).text =  ((Simple_expressionContext)_localctx).s.text+((Simple_expressionContext)_localctx).ADDOP->getText()+((Simple_expressionContext)_localctx).t.text;
@@ -2503,13 +2657,25 @@ public class C2105168Parser extends Parser {
 					                      } else {
 					                           ((Simple_expressionContext)_localctx).type =  "int";
 					                      }
+
+					                      writeIntoAsmFile("\tPOP DX");
+					                      writeIntoAsmFile("\tPOP AX");
+
+					                      if (((Simple_expressionContext)_localctx).ADDOP->getText() == "+") {
+
+					                          ((Simple_expressionContext)_localctx).code_section =  "\tADD AX, DX\n\tPUSH AX"    ;
+					                      } else if (((Simple_expressionContext)_localctx).ADDOP->getText() == "-") {
+					                          ((Simple_expressionContext)_localctx).code_section =  "\tSUB AX, DX\n\tPUSH AX\n";
+					                      }
+
+					                      writeIntoAsmFile(_localctx.code_section);
 					                      writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": simple_expression : simple_expression ADDOP term\n\n" + _localctx.text + "\n"); 
 
 					                    
 					}
 					} 
 				}
-				setState(352);
+				setState(351);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,20,_ctx);
 			}
@@ -2566,7 +2732,7 @@ public class C2105168Parser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(354);
+			setState(353);
 			((TermContext)_localctx).u = unary_expression();
 
 			         
@@ -2578,7 +2744,7 @@ public class C2105168Parser extends Parser {
 			            
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(364);
+			setState(363);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -2590,11 +2756,11 @@ public class C2105168Parser extends Parser {
 					_localctx = new TermContext(_parentctx, _parentState);
 					_localctx.t = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_term);
-					setState(357);
+					setState(356);
 					if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-					setState(358);
+					setState(357);
 					((TermContext)_localctx).MULOP = match(MULOP);
-					setState(359);
+					setState(358);
 					((TermContext)_localctx).ue = unary_expression();
 
 					              ((TermContext)_localctx).text =  ((TermContext)_localctx).t.text + ((TermContext)_localctx).MULOP->getText() + ((TermContext)_localctx).ue.text;
@@ -2633,13 +2799,27 @@ public class C2105168Parser extends Parser {
 					                      writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Modulus by Zero\n\n" + _localctx.text + "\n");
 					              }
 
+					              
 
+					            
 
+					              if (((TermContext)_localctx).MULOP->getText() == "*") {
+					                  writeIntoAsmFile("\tPOP DX");
+					                  writeIntoAsmFile("\tPOP AX"); 
+					                  ((TermContext)_localctx).code_section =  "\tMUL DX\n\tPUSH AX";
+					              } else if (((TermContext)_localctx).MULOP->getText() == "/") {
+					                  ((TermContext)_localctx).code_section =  "\tXCHG AX, DX\n\tDIV DX\n\tPUSH AX";
+					              } else if (((TermContext)_localctx).MULOP->getText() == "%") {
+					                  writeIntoAsmFile("\tPOP CX");
+					                  writeIntoAsmFile("\tPOP AX");
+					                  ((TermContext)_localctx).code_section =  "\tCWD\n\tDIV CX\n\tPUSH DX";
+					              }
+					              writeIntoAsmFile(_localctx.code_section);
 					          
 					}
 					} 
 				}
-				setState(366);
+				setState(365);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,21,_ctx);
 			}
@@ -2685,15 +2865,15 @@ public class C2105168Parser extends Parser {
 		Unary_expressionContext _localctx = new Unary_expressionContext(_ctx, getState());
 		enterRule(_localctx, 40, RULE_unary_expression);
 		try {
-			setState(378);
+			setState(377);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ADDOP:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(367);
+				setState(366);
 				((Unary_expressionContext)_localctx).ADDOP = match(ADDOP);
-				setState(368);
+				setState(367);
 				((Unary_expressionContext)_localctx).ue = unary_expression();
 
 				            ((Unary_expressionContext)_localctx).text =  ((Unary_expressionContext)_localctx).ADDOP->getText() + ((Unary_expressionContext)_localctx).ue.text;
@@ -2708,9 +2888,9 @@ public class C2105168Parser extends Parser {
 			case NOT:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(371);
+				setState(370);
 				((Unary_expressionContext)_localctx).NOT = match(NOT);
-				setState(372);
+				setState(371);
 				((Unary_expressionContext)_localctx).ue = unary_expression();
 
 				            ((Unary_expressionContext)_localctx).text =  ((Unary_expressionContext)_localctx).NOT->getText() + ((Unary_expressionContext)_localctx).ue.text;
@@ -2727,7 +2907,7 @@ public class C2105168Parser extends Parser {
 			case CONST_FLOAT:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(375);
+				setState(374);
 				((Unary_expressionContext)_localctx).f = factor();
 
 				            ((Unary_expressionContext)_localctx).text =  ((Unary_expressionContext)_localctx).f.text;
@@ -2797,19 +2977,34 @@ public class C2105168Parser extends Parser {
 		FactorContext _localctx = new FactorContext(_ctx, getState());
 		enterRule(_localctx, 42, RULE_factor);
 		try {
-			setState(407);
+			setState(406);
 			_errHandler.sync(this);
 			switch ( getInterpreter().adaptivePredict(_input,23,_ctx) ) {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(380);
+				setState(379);
 				((FactorContext)_localctx).v = variable();
 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).v.text;
 				        ((FactorContext)_localctx).line =  ((FactorContext)_localctx).v.line;
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
 				        ((FactorContext)_localctx).argIsArray =  ((FactorContext)_localctx).v.isArray;
+
+				        SymbolInfo* lookup = symbolTable->LookUP(((FactorContext)_localctx).v.text);
+
+				        if(lookup->getIsGlobal()){
+				            writeIntoAsmFile("\tMOV AX, "+((FactorContext)_localctx).v.text+"       ; Line "+std::to_string(_localctx.line));
+				            writeIntoAsmFile("\tPUSH AX");
+				          }
+
+				          else {   
+				            writeIntoAsmFile("L" + std::to_string(label_count++)+":");
+
+				            writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				            writeIntoAsmFile("\tPUSH AX");
+				          }
+
 				        // std::cout << "v type"<<((FactorContext)_localctx).v.type <<std::endl;
 				        writeIntoparserLogFile("Line "+  std::to_string(((FactorContext)_localctx).v.line)+": factor : variable\n\n" + ((FactorContext)_localctx).v.text + "\n");
 				        
@@ -2818,18 +3013,18 @@ public class C2105168Parser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(383);
+				setState(382);
 				((FactorContext)_localctx).ID = match(ID);
-				setState(384);
+				setState(383);
 				((FactorContext)_localctx).LPAREN = match(LPAREN);
 
 				        argumentCount = 0;
 				        argumentTypes.clear();
 				        argumentIsArray.clear();
 				    
-				setState(386);
+				setState(385);
 				((FactorContext)_localctx).a = argument_list();
-				setState(387);
+				setState(386);
 				((FactorContext)_localctx).RPAREN = match(RPAREN);
 
 				    ((FactorContext)_localctx).text =  ((FactorContext)_localctx).ID->getText() + ((FactorContext)_localctx).LPAREN->getText() + ((FactorContext)_localctx).a.text + ((FactorContext)_localctx).RPAREN->getText();
@@ -2889,11 +3084,11 @@ public class C2105168Parser extends Parser {
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(390);
+				setState(389);
 				((FactorContext)_localctx).LPAREN = match(LPAREN);
-				setState(391);
+				setState(390);
 				((FactorContext)_localctx).e = expression();
-				setState(392);
+				setState(391);
 				((FactorContext)_localctx).RPAREN = match(RPAREN);
 				 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).LPAREN->getText() + ((FactorContext)_localctx).e.text + ((FactorContext)_localctx).RPAREN->getText();
@@ -2908,7 +3103,7 @@ public class C2105168Parser extends Parser {
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(395);
+				setState(394);
 				((FactorContext)_localctx).CONST_INT = match(CONST_INT);
 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).CONST_INT->getText();
@@ -2916,7 +3111,7 @@ public class C2105168Parser extends Parser {
 				        ((FactorContext)_localctx).type =  "int";
 				        ((FactorContext)_localctx).argIsArray =  false;
 				        writeIntoAsmFile("L" + std::to_string(label_count++) + ":\n" + "\tMOV AX, "+_localctx.text +"       ; Line "+std::to_string(_localctx.line));
-
+				        writeIntoAsmFile("\tPUSH AX");
 				        
 
 				        
@@ -2929,7 +3124,7 @@ public class C2105168Parser extends Parser {
 			case 5:
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(397);
+				setState(396);
 				((FactorContext)_localctx).CONST_FLOAT = match(CONST_FLOAT);
 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).CONST_FLOAT->getText();
@@ -2944,14 +3139,19 @@ public class C2105168Parser extends Parser {
 			case 6:
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(399);
+				setState(398);
 				((FactorContext)_localctx).v = variable();
-				setState(400);
+				setState(399);
 				((FactorContext)_localctx).INCOP = match(INCOP);
 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).v.text+((FactorContext)_localctx).INCOP->getText();
 				        ((FactorContext)_localctx).line =  ((FactorContext)_localctx).INCOP->getLine();
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
+
+				        SymbolInfo* lookup = symbolTable->LookUP(((FactorContext)_localctx).v.text);
+				        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				        writeIntoAsmFile("\tPUSH AX");
+				        writeIntoAsmFile("\tINC AX");
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": factor : variable INCOP\n\n" + _localctx.text + "\n");
 
 				    
@@ -2960,14 +3160,18 @@ public class C2105168Parser extends Parser {
 			case 7:
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(403);
+				setState(402);
 				((FactorContext)_localctx).v = variable();
-				setState(404);
+				setState(403);
 				((FactorContext)_localctx).DECOP = match(DECOP);
 
 				        ((FactorContext)_localctx).text =  ((FactorContext)_localctx).v.text+((FactorContext)_localctx).DECOP->getText();
 				        ((FactorContext)_localctx).line =  ((FactorContext)_localctx).DECOP->getLine();
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
+				         SymbolInfo* lookup = symbolTable->LookUP(((FactorContext)_localctx).v.text);
+				        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				        writeIntoAsmFile("\tPUSH AX");
+				        writeIntoAsmFile("\tDEC AX");
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": factor : variable DECOP\n\n" + _localctx.text + "\n");
 
 				    
@@ -3005,7 +3209,7 @@ public class C2105168Parser extends Parser {
 		Argument_listContext _localctx = new Argument_listContext(_ctx, getState());
 		enterRule(_localctx, 44, RULE_argument_list);
 		try {
-			setState(413);
+			setState(412);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case LPAREN:
@@ -3016,7 +3220,7 @@ public class C2105168Parser extends Parser {
 			case CONST_FLOAT:
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(409);
+				setState(408);
 				((Argument_listContext)_localctx).a = arguments(0);
 				   
 				            ((Argument_listContext)_localctx).text =  ((Argument_listContext)_localctx).a.text;
@@ -3084,7 +3288,7 @@ public class C2105168Parser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			{
-			setState(416);
+			setState(415);
 			((ArgumentsContext)_localctx).le = logic_expression();
 
 
@@ -3100,7 +3304,7 @@ public class C2105168Parser extends Parser {
 			        
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(426);
+			setState(425);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -3112,11 +3316,11 @@ public class C2105168Parser extends Parser {
 					_localctx = new ArgumentsContext(_parentctx, _parentState);
 					_localctx.a = _prevctx;
 					pushNewRecursionContext(_localctx, _startState, RULE_arguments);
-					setState(419);
+					setState(418);
 					if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-					setState(420);
+					setState(419);
 					((ArgumentsContext)_localctx).COMMA = match(COMMA);
-					setState(421);
+					setState(420);
 					((ArgumentsContext)_localctx).le = logic_expression();
 					    
 					                      ((ArgumentsContext)_localctx).text = ((ArgumentsContext)_localctx).a.text +  ((ArgumentsContext)_localctx).COMMA->getText()+  ((ArgumentsContext)_localctx).le.text;
@@ -3131,7 +3335,7 @@ public class C2105168Parser extends Parser {
 					}
 					} 
 				}
-				setState(428);
+				setState(427);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,25,_ctx);
 			}
@@ -3226,7 +3430,7 @@ public class C2105168Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\u0004\u0001\"\u01ae\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0004\u0001\"\u01ad\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
 		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
 		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
 		"\b\u0007\b\u0002\t\u0007\t\u0002\n\u0007\n\u0002\u000b\u0007\u000b\u0002"+
@@ -3267,44 +3471,44 @@ public class C2105168Parser extends Parser {
 		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
 		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
 		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
-		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001"+
-		"\f\u0003\f\u0122\b\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0003"+
-		"\r\u012a\b\r\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e"+
-		"\u0001\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0134\b\u000e\u0001\u000f"+
-		"\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f"+
-		"\u0001\u000f\u0003\u000f\u013e\b\u000f\u0001\u0010\u0001\u0010\u0001\u0010"+
-		"\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0003\u0010"+
-		"\u0148\b\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011"+
-		"\u0001\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u0152\b\u0011\u0001\u0012"+
-		"\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012"+
-		"\u0001\u0012\u0001\u0012\u0005\u0012\u015d\b\u0012\n\u0012\f\u0012\u0160"+
-		"\t\u0012\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001"+
-		"\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0005\u0013\u016b\b\u0013\n"+
-		"\u0013\f\u0013\u016e\t\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001"+
-		"\u0014\u0001\u0014\u0003\u0014\u017b\b\u0014\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001"+
-		"\u0015\u0003\u0015\u0198\b\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0001"+
-		"\u0016\u0003\u0016\u019e\b\u0016\u0001\u0017\u0001\u0017\u0001\u0017\u0001"+
-		"\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0005"+
-		"\u0017\u01a9\b\u0017\n\u0017\f\u0017\u01ac\t\u0017\u0001\u0017\u0000\u0007"+
-		"\u0002\n\u0014\u0016$&.\u0018\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010"+
-		"\u0012\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*,.\u0000\u0000\u01c3"+
-		"\u00000\u0001\u0000\u0000\u0000\u00024\u0001\u0000\u0000\u0000\u0004J"+
-		"\u0001\u0000\u0000\u0000\u0006\\\u0001\u0000\u0000\u0000\br\u0001\u0000"+
-		"\u0000\u0000\n\u0082\u0001\u0000\u0000\u0000\f\u00a3\u0001\u0000\u0000"+
-		"\u0000\u000e\u00af\u0001\u0000\u0000\u0000\u0010\u00b1\u0001\u0000\u0000"+
-		"\u0000\u0012\u00b9\u0001\u0000\u0000\u0000\u0014\u00c8\u0001\u0000\u0000"+
-		"\u0000\u0016\u00df\u0001\u0000\u0000\u0000\u0018\u0121\u0001\u0000\u0000"+
-		"\u0000\u001a\u0129\u0001\u0000\u0000\u0000\u001c\u0133\u0001\u0000\u0000"+
-		"\u0000\u001e\u013d\u0001\u0000\u0000\u0000 \u0147\u0001\u0000\u0000\u0000"+
-		"\"\u0151\u0001\u0000\u0000\u0000$\u0153\u0001\u0000\u0000\u0000&\u0161"+
-		"\u0001\u0000\u0000\u0000(\u017a\u0001\u0000\u0000\u0000*\u0197\u0001\u0000"+
-		"\u0000\u0000,\u019d\u0001\u0000\u0000\u0000.\u019f\u0001\u0000\u0000\u0000"+
-		"01\u0006\u0000\uffff\uffff\u000012\u0003\u0002\u0001\u000023\u0006\u0000"+
+		"\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0001\f\u0003"+
+		"\f\u0121\b\f\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0001\r\u0003\r\u0129"+
+		"\b\r\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001\u000e\u0001"+
+		"\u000e\u0001\u000e\u0001\u000e\u0003\u000e\u0133\b\u000e\u0001\u000f\u0001"+
+		"\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001\u000f\u0001"+
+		"\u000f\u0003\u000f\u013d\b\u000f\u0001\u0010\u0001\u0010\u0001\u0010\u0001"+
+		"\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0001\u0010\u0003\u0010\u0147"+
+		"\b\u0010\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001\u0011\u0001"+
+		"\u0011\u0001\u0011\u0001\u0011\u0003\u0011\u0151\b\u0011\u0001\u0012\u0001"+
+		"\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001\u0012\u0001"+
+		"\u0012\u0001\u0012\u0005\u0012\u015c\b\u0012\n\u0012\f\u0012\u015f\t\u0012"+
+		"\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013\u0001\u0013"+
+		"\u0001\u0013\u0001\u0013\u0001\u0013\u0005\u0013\u016a\b\u0013\n\u0013"+
+		"\f\u0013\u016d\t\u0013\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014"+
+		"\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014\u0001\u0014"+
+		"\u0001\u0014\u0003\u0014\u017a\b\u0014\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015\u0001\u0015"+
+		"\u0003\u0015\u0197\b\u0015\u0001\u0016\u0001\u0016\u0001\u0016\u0001\u0016"+
+		"\u0003\u0016\u019d\b\u0016\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017"+
+		"\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0001\u0017\u0005\u0017"+
+		"\u01a8\b\u0017\n\u0017\f\u0017\u01ab\t\u0017\u0001\u0017\u0000\u0007\u0002"+
+		"\n\u0014\u0016$&.\u0018\u0000\u0002\u0004\u0006\b\n\f\u000e\u0010\u0012"+
+		"\u0014\u0016\u0018\u001a\u001c\u001e \"$&(*,.\u0000\u0000\u01c2\u0000"+
+		"0\u0001\u0000\u0000\u0000\u00024\u0001\u0000\u0000\u0000\u0004J\u0001"+
+		"\u0000\u0000\u0000\u0006\\\u0001\u0000\u0000\u0000\br\u0001\u0000\u0000"+
+		"\u0000\n\u0082\u0001\u0000\u0000\u0000\f\u00a3\u0001\u0000\u0000\u0000"+
+		"\u000e\u00af\u0001\u0000\u0000\u0000\u0010\u00b1\u0001\u0000\u0000\u0000"+
+		"\u0012\u00b9\u0001\u0000\u0000\u0000\u0014\u00c8\u0001\u0000\u0000\u0000"+
+		"\u0016\u00df\u0001\u0000\u0000\u0000\u0018\u0120\u0001\u0000\u0000\u0000"+
+		"\u001a\u0128\u0001\u0000\u0000\u0000\u001c\u0132\u0001\u0000\u0000\u0000"+
+		"\u001e\u013c\u0001\u0000\u0000\u0000 \u0146\u0001\u0000\u0000\u0000\""+
+		"\u0150\u0001\u0000\u0000\u0000$\u0152\u0001\u0000\u0000\u0000&\u0160\u0001"+
+		"\u0000\u0000\u0000(\u0179\u0001\u0000\u0000\u0000*\u0196\u0001\u0000\u0000"+
+		"\u0000,\u019c\u0001\u0000\u0000\u0000.\u019e\u0001\u0000\u0000\u00000"+
+		"1\u0006\u0000\uffff\uffff\u000012\u0003\u0002\u0001\u000023\u0006\u0000"+
 		"\uffff\uffff\u00003\u0001\u0001\u0000\u0000\u000045\u0006\u0001\uffff"+
 		"\uffff\u000056\u0003\u0004\u0002\u000067\u0006\u0001\uffff\uffff\u0000"+
 		"7>\u0001\u0000\u0000\u000089\n\u0002\u0000\u00009:\u0003\u0004\u0002\u0000"+
@@ -3399,115 +3603,115 @@ public class C2105168Parser extends Parser {
 		"\u00e9\u00e7\u0001\u0000\u0000\u0000\u00e9\u00ea\u0001\u0000\u0000\u0000"+
 		"\u00ea\u0017\u0001\u0000\u0000\u0000\u00eb\u00e9\u0001\u0000\u0000\u0000"+
 		"\u00ec\u00ed\u0003\u000e\u0007\u0000\u00ed\u00ee\u0006\f\uffff\uffff\u0000"+
-		"\u00ee\u0122\u0001\u0000\u0000\u0000\u00ef\u00f0\u0003\u001a\r\u0000\u00f0"+
-		"\u00f1\u0006\f\uffff\uffff\u0000\u00f1\u0122\u0001\u0000\u0000\u0000\u00f2"+
+		"\u00ee\u0121\u0001\u0000\u0000\u0000\u00ef\u00f0\u0003\u001a\r\u0000\u00f0"+
+		"\u00f1\u0006\f\uffff\uffff\u0000\u00f1\u0121\u0001\u0000\u0000\u0000\u00f2"+
 		"\u00f3\u0003\f\u0006\u0000\u00f3\u00f4\u0006\f\uffff\uffff\u0000\u00f4"+
-		"\u0122\u0001\u0000\u0000\u0000\u00f5\u00f6\u0005\u0007\u0000\u0000\u00f6"+
+		"\u0121\u0001\u0000\u0000\u0000\u00f5\u00f6\u0005\u0007\u0000\u0000\u00f6"+
 		"\u00f7\u0005\u000e\u0000\u0000\u00f7\u00f8\u0003\u001a\r\u0000\u00f8\u00f9"+
 		"\u0003\u001a\r\u0000\u00f9\u00fa\u0003\u001e\u000f\u0000\u00fa\u00fb\u0005"+
 		"\u000f\u0000\u0000\u00fb\u00fc\u0003\u0018\f\u0000\u00fc\u00fd\u0006\f"+
-		"\uffff\uffff\u0000\u00fd\u0122\u0001\u0000\u0000\u0000\u00fe\u00ff\u0005"+
+		"\uffff\uffff\u0000\u00fd\u0121\u0001\u0000\u0000\u0000\u00fe\u00ff\u0005"+
 		"\u0005\u0000\u0000\u00ff\u0100\u0005\u000e\u0000\u0000\u0100\u0101\u0003"+
 		"\u001e\u000f\u0000\u0101\u0102\u0005\u000f\u0000\u0000\u0102\u0103\u0003"+
-		"\u0018\f\u0000\u0103\u0104\u0006\f\uffff\uffff\u0000\u0104\u0122\u0001"+
+		"\u0018\f\u0000\u0103\u0104\u0006\f\uffff\uffff\u0000\u0104\u0121\u0001"+
 		"\u0000\u0000\u0000\u0105\u0106\u0005\u0005\u0000\u0000\u0106\u0107\u0005"+
 		"\u000e\u0000\u0000\u0107\u0108\u0003\u001e\u000f\u0000\u0108\u0109\u0005"+
 		"\u000f\u0000\u0000\u0109\u010a\u0003\u0018\f\u0000\u010a\u010b\u0005\u0006"+
 		"\u0000\u0000\u010b\u010c\u0003\u0018\f\u0000\u010c\u010d\u0006\f\uffff"+
-		"\uffff\u0000\u010d\u0122\u0001\u0000\u0000\u0000\u010e\u010f\u0005\b\u0000"+
+		"\uffff\u0000\u010d\u0121\u0001\u0000\u0000\u0000\u010e\u010f\u0005\b\u0000"+
 		"\u0000\u010f\u0110\u0005\u000e\u0000\u0000\u0110\u0111\u0003\u001e\u000f"+
 		"\u0000\u0111\u0112\u0005\u000f\u0000\u0000\u0112\u0113\u0003\u0018\f\u0000"+
-		"\u0113\u0114\u0006\f\uffff\uffff\u0000\u0114\u0122\u0001\u0000\u0000\u0000"+
-		"\u0115\u0116\u0005\t\u0000\u0000\u0116\u0117\u0006\f\uffff\uffff\u0000"+
-		"\u0117\u0118\u0005\u000e\u0000\u0000\u0118\u0119\u0005 \u0000\u0000\u0119"+
-		"\u011a\u0005\u000f\u0000\u0000\u011a\u011b\u0005\u0014\u0000\u0000\u011b"+
-		"\u0122\u0006\f\uffff\uffff\u0000\u011c\u011d\u0005\n\u0000\u0000\u011d"+
-		"\u011e\u0003\u001e\u000f\u0000\u011e\u011f\u0005\u0014\u0000\u0000\u011f"+
-		"\u0120\u0006\f\uffff\uffff\u0000\u0120\u0122\u0001\u0000\u0000\u0000\u0121"+
-		"\u00ec\u0001\u0000\u0000\u0000\u0121\u00ef\u0001\u0000\u0000\u0000\u0121"+
-		"\u00f2\u0001\u0000\u0000\u0000\u0121\u00f5\u0001\u0000\u0000\u0000\u0121"+
-		"\u00fe\u0001\u0000\u0000\u0000\u0121\u0105\u0001\u0000\u0000\u0000\u0121"+
-		"\u010e\u0001\u0000\u0000\u0000\u0121\u0115\u0001\u0000\u0000\u0000\u0121"+
-		"\u011c\u0001\u0000\u0000\u0000\u0122\u0019\u0001\u0000\u0000\u0000\u0123"+
-		"\u0124\u0005\u0014\u0000\u0000\u0124\u012a\u0006\r\uffff\uffff\u0000\u0125"+
-		"\u0126\u0003\u001e\u000f\u0000\u0126\u0127\u0005\u0014\u0000\u0000\u0127"+
-		"\u0128\u0006\r\uffff\uffff\u0000\u0128\u012a\u0001\u0000\u0000\u0000\u0129"+
-		"\u0123\u0001\u0000\u0000\u0000\u0129\u0125\u0001\u0000\u0000\u0000\u012a"+
-		"\u001b\u0001\u0000\u0000\u0000\u012b\u012c\u0005 \u0000\u0000\u012c\u0134"+
-		"\u0006\u000e\uffff\uffff\u0000\u012d\u012e\u0005 \u0000\u0000\u012e\u012f"+
-		"\u0005\u0012\u0000\u0000\u012f\u0130\u0003\u001e\u000f\u0000\u0130\u0131"+
-		"\u0005\u0013\u0000\u0000\u0131\u0132\u0006\u000e\uffff\uffff\u0000\u0132"+
-		"\u0134\u0001\u0000\u0000\u0000\u0133\u012b\u0001\u0000\u0000\u0000\u0133"+
-		"\u012d\u0001\u0000\u0000\u0000\u0134\u001d\u0001\u0000\u0000\u0000\u0135"+
-		"\u0136\u0003 \u0010\u0000\u0136\u0137\u0006\u000f\uffff\uffff\u0000\u0137"+
-		"\u013e\u0001\u0000\u0000\u0000\u0138\u0139\u0003\u001c\u000e\u0000\u0139"+
-		"\u013a\u0005\u001f\u0000\u0000\u013a\u013b\u0003 \u0010\u0000\u013b\u013c"+
-		"\u0006\u000f\uffff\uffff\u0000\u013c\u013e\u0001\u0000\u0000\u0000\u013d"+
-		"\u0135\u0001\u0000\u0000\u0000\u013d\u0138\u0001\u0000\u0000\u0000\u013e"+
-		"\u001f\u0001\u0000\u0000\u0000\u013f\u0140\u0003\"\u0011\u0000\u0140\u0141"+
-		"\u0006\u0010\uffff\uffff\u0000\u0141\u0148\u0001\u0000\u0000\u0000\u0142"+
-		"\u0143\u0003\"\u0011\u0000\u0143\u0144\u0005\u001e\u0000\u0000\u0144\u0145"+
-		"\u0003\"\u0011\u0000\u0145\u0146\u0006\u0010\uffff\uffff\u0000\u0146\u0148"+
-		"\u0001\u0000\u0000\u0000\u0147\u013f\u0001\u0000\u0000\u0000\u0147\u0142"+
-		"\u0001\u0000\u0000\u0000\u0148!\u0001\u0000\u0000\u0000\u0149\u014a\u0003"+
-		"$\u0012\u0000\u014a\u014b\u0006\u0011\uffff\uffff\u0000\u014b\u0152\u0001"+
-		"\u0000\u0000\u0000\u014c\u014d\u0003$\u0012\u0000\u014d\u014e\u0005\u001d"+
-		"\u0000\u0000\u014e\u014f\u0003$\u0012\u0000\u014f\u0150\u0006\u0011\uffff"+
-		"\uffff\u0000\u0150\u0152\u0001\u0000\u0000\u0000\u0151\u0149\u0001\u0000"+
-		"\u0000\u0000\u0151\u014c\u0001\u0000\u0000\u0000\u0152#\u0001\u0000\u0000"+
-		"\u0000\u0153\u0154\u0006\u0012\uffff\uffff\u0000\u0154\u0155\u0003&\u0013"+
-		"\u0000\u0155\u0156\u0006\u0012\uffff\uffff\u0000\u0156\u015e\u0001\u0000"+
-		"\u0000\u0000\u0157\u0158\n\u0001\u0000\u0000\u0158\u0159\u0005\u0017\u0000"+
-		"\u0000\u0159\u015a\u0003&\u0013\u0000\u015a\u015b\u0006\u0012\uffff\uffff"+
-		"\u0000\u015b\u015d\u0001\u0000\u0000\u0000\u015c\u0157\u0001\u0000\u0000"+
-		"\u0000\u015d\u0160\u0001\u0000\u0000\u0000\u015e\u015c\u0001\u0000\u0000"+
-		"\u0000\u015e\u015f\u0001\u0000\u0000\u0000\u015f%\u0001\u0000\u0000\u0000"+
-		"\u0160\u015e\u0001\u0000\u0000\u0000\u0161\u0162\u0006\u0013\uffff\uffff"+
-		"\u0000\u0162\u0163\u0003(\u0014\u0000\u0163\u0164\u0006\u0013\uffff\uffff"+
-		"\u0000\u0164\u016c\u0001\u0000\u0000\u0000\u0165\u0166\n\u0001\u0000\u0000"+
-		"\u0166\u0167\u0005\u0019\u0000\u0000\u0167\u0168\u0003(\u0014\u0000\u0168"+
-		"\u0169\u0006\u0013\uffff\uffff\u0000\u0169\u016b\u0001\u0000\u0000\u0000"+
-		"\u016a\u0165\u0001\u0000\u0000\u0000\u016b\u016e\u0001\u0000\u0000\u0000"+
-		"\u016c\u016a\u0001\u0000\u0000\u0000\u016c\u016d\u0001\u0000\u0000\u0000"+
-		"\u016d\'\u0001\u0000\u0000\u0000\u016e\u016c\u0001\u0000\u0000\u0000\u016f"+
-		"\u0170\u0005\u0017\u0000\u0000\u0170\u0171\u0003(\u0014\u0000\u0171\u0172"+
-		"\u0006\u0014\uffff\uffff\u0000\u0172\u017b\u0001\u0000\u0000\u0000\u0173"+
-		"\u0174\u0005\u001c\u0000\u0000\u0174\u0175\u0003(\u0014\u0000\u0175\u0176"+
-		"\u0006\u0014\uffff\uffff\u0000\u0176\u017b\u0001\u0000\u0000\u0000\u0177"+
-		"\u0178\u0003*\u0015\u0000\u0178\u0179\u0006\u0014\uffff\uffff\u0000\u0179"+
-		"\u017b\u0001\u0000\u0000\u0000\u017a\u016f\u0001\u0000\u0000\u0000\u017a"+
-		"\u0173\u0001\u0000\u0000\u0000\u017a\u0177\u0001\u0000\u0000\u0000\u017b"+
-		")\u0001\u0000\u0000\u0000\u017c\u017d\u0003\u001c\u000e\u0000\u017d\u017e"+
-		"\u0006\u0015\uffff\uffff\u0000\u017e\u0198\u0001\u0000\u0000\u0000\u017f"+
-		"\u0180\u0005 \u0000\u0000\u0180\u0181\u0005\u000e\u0000\u0000\u0181\u0182"+
-		"\u0006\u0015\uffff\uffff\u0000\u0182\u0183\u0003,\u0016\u0000\u0183\u0184"+
-		"\u0005\u000f\u0000\u0000\u0184\u0185\u0006\u0015\uffff\uffff\u0000\u0185"+
-		"\u0198\u0001\u0000\u0000\u0000\u0186\u0187\u0005\u000e\u0000\u0000\u0187"+
-		"\u0188\u0003\u001e\u000f\u0000\u0188\u0189\u0005\u000f\u0000\u0000\u0189"+
-		"\u018a\u0006\u0015\uffff\uffff\u0000\u018a\u0198\u0001\u0000\u0000\u0000"+
-		"\u018b\u018c\u0005!\u0000\u0000\u018c\u0198\u0006\u0015\uffff\uffff\u0000"+
-		"\u018d\u018e\u0005\"\u0000\u0000\u018e\u0198\u0006\u0015\uffff\uffff\u0000"+
-		"\u018f\u0190\u0003\u001c\u000e\u0000\u0190\u0191\u0005\u001a\u0000\u0000"+
-		"\u0191\u0192\u0006\u0015\uffff\uffff\u0000\u0192\u0198\u0001\u0000\u0000"+
-		"\u0000\u0193\u0194\u0003\u001c\u000e\u0000\u0194\u0195\u0005\u001b\u0000"+
-		"\u0000\u0195\u0196\u0006\u0015\uffff\uffff\u0000\u0196\u0198\u0001\u0000"+
-		"\u0000\u0000\u0197\u017c\u0001\u0000\u0000\u0000\u0197\u017f\u0001\u0000"+
-		"\u0000\u0000\u0197\u0186\u0001\u0000\u0000\u0000\u0197\u018b\u0001\u0000"+
-		"\u0000\u0000\u0197\u018d\u0001\u0000\u0000\u0000\u0197\u018f\u0001\u0000"+
-		"\u0000\u0000\u0197\u0193\u0001\u0000\u0000\u0000\u0198+\u0001\u0000\u0000"+
-		"\u0000\u0199\u019a\u0003.\u0017\u0000\u019a\u019b\u0006\u0016\uffff\uffff"+
-		"\u0000\u019b\u019e\u0001\u0000\u0000\u0000\u019c\u019e\u0001\u0000\u0000"+
-		"\u0000\u019d\u0199\u0001\u0000\u0000\u0000\u019d\u019c\u0001\u0000\u0000"+
-		"\u0000\u019e-\u0001\u0000\u0000\u0000\u019f\u01a0\u0006\u0017\uffff\uffff"+
-		"\u0000\u01a0\u01a1\u0003 \u0010\u0000\u01a1\u01a2\u0006\u0017\uffff\uffff"+
-		"\u0000\u01a2\u01aa\u0001\u0000\u0000\u0000\u01a3\u01a4\n\u0002\u0000\u0000"+
-		"\u01a4\u01a5\u0005\u0015\u0000\u0000\u01a5\u01a6\u0003 \u0010\u0000\u01a6"+
-		"\u01a7\u0006\u0017\uffff\uffff\u0000\u01a7\u01a9\u0001\u0000\u0000\u0000"+
-		"\u01a8\u01a3\u0001\u0000\u0000\u0000\u01a9\u01ac\u0001\u0000\u0000\u0000"+
-		"\u01aa\u01a8\u0001\u0000\u0000\u0000\u01aa\u01ab\u0001\u0000\u0000\u0000"+
-		"\u01ab/\u0001\u0000\u0000\u0000\u01ac\u01aa\u0001\u0000\u0000\u0000\u001a"+
-		">J\\r\u0082\u0093\u0095\u00a3\u00af\u00b9\u00c8\u00da\u00dc\u00e9\u0121"+
-		"\u0129\u0133\u013d\u0147\u0151\u015e\u016c\u017a\u0197\u019d\u01aa";
+		"\u0113\u0114\u0006\f\uffff\uffff\u0000\u0114\u0121\u0001\u0000\u0000\u0000"+
+		"\u0115\u0116\u0005\t\u0000\u0000\u0116\u0117\u0005\u000e\u0000\u0000\u0117"+
+		"\u0118\u0005 \u0000\u0000\u0118\u0119\u0005\u000f\u0000\u0000\u0119\u011a"+
+		"\u0005\u0014\u0000\u0000\u011a\u0121\u0006\f\uffff\uffff\u0000\u011b\u011c"+
+		"\u0005\n\u0000\u0000\u011c\u011d\u0003\u001e\u000f\u0000\u011d\u011e\u0005"+
+		"\u0014\u0000\u0000\u011e\u011f\u0006\f\uffff\uffff\u0000\u011f\u0121\u0001"+
+		"\u0000\u0000\u0000\u0120\u00ec\u0001\u0000\u0000\u0000\u0120\u00ef\u0001"+
+		"\u0000\u0000\u0000\u0120\u00f2\u0001\u0000\u0000\u0000\u0120\u00f5\u0001"+
+		"\u0000\u0000\u0000\u0120\u00fe\u0001\u0000\u0000\u0000\u0120\u0105\u0001"+
+		"\u0000\u0000\u0000\u0120\u010e\u0001\u0000\u0000\u0000\u0120\u0115\u0001"+
+		"\u0000\u0000\u0000\u0120\u011b\u0001\u0000\u0000\u0000\u0121\u0019\u0001"+
+		"\u0000\u0000\u0000\u0122\u0123\u0005\u0014\u0000\u0000\u0123\u0129\u0006"+
+		"\r\uffff\uffff\u0000\u0124\u0125\u0003\u001e\u000f\u0000\u0125\u0126\u0005"+
+		"\u0014\u0000\u0000\u0126\u0127\u0006\r\uffff\uffff\u0000\u0127\u0129\u0001"+
+		"\u0000\u0000\u0000\u0128\u0122\u0001\u0000\u0000\u0000\u0128\u0124\u0001"+
+		"\u0000\u0000\u0000\u0129\u001b\u0001\u0000\u0000\u0000\u012a\u012b\u0005"+
+		" \u0000\u0000\u012b\u0133\u0006\u000e\uffff\uffff\u0000\u012c\u012d\u0005"+
+		" \u0000\u0000\u012d\u012e\u0005\u0012\u0000\u0000\u012e\u012f\u0003\u001e"+
+		"\u000f\u0000\u012f\u0130\u0005\u0013\u0000\u0000\u0130\u0131\u0006\u000e"+
+		"\uffff\uffff\u0000\u0131\u0133\u0001\u0000\u0000\u0000\u0132\u012a\u0001"+
+		"\u0000\u0000\u0000\u0132\u012c\u0001\u0000\u0000\u0000\u0133\u001d\u0001"+
+		"\u0000\u0000\u0000\u0134\u0135\u0003 \u0010\u0000\u0135\u0136\u0006\u000f"+
+		"\uffff\uffff\u0000\u0136\u013d\u0001\u0000\u0000\u0000\u0137\u0138\u0003"+
+		"\u001c\u000e\u0000\u0138\u0139\u0005\u001f\u0000\u0000\u0139\u013a\u0003"+
+		" \u0010\u0000\u013a\u013b\u0006\u000f\uffff\uffff\u0000\u013b\u013d\u0001"+
+		"\u0000\u0000\u0000\u013c\u0134\u0001\u0000\u0000\u0000\u013c\u0137\u0001"+
+		"\u0000\u0000\u0000\u013d\u001f\u0001\u0000\u0000\u0000\u013e\u013f\u0003"+
+		"\"\u0011\u0000\u013f\u0140\u0006\u0010\uffff\uffff\u0000\u0140\u0147\u0001"+
+		"\u0000\u0000\u0000\u0141\u0142\u0003\"\u0011\u0000\u0142\u0143\u0005\u001e"+
+		"\u0000\u0000\u0143\u0144\u0003\"\u0011\u0000\u0144\u0145\u0006\u0010\uffff"+
+		"\uffff\u0000\u0145\u0147\u0001\u0000\u0000\u0000\u0146\u013e\u0001\u0000"+
+		"\u0000\u0000\u0146\u0141\u0001\u0000\u0000\u0000\u0147!\u0001\u0000\u0000"+
+		"\u0000\u0148\u0149\u0003$\u0012\u0000\u0149\u014a\u0006\u0011\uffff\uffff"+
+		"\u0000\u014a\u0151\u0001\u0000\u0000\u0000\u014b\u014c\u0003$\u0012\u0000"+
+		"\u014c\u014d\u0005\u001d\u0000\u0000\u014d\u014e\u0003$\u0012\u0000\u014e"+
+		"\u014f\u0006\u0011\uffff\uffff\u0000\u014f\u0151\u0001\u0000\u0000\u0000"+
+		"\u0150\u0148\u0001\u0000\u0000\u0000\u0150\u014b\u0001\u0000\u0000\u0000"+
+		"\u0151#\u0001\u0000\u0000\u0000\u0152\u0153\u0006\u0012\uffff\uffff\u0000"+
+		"\u0153\u0154\u0003&\u0013\u0000\u0154\u0155\u0006\u0012\uffff\uffff\u0000"+
+		"\u0155\u015d\u0001\u0000\u0000\u0000\u0156\u0157\n\u0001\u0000\u0000\u0157"+
+		"\u0158\u0005\u0017\u0000\u0000\u0158\u0159\u0003&\u0013\u0000\u0159\u015a"+
+		"\u0006\u0012\uffff\uffff\u0000\u015a\u015c\u0001\u0000\u0000\u0000\u015b"+
+		"\u0156\u0001\u0000\u0000\u0000\u015c\u015f\u0001\u0000\u0000\u0000\u015d"+
+		"\u015b\u0001\u0000\u0000\u0000\u015d\u015e\u0001\u0000\u0000\u0000\u015e"+
+		"%\u0001\u0000\u0000\u0000\u015f\u015d\u0001\u0000\u0000\u0000\u0160\u0161"+
+		"\u0006\u0013\uffff\uffff\u0000\u0161\u0162\u0003(\u0014\u0000\u0162\u0163"+
+		"\u0006\u0013\uffff\uffff\u0000\u0163\u016b\u0001\u0000\u0000\u0000\u0164"+
+		"\u0165\n\u0001\u0000\u0000\u0165\u0166\u0005\u0019\u0000\u0000\u0166\u0167"+
+		"\u0003(\u0014\u0000\u0167\u0168\u0006\u0013\uffff\uffff\u0000\u0168\u016a"+
+		"\u0001\u0000\u0000\u0000\u0169\u0164\u0001\u0000\u0000\u0000\u016a\u016d"+
+		"\u0001\u0000\u0000\u0000\u016b\u0169\u0001\u0000\u0000\u0000\u016b\u016c"+
+		"\u0001\u0000\u0000\u0000\u016c\'\u0001\u0000\u0000\u0000\u016d\u016b\u0001"+
+		"\u0000\u0000\u0000\u016e\u016f\u0005\u0017\u0000\u0000\u016f\u0170\u0003"+
+		"(\u0014\u0000\u0170\u0171\u0006\u0014\uffff\uffff\u0000\u0171\u017a\u0001"+
+		"\u0000\u0000\u0000\u0172\u0173\u0005\u001c\u0000\u0000\u0173\u0174\u0003"+
+		"(\u0014\u0000\u0174\u0175\u0006\u0014\uffff\uffff\u0000\u0175\u017a\u0001"+
+		"\u0000\u0000\u0000\u0176\u0177\u0003*\u0015\u0000\u0177\u0178\u0006\u0014"+
+		"\uffff\uffff\u0000\u0178\u017a\u0001\u0000\u0000\u0000\u0179\u016e\u0001"+
+		"\u0000\u0000\u0000\u0179\u0172\u0001\u0000\u0000\u0000\u0179\u0176\u0001"+
+		"\u0000\u0000\u0000\u017a)\u0001\u0000\u0000\u0000\u017b\u017c\u0003\u001c"+
+		"\u000e\u0000\u017c\u017d\u0006\u0015\uffff\uffff\u0000\u017d\u0197\u0001"+
+		"\u0000\u0000\u0000\u017e\u017f\u0005 \u0000\u0000\u017f\u0180\u0005\u000e"+
+		"\u0000\u0000\u0180\u0181\u0006\u0015\uffff\uffff\u0000\u0181\u0182\u0003"+
+		",\u0016\u0000\u0182\u0183\u0005\u000f\u0000\u0000\u0183\u0184\u0006\u0015"+
+		"\uffff\uffff\u0000\u0184\u0197\u0001\u0000\u0000\u0000\u0185\u0186\u0005"+
+		"\u000e\u0000\u0000\u0186\u0187\u0003\u001e\u000f\u0000\u0187\u0188\u0005"+
+		"\u000f\u0000\u0000\u0188\u0189\u0006\u0015\uffff\uffff\u0000\u0189\u0197"+
+		"\u0001\u0000\u0000\u0000\u018a\u018b\u0005!\u0000\u0000\u018b\u0197\u0006"+
+		"\u0015\uffff\uffff\u0000\u018c\u018d\u0005\"\u0000\u0000\u018d\u0197\u0006"+
+		"\u0015\uffff\uffff\u0000\u018e\u018f\u0003\u001c\u000e\u0000\u018f\u0190"+
+		"\u0005\u001a\u0000\u0000\u0190\u0191\u0006\u0015\uffff\uffff\u0000\u0191"+
+		"\u0197\u0001\u0000\u0000\u0000\u0192\u0193\u0003\u001c\u000e\u0000\u0193"+
+		"\u0194\u0005\u001b\u0000\u0000\u0194\u0195\u0006\u0015\uffff\uffff\u0000"+
+		"\u0195\u0197\u0001\u0000\u0000\u0000\u0196\u017b\u0001\u0000\u0000\u0000"+
+		"\u0196\u017e\u0001\u0000\u0000\u0000\u0196\u0185\u0001\u0000\u0000\u0000"+
+		"\u0196\u018a\u0001\u0000\u0000\u0000\u0196\u018c\u0001\u0000\u0000\u0000"+
+		"\u0196\u018e\u0001\u0000\u0000\u0000\u0196\u0192\u0001\u0000\u0000\u0000"+
+		"\u0197+\u0001\u0000\u0000\u0000\u0198\u0199\u0003.\u0017\u0000\u0199\u019a"+
+		"\u0006\u0016\uffff\uffff\u0000\u019a\u019d\u0001\u0000\u0000\u0000\u019b"+
+		"\u019d\u0001\u0000\u0000\u0000\u019c\u0198\u0001\u0000\u0000\u0000\u019c"+
+		"\u019b\u0001\u0000\u0000\u0000\u019d-\u0001\u0000\u0000\u0000\u019e\u019f"+
+		"\u0006\u0017\uffff\uffff\u0000\u019f\u01a0\u0003 \u0010\u0000\u01a0\u01a1"+
+		"\u0006\u0017\uffff\uffff\u0000\u01a1\u01a9\u0001\u0000\u0000\u0000\u01a2"+
+		"\u01a3\n\u0002\u0000\u0000\u01a3\u01a4\u0005\u0015\u0000\u0000\u01a4\u01a5"+
+		"\u0003 \u0010\u0000\u01a5\u01a6\u0006\u0017\uffff\uffff\u0000\u01a6\u01a8"+
+		"\u0001\u0000\u0000\u0000\u01a7\u01a2\u0001\u0000\u0000\u0000\u01a8\u01ab"+
+		"\u0001\u0000\u0000\u0000\u01a9\u01a7\u0001\u0000\u0000\u0000\u01a9\u01aa"+
+		"\u0001\u0000\u0000\u0000\u01aa/\u0001\u0000\u0000\u0000\u01ab\u01a9\u0001"+
+		"\u0000\u0000\u0000\u001a>J\\r\u0082\u0093\u0095\u00a3\u00af\u00b9\u00c8"+
+		"\u00da\u00dc\u00e9\u0120\u0128\u0132\u013c\u0146\u0150\u015d\u016b\u0179"+
+		"\u0196\u019c\u01a9";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

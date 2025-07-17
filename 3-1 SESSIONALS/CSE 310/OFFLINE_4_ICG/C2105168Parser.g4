@@ -95,6 +95,59 @@ options {
         asmfile.flush();
     }
 
+    std::string Print_assembly= R"(new_line proc
+    push ax
+    push dx
+    mov ah,2
+    mov dl,0Dh
+    int 21h
+    mov ah,2
+    mov dl,0Ah
+    int 21h
+    pop dx
+    pop ax
+    ret
+    new_line endp
+print_output proc  ;print what is in ax
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+    lea si,number
+    mov bx,10
+    add si,4
+    cmp ax,0
+    jnge negate
+    print:
+    xor dx,dx
+    div bx
+    mov [si],dl
+    add [si],'0'
+    dec si
+    cmp ax,0
+    jne print
+    inc si
+    lea dx,si
+    mov ah,9
+    int 21h
+    pop si
+    pop dx
+    pop cx
+    pop bx
+    pop ax
+    ret
+    negate:
+    push ax
+    mov ah,2
+    mov dl,'-'
+    int 21h
+    pop ax
+    neg ax
+    jmp print
+    print_output endp)";
+
+
     
 }
 
@@ -117,7 +170,7 @@ start
         writeIntoparserLogFile("\nTotal number of lines: "+std::to_string($line));
         writeIntoparserLogFile("Total number of errors: "+std::to_string(errorCount));
 
-
+        writeIntoAsmFile(Print_assembly);
         writeIntoAsmFile("END main");
         std::cout << "here" <<std::endl;
 
@@ -291,7 +344,7 @@ func_definition
             errorCount++;
         } 
 
-        
+        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
         writeIntoAsmFile($ID->getText()+ " ENDP");
         
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
@@ -323,6 +376,7 @@ func_definition
         $line = $cs.line;
         std::cout << "DEBUG: func_declaration code_section = '" << $code_section << "'" << std::endl;
 
+        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 
         writeIntoAsmFile($ID->getText()+ " ENDP");
 
@@ -695,10 +749,7 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| PRINTLN {   
-        writeIntoAsmFile("CALL print_output");
-        writeIntoAsmFile("CALL new_line");
-     }LPAREN ID RPAREN SEMICOLON {
+	| PRINTLN LPAREN ID RPAREN SEMICOLON {
 
         $text = $PRINTLN->getText() + $LPAREN->getText() +  $ID->getText() +  $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
@@ -706,8 +757,18 @@ statement
         $type = "void";
 
         SymbolInfo* lookup = symbolTable->LookUP($ID->getText());
+        SymbolInfo* existing = symbolTable->LookUP($ID->getText());
+            std::string currentScopeId = symbolTable->getCurrentScopeID();
+            if(existing->getIsGlobal()){
+                $code_section = "\tMOV AX, "+ $ID->getText();
+            } else {
+                $code_section = "\tMOV AX, [BP-" + std::to_string(existing->getStackOffset()) + "]";
+            }
 
-
+        writeIntoAsmFile("L" + std::to_string(label_count++)+":");
+        writeIntoAsmFile($code_section+"       ; Line "+std::to_string($line));
+        writeIntoAsmFile("\tCALL print_output");
+        writeIntoAsmFile("\tCALL new_line");
 
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : PRINTLN LPAREN ID RPAREN SEMICOLON\n"); 
         if(lookup == nullptr){
@@ -724,22 +785,11 @@ statement
         $type = $e.type;
 
 
-       // std::cout << std::to_string($line)<<"return type"<<$e.type<<"return " <<$e.text <<std::endl;
+
 
         SymbolInfo* lookup = symbolTable->LookUP($e.text);
 
-        if(lookup){
-           // std::cout << lookup->getSymbolName() << " has return type " << lookup->getReturnType() <<"and e.type "<< $e.type << std::endl;
-        }
-        // SymbolInfo* paramSymbol = new SymbolInfo($e.text, "ID");
-        // if($e.text != "0"){
-        // if(!symbolTable->Insert($e.text, "ID")){ 
-        //     writeIntoErrorFile("Error at line "+ std::to_string($line) +": Multiple declaration of "+$e.text+" in parameter\n");
-        // }    
-        // else{   
-        //     std::cout << "inserted return : "<< $e.text <<std::endl;
-        // }
-        // }
+
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + $RETURN->getText() +" "+ $e.text+ $SEMICOLON->getText() +"\n"); 
 
       };
@@ -845,10 +895,10 @@ expression
                 $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
             }
 
+                        writeIntoAsmFile("\tPOP AX");
 
             writeIntoAsmFile($code_section);
-            writeIntoAsmFile("\tPUSH AX");
-            writeIntoAsmFile("\tPOP AX");
+
 
             
             std::cout << "DEBUG: expression code_section = '" << $code_section << "'" << std::endl;
@@ -903,8 +953,38 @@ logic_expression
             $line = $re2.line;
             $type = $re2.type;
             $argIsArr = false;
+            int labelEnd = 0;
 
-            // std::cout << "re2 type"<<$re2.type <<std::endl;
+         writeIntoAsmFile("\tPOP DX");  
+          writeIntoAsmFile("\tPOP AX");  
+    
+    if ($LOGICOP->getText() == "&&") {
+        int labelFalse = label_count++;
+        labelEnd = label_count++;
+        
+        writeIntoAsmFile("\tCMP AX, 0\n\tJE L" + std::to_string(labelFalse));  
+        writeIntoAsmFile("\tCMP DX, 0\n\tJE L" + std::to_string(labelFalse));  
+        
+        writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+        
+        writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+        writeIntoAsmFile("\tMOV AX, 0");
+        
+    } else if ($LOGICOP->getText() == "||") {
+        int labelTrue = label_count++;
+        labelEnd = label_count++;
+        
+        writeIntoAsmFile("\tCMP AX, 0\n\tJNE L" + std::to_string(labelTrue));  
+        writeIntoAsmFile("\tCMP DX, 0\n\tJNE L" + std::to_string(labelTrue));  
+        
+        writeIntoAsmFile("\tMOV AX, 0\n\tJMP L" + std::to_string(labelEnd));
+        
+        writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+        writeIntoAsmFile("\tMOV AX, 1");
+    }
+
+    writeIntoAsmFile("L" + std::to_string(labelEnd) + ":");
+    writeIntoAsmFile("\n\tPUSH AX");
             writeIntoparserLogFile("Line "+  std::to_string($line)+": logic_expression : rel_expression LOGICOP rel_expression\n\n" + $text + "\n"); 
 
         };
@@ -924,6 +1004,78 @@ rel_expression
             $line = $RELOP->getLine();
             $type = $s2.type;
             $argIsArray = false;
+            int labelEnd = 0;
+
+            writeIntoAsmFile("\tPOP DX");
+            writeIntoAsmFile("\tPOP AX");
+            if ($RELOP->getText() == "==") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJE L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+
+            } else if ($RELOP->getText() == "!=") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJNE L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+              } else if ($RELOP->getText() == "<") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJL L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+            } else if ($RELOP->getText() == ">") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJG L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+            } else if ($RELOP->getText() == "<=") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJLE L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+
+            } 
+            else if ($RELOP->getText() == ">=") {
+                int labelTrue = label_count++;
+                int labelFalse = label_count++;
+                labelEnd = label_count++;
+                writeIntoAsmFile("\tCMP AX, DX\n\tJGE L" + std::to_string(labelTrue));
+                writeIntoAsmFile("\tJMP L" + std::to_string(labelFalse));
+                writeIntoAsmFile("L" + std::to_string(labelTrue) + ":");
+                writeIntoAsmFile("\tMOV AX, 1\n\tJMP L" + std::to_string(labelEnd));
+                writeIntoAsmFile("L" + std::to_string(labelFalse) + ":");
+                writeIntoAsmFile("\tMOV AX, 0");
+            }
+
+            writeIntoAsmFile("L" + std::to_string(labelEnd) + ":");
+            writeIntoAsmFile("\n\tPUSH AX");
+
             // std::cout << "s2 type"<<$s2.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($line)+": rel_expression : simple_expression RELOP simple_expression\n\n" + $text + "\n"); 
 
@@ -936,6 +1088,9 @@ simple_expression
             $line = $t.line;
             $type = $t.type;
             $argIsArray = $t.argIsArray;
+
+
+
             writeIntoparserLogFile("Line "+  std::to_string($t.line)+": simple_expression : term\n\n" + $t.text + "\n"); 
             }
 	| s = simple_expression ADDOP t = term {
@@ -947,6 +1102,18 @@ simple_expression
             } else {
                  $type = "int";
             }
+
+            writeIntoAsmFile("\tPOP DX");
+            writeIntoAsmFile("\tPOP AX");
+
+            if ($ADDOP->getText() == "+") {
+
+                $code_section = "\tADD AX, DX\n\tPUSH AX"    ;
+            } else if ($ADDOP->getText() == "-") {
+                $code_section = "\tSUB AX, DX\n\tPUSH AX\n";
+            }
+
+            writeIntoAsmFile($code_section);
             writeIntoparserLogFile("Line "+  std::to_string($line)+": simple_expression : simple_expression ADDOP term\n\n" + $text + "\n"); 
 
           };
@@ -998,8 +1165,22 @@ term
             writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Modulus by Zero\n\n" + $text + "\n");
     }
 
+    
 
+  
 
+    if ($MULOP->getText() == "*") {
+        writeIntoAsmFile("\tPOP DX");
+        writeIntoAsmFile("\tPOP AX"); 
+        $code_section = "\tMUL DX\n\tPUSH AX";
+    } else if ($MULOP->getText() == "/") {
+        $code_section = "\tXCHG AX, DX\n\tDIV DX\n\tPUSH AX";
+    } else if ($MULOP->getText() == "%") {
+        writeIntoAsmFile("\tPOP CX");
+        writeIntoAsmFile("\tPOP AX");
+        $code_section = "\tCWD\n\tDIV CX\n\tPUSH DX";
+    }
+    writeIntoAsmFile($code_section);
 };
 unary_expression
 	returns[std::string text, int line,std::string type, bool argIsArray, std::string code_section]:
@@ -1034,6 +1215,21 @@ factor
         $line = $v.line;
         $type = $v.type;
         $argIsArray = $v.isArray;
+
+        SymbolInfo* lookup = symbolTable->LookUP($v.text);
+
+        if(lookup->getIsGlobal()){
+            writeIntoAsmFile("\tMOV AX, "+$v.text+"       ; Line "+std::to_string($line));
+            writeIntoAsmFile("\tPUSH AX");
+          }
+
+          else {   
+            writeIntoAsmFile("L" + std::to_string(label_count++)+":");
+
+            writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+            writeIntoAsmFile("\tPUSH AX");
+          }
+
         // std::cout << "v type"<<$v.type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($v.line)+": factor : variable\n\n" + $v.text + "\n");
         }
@@ -1108,7 +1304,7 @@ factor
         $type = "int";
         $argIsArray = false;
         writeIntoAsmFile("L" + std::to_string(label_count++) + ":\n" + "\tMOV AX, "+$text +"       ; Line "+std::to_string($line));
-
+        writeIntoAsmFile("\tPUSH AX");
         
 
         
@@ -1128,6 +1324,11 @@ factor
         $text = $v.text+$INCOP->getText();
         $line = $INCOP->getLine();
         $type = $v.type;
+
+        SymbolInfo* lookup = symbolTable->LookUP($v.text);
+        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+        writeIntoAsmFile("\tPUSH AX");
+        writeIntoAsmFile("\tINC AX");
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable INCOP\n\n" + $text + "\n");
 
     }
@@ -1135,6 +1336,10 @@ factor
         $text = $v.text+$DECOP->getText();
         $line = $DECOP->getLine();
         $type = $v.type;
+         SymbolInfo* lookup = symbolTable->LookUP($v.text);
+        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+        writeIntoAsmFile("\tPUSH AX");
+        writeIntoAsmFile("\tDEC AX");
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable DECOP\n\n" + $text + "\n");
 
     };

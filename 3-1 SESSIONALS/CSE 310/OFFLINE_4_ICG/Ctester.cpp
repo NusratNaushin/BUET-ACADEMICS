@@ -74,6 +74,11 @@ int main(int argc, const char* argv[]) {
         return 1;
     }
    
+    asmfile.open(asmFileName);
+    if (!asmfile.is_open()) {
+        cerr << "Error opening assembly file: " << asmFileName << endl;
+        return 1;
+    }
     // ---- Parsing Flow ----
     ANTLRInputStream input(inputFile);
     C2105168Lexer lexer(&input);

@@ -83,7 +83,7 @@ IF       : 'if' ;
 ELSE     : 'else' ;
 FOR      : 'for' ;
 WHILE    : 'while' ;
-PRINTLN  : 'printf' ;
+PRINTLN  : 'println' ;
 RETURN   : 'return' ;
 INT      : 'int';
 FLOAT    : 'float' ;

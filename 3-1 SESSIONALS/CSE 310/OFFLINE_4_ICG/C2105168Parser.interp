@@ -8,7 +8,7 @@ null
 'else'
 'for'
 'while'
-'printf'
+'println'
 'return'
 'int'
 'float'
