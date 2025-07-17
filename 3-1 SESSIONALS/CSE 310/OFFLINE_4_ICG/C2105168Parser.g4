@@ -99,9 +99,9 @@ options {
 }
 
 start
-	returns[std::string text, int line, std::string asm_header,std::string data_section , std::string code_section ]:
-	p = program {
-        
+	returns[std::string text, int line, std::string asm_header,std::string data_section , std::string code_section , std::string asm_footer]:
+	{ writeIntoAsmFile(".MODEL SMALL\n.STACK 1000H\n.Data\n\tnumber DB \"00000$\"");} p = program {
+
         $text = $p.text;
         $line = $p.line;
         $data_section = $p.data_section_code;
@@ -118,9 +118,10 @@ start
         writeIntoparserLogFile("Total number of errors: "+std::to_string(errorCount));
 
 
-        $asm_header =".MODEL SMALL\n.STACK 1000H";
+        writeIntoAsmFile("END main");
         std::cout << "here" <<std::endl;
-        writeIntoAsmFile($asm_header+"\n.Data\nnumber DB \"00000$\"\n"+$data_section+".CODE\n"+$code_section);
+
+
         std::cout << $code_section <<std::endl;
 	};
 
@@ -129,7 +130,7 @@ program
 	pu = program u = unit {  
         $text = $pu.text +"\n"+$u.text;
         $line = $u.line;
-        $data_section_code = $pu.data_section_code + "\n" + $u.data_section_code;
+        $data_section_code = $pu.data_section_code +$u.data_section_code;
         $code_section = $pu.code_section + $u.code_section;
         writeIntoparserLogFile("Line "+std::to_string($line)+": program : program unit\n\n"+$text+"\n");
         }
@@ -137,8 +138,7 @@ program
         $text = $u.text;
         $line = $u.line;
         writeIntoparserLogFile("Line "+std::to_string($line)+": program : unit\n\n"+$text+"\n");
-        $data_section_code = $u.data_section_code;
-        $code_section = $u.code_section;
+
          };
 
 unit
@@ -146,8 +146,8 @@ unit
 	vd = var_declaration {  
         $text = $vd.text;
         $line = $vd.line;
-        $data_section_code = $vd.data_section_code;
-        $code_section = $vd.code_section;
+
+
         std::cout << "DEBUG: unit var_declaration code_section = '" << $code_section << "'" << std::endl;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : var_declaration\n\n"+$text+"\n");
 
@@ -156,16 +156,12 @@ unit
 
         $text = $fdec.text;  
         $line = $fdec.line;
-        $data_section_code = "";
-        $code_section = $fdec.code_section;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : func_declaration\n\n"+$text+"\n");
 
     }
 	| fdef = func_definition {  
         $text = $fdef.text;
         $line = $fdef.line;
-        $data_section_code = "";
-        $code_section = $fdef.code_section;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : func_definition\n\n"+$text+"\n");
         
     };
@@ -206,9 +202,6 @@ func_declaration
 
         }
 
-    // for (auto& param : $pl.plist) {
-    //     symbolTable->Insert(param.second, "ID");
-    // }
 
 
         writeIntoparserLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+$text+"\n");
@@ -257,7 +250,6 @@ func_definition
         funcSymbol->setReturnType($ts.text);
 
 
-       // std::cout<< "return type "<< funcSymbol->getSymbolName() << funcSymbol->getReturnType() << std::endl;
         funcSymbol->setParameterList($pl.plist);
         plist = $pl.plist;
         fndefreturnTypes.push_back($ts.text);
@@ -281,13 +273,16 @@ func_definition
         }
 
 
-     } RPAREN cs = compound_statement {  
+     } RPAREN {    
+        writeIntoAsmFile($ID->getText() + " PROC");
+        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
+
+    } cs = compound_statement {  
 
 
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
         $type = $ts.text;
-        $code_section = $ID->getText() + " PROC\n";
         $returnType = $cs.type;
 
         if ($ts.text == "void" && $returnType != "void") {
@@ -295,24 +290,24 @@ func_definition
              writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Cannot return value from function "+  $ID->getText() + " with void return type\n");
             errorCount++;
         } 
+
         
-
-        //symbolTable->print_current_scope_table(parserLogFile);
-
+        writeIntoAsmFile($ID->getText()+ " ENDP");
+        
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
  
 
     }
-	| ts = type_specifier ID LPAREN RPAREN { 
+	| ts = type_specifier ID LPAREN RPAREN {    
+        writeIntoAsmFile($ID->getText() + " PROC");
+         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
+
+    } { 
 
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setReturnType($ts.text);
 
-        // if($cs.type != $ts.text){ 
-        //     writeIntoErrorFile("Error at line "+std::to_string($line)+": Return Type mismatch of "+funcSymbol->getSymbolName()+"\n");
-        // }
-        
         SymbolInfo* existing = symbolTable->LookUP($ID->getText());
         if (existing && existing->getIsFunction() && existing->getIsFunctionDefined()) {
            // writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple definition of function " + $ID->getText());
@@ -326,10 +321,10 @@ func_definition
 
         $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
-        $code_section = $ID->getText() + " PROC\n" +$cs.code_section;
         std::cout << "DEBUG: func_declaration code_section = '" << $code_section << "'" << std::endl;
 
 
+        writeIntoAsmFile($ID->getText()+ " ENDP");
 
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+$text+"\n");
 
@@ -463,40 +458,42 @@ var_declaration
                                 errorCount++;
             }
 
-            //I want to know the current scope id of the inserted variable
 
             std::string currentScopeId = symbolTable->getCurrentScopeID();
 
             if(currentScopeId == "1"){
+
                 isDATAEmpty = false;
+                
                 stack_offset_global += 2;
                 varSymbol->setStackOffset(stack_offset_global);
-                std::cout << "got " << varSymbol->getSymbolName() << " with stack offset " << varSymbol->getStackOffset() << std::endl;                $data_section_code += varSymbol->getSymbolName() + " DW 1 DUP (0000H)\n";
+                varSymbol->setIsGlobal(true);
+                $data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
 
                 std::cout << "data_section_code: " << $data_section_code << std::endl;
             }
 
 
-            else if(currentScopeId != "1"){
-                if(!isDATAEmpty){
-                    $code_section += "\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP\n";
-                    isDATAEmpty = true;
-                    pushbpprint = true;
-                }
-                else if(isDATAEmpty && !pushbpprint){
-                    $code_section += "\tPUSH BP\n\tMOV BP, SP\n";
+            else if(currentScopeId !="1" ){
+                if(!pushbpprint){
                     pushbpprint = true;
                 }
                 stack_offset_local += 2;
                 varSymbol->setStackOffset(stack_offset_local);
-                std::cout << "got " << varSymbol->getSymbolName() << " with stack offset " << varSymbol->getStackOffset() << std::endl;
                 $code_section += "\tSUB SP, 2\n";
 
             }
 
-
-
         }
+                    std::string currentScopeId = symbolTable->getCurrentScopeID();
+
+        if(currentScopeId == "1"){
+                writeIntoAsmFile($data_section_code+".CODE");
+        }
+         writeIntoAsmFile($code_section);
+
+
+
 
         if($t.text == "void"){
             writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Variable type cannot be void\n");
@@ -644,7 +641,6 @@ statement
 	v = var_declaration {
         $text = $v.text;
         $line = $v.line;
-        $code_section = $v.code_section;
         std::cout << "DEBUG: unit var_declaration code_section = '" << $code_section << "'" << std::endl;
         $type = "void";
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : var_declaration\n\n"+$text + "\n" );
@@ -653,7 +649,6 @@ statement
         $text = $es.text;
         $line = $es.line;
         $type = "void";
-        $code_section = $es.code_section;
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : expression_statement\n\n"+$text + "\n" );
 
     }
@@ -661,7 +656,6 @@ statement
         $text = $cs.text;
         $line = $cs.line;
         $type = $cs.type;
-        $code_section = $cs.code_section;
         $type = "void";
 
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : compound_statement\n\n"+$text + "\n" );
@@ -672,7 +666,6 @@ statement
         $text = $FOR.text +  $LPAREN->getText() +  $es1.text + $es2.text + $e.text   + $RPAREN->getText() + $s.text;
         $line = $s.line;
         $type = "void";
-        $code_section = $s.code_section;
 
         writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
@@ -702,7 +695,11 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| PRINTLN LPAREN ID RPAREN SEMICOLON {
+	| PRINTLN {   
+        writeIntoAsmFile("CALL print_output");
+        writeIntoAsmFile("CALL new_line");
+     }LPAREN ID RPAREN SEMICOLON {
+
         $text = $PRINTLN->getText() + $LPAREN->getText() +  $ID->getText() +  $RPAREN->getText() +  $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
 
@@ -838,16 +835,22 @@ expression
             $text= $v.text + $ASSIGNOP->getText() + $le.text;
             $line=$le.line;  
             $type = $le.type;
-             $argIsArray = false;
+            $argIsArray = false;
 
-            $code_section = $le.code_section;
-            $code_section = "\tMOV AX, "+ $le.text + "       ; Line " + std::to_string($line) + "\n";
-            $code_section += "\tMOV " + $v.text + ", AX" +"\n";
-            $code_section += "\tPUSH AX\n\tPOP AX\n";
+            SymbolInfo* existing = symbolTable->LookUP($v.text);
+            std::string currentScopeId = symbolTable->getCurrentScopeID();
+            if(existing->getIsGlobal()){
+                $code_section = "\tMOV " + $v.text + ", AX";
+            } else {
+                $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
+            }
 
-            $code_section = "L" + std::to_string(label_count++) + ":\n" + $code_section;
 
+            writeIntoAsmFile($code_section);
+            writeIntoAsmFile("\tPUSH AX");
+            writeIntoAsmFile("\tPOP AX");
 
+            
             std::cout << "DEBUG: expression code_section = '" << $code_section << "'" << std::endl;
             SymbolInfo* lookup = symbolTable->LookUP($v.text);
 
@@ -890,7 +893,6 @@ logic_expression
             $line = $r.line;
             $type = $r.type;
             $argIsArr = $r.argIsArray;
-            $code_section = $r.code_section;
             // std::cout << "r  type"<<$r.type <<std::endl;
 
             writeIntoparserLogFile("Line "+  std::to_string($r.line)+": logic_expression : rel_expression\n\n" + $r.text + "\n"); 
@@ -914,7 +916,6 @@ rel_expression
             $line = $s.line;
             $type = $s.type;
             $argIsArray = $s.argIsArray;
-            $code_section = $s.code_section;
             // std::cout << "s type"<<$s.type <<std::endl;
             writeIntoparserLogFile("Line "+  std::to_string($s.line)+": rel_expression : simple_expression\n\n" + $s.text + "\n"); 
             }
@@ -935,7 +936,6 @@ simple_expression
             $line = $t.line;
             $type = $t.type;
             $argIsArray = $t.argIsArray;
-            $code_section = $t.code_section;
             writeIntoparserLogFile("Line "+  std::to_string($t.line)+": simple_expression : term\n\n" + $t.text + "\n"); 
             }
 	| s = simple_expression ADDOP t = term {
@@ -959,7 +959,6 @@ term
             $line = $u.line;
             $type = $u.type;
            $argIsArray = $u.argIsArray; 
-            $code_section = $u.code_section;
             writeIntoparserLogFile("Line "+  std::to_string($u.line)+": term : unary_expression\n\n" + $u.text + "\n");
             }
 	| t = term MULOP ue = unary_expression {
@@ -1035,7 +1034,6 @@ factor
         $line = $v.line;
         $type = $v.type;
         $argIsArray = $v.isArray;
-        $code_section = $v.code_section;
         // std::cout << "v type"<<$v.type <<std::endl;
         writeIntoparserLogFile("Line "+  std::to_string($v.line)+": factor : variable\n\n" + $v.text + "\n");
         }
@@ -1108,8 +1106,13 @@ factor
         $text = $CONST_INT->getText();
         $line = $CONST_INT->getLine();
         $type = "int";
-         $argIsArray = false;
-       // std::cout << "CONST_INT type"<<$type <<std::endl;
+        $argIsArray = false;
+        writeIntoAsmFile("L" + std::to_string(label_count++) + ":\n" + "\tMOV AX, "+$text +"       ; Line "+std::to_string($line));
+
+        
+
+        
+
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : CONST_INT\n\n" + $text + "\n");
 
     }

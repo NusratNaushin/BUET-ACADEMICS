@@ -172,6 +172,7 @@ public:
     std::string asm_header;
     std::string data_section;
     std::string code_section;
+    std::string asm_footer;
     C2105168Parser::ProgramContext *p = nullptr;
     StartContext(antlr4::ParserRuleContext *parent, size_t invokingState);
     virtual size_t getRuleIndex() const override;

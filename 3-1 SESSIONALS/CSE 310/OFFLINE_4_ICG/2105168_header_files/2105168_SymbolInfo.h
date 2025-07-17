@@ -16,6 +16,8 @@ private:
 
     int stack_offset = -2; 
 
+    bool isGlobal = false; 
+
 
     
 public:
@@ -131,6 +133,14 @@ public:
 
     int getStackOffset() const {
         return stack_offset;
+    }
+
+    void setIsGlobal(bool isGlobal) {
+        this->isGlobal = isGlobal;
+    }
+
+    bool getIsGlobal() const {
+        return isGlobal;
     }
 
 };
