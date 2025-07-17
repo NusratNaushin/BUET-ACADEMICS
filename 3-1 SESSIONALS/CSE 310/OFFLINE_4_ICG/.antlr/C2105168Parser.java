@@ -27,6 +27,10 @@
     extern std::vector<std::string>returnTypes;
     extern std::vector<std::string>fndecreturnTypes;
     extern std::vector<std::string>fndefreturnTypes;
+    extern bool isDATAEmpty;
+    extern int label_count; 
+    extern int stack_offset_local;
+    extern int stack_offset_global;
 
 
 import org.antlr.v4.runtime.atn.*;
@@ -142,6 +146,12 @@ public class C2105168Parser extends Parser {
 
 	    SymbolTable* symbolTable = new SymbolTable(7);
 
+	    std::string to_upper(const std::string& input) {
+	    std::string result = input;
+	    std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+	    return result;
+	}
+
 	    void writeIntoparserLogFile(const std::string message) {
 	        if (!parserLogFile) {
 	            std::cout << "Error opening parserLogFile.txt" << std::endl;
@@ -185,6 +195,7 @@ public class C2105168Parser extends Parser {
 	        asmfile.flush();
 	    }
 
+	    
 
 	public C2105168Parser(TokenStream input) {
 		super(input);
@@ -221,6 +232,8 @@ public class C2105168Parser extends Parser {
 			        ((StartContext)_localctx).text =  ((StartContext)_localctx).p.text;
 			        ((StartContext)_localctx).line =  ((StartContext)_localctx).p.line;
 			        ((StartContext)_localctx).data_section =  ((StartContext)_localctx).p.data_section_code;
+			        ((StartContext)_localctx).code_section =  (((StartContext)_localctx).p.code_section);
+			        std::cout << "DEBUG: start code_section = '" << _localctx.code_section << "'" << std::endl;
 			       // writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
 
 
@@ -233,10 +246,9 @@ public class C2105168Parser extends Parser {
 
 
 			        ((StartContext)_localctx).asm_header = ".MODEL SMALL\n.STACK 1000H";
-			        ((StartContext)_localctx).code_section =  "\n.CODE\n";
 			        std::cout << "here" <<std::endl;
-			        writeIntoAsmFile(_localctx.asm_header+"\n.DATA\n"+_localctx.data_section+"\n"+_localctx.code_section);
-
+			        writeIntoAsmFile(_localctx.asm_header+"\n.Data\nnumber DB \"00000$\"\n"+_localctx.data_section+".CODE\n"+_localctx.code_section);
+			        std::cout << _localctx.code_section <<std::endl;
 				
 			}
 		}
@@ -256,6 +268,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string data_section_code;
+		public std::string code_section;
 		public ProgramContext pu;
 		public UnitContext u;
 		public UnitContext unit() {
@@ -293,6 +306,7 @@ public class C2105168Parser extends Parser {
 			        ((ProgramContext)_localctx).line =  ((ProgramContext)_localctx).u.line;
 			        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": program : unit\n\n"+_localctx.text+"\n");
 			        ((ProgramContext)_localctx).data_section_code =  ((ProgramContext)_localctx).u.data_section_code;
+			        ((ProgramContext)_localctx).code_section =  ((ProgramContext)_localctx).u.code_section;
 			         
 			}
 			_ctx.stop = _input.LT(-1);
@@ -316,6 +330,7 @@ public class C2105168Parser extends Parser {
 					                  ((ProgramContext)_localctx).text =  ((ProgramContext)_localctx).pu.text +"\n"+((ProgramContext)_localctx).u.text;
 					                  ((ProgramContext)_localctx).line =  ((ProgramContext)_localctx).u.line;
 					                  ((ProgramContext)_localctx).data_section_code =  ((ProgramContext)_localctx).pu.data_section_code + "\n" + ((ProgramContext)_localctx).u.data_section_code;
+					                  ((ProgramContext)_localctx).code_section =  ((ProgramContext)_localctx).pu.code_section + ((ProgramContext)_localctx).u.code_section;
 					                  writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": program : program unit\n\n"+_localctx.text+"\n");
 					                  
 					}
@@ -343,6 +358,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string data_section_code;
+		public std::string code_section;
 		public Var_declarationContext vd;
 		public Func_declarationContext fdec;
 		public Func_definitionContext fdef;
@@ -377,6 +393,8 @@ public class C2105168Parser extends Parser {
 				        ((UnitContext)_localctx).text =  ((UnitContext)_localctx).vd.text;
 				        ((UnitContext)_localctx).line =  ((UnitContext)_localctx).vd.line;
 				        ((UnitContext)_localctx).data_section_code =  ((UnitContext)_localctx).vd.data_section_code;
+				        ((UnitContext)_localctx).code_section =  ((UnitContext)_localctx).vd.code_section;
+				        std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": unit : var_declaration\n\n"+_localctx.text+"\n");
 
 				    
@@ -388,8 +406,11 @@ public class C2105168Parser extends Parser {
 				setState(67);
 				((UnitContext)_localctx).fdec = func_declaration();
 				  
+
 				        ((UnitContext)_localctx).text =  ((UnitContext)_localctx).fdec.text;  
 				        ((UnitContext)_localctx).line =  ((UnitContext)_localctx).fdec.line;
+				        ((UnitContext)_localctx).data_section_code =  "";
+				        ((UnitContext)_localctx).code_section =  ((UnitContext)_localctx).fdec.code_section;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": unit : func_declaration\n\n"+_localctx.text+"\n");
 
 				    
@@ -403,6 +424,8 @@ public class C2105168Parser extends Parser {
 				  
 				        ((UnitContext)_localctx).text =  ((UnitContext)_localctx).fdef.text;
 				        ((UnitContext)_localctx).line =  ((UnitContext)_localctx).fdef.line;
+				        ((UnitContext)_localctx).data_section_code =  "";
+				        ((UnitContext)_localctx).code_section =  ((UnitContext)_localctx).fdef.code_section;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": unit : func_definition\n\n"+_localctx.text+"\n");
 				        
 				    
@@ -426,6 +449,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string type;
+		public std::string code_section;
 		public Type_specifierContext ts;
 		public Token ID;
 		public Token LPAREN;
@@ -478,7 +502,6 @@ public class C2105168Parser extends Parser {
 				        ((Func_declarationContext)_localctx).text =  ((Func_declarationContext)_localctx).ts.text +" "+ ((Func_declarationContext)_localctx).ID->getText() + ((Func_declarationContext)_localctx).LPAREN->getText() + ((Func_declarationContext)_localctx).pl.text+ ((Func_declarationContext)_localctx).RPAREN->getText() +  ((Func_declarationContext)_localctx).SEMICOLON->getText();
 				        ((Func_declarationContext)_localctx).line =  ((Func_declarationContext)_localctx).SEMICOLON->getLine(); 
 				        ((Func_declarationContext)_localctx).type =  ((Func_declarationContext)_localctx).ts.text;
-
 
 				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
 
@@ -535,6 +558,7 @@ public class C2105168Parser extends Parser {
 				        ((Func_declarationContext)_localctx).line =  ((Func_declarationContext)_localctx).SEMICOLON->getLine(); 
 				        ((Func_declarationContext)_localctx).type =  ((Func_declarationContext)_localctx).ts.text;
 
+				        
 
 				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_declarationContext)_localctx).ID->getText(), "ID");
 				        funcSymbol->setIsFunction(true);
@@ -581,6 +605,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public std::string returnType;
+		public std::string code_section;
 		public Type_specifierContext ts;
 		public Token ID;
 		public Token LPAREN;
@@ -630,6 +655,8 @@ public class C2105168Parser extends Parser {
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
 				        funcSymbol->setReturnType(((Func_definitionContext)_localctx).ts.text);
+
+
 				       // std::cout<< "return type "<< funcSymbol->getSymbolName() << funcSymbol->getReturnType() << std::endl;
 				        funcSymbol->setParameterList(((Func_definitionContext)_localctx).pl.plist);
 				        plist = ((Func_definitionContext)_localctx).pl.plist;
@@ -665,7 +692,7 @@ public class C2105168Parser extends Parser {
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 				        ((Func_definitionContext)_localctx).type =  ((Func_definitionContext)_localctx).ts.text;
-
+				        ((Func_definitionContext)_localctx).code_section =  ((Func_definitionContext)_localctx).ID->getText() + " PROC\n";
 				        ((Func_definitionContext)_localctx).returnType =  ((Func_definitionContext)_localctx).cs.type;
 
 				        if (((Func_definitionContext)_localctx).ts.text == "void" && _localctx.returnType != "void") {
@@ -720,9 +747,9 @@ public class C2105168Parser extends Parser {
 
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text +" " + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText() + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
+				        ((Func_definitionContext)_localctx).code_section =  ((Func_definitionContext)_localctx).ID->getText() + " PROC\n" +((Func_definitionContext)_localctx).cs.code_section;
+				        std::cout << "DEBUG: func_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 
-
-				     //   symbolTable->print_current_scope_table(parserLogFile);
 
 
 				        writeIntoparserLogFile("\nLine "+std::to_string(_localctx.line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+_localctx.text+"\n");
@@ -801,10 +828,7 @@ public class C2105168Parser extends Parser {
 				        SymbolInfo* paramSymbol = new SymbolInfo(((Parameter_listContext)_localctx).ID->getText(), "ID");
 				        paramSymbol->setIsArray(false);
 				        paramSymbol->setType(((Parameter_listContext)_localctx).ts.text);
-				        // if(!symbolTable->Insert(paramSymbol)){
-				        //     writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+((Parameter_listContext)_localctx).ID->getText()+" in parameter\n");
-				        //     writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+((Parameter_listContext)_localctx).ID->getText()+" in parameter\n");
-				        // }
+
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) +": parameter_list : type_specifier ID\n\n" + _localctx.text + "\n");
 						
 				}
@@ -953,6 +977,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string type;
+		public std::string code_section;
 		public Token LCURL;
 		public StatementsContext ss;
 		public Token RCURL;
@@ -1008,6 +1033,7 @@ public class C2105168Parser extends Parser {
 
 				        ((Compound_statementContext)_localctx).text =  ((Compound_statementContext)_localctx).LCURL->getText()+"\n" + ((Compound_statementContext)_localctx).ss.text +"\n" + ((Compound_statementContext)_localctx).RCURL->getText();
 				        ((Compound_statementContext)_localctx).line =  (((Compound_statementContext)_localctx).RCURL!=null?((Compound_statementContext)_localctx).RCURL.getLine():0);
+				        ((Compound_statementContext)_localctx).code_section =  ((Compound_statementContext)_localctx).ss.code_section;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": compound_statement : LCURL statements RCURL\n\n"+_localctx.text+"\n");
 				        symbolTable->print_all_scope_table2(parserLogFile);
 				        symbolTable->ExitScope();
@@ -1055,6 +1081,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string data_section_code;
+		public std::string code_section;
 		public Type_specifierContext t;
 		public Declaration_listContext dl;
 		public Token sm;
@@ -1095,6 +1122,8 @@ public class C2105168Parser extends Parser {
 				        ((Var_declarationContext)_localctx).text =  ((Var_declarationContext)_localctx).t.text +" "+ ((Var_declarationContext)_localctx).dl.text + ((Var_declarationContext)_localctx).sm->getText() ;
 				        ((Var_declarationContext)_localctx).line =  ((Var_declarationContext)_localctx).t.line;
 				        ((Var_declarationContext)_localctx).data_section_code =  "";
+				        ((Var_declarationContext)_localctx).code_section =  "";
+				        bool pushbpprint = false;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": var_declaration : type_specifier declaration_list SEMICOLON\n\n"+_localctx.text+"\n");
 
 
@@ -1113,10 +1142,33 @@ public class C2105168Parser extends Parser {
 				            std::string currentScopeId = symbolTable->getCurrentScopeID();
 
 				            if(currentScopeId == "1"){
-				                std::cout <<"here inside vardec" << std::endl;
-				                _localctx.data_section_code += varSymbol->getSymbolName() + " DW 1 DUP (0000H)\n";
+				                isDATAEmpty = false;
+				                stack_offset_global += 2;
+				                varSymbol->setStackOffset(stack_offset_global);
+				                std::cout << "got " << varSymbol->getSymbolName() << " with stack offset " << varSymbol->getStackOffset() << std::endl;                _localctx.data_section_code += varSymbol->getSymbolName() + " DW 1 DUP (0000H)\n";
+
 				                std::cout << "data_section_code: " << _localctx.data_section_code << std::endl;
 				            }
+
+
+				            else if(currentScopeId != "1"){
+				                if(!isDATAEmpty){
+				                    _localctx.code_section += "\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP\n";
+				                    isDATAEmpty = true;
+				                    pushbpprint = true;
+				                }
+				                else if(isDATAEmpty && !pushbpprint){
+				                    _localctx.code_section += "\tPUSH BP\n\tMOV BP, SP\n";
+				                    pushbpprint = true;
+				                }
+				                stack_offset_local += 2;
+				                varSymbol->setStackOffset(stack_offset_local);
+				                std::cout << "got " << varSymbol->getSymbolName() << " with stack offset " << varSymbol->getStackOffset() << std::endl;
+				                _localctx.code_section += "\tSUB SP, 2\n";
+
+				            }
+
+
 
 				        }
 
@@ -1125,6 +1177,8 @@ public class C2105168Parser extends Parser {
 				            writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Variable type cannot be void\n");
 				                            errorCount++;
 				        }
+
+				        
 
 				        
 				      
@@ -1500,6 +1554,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string type;
+		public std::string code_section;
 		public StatementsContext ss;
 		public StatementContext s;
 		public StatementContext statement() {
@@ -1536,6 +1591,7 @@ public class C2105168Parser extends Parser {
 			        ((StatementsContext)_localctx).text =  ((StatementsContext)_localctx).s.text;
 			        ((StatementsContext)_localctx).line =  ((StatementsContext)_localctx).s.line;
 			        ((StatementsContext)_localctx).type =  ((StatementsContext)_localctx).s.type;
+			        ((StatementsContext)_localctx).code_section =  ((StatementsContext)_localctx).s.code_section;
 			                // std::cout << "s  type"<<((StatementsContext)_localctx).s.type <<std::endl;
 
 			        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statements : statement\n\n" + _localctx.text+"\n"); 
@@ -1562,6 +1618,7 @@ public class C2105168Parser extends Parser {
 					                  ((StatementsContext)_localctx).text =  ((StatementsContext)_localctx).ss.text +"\n" + ((StatementsContext)_localctx).s.text;
 					                  ((StatementsContext)_localctx).line =  ((StatementsContext)_localctx).s.line;
 					                  ((StatementsContext)_localctx).type =  ((StatementsContext)_localctx).s.type;
+					                  ((StatementsContext)_localctx).code_section =  ((StatementsContext)_localctx).ss.code_section +  ((StatementsContext)_localctx).s.code_section;  
 					                          // std::cout << "s  type"<<((StatementsContext)_localctx).s.type <<std::endl;
 
 					                  writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": statements : statements statement\n\n" +_localctx.text+"\n"); 
@@ -1592,6 +1649,7 @@ public class C2105168Parser extends Parser {
 		public std::string text;
 		public int line;
 		public std::string type;
+		public std::string code_section;
 		public Var_declarationContext v;
 		public Expression_statementContext es;
 		public Compound_statementContext cs;
@@ -1663,6 +1721,8 @@ public class C2105168Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).v.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).v.line;
+				        ((StatementContext)_localctx).code_section =  ((StatementContext)_localctx).v.code_section;
+				        std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 				        ((StatementContext)_localctx).type =  "void";
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : var_declaration\n\n"+_localctx.text + "\n" );
 				    
@@ -1677,7 +1737,7 @@ public class C2105168Parser extends Parser {
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).es.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).es.line;
 				        ((StatementContext)_localctx).type =  "void";
-
+				        ((StatementContext)_localctx).code_section =  ((StatementContext)_localctx).es.code_section;
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : expression_statement\n\n"+_localctx.text + "\n" );
 
 				    
@@ -1692,6 +1752,7 @@ public class C2105168Parser extends Parser {
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).cs.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).cs.line;
 				        ((StatementContext)_localctx).type =  ((StatementContext)_localctx).cs.type;
+				        ((StatementContext)_localctx).code_section =  ((StatementContext)_localctx).cs.code_section;
 				        ((StatementContext)_localctx).type =  "void";
 
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : compound_statement\n\n"+_localctx.text + "\n" );
@@ -1720,6 +1781,7 @@ public class C2105168Parser extends Parser {
 				        ((StatementContext)_localctx).text =  (((StatementContext)_localctx).FOR!=null?((StatementContext)_localctx).FOR.getText():null) +  ((StatementContext)_localctx).LPAREN->getText() +  ((StatementContext)_localctx).es1.text + ((StatementContext)_localctx).es2.text + ((StatementContext)_localctx).e.text   + ((StatementContext)_localctx).RPAREN->getText() + ((StatementContext)_localctx).s.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).s.line;
 				        ((StatementContext)_localctx).type =  "void";
+				        ((StatementContext)_localctx).code_section =  ((StatementContext)_localctx).s.code_section;
 
 				        writeIntoparserLogFile("Line " + std::to_string(((StatementContext)_localctx).s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + _localctx.text +"\n"); 
 
@@ -1887,6 +1949,7 @@ public class C2105168Parser extends Parser {
 	public static class Expression_statementContext extends ParserRuleContext {
 		public std::string text;
 		public int line;
+		public std::string code_section;
 		public Token SEMICOLON;
 		public ExpressionContext e;
 		public TerminalNode SEMICOLON() { return getToken(C2105168Parser.SEMICOLON, 0); }
@@ -1914,7 +1977,7 @@ public class C2105168Parser extends Parser {
 
 				        ((Expression_statementContext)_localctx).text =  ((Expression_statementContext)_localctx).SEMICOLON->getText();
 				        ((Expression_statementContext)_localctx).line =  ((Expression_statementContext)_localctx).SEMICOLON->getLine();
-
+				        ((Expression_statementContext)_localctx).code_section =  "";
 				        writeIntoparserLogFile("Line " + std::to_string(((Expression_statementContext)_localctx).SEMICOLON->getLine()) + ": expression_statement : SEMICOLON\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1935,6 +1998,7 @@ public class C2105168Parser extends Parser {
 
 				        ((Expression_statementContext)_localctx).text =  ((Expression_statementContext)_localctx).e.text + ((Expression_statementContext)_localctx).SEMICOLON->getText();
 				        ((Expression_statementContext)_localctx).line =  ((Expression_statementContext)_localctx).SEMICOLON->getLine();
+				        ((Expression_statementContext)_localctx).code_section =  ((Expression_statementContext)_localctx).e.code_section;
 				        writeIntoparserLogFile("Line " + std::to_string(((Expression_statementContext)_localctx).SEMICOLON->getLine()) + ": expression_statement : expression SEMICOLON\n\n" + _localctx.text +"\n"); 
 
 				    
@@ -1961,6 +2025,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool isArray;
+		public std::string code_section;
 		public Token ID;
 		public Token LTHIRD;
 		public ExpressionContext e;
@@ -2078,6 +2143,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public Logic_expressionContext l;
 		public VariableContext v;
 		public Token ASSIGNOP;
@@ -2112,6 +2178,7 @@ public class C2105168Parser extends Parser {
 				            ((ExpressionContext)_localctx).line = ((ExpressionContext)_localctx).l.line;
 				            ((ExpressionContext)_localctx).type =  ((ExpressionContext)_localctx).l.type;
 				               ((ExpressionContext)_localctx).argIsArray =  false;
+				            ((ExpressionContext)_localctx).code_section =  ((ExpressionContext)_localctx).l.code_section;
 				            // std::cout << "l type"<<((ExpressionContext)_localctx).l.type <<std::endl;
 
 				            writeIntoparserLogFile("Line "+  std::to_string(((ExpressionContext)_localctx).l.line)+": expression : logic_expression\n\n" + ((ExpressionContext)_localctx).l.text + "\n"); 
@@ -2132,13 +2199,22 @@ public class C2105168Parser extends Parser {
 				            ((ExpressionContext)_localctx).line = ((ExpressionContext)_localctx).le.line;  
 				            ((ExpressionContext)_localctx).type =  ((ExpressionContext)_localctx).le.type;
 				             ((ExpressionContext)_localctx).argIsArray =  false;
+
+				            ((ExpressionContext)_localctx).code_section =  ((ExpressionContext)_localctx).le.code_section;
+				            ((ExpressionContext)_localctx).code_section =  "\tMOV AX, "+ ((ExpressionContext)_localctx).le.text + "       ; Line " + std::to_string(_localctx.line) + "\n";
+				            _localctx.code_section += "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX" +"\n";
+				            _localctx.code_section += "\tPUSH AX\n\tPOP AX\n";
+
+				            ((ExpressionContext)_localctx).code_section =  "L" + std::to_string(label_count++) + ":\n" + _localctx.code_section;
+
+
+				            std::cout << "DEBUG: expression code_section = '" << _localctx.code_section << "'" << std::endl;
 				            SymbolInfo* lookup = symbolTable->LookUP(((ExpressionContext)_localctx).v.text);
 
 
 
 				            if (lookup && ((ExpressionContext)_localctx).v.type != _localctx.type) {
 				            
-				           // std::cout<<std::to_string(_localctx.line)<<" v=le er bhitor type check v"<<lookup->getSymbolDataType() << " le" << _localctx.type << std::endl;
 				            writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": expression : variable ASSIGNOP logic_expression\n"); 
 
 				            if(lookup->getIsArray()){
@@ -2187,6 +2263,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArr;
+		public std::string code_section;
 		public Rel_expressionContext r;
 		public Rel_expressionContext re1;
 		public Token LOGICOP;
@@ -2221,6 +2298,7 @@ public class C2105168Parser extends Parser {
 				            ((Logic_expressionContext)_localctx).line =  ((Logic_expressionContext)_localctx).r.line;
 				            ((Logic_expressionContext)_localctx).type =  ((Logic_expressionContext)_localctx).r.type;
 				            ((Logic_expressionContext)_localctx).argIsArr =  ((Logic_expressionContext)_localctx).r.argIsArray;
+				            ((Logic_expressionContext)_localctx).code_section =  ((Logic_expressionContext)_localctx).r.code_section;
 				            // std::cout << "r  type"<<((Logic_expressionContext)_localctx).r.type <<std::endl;
 
 				            writeIntoparserLogFile("Line "+  std::to_string(((Logic_expressionContext)_localctx).r.line)+": logic_expression : rel_expression\n\n" + ((Logic_expressionContext)_localctx).r.text + "\n"); 
@@ -2268,6 +2346,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public Simple_expressionContext s;
 		public Simple_expressionContext s1;
 		public Token RELOP;
@@ -2302,6 +2381,7 @@ public class C2105168Parser extends Parser {
 				            ((Rel_expressionContext)_localctx).line =  ((Rel_expressionContext)_localctx).s.line;
 				            ((Rel_expressionContext)_localctx).type =  ((Rel_expressionContext)_localctx).s.type;
 				            ((Rel_expressionContext)_localctx).argIsArray =  ((Rel_expressionContext)_localctx).s.argIsArray;
+				            ((Rel_expressionContext)_localctx).code_section =  ((Rel_expressionContext)_localctx).s.code_section;
 				            // std::cout << "s type"<<((Rel_expressionContext)_localctx).s.type <<std::endl;
 				            writeIntoparserLogFile("Line "+  std::to_string(((Rel_expressionContext)_localctx).s.line)+": rel_expression : simple_expression\n\n" + ((Rel_expressionContext)_localctx).s.text + "\n"); 
 				            
@@ -2346,6 +2426,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public Simple_expressionContext s;
 		public TermContext t;
 		public Token ADDOP;
@@ -2385,6 +2466,7 @@ public class C2105168Parser extends Parser {
 			            ((Simple_expressionContext)_localctx).line =  ((Simple_expressionContext)_localctx).t.line;
 			            ((Simple_expressionContext)_localctx).type =  ((Simple_expressionContext)_localctx).t.type;
 			            ((Simple_expressionContext)_localctx).argIsArray =  ((Simple_expressionContext)_localctx).t.argIsArray;
+			            ((Simple_expressionContext)_localctx).code_section =  ((Simple_expressionContext)_localctx).t.code_section;
 			            writeIntoparserLogFile("Line "+  std::to_string(((Simple_expressionContext)_localctx).t.line)+": simple_expression : term\n\n" + ((Simple_expressionContext)_localctx).t.text + "\n"); 
 			            
 			}
@@ -2445,6 +2527,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public TermContext t;
 		public Unary_expressionContext u;
 		public Token MULOP;
@@ -2485,7 +2568,8 @@ public class C2105168Parser extends Parser {
 			            ((TermContext)_localctx).text =  ((TermContext)_localctx).u.text;
 			            ((TermContext)_localctx).line =  ((TermContext)_localctx).u.line;
 			            ((TermContext)_localctx).type =  ((TermContext)_localctx).u.type;
-			           ((TermContext)_localctx).argIsArray =  ((TermContext)_localctx).u.argIsArray; ;
+			           ((TermContext)_localctx).argIsArray =  ((TermContext)_localctx).u.argIsArray; 
+			            ((TermContext)_localctx).code_section =  ((TermContext)_localctx).u.code_section;
 			            writeIntoparserLogFile("Line "+  std::to_string(((TermContext)_localctx).u.line)+": term : unary_expression\n\n" + ((TermContext)_localctx).u.text + "\n");
 			            
 			}
@@ -2574,6 +2658,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public Token ADDOP;
 		public Unary_expressionContext ue;
 		public Token NOT;
@@ -2610,6 +2695,7 @@ public class C2105168Parser extends Parser {
 				            ((Unary_expressionContext)_localctx).text =  ((Unary_expressionContext)_localctx).ADDOP->getText() + ((Unary_expressionContext)_localctx).ue.text;
 				            ((Unary_expressionContext)_localctx).line =  ((Unary_expressionContext)_localctx).ADDOP->getLine();
 				            ((Unary_expressionContext)_localctx).type =  ((Unary_expressionContext)_localctx).ue.type;
+				            ((Unary_expressionContext)_localctx).code_section =  ((Unary_expressionContext)_localctx).ue.code_section;
 				            writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": unary_expression : ADDOP unary_expression\n\n" + _localctx.text + "\n");
 
 				        
@@ -2644,6 +2730,7 @@ public class C2105168Parser extends Parser {
 				            ((Unary_expressionContext)_localctx).line =  ((Unary_expressionContext)_localctx).f.line;
 				            ((Unary_expressionContext)_localctx).type =  ((Unary_expressionContext)_localctx).f.type;
 				            ((Unary_expressionContext)_localctx).argIsArray =  ((Unary_expressionContext)_localctx).f.argIsArray;
+				            ((Unary_expressionContext)_localctx).code_section =  ((Unary_expressionContext)_localctx).f.code_section;
 				            writeIntoparserLogFile("Line "+  std::to_string(((Unary_expressionContext)_localctx).f.line)+": unary_expression : factor\n\n" + ((Unary_expressionContext)_localctx).f.text + "\n"); 
 				            
 				}
@@ -2669,6 +2756,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public bool argIsArray;
+		public std::string code_section;
 		public VariableContext v;
 		public Token ID;
 		public Token LPAREN;
@@ -2718,6 +2806,7 @@ public class C2105168Parser extends Parser {
 				        ((FactorContext)_localctx).line =  ((FactorContext)_localctx).v.line;
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
 				        ((FactorContext)_localctx).argIsArray =  ((FactorContext)_localctx).v.isArray;
+				        ((FactorContext)_localctx).code_section =  ((FactorContext)_localctx).v.code_section;
 				        // std::cout << "v type"<<((FactorContext)_localctx).v.type <<std::endl;
 				        writeIntoparserLogFile("Line "+  std::to_string(((FactorContext)_localctx).v.line)+": factor : variable\n\n" + ((FactorContext)_localctx).v.text + "\n");
 				        

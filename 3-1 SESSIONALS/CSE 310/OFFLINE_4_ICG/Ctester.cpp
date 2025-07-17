@@ -20,11 +20,16 @@ int argumentCount = 0;
 int paramCount = 0;
 int errorCount = 0;
 bool multipleDeclaration=false;
+bool isDATAEmpty = true; 
+int label_count = 1; 
+int stack_offset_local = 0;
+int stack_offset_global = 0;
 std::vector<std::string>argumentTypes;
 std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;
 std::vector<std::string>fndecreturnTypes;
 std::vector<std::string>fndefreturnTypes;
+
 
 
 std::vector<std::pair<std::string, std::string>> plist;

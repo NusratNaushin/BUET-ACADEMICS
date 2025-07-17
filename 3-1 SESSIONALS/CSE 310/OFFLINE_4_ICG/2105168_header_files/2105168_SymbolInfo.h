@@ -14,6 +14,8 @@ private:
     std::string symbol_data_type;
     SymbolInfo *next;
 
+    int stack_offset = -2; 
+
 
     
 public:
@@ -120,6 +122,15 @@ public:
     }
     std::string getType(){
         return symbol_type;
+    }
+
+
+    void setStackOffset(int offset) {
+        this->stack_offset = offset;
+    }
+
+    int getStackOffset() const {
+        return stack_offset;
     }
 
 };

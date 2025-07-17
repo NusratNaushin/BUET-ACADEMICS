@@ -26,6 +26,10 @@
     extern std::vector<std::string>returnTypes;
     extern std::vector<std::string>fndecreturnTypes;
     extern std::vector<std::string>fndefreturnTypes;
+    extern bool isDATAEmpty;
+    extern int label_count; 
+    extern int stack_offset_local;
+    extern int stack_offset_global;
 
 
 
@@ -84,6 +88,12 @@ public:
 
       SymbolTable* symbolTable = new SymbolTable(7);
 
+      std::string to_upper(const std::string& input) {
+      std::string result = input;
+      std::transform(result.begin(), result.end(), result.begin(), ::toupper);
+      return result;
+  }
+
       void writeIntoparserLogFile(const std::string message) {
           if (!parserLogFile) {
               std::cout << "Error opening parserLogFile.txt" << std::endl;
@@ -127,6 +137,7 @@ public:
           asmfile.flush();
       }
 
+      
 
 
   class StartContext;
@@ -178,6 +189,7 @@ public:
     std::string text;
     int line;
     std::string data_section_code;
+    std::string code_section;
     C2105168Parser::ProgramContext *pu = nullptr;
     C2105168Parser::UnitContext *u = nullptr;
     ProgramContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -197,6 +209,7 @@ public:
     std::string text;
     int line;
     std::string data_section_code;
+    std::string code_section;
     C2105168Parser::Var_declarationContext *vd = nullptr;
     C2105168Parser::Func_declarationContext *fdec = nullptr;
     C2105168Parser::Func_definitionContext *fdef = nullptr;
@@ -218,6 +231,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::string code_section;
     C2105168Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
@@ -246,6 +260,7 @@ public:
     int line;
     std::string type;
     std::string returnType;
+    std::string code_section;
     C2105168Parser::Type_specifierContext *ts = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
@@ -298,6 +313,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::string code_section;
     antlr4::Token *lcurlToken = nullptr;
     C2105168Parser::StatementsContext *ss = nullptr;
     antlr4::Token *rcurlToken = nullptr;
@@ -319,6 +335,7 @@ public:
     std::string text;
     int line;
     std::string data_section_code;
+    std::string code_section;
     C2105168Parser::Type_specifierContext *t = nullptr;
     C2105168Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *sm = nullptr;
@@ -407,6 +424,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::string code_section;
     C2105168Parser::StatementsContext *ss = nullptr;
     C2105168Parser::StatementContext *s = nullptr;
     StatementsContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -426,6 +444,7 @@ public:
     std::string text;
     int line;
     std::string type;
+    std::string code_section;
     C2105168Parser::Var_declarationContext *v = nullptr;
     C2105168Parser::Expression_statementContext *es = nullptr;
     C2105168Parser::Compound_statementContext *cs = nullptr;
@@ -476,6 +495,7 @@ public:
   public:
     std::string text;
     int line;
+    std::string code_section;
     antlr4::Token *semicolonToken = nullptr;
     C2105168Parser::ExpressionContext *e = nullptr;
     Expression_statementContext(antlr4::ParserRuleContext *parent, size_t invokingState);
@@ -496,6 +516,7 @@ public:
     int line;
     std::string type;
     bool isArray;
+    std::string code_section;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;
     C2105168Parser::ExpressionContext *e = nullptr;
@@ -520,6 +541,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     C2105168Parser::Logic_expressionContext *l = nullptr;
     C2105168Parser::VariableContext *v = nullptr;
     antlr4::Token *assignopToken = nullptr;
@@ -543,6 +565,7 @@ public:
     int line;
     std::string type;
     bool argIsArr;
+    std::string code_section;
     C2105168Parser::Rel_expressionContext *r = nullptr;
     C2105168Parser::Rel_expressionContext *re1 = nullptr;
     antlr4::Token *logicopToken = nullptr;
@@ -566,6 +589,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     C2105168Parser::Simple_expressionContext *s = nullptr;
     C2105168Parser::Simple_expressionContext *s1 = nullptr;
     antlr4::Token *relopToken = nullptr;
@@ -589,6 +613,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     C2105168Parser::Simple_expressionContext *s = nullptr;
     C2105168Parser::TermContext *t = nullptr;
     antlr4::Token *addopToken = nullptr;
@@ -611,6 +636,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     C2105168Parser::TermContext *t = nullptr;
     C2105168Parser::Unary_expressionContext *u = nullptr;
     antlr4::Token *mulopToken = nullptr;
@@ -634,6 +660,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     antlr4::Token *addopToken = nullptr;
     C2105168Parser::Unary_expressionContext *ue = nullptr;
     antlr4::Token *notToken = nullptr;
@@ -658,6 +685,7 @@ public:
     int line;
     std::string type;
     bool argIsArray;
+    std::string code_section;
     C2105168Parser::VariableContext *v = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lparenToken = nullptr;
