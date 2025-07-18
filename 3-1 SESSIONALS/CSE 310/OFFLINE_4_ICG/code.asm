@@ -2,8 +2,6 @@
 .STACK 1000H
 .Data
 	number DB "00000$"
-	i DW 1 DUP (0000H)
-	j DW 1 DUP (0000H)
 .CODE
 main PROC
 	MOV AX, @DATA
@@ -13,181 +11,106 @@ main PROC
 	SUB SP, 2
 	SUB SP, 2
 	SUB SP, 2
-	SUB SP, 2
-	SUB SP, 2
-	SUB SP, 2
 L1:
-	MOV AX, 1       ; Line 6
-	MOV i, AX
+	MOV AX, 3       ; Line 5
+	MOV [BP-2], AX
 	PUSH AX
 	POP AX
 L2:
-	MOV AX, i       ; Line 7
-	CALL print_output
-	CALL new_line
+	MOV AX, 8       ; Line 6
+	MOV [BP-4], AX
+	PUSH AX
+	POP AX
 L3:
-	MOV AX, 8       ; Line 9
-	MOV DX, AX
-	MOV AX, 5       ; Line 9
-	ADD AX, DX
-	PUSH AX
-	POP AX       ; Line 9
-	MOV j, AX
-	PUSH AX
-	POP AX
-L4:
-	MOV AX, j       ; Line 10
-	CALL print_output
-	CALL new_line
-L5:
-	MOV AX, j       ; Line 12
-	MOV CX, AX
-	MOV AX, 2       ; Line 12
-	CWD
-	MUL CX
-	PUSH AX
-	POP AX       ; Line 12
-	MOV DX, AX
-	MOV AX, i       ; Line 12
-	ADD AX, DX
-	PUSH AX
-	POP AX       ; Line 12
-	MOV [BP-2], AX
-	PUSH AX
-	POP AX
-L6:
-	MOV AX, [BP-2]       ; Line 13
-	CALL print_output
-	CALL new_line
-L7:
-	MOV AX, 9       ; Line 15
-	MOV CX, AX
-	MOV AX, [BP-2]       ; Line 15
-	CWD
-	DIV CX
-	PUSH DX
-	POP AX       ; Line 15
+	MOV AX, 6       ; Line 7
 	MOV [BP-6], AX
 	PUSH AX
 	POP AX
+L4:
+	MOV AX, 3       ; Line 10
+	MOV DX, AX
+	MOV AX, [BP-2]       ; Line 10
+	CMP AX, DX
+	JE L5
+	JMP L7
+L5:
+	MOV AX, [BP-4]       ; Line 11
+	CALL print_output
+	CALL new_line
+L6:
+L7:
+	MOV AX, 8       ; Line 14
+	MOV DX, AX
+	MOV AX, [BP-4]       ; Line 14
+	CMP AX, DX
+	JL L8
+	JMP L10
 L8:
-	MOV AX, [BP-6]       ; Line 16
+	MOV AX, [BP-2]       ; Line 15
 	CALL print_output
 	CALL new_line
 L9:
-	MOV AX, [BP-4]       ; Line 18
-	MOV DX, AX
-	MOV AX, [BP-6]       ; Line 18
-	CMP AX, DX
-	JLE L10
 	JMP L12
 L10:
-	MOV AX, 1       ; Line 18
-	JMP L11
-L12:
-	MOV AX, 0
+	MOV AX, [BP-6]       ; Line 18
+	CALL print_output
+	CALL new_line
 L11:
-	MOV [BP-8], AX
-	PUSH AX
-	POP AX
+L12:
+	MOV AX, 6       ; Line 21
+	MOV DX, AX
+	MOV AX, [BP-6]       ; Line 21
+	CMP AX, DX
+	JNE L13
+	JMP L15
 L13:
-	MOV AX, [BP-8]       ; Line 19
+	MOV AX, [BP-6]       ; Line 22
 	CALL print_output
 	CALL new_line
 L14:
-	MOV AX, j       ; Line 21
-	MOV DX, AX
-	MOV AX, i       ; Line 21
-	CMP AX, DX
-	JNE L15
-	JMP L17
+	JMP L24
 L15:
-	MOV AX, 1       ; Line 21
-	JMP L16
-L17:
-	MOV AX, 0
+	MOV AX, 8       ; Line 24
+	MOV DX, AX
+	MOV AX, [BP-4]       ; Line 24
+	CMP AX, DX
+	JG L16
+	JMP L18
 L16:
-	MOV [BP-10], AX
-	PUSH AX
-	POP AX
+	MOV AX, [BP-4]       ; Line 25
+	CALL print_output
+	CALL new_line
+L17:
+	JMP L24
 L18:
-	MOV AX, [BP-10]       ; Line 22
-	CALL print_output
-	CALL new_line
+	MOV AX, 5       ; Line 27
+	MOV DX, AX
+	MOV AX, [BP-2]       ; Line 27
+	CMP AX, DX
+	JL L19
+	JMP L21
 L19:
-	MOV AX, [BP-8]       ; Line 24
-	CMP AX, 0
-	JNE L21
-	JMP L20
+	MOV AX, [BP-2]       ; Line 28
+	CALL print_output
+	CALL new_line
 L20:
-	MOV AX, [BP-10]       ; Line 24
-	CMP AX, 0
-	JNE L21
-	JMP L23
+	JMP L24
 L21:
-	MOV AX, 1       ; Line 24
-	JMP L22
-L23:
-	MOV AX, 0
+	MOV AX, 0       ; Line 31
+	MOV [BP-6], AX
+	PUSH AX
+	POP AX
 L22:
-	MOV [BP-12], AX
-	PUSH AX
-	POP AX
+	MOV AX, [BP-6]       ; Line 32
+	CALL print_output
+	CALL new_line
+L23:
 L24:
-	MOV AX, [BP-12]       ; Line 25
-	CALL print_output
-	CALL new_line
-L25:
-	MOV AX, [BP-8]       ; Line 27
-	CMP AX, 0
-	JNE L26
-	JMP L29
-L26:
-	MOV AX, [BP-10]       ; Line 27
-	CMP AX, 0
-	JNE L27
-	JMP L29
-L27:
-	MOV AX, 1       ; Line 27
-	JMP L28
-L29:
-	MOV AX, 0
-L28:
-	MOV [BP-12], AX
-	PUSH AX
-	POP AX
-L30:
-	MOV AX, [BP-12]       ; Line 28
-	CALL print_output
-	CALL new_line
-L31:
-	MOV AX, [BP-12]       ; Line 30
-	PUSH AX
-	INC AX
-	MOV [BP-12], AX
-	POP AX
-L32:
-	MOV AX, [BP-12]       ; Line 31
-	CALL print_output
-	CALL new_line
-L33:
-	MOV AX, [BP-12]       ; Line 33
-	NEG AX
-	PUSH AX
-	POP AX       ; Line 33
-	MOV [BP-2], AX
-	PUSH AX
-	POP AX
-L34:
-	MOV AX, [BP-2]       ; Line 34
-	CALL print_output
-	CALL new_line
-L35:
 	MOV AX, 0       ; Line 36
-	JMP L37
-L36:
-L37:
-	ADD SP, 12
+	JMP L26
+L25:
+L26:
+	ADD SP, 6
 	POP BP
 	MOV AX,4CH
 	INT 21H

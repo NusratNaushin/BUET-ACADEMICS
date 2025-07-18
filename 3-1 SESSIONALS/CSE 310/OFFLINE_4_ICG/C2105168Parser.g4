@@ -36,6 +36,8 @@ options {
     extern int label_count; 
     extern int stack_offset_local;
     extern int stack_offset_global;
+    extern std::vector<std::string> elseStatements;
+    extern std::vector<std::string> exitLabels;
 
 }
 
@@ -724,19 +726,67 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN e = expression RPAREN s = statement {
+	| IF LPAREN e = expression {    
+        std::string elseLabel = std::to_string(label_count++);
+        elseStatements.push_back(elseLabel);
+
+        writeIntoAsmFile("\tPOP AX\n");
+        writeIntoAsmFile("\tCMP AX, 0\n");
+        writeIntoAsmFile("\tJE L" + elseLabel);
+
+
+        } RPAREN s = statement {
 
         $text = $IF->getText()+ $LPAREN->getText()+ $e.text  + $RPAREN->getText() +$s.text;
         $line = $IF->getLine();
         $type = "void";
 
+        std::string exitLabel = std::to_string(label_count++);
+
+        exitLabels.push_back(exitLabel);
+
+        writeIntoAsmFile("\tJMP L" + exitLabel);
+        writeIntoAsmFile("L" +elseStatements.back() + ":");
+        elseStatements.pop_back();
+        writeIntoAsmFile("\tJMP L" + exitLabel);
+        writeIntoAsmFile("L" + exitLabel + ":");
+
+
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
 
     }
-	| IF LPAREN e = expression RPAREN s1 = statement ELSE s2 = statement {
+	| IF LPAREN e = expression {
+
+        std::string elseLabel = std::to_string(label_count++);
+        elseStatements.push_back(elseLabel);
+
+        writeIntoAsmFile("\tPOP AX\n");
+        writeIntoAsmFile("\tCMP AX, 0\n");
+        writeIntoAsmFile("\tJE L" + elseLabel);
+
+
+
+    }
+    RPAREN s1 = statement {  
+
+        std::string exitLabel = std::to_string(label_count++);
+
+        exitLabels.push_back(exitLabel);
+
+        writeIntoAsmFile("\tJMP L" + exitLabel);
+        writeIntoAsmFile("L" + elseStatements.back() + ":");
+        elseStatements.pop_back();
+        // writeIntoAsmFile("\tJMP L" + exitLabel);
+
+     } ELSE s2 = statement {
+
         $text = $IF->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s1.text+ $ELSE->getText() +" "+  $s2.text ;
        $line = $IF->getLine();
         $type = "void";
+
+        writeIntoAsmFile("L" + exitLabels.back() + ":");
+        exitLabels.pop_back();
+
 
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + $text +"\n"); 
 
@@ -1189,6 +1239,15 @@ unary_expression
             $line = $ADDOP->getLine();
             $type = $ue.type;
             $code_section = $ue.code_section;
+
+
+            writeIntoAsmFile("\tPOP AX");
+            if ($ADDOP->getText() == "+") {
+                $code_section = "\tPUSH AX";
+            } else if ($ADDOP->getText() == "-") {
+                $code_section = "\tNEG AX\n\tPUSH AX";
+            }
+            writeIntoAsmFile($code_section);
             writeIntoparserLogFile("Line "+  std::to_string($line)+": unary_expression : ADDOP unary_expression\n\n" + $text + "\n");
 
         }
@@ -1329,6 +1388,8 @@ factor
         writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
         writeIntoAsmFile("\tPUSH AX");
         writeIntoAsmFile("\tINC AX");
+        writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable INCOP\n\n" + $text + "\n");
 
     }

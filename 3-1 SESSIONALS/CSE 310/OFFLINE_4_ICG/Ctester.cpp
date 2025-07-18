@@ -29,6 +29,8 @@ std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;
 std::vector<std::string>fndecreturnTypes;
 std::vector<std::string>fndefreturnTypes;
+std::vector<std::string>elseStatements;
+std::vector<std::string>exitLabels;
 
 
 

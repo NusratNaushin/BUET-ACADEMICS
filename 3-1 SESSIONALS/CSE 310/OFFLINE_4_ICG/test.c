@@ -27,5 +27,8 @@ int main(){
     p++;
 	println(p);
 
+    k = -p;
+	println(k);
+
     return 0;
 }

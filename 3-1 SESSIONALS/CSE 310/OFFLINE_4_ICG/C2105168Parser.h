@@ -30,6 +30,8 @@
     extern int label_count; 
     extern int stack_offset_local;
     extern int stack_offset_global;
+    extern std::vector<std::string> elseStatements;
+    extern std::vector<std::string> exitLabels;
 
 
 
