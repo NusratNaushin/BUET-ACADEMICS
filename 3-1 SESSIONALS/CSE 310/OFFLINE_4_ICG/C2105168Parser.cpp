@@ -877,13 +877,22 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               }
 
 
+              int paramsize = antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->plist.size();
+
+              //paramter er jonne BP+smthng
+              funcSymbol->setStackOffset(paramsize);
+              writeIntoAsmFile("\tMOV [BP+" + std::to_string(paramsize * 2) + "], AX");
+
+
            
       setState(100);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C2105168Parser::RPAREN);
           
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " PROC");
-              writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
-
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
+              writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+              }
+              writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
           
       setState(102);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
@@ -894,15 +903,32 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->type =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->returnType =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->type;
-
+              paramsize = antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->plist.size();
               if (antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text == "void" && _localctx->returnType != "void") {
                   writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Cannot return value from function "+  antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " with void return type\n");
                    writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Cannot return value from function "+  antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " with void return type\n");
                   errorCount++;
               } 
 
-              writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
+                  writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+              }
+
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" && paramsize == 0){
+                  writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+                  writeIntoAsmFile("\tPOP BP\n\tRET");
+              }
+
+              else if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" && paramsize > 0){
+                  writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+                  writeIntoAsmFile("\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+              }
+
+
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText()+ " ENDP");
+
+
+
               
               writeIntoparserLogFile("\nLine "+std::to_string(_localctx->line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+_localctx->text+"\n");
        
@@ -923,8 +949,11 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C2105168Parser::RPAREN);
           
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " PROC");
-               writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
+              writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+              }
 
+              writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
           
        
 
@@ -950,9 +979,16 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
               std::cout << "DEBUG: func_declaration code_section = '" << _localctx->code_section << "'" << std::endl;
 
-              writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
+                  writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+              }
 
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main"){
+                  writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+                  writeIntoAsmFile("\tPOP BP\n\tRET");
+              }
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText()+ " ENDP");
+
 
               writeIntoparserLogFile("\nLine "+std::to_string(_localctx->line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+_localctx->text+"\n");
 
@@ -2783,7 +2819,9 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
                   std::string currentScopeId = symbolTable->getCurrentScopeID();
                   if(existing->getIsGlobal()){
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
+                      
                   } else {
+
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
                   }
 
@@ -3736,7 +3774,10 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
               writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Undefined function " + antlrcpp::downCast<FactorContext *>(_localctx)->idToken->getText() + "\n");
               errorCount++;
           }
+          
 
+          //ekhne function call hbe
+          writeIntoAsmFile("\tCALL " + antlrcpp::downCast<FactorContext *>(_localctx)->idToken->getText());
           writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": factor : ID LPAREN argument_list RPAREN\n\n" + _localctx->text + "\n");
 
       break;

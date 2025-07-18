@@ -334,10 +334,19 @@ func_definition
         }
 
 
+        int paramsize = $pl.plist.size();
+
+        //paramter er jonne BP+smthng
+        funcSymbol->setStackOffset(paramsize);
+        writeIntoAsmFile("\tMOV [BP+" + std::to_string(paramsize * 2) + "], AX");
+
+
      } RPAREN {    
         writeIntoAsmFile($ID->getText() + " PROC");
-        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
-
+        if($ID->getText() == "main"){
+        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+        }
+        writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
     } cs = compound_statement {  
 
 
@@ -345,15 +354,32 @@ func_definition
         $line = $cs.line;
         $type = $ts.text;
         $returnType = $cs.type;
-
+        paramsize = $pl.plist.size();
         if ($ts.text == "void" && $returnType != "void") {
             writeIntoErrorFile("Error at line " + std::to_string($line) + ": Cannot return value from function "+  $ID->getText() + " with void return type\n");
              writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Cannot return value from function "+  $ID->getText() + " with void return type\n");
             errorCount++;
         } 
 
-        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+        if($ID->getText() == "main"){
+            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+        }
+
+        if($ID->getText() != "main" && paramsize == 0){
+            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+            writeIntoAsmFile("\tPOP BP\n\tRET");
+        }
+
+        else if($ID->getText() != "main" && paramsize > 0){
+            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+            writeIntoAsmFile("\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+        }
+
+
         writeIntoAsmFile($ID->getText()+ " ENDP");
+
+
+
         
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+$text+"\n");
  
@@ -361,8 +387,11 @@ func_definition
     }
 	| ts = type_specifier ID LPAREN RPAREN {    
         writeIntoAsmFile($ID->getText() + " PROC");
-         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
+        if($ID->getText() == "main"){
+        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+        }
 
+        writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
     } { 
 
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
@@ -384,9 +413,16 @@ func_definition
         $line = $cs.line;
         std::cout << "DEBUG: func_declaration code_section = '" << $code_section << "'" << std::endl;
 
-        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+        if($ID->getText() == "main"){
+            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+        }
 
+        if($ID->getText() != "main"){
+            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+            writeIntoAsmFile("\tPOP BP\n\tRET");
+        }
         writeIntoAsmFile($ID->getText()+ " ENDP");
+
 
         writeIntoparserLogFile("\nLine "+std::to_string($line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+$text+"\n");
 
@@ -996,7 +1032,9 @@ expression
             std::string currentScopeId = symbolTable->getCurrentScopeID();
             if(existing->getIsGlobal()){
                 $code_section = "\tMOV " + $v.text + ", AX";
+                
             } else {
+
                 $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
             }
 
@@ -1401,7 +1439,10 @@ factor
         writeIntoErrorFile("Error at line " + std::to_string($line) + ": Undefined function " + $ID->getText() + "\n");
         errorCount++;
     }
+    
 
+    //ekhne function call hbe
+    writeIntoAsmFile("\tCALL " + $ID->getText());
     writeIntoparserLogFile("Line " + std::to_string($line) + ": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
 }
 	| LPAREN e = expression RPAREN { 

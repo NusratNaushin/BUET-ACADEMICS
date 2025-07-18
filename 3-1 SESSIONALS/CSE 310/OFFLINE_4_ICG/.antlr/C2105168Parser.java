@@ -736,13 +736,22 @@ public class C2105168Parser extends Parser {
 				        }
 
 
+				        int paramsize = ((Func_definitionContext)_localctx).pl.plist.size();
+
+				        //paramter er jonne BP+smthng
+				        funcSymbol->setStackOffset(paramsize);
+				        writeIntoAsmFile("\tMOV [BP+" + std::to_string(paramsize * 2) + "], AX");
+
+
 				     
 				setState(100);
 				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
 				    
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText() + " PROC");
-				        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
-
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
+				        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+				        }
+				        writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
 				    
 				setState(102);
 				((Func_definitionContext)_localctx).cs = compound_statement();
@@ -753,15 +762,32 @@ public class C2105168Parser extends Parser {
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 				        ((Func_definitionContext)_localctx).type =  ((Func_definitionContext)_localctx).ts.text;
 				        ((Func_definitionContext)_localctx).returnType =  ((Func_definitionContext)_localctx).cs.type;
-
+				        paramsize = ((Func_definitionContext)_localctx).pl.plist.size();
 				        if (((Func_definitionContext)_localctx).ts.text == "void" && _localctx.returnType != "void") {
 				            writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Cannot return value from function "+  ((Func_definitionContext)_localctx).ID->getText() + " with void return type\n");
 				             writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Cannot return value from function "+  ((Func_definitionContext)_localctx).ID->getText() + " with void return type\n");
 				            errorCount++;
 				        } 
 
-				        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
+				            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+				        }
+
+				        if(((Func_definitionContext)_localctx).ID->getText() != "main" && paramsize == 0){
+				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+				            writeIntoAsmFile("\tPOP BP\n\tRET");
+				        }
+
+				        else if(((Func_definitionContext)_localctx).ID->getText() != "main" && paramsize > 0){
+				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+				            writeIntoAsmFile("\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+				        }
+
+
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
+
+
+
 				        
 				        writeIntoparserLogFile("\nLine "+std::to_string(_localctx.line)+": func_definition : type_specifier ID LPAREN parameter_list RPAREN compound_statement\n\n"+_localctx.text+"\n");
 				 
@@ -782,8 +808,11 @@ public class C2105168Parser extends Parser {
 				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
 				    
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText() + " PROC");
-				         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX\n\tPUSH BP\n\tMOV BP, SP");
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
+				        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
+				        }
 
+				        writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
 				    
 				 
 
@@ -809,9 +838,16 @@ public class C2105168Parser extends Parser {
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 				        std::cout << "DEBUG: func_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 
-				        writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
+				            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
+				        }
 
+				        if(((Func_definitionContext)_localctx).ID->getText() != "main"){
+				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+				            writeIntoAsmFile("\tPOP BP\n\tRET");
+				        }
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
+
 
 				        writeIntoparserLogFile("\nLine "+std::to_string(_localctx.line)+": func_definition : type_specifier ID LPAREN RPAREN compound_statement\n\n"+_localctx.text+"\n");
 
@@ -2368,7 +2404,9 @@ public class C2105168Parser extends Parser {
 				            std::string currentScopeId = symbolTable->getCurrentScopeID();
 				            if(existing->getIsGlobal()){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
+				                
 				            } else {
+
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
 				            }
 
@@ -3198,7 +3236,10 @@ public class C2105168Parser extends Parser {
 				        writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Undefined function " + ((FactorContext)_localctx).ID->getText() + "\n");
 				        errorCount++;
 				    }
+				    
 
+				    //ekhne function call hbe
+				    writeIntoAsmFile("\tCALL " + ((FactorContext)_localctx).ID->getText());
 				    writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": factor : ID LPAREN argument_list RPAREN\n\n" + _localctx.text + "\n");
 
 				}

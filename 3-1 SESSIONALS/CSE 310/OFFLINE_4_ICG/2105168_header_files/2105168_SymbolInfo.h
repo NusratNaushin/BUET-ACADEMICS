@@ -14,7 +14,7 @@ private:
     std::string symbol_data_type;
     SymbolInfo *next;
 
-    int stack_offset = -2; 
+    int stack_offset = 0; 
 
     bool isGlobal = false; 
 

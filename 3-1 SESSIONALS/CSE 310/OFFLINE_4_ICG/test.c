@@ -1,17 +1,17 @@
-int i,j;
-int main(){
- 
-	 
-	int i,j,k,ll;
- 
-	k = 4;
-	ll = 6;
-	while(k>0){
-		ll = ll + 3;
-		k--;
-	}
- 	println(ll);
-	println(k);
+int a,b,c;
 
+int foo(int a){
+	a = a + 3;
+	return a;
+}
+
+int main(){
+
+	int i,j,k,l;
+	
+	i = 5;
+	j = 6;
+	k = foo(i);
+	println(k);
     return 0;
 }
