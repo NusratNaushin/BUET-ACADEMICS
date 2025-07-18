@@ -38,7 +38,13 @@ options {
     extern int stack_offset_global;
     extern std::vector<std::string> elseStatements;
     extern std::vector<std::string> exitLabels;
+    extern std::vector<std::string> loopStartLabels;
+    extern std::vector<std::string> loopEndLabels;
+    extern std::vector<std::string> loopUpdateLabels;
 
+
+    extern std::vector<std::string> whileStartLabels;
+    extern std::vector<std::string> whileEndLabels;
 }
 
 @parser::members {
@@ -717,15 +723,52 @@ statement
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : compound_statement\n\n"+$text + "\n" );
 
     }
-	| FOR LPAREN es1 = expression_statement es2 = expression_statement e = expression RPAREN s =
-		statement {
-        $text = $FOR.text +  $LPAREN->getText() +  $es1.text + $es2.text + $e.text   + $RPAREN->getText() + $s.text;
-        $line = $s.line;
-        $type = "void";
+	| FOR LPAREN es1 = expression_statement {
 
-        writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n"); 
-
+    std::string loopStartLabel = std::to_string(label_count++);
+    std::string loopEndLabel = std::to_string(label_count++);
+    std::string loopUpdateLabel = std::to_string(label_count++);
+    
+    loopStartLabels.push_back(loopStartLabel);
+    loopEndLabels.push_back(loopEndLabel);
+    loopUpdateLabels.push_back(loopUpdateLabel);
+    
+    writeIntoAsmFile("L" + loopStartLabel + ":");
+    
+} es2 = expression_statement {
+    writeIntoAsmFile("\tPOP AX");
+    writeIntoAsmFile("\tCMP AX, 0");
+    writeIntoAsmFile("\tJE L" + loopEndLabels.back());
+    
+    std::string bodyLabel = std::to_string(label_count++);
+    writeIntoAsmFile("\tJMP L" + bodyLabel);
+    
+    writeIntoAsmFile("L" + loopUpdateLabels.back() + ":");
+    
+} e = expression {
+    if ($e.text != "") {
+        writeIntoAsmFile("\tPOP AX"); 
     }
+    
+    writeIntoAsmFile("\tJMP L" + loopStartLabels.back());
+    
+    writeIntoAsmFile("L" + bodyLabel + ":");
+    
+} RPAREN s = statement {
+    
+    writeIntoAsmFile("\tJMP L" + loopUpdateLabels.back());
+    
+    writeIntoAsmFile("L" + loopEndLabels.back() + ":");
+        loopStartLabels.pop_back();
+    loopEndLabels.pop_back();
+    loopUpdateLabels.pop_back();
+    
+    $text = $FOR.text + $LPAREN->getText() + $es1.text + $es2.text + $e.text + $RPAREN->getText() + $s.text;
+    $line = $s.line;
+    $type = "void";
+    
+    writeIntoparserLogFile("Line " + std::to_string($s.line) + ": statement : FOR LPAREN expression_statement expression_statement expression RPAREN statement\n\n" + $text +"\n");
+}
 	| IF LPAREN e = expression {    
         std::string elseLabel = std::to_string(label_count++);
         elseStatements.push_back(elseLabel);
@@ -791,14 +834,27 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + $text +"\n"); 
 
     }
-	| WHILE LPAREN e = expression RPAREN s = statement {
-        $text = $WHILE->getText() + $LPAREN->getText() + $e.text  + $RPAREN->getText() + $s.text;
-        $line = $s.line;
-        $type = "void";
-
-        writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n"); 
-
-    }
+	|WHILE {
+    std::string loopStartLabel = std::to_string(label_count++);
+    std::string loopEndLabel = std::to_string(label_count++);
+    loopStartLabels.push_back(loopStartLabel);
+    loopEndLabels.push_back(loopEndLabel);
+    writeIntoAsmFile("L" + loopStartLabel + ":");
+} LPAREN e = expression {
+    writeIntoAsmFile("\tPOP AX");
+    writeIntoAsmFile("\tCMP AX, 0");
+    writeIntoAsmFile("\tJE L" + loopEndLabels.back());
+} RPAREN s = statement {
+    writeIntoAsmFile("\tJMP L" + loopStartLabels.back());
+    writeIntoAsmFile("L" + loopEndLabels.back() + ":");
+    loopStartLabels.pop_back();
+    loopEndLabels.pop_back();
+    
+    $text = $WHILE->getText() + $LPAREN->getText() + $e.text + $RPAREN->getText() + $s.text;
+    $line = $s.line;
+    $type = "void";
+    writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : WHILE LPAREN expression RPAREN statement\n\n" + $text +"\n");
+}
 	| PRINTLN LPAREN ID RPAREN SEMICOLON {
 
         $text = $PRINTLN->getText() + $LPAREN->getText() +  $ID->getText() +  $RPAREN->getText() +  $SEMICOLON->getText();
@@ -849,7 +905,6 @@ expression_statement
 	SEMICOLON {
         $text = $SEMICOLON->getText();
         $line = $SEMICOLON->getLine();
-        $code_section = "";
         writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": expression_statement : SEMICOLON\n\n" + $text +"\n"); 
 
     }
@@ -1401,6 +1456,8 @@ factor
         writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
         writeIntoAsmFile("\tPUSH AX");
         writeIntoAsmFile("\tDEC AX");
+     writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable DECOP\n\n" + $text + "\n");
 
     };

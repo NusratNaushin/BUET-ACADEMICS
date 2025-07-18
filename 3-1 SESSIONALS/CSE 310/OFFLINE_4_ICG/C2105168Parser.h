@@ -32,7 +32,13 @@
     extern int stack_offset_global;
     extern std::vector<std::string> elseStatements;
     extern std::vector<std::string> exitLabels;
+    extern std::vector<std::string> loopStartLabels;
+    extern std::vector<std::string> loopEndLabels;
+    extern std::vector<std::string> loopUpdateLabels;
 
+
+    extern std::vector<std::string> whileStartLabels;
+    extern std::vector<std::string> whileEndLabels;
 
 
 // Generated from C2105168Parser.g4 by ANTLR 4.13.2

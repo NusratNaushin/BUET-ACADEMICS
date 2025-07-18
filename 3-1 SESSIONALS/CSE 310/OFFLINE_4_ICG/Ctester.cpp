@@ -31,8 +31,11 @@ std::vector<std::string>fndecreturnTypes;
 std::vector<std::string>fndefreturnTypes;
 std::vector<std::string>elseStatements;
 std::vector<std::string>exitLabels;
-
-
+std::vector<std::string>loopStartLabels;
+std::vector<std::string>loopEndLabels;
+std::vector<std::string>loopUpdateLabels;
+std::vector<std::string> whileStartLabels;
+std::vector<std::string> whileEndLabels;
 
 std::vector<std::pair<std::string, std::string>> plist;
 

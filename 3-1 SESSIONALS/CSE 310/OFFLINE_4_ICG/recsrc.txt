@@ -1,46 +1,36 @@
 int main()
 {
-	int i, j, k;
+	int i, j, k, ll;
 
-	i=3;
-	j=8;
-	k=6;
-
-
-	if(i==3)
+	for(i=0;i<6;i++)
 {
 		println(();
 }
 
 
-	if(j<8)
+	k=4;
+	ll=6;
+	while(k>0)
 {
-		println(();
+		ll=ll+3;
+		k--;
 }
-elseelse
+
+
+	println(();
+	println(();
+
+	k=4;
+	ll=6;
+
+	while(k--)
 {
-		println(();
+		ll=ll+3;
 }
 
 
-	if(k!=6)
-{
-		println(();
-}
-elseelseif(j>8)
-{
-		println(();
-}
-elseelseif(i<5)
-{
-		println(();
-}
-elseelse
-{
-		k=0;
-		println(();
-}
-
+	println(();
+	println(();
 
 
 	return 0;
