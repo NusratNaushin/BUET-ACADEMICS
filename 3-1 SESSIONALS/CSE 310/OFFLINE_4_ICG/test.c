@@ -5,16 +5,17 @@ int bar(int a, int b){
 	return c;
 }
 
-
 int main(){
 
 	int i,j,k,l;
 	
 	i = 5;
 	j = 6;
-	k = foo(i);
-	println(k);
+	
+	l = bar(i,j);
+	println(l);
+	
+	
 
-	l=i+j;
     return 0;
 }

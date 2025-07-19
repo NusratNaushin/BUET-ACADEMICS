@@ -46,6 +46,7 @@
 
     extern int paramsize;
     extern int param_offset;
+    extern int spcount;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -788,7 +789,7 @@ public class C2105168Parser extends Parser {
 				        } 
 
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
-
+				            writeIntoAsmFile("ADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
 				            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 				        }
 
@@ -799,7 +800,7 @@ public class C2105168Parser extends Parser {
 
 				        else if(((Func_definitionContext)_localctx).ID->getText() != "main" && paramsize > 0){
 				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-				            writeIntoAsmFile("\tPOP AX\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+				            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
 				        }
 
 
@@ -858,12 +859,14 @@ public class C2105168Parser extends Parser {
 				        std::cout << "DEBUG: func_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
+				                        writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
 				            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 				        }
 
 				        if(((Func_definitionContext)_localctx).ID->getText() != "main"){
 				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-				            writeIntoAsmFile("\tPOP BP\n\tRET");
+				            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
 				        }
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
 
@@ -1122,22 +1125,32 @@ public class C2105168Parser extends Parser {
 				setState(152);
 				((Compound_statementContext)_localctx).LCURL = match(LCURL);
 				 symbolTable->EnterScope();  
+				        
 
-				        for(const auto& param : plist) {
 
+				        //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
+
+				        for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
 				            ((Compound_statementContext)_localctx).line =  ((Compound_statementContext)_localctx).LCURL->getLine();
-				            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+				            SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
 				            paramSymbol->setIsArray(false);
-				            paramSymbol->setSymbolDataType(param.first);
-				            paramSymbol->setStackOffset(param_offset+2);
-				            std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
-				            if(!symbolTable->Insert(paramSymbol)){
-				                writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + ": Multiple declaration of " + param.second + " in parameter\n");
-				                writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + ": Multiple declaration of " + param.second + " in parameter\n");
+				            paramSymbol->setSymbolDataType(it->first);
+				            
+				            param_offset += 2;
+				            paramSymbol->setStackOffset(param_offset);
 
+				            std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
+				                    << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+
+				            if (!symbolTable->Insert(paramSymbol)) {
+				                writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + 
+				                    ": Multiple declaration of " + it->second + " in parameter\n");
+				                writeIntoErrorFile("Error at line " + std::to_string(_localctx.line) + 
+				                    ": Multiple declaration of " + it->second + " in parameter\n");
 				                errorCount++;
 				            }
 				        }
+
 				        plist.clear();
 				        
 				         
@@ -1305,9 +1318,9 @@ public class C2105168Parser extends Parser {
 				                }
 
 				                _localctx.code_section += "\tSUB SP, 2\n";
+				            spcount++;
 
 				            }
-
 				        }
 				                    std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -2458,18 +2471,25 @@ public class C2105168Parser extends Parser {
 				            if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
 				                
-				            } else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
+				            }
+				             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
 
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
 				            }
+				            
 				           else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
 				            }
 
+				            else if(existing->getIsGlobal() && isInsideFunctionDefinition ){   
+
+				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
+				            }
 
 
-				                        writeIntoAsmFile("\tPOP AX");
+
+				          //  writeIntoAsmFile("\tPOP1 AX");
 
 				            writeIntoAsmFile(_localctx.code_section);
 

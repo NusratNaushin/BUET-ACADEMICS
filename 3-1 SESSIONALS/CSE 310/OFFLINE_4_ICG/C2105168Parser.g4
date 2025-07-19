@@ -51,6 +51,7 @@ options {
 
     extern int paramsize;
     extern int param_offset;
+    extern int spcount;
 }
 
 @parser::members {
@@ -380,7 +381,7 @@ func_definition
         } 
 
         if($ID->getText() == "main"){
-
+            writeIntoAsmFile("ADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
             writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
         }
 
@@ -391,7 +392,7 @@ func_definition
 
         else if($ID->getText() != "main" && paramsize > 0){
             writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-            writeIntoAsmFile("\tPOP AX\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
         }
 
 
@@ -433,12 +434,14 @@ func_definition
         std::cout << "DEBUG: func_declaration code_section = '" << $code_section << "'" << std::endl;
 
         if($ID->getText() == "main"){
+                        writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
             writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
         }
 
         if($ID->getText() != "main"){
             writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-            writeIntoAsmFile("\tPOP BP\n\tRET");
+            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
         }
         writeIntoAsmFile($ID->getText()+ " ENDP");
 
@@ -514,22 +517,32 @@ parameter_list
 compound_statement
 	returns[std::string text, int line , std::string type , std::string code_section]:
 	LCURL { symbolTable->EnterScope();  
+        
 
-        for(const auto& param : plist) {
 
+        //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
+
+        for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
             $line = $LCURL->getLine();
-            SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+            SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
             paramSymbol->setIsArray(false);
-            paramSymbol->setSymbolDataType(param.first);
-            paramSymbol->setStackOffset(param_offset+2);
-            std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
-            if(!symbolTable->Insert(paramSymbol)){
-                writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple declaration of " + param.second + " in parameter\n");
-                writeIntoErrorFile("Error at line " + std::to_string($line) + ": Multiple declaration of " + param.second + " in parameter\n");
+            paramSymbol->setSymbolDataType(it->first);
+            
+            param_offset += 2;
+            paramSymbol->setStackOffset(param_offset);
 
+            std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
+                    << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+
+            if (!symbolTable->Insert(paramSymbol)) {
+                writeIntoparserLogFile("Error at line " + std::to_string($line) + 
+                    ": Multiple declaration of " + it->second + " in parameter\n");
+                writeIntoErrorFile("Error at line " + std::to_string($line) + 
+                    ": Multiple declaration of " + it->second + " in parameter\n");
                 errorCount++;
             }
         }
+
         plist.clear();
         
          } ss = statements { 
@@ -627,9 +640,9 @@ var_declaration
                 }
 
                 $code_section += "\tSUB SP, 2\n";
+            spcount++;
 
             }
-
         }
                     std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -1086,18 +1099,25 @@ expression
             if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                 $code_section = "\tMOV " + $v.text + ", AX";
                 
-            } else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
+            }
+             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
 
                 $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
             }
+            
            else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
                 $code_section = "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
             }
 
+            else if(existing->getIsGlobal() && isInsideFunctionDefinition ){   
+
+                $code_section = "\tMOV " + $v.text + ", AX";
+            }
 
 
-                        writeIntoAsmFile("\tPOP AX");
+
+          //  writeIntoAsmFile("\tPOP1 AX");
 
             writeIntoAsmFile($code_section);
 

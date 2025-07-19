@@ -28,6 +28,7 @@ int param_offset = 2;
 bool isInsideFunctionDefinition = false;
 bool isParamsymbol = false;
 int paramsize = 0;
+int spcount = 0; 
 std::vector<std::string>argumentTypes;
 std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;

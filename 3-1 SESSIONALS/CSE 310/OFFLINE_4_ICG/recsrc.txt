@@ -1,8 +1,18 @@
 int a, b, c;
+void func_a()
+{
+	a=7;
+}
+
 int foo(int a)
 {
 	a=a+3;
 	return a;
+}
+int bar(int a, int b)
+{
+	c=4*a+2*b;
+	return c;
 }
 int main()
 {
@@ -10,8 +20,20 @@ int main()
 
 	i=5;
 	j=6;
+
+	func_a();
+	println(();
+
 	k=foo(i);
 	println(();
+
+	l=bar(i, j);
+	println(();
+
+	j=6*bar(i, j)+2-3*foo(i);
+	println(();
+
+
 	return 0;
 }
 

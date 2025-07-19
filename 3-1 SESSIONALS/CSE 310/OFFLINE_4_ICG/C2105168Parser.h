@@ -45,6 +45,7 @@
 
     extern int paramsize;
     extern int param_offset;
+    extern int spcount;
 
 
 // Generated from C2105168Parser.g4 by ANTLR 4.13.2

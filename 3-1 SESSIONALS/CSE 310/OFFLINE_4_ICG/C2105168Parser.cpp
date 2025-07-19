@@ -45,6 +45,7 @@
 
     extern int paramsize;
     extern int param_offset;
+    extern int spcount;
 
 
 // Generated from C2105168Parser.g4 by ANTLR 4.13.2
@@ -929,7 +930,7 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               } 
 
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
-
+                  writeIntoAsmFile("ADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
                   writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
               }
 
@@ -940,7 +941,7 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
 
               else if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" && paramsize > 0){
                   writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-                  writeIntoAsmFile("\tPOP AX\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+                  writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
               }
 
 
@@ -999,12 +1000,14 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               std::cout << "DEBUG: func_declaration code_section = '" << _localctx->code_section << "'" << std::endl;
 
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
+                              writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
                   writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
               }
 
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main"){
                   writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-                  writeIntoAsmFile("\tPOP BP\n\tRET");
+                  writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
               }
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText()+ " ENDP");
 
@@ -1318,22 +1321,32 @@ C2105168Parser::Compound_statementContext* C2105168Parser::compound_statement() 
       setState(152);
       antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken = match(C2105168Parser::LCURL);
        symbolTable->EnterScope();  
+              
 
-              for(const auto& param : plist) {
 
+              //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
+
+              for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
                   antlrcpp::downCast<Compound_statementContext *>(_localctx)->line =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken->getLine();
-                  SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+                  SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
                   paramSymbol->setIsArray(false);
-                  paramSymbol->setSymbolDataType(param.first);
-                  paramSymbol->setStackOffset(param_offset+2);
-                  std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
-                  if(!symbolTable->Insert(paramSymbol)){
-                      writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + ": Multiple declaration of " + param.second + " in parameter\n");
-                      writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + ": Multiple declaration of " + param.second + " in parameter\n");
+                  paramSymbol->setSymbolDataType(it->first);
+                  
+                  param_offset += 2;
+                  paramSymbol->setStackOffset(param_offset);
 
+                  std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
+                          << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+
+                  if (!symbolTable->Insert(paramSymbol)) {
+                      writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + 
+                          ": Multiple declaration of " + it->second + " in parameter\n");
+                      writeIntoErrorFile("Error at line " + std::to_string(_localctx->line) + 
+                          ": Multiple declaration of " + it->second + " in parameter\n");
                       errorCount++;
                   }
               }
+
               plist.clear();
               
                
@@ -1523,9 +1536,9 @@ C2105168Parser::Var_declarationContext* C2105168Parser::var_declaration() {
                       }
 
                       _localctx->code_section += "\tSUB SP, 2\n";
+                  spcount++;
 
                   }
-
               }
                           std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -2873,18 +2886,25 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
                   if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
                       
-                  } else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
+                  }
+                   else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
 
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
                   }
+                  
                  else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
                   }
 
+                  else if(existing->getIsGlobal() && isInsideFunctionDefinition ){   
+
+                      antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
+                  }
 
 
-                              writeIntoAsmFile("\tPOP AX");
+
+                //  writeIntoAsmFile("\tPOP1 AX");
 
                   writeIntoAsmFile(_localctx->code_section);
 

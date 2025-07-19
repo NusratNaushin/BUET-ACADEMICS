@@ -13,9 +13,10 @@ func_a PROC
 L1:
 	MOV AX, 7       ; Line 4
 	PUSH AX
-	POP AX
 	MOV a, AX
 L2:
+	POP AX
+	MOV SP, BP
 	POP BP
 	RET
 func_a ENDP
@@ -33,13 +34,13 @@ L5:
 	POP AX
 	ADD AX, DX
 	PUSH AX
-	POP AX
 	MOV [BP+4], AX
 L6:
 	MOV AX, [BP+4]       ; Line 9
 	PUSH AX
 L7:
 	POP AX
+	MOV SP, BP
 	POP BP
 	RET 2
 foo ENDP
@@ -51,7 +52,7 @@ L9:
 	MOV AX, 4       ; Line 14
 	PUSH AX
 L10:
-	MOV AX, [BP+4]       ; Line 14
+	MOV AX, [BP+8]       ; Line 14
 	PUSH AX
 	POP DX
 	POP AX
@@ -61,7 +62,7 @@ L11:
 	MOV AX, 2       ; Line 14
 	PUSH AX
 L12:
-	MOV AX, [BP+4]       ; Line 14
+	MOV AX, [BP+6]       ; Line 14
 	PUSH AX
 	POP DX
 	POP AX
@@ -71,12 +72,12 @@ L12:
 	POP AX
 	ADD AX, DX
 	PUSH AX
-	POP AX
-
+	MOV c, AX
 	MOV AX, c       ; Line 15
 	PUSH AX
 L13:
 	POP AX
+	MOV SP, BP
 	POP BP
 	RET 4
 bar ENDP
@@ -93,12 +94,10 @@ main PROC
 L14:
 	MOV AX, 5       ; Line 22
 	PUSH AX
-	POP AX
 	MOV [BP-2], AX
 L15:
 	MOV AX, 6       ; Line 23
 	PUSH AX
-	POP AX
 	MOV [BP-4], AX
 	CALL func_a
 	PUSH AX
@@ -111,7 +110,6 @@ L17:
 	PUSH AX
 	CALL foo
 	PUSH AX
-	POP AX
 	MOV [BP-6], AX
 L18:
 	MOV AX, [BP-6]       ; Line 29
@@ -125,7 +123,6 @@ L20:
 	PUSH AX
 	CALL bar
 	PUSH AX
-	POP AX
 	MOV [BP-8], AX
 L21:
 	MOV AX, [BP-8]       ; Line 32
@@ -170,7 +167,6 @@ L27:
 	SUB AX, DX
 	PUSH AX
 
-	POP AX
 	MOV [BP-4], AX
 L28:
 	MOV AX, [BP-4]       ; Line 35
@@ -179,6 +175,8 @@ L28:
 L29:
 	MOV AX, 0       ; Line 38
 	PUSH AX
+	ADD SP, 8
+	POP BP
 	MOV AX, 4CH
 	INT 21H
 main ENDP
