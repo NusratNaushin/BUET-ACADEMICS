@@ -1325,7 +1325,7 @@ C2105168Parser::Compound_statementContext* C2105168Parser::compound_statement() 
 
 
               //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
-
+              param_offset = 2;
               for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
                   antlrcpp::downCast<Compound_statementContext *>(_localctx)->line =  antlrcpp::downCast<Compound_statementContext *>(_localctx)->lcurlToken->getLine();
                   SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");

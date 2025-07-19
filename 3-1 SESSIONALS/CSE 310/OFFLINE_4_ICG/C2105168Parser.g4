@@ -521,7 +521,7 @@ compound_statement
 
 
         //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
-
+        param_offset = 2;
         for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
             $line = $LCURL->getLine();
             SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");

@@ -52,7 +52,7 @@ L9:
 	MOV AX, 4       ; Line 14
 	PUSH AX
 L10:
-	MOV AX, [BP+8]       ; Line 14
+	MOV AX, [BP+6]       ; Line 14
 	PUSH AX
 	POP DX
 	POP AX
@@ -62,7 +62,7 @@ L11:
 	MOV AX, 2       ; Line 14
 	PUSH AX
 L12:
-	MOV AX, [BP+6]       ; Line 14
+	MOV AX, [BP+4]       ; Line 14
 	PUSH AX
 	POP DX
 	POP AX

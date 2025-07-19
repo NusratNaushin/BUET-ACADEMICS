@@ -1129,7 +1129,7 @@ public class C2105168Parser extends Parser {
 
 
 				        //stack e param pop age pore hoye gondogol kortese ,, list ultaye dibo
-
+				        param_offset = 2;
 				        for (auto it = plist.rbegin(); it != plist.rend(); ++it) {
 				            ((Compound_statementContext)_localctx).line =  ((Compound_statementContext)_localctx).LCURL->getLine();
 				            SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
