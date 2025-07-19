@@ -1,4 +1,0 @@
-Error at line 28: Type Mismatch
-
-Error at line 31: Type Mismatch
-

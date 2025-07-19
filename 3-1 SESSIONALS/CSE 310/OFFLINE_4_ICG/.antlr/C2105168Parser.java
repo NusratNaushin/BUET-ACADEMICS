@@ -769,13 +769,13 @@ public class C2105168Parser extends Parser {
 				        writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
 				        writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
 				        isInsideFunctionDefinition = true;
-				                isParamsymbol = true;
+				               // isParamsymbol = true;
 
 				    
 				setState(102);
 				((Func_definitionContext)_localctx).cs = compound_statement();
 				  
-				        isParamsymbol = false;
+				        //isParamsymbol = false;
 				        isInsideFunctionDefinition = false;
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
@@ -1135,7 +1135,7 @@ public class C2105168Parser extends Parser {
 				            SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
 				            paramSymbol->setIsArray(false);
 				            paramSymbol->setSymbolDataType(it->first);
-				            
+				            paramSymbol->setIsParameter(true);
 				            param_offset += 2;
 				            paramSymbol->setStackOffset(param_offset);
 
@@ -2098,6 +2098,7 @@ public class C2105168Parser extends Parser {
 				    loopEndLabels.push_back(loopEndLabel);
 				    writeIntoAsmFile("L" + loopStartLabel + ":");
 
+
 				setState(278);
 				((StatementContext)_localctx).LPAREN = match(LPAREN);
 				setState(279);
@@ -2472,12 +2473,11 @@ public class C2105168Parser extends Parser {
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
 				                
 				            }
-				             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
-
+				             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !existing->getIsParameter()){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
 				            }
-				            
-				           else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
+
+				            else if(!existing->getIsGlobal() && isInsideFunctionDefinition && existing->getIsParameter()){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
 				            }
@@ -2486,6 +2486,11 @@ public class C2105168Parser extends Parser {
 
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
 				            }
+				            else if(!existing->getIsGlobal() && isInsideFunctionDefinition && !existing->getIsParameter()){   
+				                ((ExpressionContext)_localctx).code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
+
+				            }
+
 
 
 
@@ -3240,13 +3245,16 @@ public class C2105168Parser extends Parser {
 				          else {   
 				            writeIntoAsmFile("L" + std::to_string(label_count++)+":");
 
-				            if(isInsideFunctionDefinition && lookup->getSymbolName() != "main"){
+				            if(isInsideFunctionDefinition && lookup->getSymbolName() != "main" && lookup->getIsParameter()){
 				                writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
 
-				                std::cout << "DEBUG: variable " << ((FactorContext)_localctx).v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-				                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
 				                writeIntoAsmFile("\tPUSH AX");
-
+				                std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
+				            }
+				            else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
+				                writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				                writeIntoAsmFile("\tPUSH AX");
+				                std::cout<<"innalillah-1"<<" symbol name "<<lookup->getSymbolName()<<" "<<_localctx.line<<std::endl;
 
 				            }
 				            else{
@@ -3254,8 +3262,8 @@ public class C2105168Parser extends Parser {
 				            writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
 				            
 				            writeIntoAsmFile("\tPUSH AX");
-				              std::cout << "DEBUG: variable " << ((FactorContext)_localctx).v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-				                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
+				                            std::cout<<"innalillah-2"<<" symbol name "<<lookup->getSymbolName()<<" "<<_localctx.line<<std::endl;
+
 				            }
 				          }
 
@@ -3407,11 +3415,19 @@ public class C2105168Parser extends Parser {
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
 
 				        SymbolInfo* lookup = symbolTable->LookUP(((FactorContext)_localctx).v.text);
+				        if(lookup->getIsParameter()){        writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				        }   
+				        else{
 				        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				        }
 				        writeIntoAsmFile("\tPUSH AX");
 				        writeIntoAsmFile("\tINC AX");
-				        writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
-
+				        if(lookup->getIsParameter()){
+				        writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
+				        }
+				        else{
+				                    writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
+				        }
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": factor : variable INCOP\n\n" + _localctx.text + "\n");
 
 				    
@@ -3429,10 +3445,27 @@ public class C2105168Parser extends Parser {
 				        ((FactorContext)_localctx).line =  ((FactorContext)_localctx).DECOP->getLine();
 				        ((FactorContext)_localctx).type =  ((FactorContext)_localctx).v.type;
 				         SymbolInfo* lookup = symbolTable->LookUP(((FactorContext)_localctx).v.text);
+				        if(lookup->getIsParameter()){     
+				               writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
+				        }   
+				        else{
 				        writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
-				        writeIntoAsmFile("\tPUSH AX");
+				        }        writeIntoAsmFile("\tPUSH AX");
 				        writeIntoAsmFile("\tDEC AX");
-				     writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
+
+
+
+				        if(lookup->getIsParameter()){
+
+				            writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
+				        }
+				        else{
+				            writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx.line));
+				        }
+
+
+
+
 
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line)+": factor : variable DECOP\n\n" + _localctx.text + "\n");
 

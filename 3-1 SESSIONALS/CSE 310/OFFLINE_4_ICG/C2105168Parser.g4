@@ -364,10 +364,10 @@ func_definition
         writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
         writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
         isInsideFunctionDefinition = true;
-                isParamsymbol = true;
+               // isParamsymbol = true;
 
     } cs = compound_statement {  
-        isParamsymbol = false;
+        //isParamsymbol = false;
         isInsideFunctionDefinition = false;
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
@@ -527,7 +527,7 @@ compound_statement
             SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
             paramSymbol->setIsArray(false);
             paramSymbol->setSymbolDataType(it->first);
-            
+            paramSymbol->setIsParameter(true);
             param_offset += 2;
             paramSymbol->setStackOffset(param_offset);
 
@@ -937,6 +937,7 @@ statement
     loopStartLabels.push_back(loopStartLabel);
     loopEndLabels.push_back(loopEndLabel);
     writeIntoAsmFile("L" + loopStartLabel + ":");
+
 } LPAREN e = expression {
     writeIntoAsmFile("\tPOP AX");
     writeIntoAsmFile("\tCMP AX, 0");
@@ -1100,12 +1101,11 @@ expression
                 $code_section = "\tMOV " + $v.text + ", AX";
                 
             }
-             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
-
+             else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !existing->getIsParameter()){
                 $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
             }
-            
-           else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
+
+            else if(!existing->getIsGlobal() && isInsideFunctionDefinition && existing->getIsParameter()){
                 $code_section = "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
             }
@@ -1114,6 +1114,11 @@ expression
 
                 $code_section = "\tMOV " + $v.text + ", AX";
             }
+            else if(!existing->getIsGlobal() && isInsideFunctionDefinition && !existing->getIsParameter()){   
+                $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
+
+            }
+
 
 
 
@@ -1457,13 +1462,16 @@ factor
           else {   
             writeIntoAsmFile("L" + std::to_string(label_count++)+":");
 
-            if(isInsideFunctionDefinition && lookup->getSymbolName() != "main"){
+            if(isInsideFunctionDefinition && lookup->getSymbolName() != "main" && lookup->getIsParameter()){
                 writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
 
-                std::cout << "DEBUG: variable " << $v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
                 writeIntoAsmFile("\tPUSH AX");
-
+                std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
+            }
+            else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
+                writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+                writeIntoAsmFile("\tPUSH AX");
+                std::cout<<"innalillah-1"<<" symbol name "<<lookup->getSymbolName()<<" "<<$line<<std::endl;
 
             }
             else{
@@ -1471,8 +1479,8 @@ factor
             writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
             
             writeIntoAsmFile("\tPUSH AX");
-              std::cout << "DEBUG: variable " << $v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
+                            std::cout<<"innalillah-2"<<" symbol name "<<lookup->getSymbolName()<<" "<<$line<<std::endl;
+
             }
           }
 
@@ -1576,11 +1584,19 @@ factor
         $type = $v.type;
 
         SymbolInfo* lookup = symbolTable->LookUP($v.text);
+        if(lookup->getIsParameter()){        writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+        }   
+        else{
         writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+        }
         writeIntoAsmFile("\tPUSH AX");
         writeIntoAsmFile("\tINC AX");
-        writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
-
+        if(lookup->getIsParameter()){
+        writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+        }
+        else{
+                    writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+        }
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable INCOP\n\n" + $text + "\n");
 
     }
@@ -1589,10 +1605,27 @@ factor
         $line = $DECOP->getLine();
         $type = $v.type;
          SymbolInfo* lookup = symbolTable->LookUP($v.text);
+        if(lookup->getIsParameter()){     
+               writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+        }   
+        else{
         writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
-        writeIntoAsmFile("\tPUSH AX");
+        }        writeIntoAsmFile("\tPUSH AX");
         writeIntoAsmFile("\tDEC AX");
-     writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+
+
+
+        if(lookup->getIsParameter()){
+
+            writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+        }
+        else{
+            writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string($line));
+        }
+
+
+
+
 
         writeIntoparserLogFile("Line "+  std::to_string($line)+": factor : variable DECOP\n\n" + $text + "\n");
 

@@ -69,6 +69,7 @@ public:
     bool isFunction = false;
     bool isFunctiondefined = false;
     bool isDeclared = false;
+    bool isParameter = false;
     std::string returnType;
     std::vector<std::pair<std::string, std::string>> parameterList;
 
@@ -142,6 +143,15 @@ public:
     bool getIsGlobal() const {
         return isGlobal;
     }
+
+    void setIsParameter(bool isParamsymbol) {
+        this->isParameter = isParamsymbol;
+    }
+
+    bool getIsParameter() const {
+        return isParameter;
+    }
+
 
 };
 

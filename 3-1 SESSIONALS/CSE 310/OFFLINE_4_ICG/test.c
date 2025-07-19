@@ -1,21 +1,16 @@
-int a,b,c;
-
-int bar(int a, int b){	
-	c = 4*a + 2*b;
-	return c;
+int f(int a){
+	int k;
+	k = 5;
+	while(k>0){
+		a++;
+		k--;
+	}
+    return 3*a - 7;
+    a=9;
 }
 
 int main(){
 
-	int i,j,k,l;
-	
-	i = 5;
-	j = 6;
-	
-	l = bar(i,j);
-	println(l);
-	
-	
-
-    return 0;
+	println(5);
+	return 0;
 }

@@ -910,13 +910,13 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
               writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
               isInsideFunctionDefinition = true;
-                      isParamsymbol = true;
+                     // isParamsymbol = true;
 
           
       setState(102);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
         
-              isParamsymbol = false;
+              //isParamsymbol = false;
               isInsideFunctionDefinition = false;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text+" "  + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText()+ antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->text + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
@@ -1331,7 +1331,7 @@ C2105168Parser::Compound_statementContext* C2105168Parser::compound_statement() 
                   SymbolInfo* paramSymbol = new SymbolInfo(it->second, "ID");
                   paramSymbol->setIsArray(false);
                   paramSymbol->setSymbolDataType(it->first);
-                  
+                  paramSymbol->setIsParameter(true);
                   param_offset += 2;
                   paramSymbol->setStackOffset(param_offset);
 
@@ -2447,6 +2447,7 @@ C2105168Parser::StatementContext* C2105168Parser::statement() {
           loopEndLabels.push_back(loopEndLabel);
           writeIntoAsmFile("L" + loopStartLabel + ":");
 
+
       setState(278);
       antlrcpp::downCast<StatementContext *>(_localctx)->lparenToken = match(C2105168Parser::LPAREN);
       setState(279);
@@ -2887,12 +2888,11 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
                       
                   }
-                   else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
-
+                   else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !existing->getIsParameter()){
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
                   }
-                  
-                 else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
+
+                  else if(!existing->getIsGlobal() && isInsideFunctionDefinition && existing->getIsParameter()){
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
 
                   }
@@ -2901,6 +2901,11 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
 
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
                   }
+                  else if(!existing->getIsGlobal() && isInsideFunctionDefinition && !existing->getIsParameter()){   
+                      antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
+
+                  }
+
 
 
 
@@ -3778,13 +3783,16 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
                 else {   
                   writeIntoAsmFile("L" + std::to_string(label_count++)+":");
 
-                  if(isInsideFunctionDefinition && lookup->getSymbolName() != "main"){
+                  if(isInsideFunctionDefinition && lookup->getSymbolName() != "main" && lookup->getIsParameter()){
                       writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
 
-                      std::cout << "DEBUG: variable " << antlrcpp::downCast<FactorContext *>(_localctx)->v->text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-                      std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
                       writeIntoAsmFile("\tPUSH AX");
-
+                      std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
+                  }
+                  else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
+                      writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
+                      writeIntoAsmFile("\tPUSH AX");
+                      std::cout<<"innalillah-1"<<" symbol name "<<lookup->getSymbolName()<<" "<<_localctx->line<<std::endl;
 
                   }
                   else{
@@ -3792,8 +3800,8 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
                   writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
                   
                   writeIntoAsmFile("\tPUSH AX");
-                    std::cout << "DEBUG: variable " << antlrcpp::downCast<FactorContext *>(_localctx)->v->text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
-                      std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
+                                  std::cout<<"innalillah-2"<<" symbol name "<<lookup->getSymbolName()<<" "<<_localctx->line<<std::endl;
+
                   }
                 }
 
@@ -3945,11 +3953,19 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  antlrcpp::downCast<FactorContext *>(_localctx)->v->type;
 
               SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<FactorContext *>(_localctx)->v->text);
+              if(lookup->getIsParameter()){        writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
+              }   
+              else{
               writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
+              }
               writeIntoAsmFile("\tPUSH AX");
               writeIntoAsmFile("\tINC AX");
-              writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
-
+              if(lookup->getIsParameter()){
+              writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
+              }
+              else{
+                          writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
+              }
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : variable INCOP\n\n" + _localctx->text + "\n");
 
           
@@ -3967,10 +3983,27 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
               antlrcpp::downCast<FactorContext *>(_localctx)->line =  antlrcpp::downCast<FactorContext *>(_localctx)->decopToken->getLine();
               antlrcpp::downCast<FactorContext *>(_localctx)->type =  antlrcpp::downCast<FactorContext *>(_localctx)->v->type;
                SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<FactorContext *>(_localctx)->v->text);
+              if(lookup->getIsParameter()){     
+                     writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
+              }   
+              else{
               writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
-              writeIntoAsmFile("\tPUSH AX");
+              }        writeIntoAsmFile("\tPUSH AX");
               writeIntoAsmFile("\tDEC AX");
-           writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
+
+
+
+              if(lookup->getIsParameter()){
+
+                  writeIntoAsmFile("\tMOV [BP+" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
+              }
+              else{
+                  writeIntoAsmFile("\tMOV [BP-" + std::to_string(lookup->getStackOffset()) + "], AX" + "       ; Line "+std::to_string(_localctx->line));
+              }
+
+
+
+
 
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line)+": factor : variable DECOP\n\n" + _localctx->text + "\n");
 
