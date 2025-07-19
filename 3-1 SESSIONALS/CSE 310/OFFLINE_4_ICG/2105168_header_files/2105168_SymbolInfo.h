@@ -13,6 +13,7 @@ private:
     std::string symbol_type;
     std::string symbol_data_type;
     SymbolInfo *next;
+    std::string func_name;
 
     int stack_offset = 0; 
 
@@ -70,6 +71,7 @@ public:
     bool isFunctiondefined = false;
     bool isDeclared = false;
     bool isParameter = false;
+    std::string index = "-1"; 
     std::string returnType;
     std::vector<std::pair<std::string, std::string>> parameterList;
 
@@ -112,7 +114,7 @@ public:
     }
     
     bool isArray=false;
-    int arraysize=-1;
+    std::string arraysize="-1";
 
     void setIsArray(bool isArray){
         this->isArray = isArray;
@@ -152,6 +154,27 @@ public:
         return isParameter;
     }
 
+    void setFunctionName(std::string functionName) {
+        this->func_name = functionName;
+    }
+    std::string getFunctionName() const {
+        return func_name;
+    }
+
+    std::string getArraySize() const {
+        return arraysize;
+    }
+    void setArraySize(std::string size) {
+        this->arraysize = size;
+    }
+
+    void setIndex(std::string index) {
+        this->index = index;
+    }
+
+    std::string getIndex() const {
+        return index;
+    }
 
 };
 

@@ -48,6 +48,7 @@ options {
 
     extern bool isInsideFunctionDefinition;
     extern bool isParamsymbol;
+    extern bool var_dec_phase_to_diff_arr_size_index;
 
     extern int paramsize;
     extern int param_offset;
@@ -167,7 +168,8 @@ print_output proc  ;print what is in ax
 }
 
 start
-	returns[std::string text, int line, std::string asm_header,std::string data_section , std::string code_section , std::string asm_footer]:
+	returns[std::string text, int line, std::string asm_header,std::string data_section , std::string code_section , std::string asm_footer]
+		:
 	{ writeIntoAsmFile(".MODEL SMALL\n.STACK 1000H\n.Data\n\tnumber DB \"00000$\"");} p = program {
 
         $text = $p.text;
@@ -214,7 +216,7 @@ unit
 	vd = var_declaration {  
         $text = $vd.text;
         $line = $vd.line;
-
+        var_dec_phase_to_diff_arr_size_index = true;
 
         std::cout << "DEBUG: unit var_declaration code_section = '" << $code_section << "'" << std::endl;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : var_declaration\n\n"+$text+"\n");
@@ -310,8 +312,10 @@ func_declaration
     };
 
 func_definition
-	returns[std::string text, int line,std::string type,std::string returnType , std::string code_section]:
-	ts = type_specifier ID LPAREN {    std::cout << "DEBUG: About to parse parameter_list" << std::endl;} pl = parameter_list {
+	returns[std::string text, int line,std::string type,std::string returnType , std::string code_section]
+		:
+	ts = type_specifier ID LPAREN {    std::cout << "DEBUG: About to parse parameter_list" << std::endl;
+		} pl = parameter_list {
             std::cout << "DEBUG: Successfully parsed parameter_list, pl.text = '" << $pl.text << "'" << std::endl;
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
@@ -463,7 +467,6 @@ parameter_list
         
          writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier ID\n\n"+$text+"\n");
     }
-        
 	| pl = parameter_list COMMA ts = type_specifier {
         $text =$pl.text + $COMMA->getText() +  $ts.text ;
         $line = $ts.line;
@@ -471,7 +474,7 @@ parameter_list
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : parameter_list COMMA type_specifier \n" +$text + "\n");
 		}
-    | pl = parameter_list COMMA ADDOP {
+	| pl = parameter_list COMMA ADDOP {
         $text = $pl.text;
         $line = $ADDOP->getLine();
         writeIntoparserLogFile("Error at line " + std::to_string($line) + 
@@ -491,13 +494,13 @@ parameter_list
 
         writeIntoparserLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
-        | ts = type_specifier ADDOP {
+	| ts = type_specifier ADDOP {
         $text = $ts.text;
         $line = $ADDOP->getLine();
         writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
         writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
         }
-         |ts = type_specifier {
+	| ts = type_specifier {
 
         $text = $ts.text ;
         $line = $ts.line;
@@ -506,13 +509,11 @@ parameter_list
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
 		}
-        | ADDOP {
+	| ADDOP {
         $line = $ADDOP->getLine();
         writeIntoErrorFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
         writeIntoparserLogFile("Error at line " + std::to_string($line) + ": syntax error, unexpected ADDOP, expecting RPAREN or COMMA\n");
-        }
-    
-   ;
+        };
 
 compound_statement
 	returns[std::string text, int line , std::string type , std::string code_section]:
@@ -581,7 +582,7 @@ compound_statement
     };
 
 var_declaration
-	returns[std::string text, int line , std::string data_section_code,std::string code_section]:
+	returns[std::string text, int line , std::string data_section_code,std::string code_section,std::string size]:
 	t = type_specifier dl = declaration_list sm = SEMICOLON {
         $text = $t.text +" "+ $dl.text + $sm->getText() ;
         $line = $t.line;
@@ -594,6 +595,15 @@ var_declaration
         for(const auto& var : $dl.varList) {
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
+            if(var.second)
+            { 
+                varSymbol->setArraySize($dl.size);
+            }
+
+            
+                std::cout<<"hayre manush "<<$dl.size<<std::endl;
+            
+          
             varSymbol->setSymbolDataType($t.type);
             if(!symbolTable->Insert(varSymbol)){
                 writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+var.first+"\n");
@@ -618,8 +628,13 @@ var_declaration
                     varSymbol->setStackOffset(2 + (paramsize * 2));
                 }
 
+                
+                if(var.second){
+                    $data_section_code += "\t"+varSymbol->getSymbolName()+" DW "+(varSymbol->getArraySize())+" DUP (0000H)\n";
+                }
+                else{
                 $data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
-
+                }
                 std::cout << "data_section_code: " << $data_section_code << std::endl;
             }
 
@@ -639,12 +654,21 @@ var_declaration
                     varSymbol->setStackOffset(stack_offset_local);
                 }
 
-                $code_section += "\tSUB SP, 2\n";
-            spcount++;
+                if(varSymbol->getIsArray()){
+
+                    $code_section += "L"+std::to_string(label_count++)+":\n"+"\tSUB SP, "+std::to_string(std::atoi(varSymbol->getArraySize().c_str()) * 2)+"\n";
+                    spcount += std::atoi(varSymbol->getArraySize().c_str());
+                }
+                else{
+                    $code_section += "\tSUB SP, 2\n";
+                    spcount++;
+                }
 
             }
         }
-                    std::string currentScopeId = symbolTable->getCurrentScopeID();
+
+
+        std::string currentScopeId = symbolTable->getCurrentScopeID();
 
         if(currentScopeId == "1"){
                 writeIntoAsmFile($data_section_code+".CODE");
@@ -708,13 +732,13 @@ type_specifier
         };
 
 declaration_list
-	returns[std::string text , int line,std::string type,std::vector<std::pair<std::string, bool>> varList]
+	returns[std::string text , int line,std::string type,std::vector<std::pair<std::string, bool>> varList,std::string size]
 		:
 	dl = declaration_list COMMA ID { 
 
         $text = $dl.text + $COMMA->getText() + $ID->getText();
         $line = $ID->getLine();
-
+    
         $varList = $dl.varList;
 		$varList.push_back(std::make_pair($ID->getText(), false));
         
@@ -730,7 +754,7 @@ declaration_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : declaration_list COMMA ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
     }
-    | dl = declaration_list COMMA ID ADDOP {
+	| dl = declaration_list COMMA ID ADDOP {
         $text = $dl.text + $COMMA->getText() + $ID->getText();
         $line = $ADDOP->getLine();
         $varList = $dl.varList;
@@ -752,7 +776,7 @@ declaration_list
 	| ID LTHIRD CONST_INT RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $CONST_INT->getText() + $RTHIRD->getText();
         $line = $ID->getLine();
-
+        $size = $CONST_INT->getText();
         $type = "array";
         $varList.push_back(std::make_pair($ID->getText(), true));
 
@@ -760,7 +784,7 @@ declaration_list
         writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
 
     }
-        | ID ADDOP declaration_list {
+	| ID ADDOP declaration_list {
         $text = $ID->getText() + "," + $declaration_list.text;
         $line = $ADDOP->getLine();
         $varList.push_back(std::make_pair($ID->getText(), false));
@@ -906,8 +930,7 @@ statement
 
 
 
-    }
-    RPAREN s1 = statement {  
+    } RPAREN s1 = statement {  
 
         std::string exitLabel = std::to_string(label_count++);
 
@@ -931,7 +954,7 @@ statement
         writeIntoparserLogFile("Line " + std::to_string($line) + ": statement : IF LPAREN expression RPAREN statement ELSE statement\n\n" + $text +"\n"); 
 
     }
-	|WHILE {
+	| WHILE {
     std::string loopStartLabel = std::to_string(label_count++);
     std::string loopEndLabel = std::to_string(label_count++);
     loopStartLabels.push_back(loopStartLabel);
@@ -996,11 +1019,26 @@ statement
 
 
 
-        SymbolInfo* lookup = symbolTable->LookUP($e.text);
+    //     SymbolInfo* lookup = symbolTable->LookUP($e.text);
 
 
-        writeIntoparserLogFile("Line " + std::to_string($SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + $RETURN->getText() +" "+ $e.text+ $SEMICOLON->getText() +"\n"); 
+    //    if (lookup == nullptr) {
+    //         writeIntoErrorFile("ERROR: Symbol '" + $e.text + "' not found in symbol table at return.\n");
+    //         errorCount++;
+    //  } else if(lookup->getFunctionName() != "main" && paramsize > 0){
 
+    //         writeIntoAsmFile("ADD SP, "+std::to_string(paramsize * 2));
+    //         writeIntoAsmFile("\tPOP BP");
+    //         writeIntoAsmFile("\tRET "+std::to_string(paramsize * 2));
+    //     }
+
+    //     else if(lookup->getFunctionName() != "main" && paramsize == 0){
+    //         writeIntoAsmFile("\tPOP BP");
+    //         writeIntoAsmFile("\tRET");
+    //     }
+
+
+      
       };
 
 expression_statement
@@ -1048,10 +1086,7 @@ variable
             writeIntoparserLogFile("Line " + std::to_string($ID->getLine()) + ": variable : ID\n\n"+$ID->getText()+"\n"); 
 
             }
-                // std::cout << "ID type: " << $type <<"for "<< $ID->getText() << std::endl;
-                // if (lookup)
-                // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
-                //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
+               std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
 
                 std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
         }
@@ -1067,6 +1102,7 @@ variable
             writeIntoparserLogFile("Error at line "+std::to_string($line)+": Expression inside third brackets not an integer\n\n"+$text +"\n");
                             errorCount++;
 
+        
 
 
         }
@@ -1074,6 +1110,9 @@ variable
         writeIntoparserLogFile("Line " + std::to_string($line) + ": variable : ID LTHIRD expression RTHIRD\n\n"+$text+"\n"); 
 
         }
+
+
+        // if($ID->getText() )
 
     };
 
@@ -1097,6 +1136,33 @@ expression
 
             SymbolInfo* existing = symbolTable->LookUP($v.text);
             std::string currentScopeId = symbolTable->getCurrentScopeID();
+
+            if(existing->getIsArray()){
+
+
+
+
+
+
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            else
+            {
             if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                 $code_section = "\tMOV " + $v.text + ", AX";
                 
@@ -1119,7 +1185,7 @@ expression
 
             }
 
-
+            }
 
 
           //  writeIntoAsmFile("\tPOP1 AX");
@@ -1405,7 +1471,7 @@ term
     } else if ($MULOP->getText() == "%") {
         writeIntoAsmFile("\tPOP CX");
         writeIntoAsmFile("\tPOP AX");
-        $code_section = "\tCWD\n\tDIV CX\n\tPUSH DX";
+        $code_section = "\tCWD\n\tDIV CX\n\tPUSH DX\n\tMOV AX, DX";
     }
     writeIntoAsmFile($code_section);
 };
@@ -1418,7 +1484,7 @@ unary_expression
             $code_section = $ue.code_section;
 
 
-            writeIntoAsmFile("\tPOP AX");
+          //  writeIntoAsmFile("\tPOP AX");
             if ($ADDOP->getText() == "+") {
                 $code_section = "\tPUSH AX";
             } else if ($ADDOP->getText() == "-") {
@@ -1445,7 +1511,8 @@ unary_expression
             };
 
 factor
-	returns[std::string text, int line,std::string type , bool argIsArray, std::string code_section]:
+	returns[std::string text, int line,std::string type , bool argIsArray, std::string code_section]
+		:
 	v = variable {
         $text = $v.text;
         $line = $v.line;

@@ -29,6 +29,10 @@ bool isInsideFunctionDefinition = false;
 bool isParamsymbol = false;
 int paramsize = 0;
 int spcount = 0; 
+bool var_dec_phase_to_diff_arr_size_index = false;
+
+
+
 std::vector<std::string>argumentTypes;
 std::vector<std::string>parameterTypes;
 std::vector<bool>argumentIsArray;

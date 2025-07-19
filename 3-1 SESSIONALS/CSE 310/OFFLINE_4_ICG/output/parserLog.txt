@@ -730,10 +730,6 @@ Line 19: expression : logic_expression
 
 0
 
-Line 19: statement : RETURN expression SEMICOLON
-
-return 0;
-
 Line 19: statements : statements statement
 
 int i;

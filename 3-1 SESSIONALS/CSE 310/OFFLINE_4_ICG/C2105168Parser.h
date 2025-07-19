@@ -42,6 +42,7 @@
 
     extern bool isInsideFunctionDefinition;
     extern bool isParamsymbol;
+    extern bool var_dec_phase_to_diff_arr_size_index;
 
     extern int paramsize;
     extern int param_offset;
@@ -405,6 +406,7 @@ public:
     int line;
     std::string data_section_code;
     std::string code_section;
+    std::string size;
     C2105168Parser::Type_specifierContext *t = nullptr;
     C2105168Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *sm = nullptr;
@@ -463,6 +465,7 @@ public:
     int line;
     std::string type;
     std::vector<std::pair<std::string, bool>> varList;
+    std::string size;
     C2105168Parser::Declaration_listContext *dl = nullptr;
     antlr4::Token *idToken = nullptr;
     antlr4::Token *lthirdToken = nullptr;

@@ -43,6 +43,7 @@
 
     extern bool isInsideFunctionDefinition;
     extern bool isParamsymbol;
+    extern bool var_dec_phase_to_diff_arr_size_index;
 
     extern int paramsize;
     extern int param_offset;
@@ -462,7 +463,7 @@ public class C2105168Parser extends Parser {
 				  
 				        ((UnitContext)_localctx).text =  ((UnitContext)_localctx).vd.text;
 				        ((UnitContext)_localctx).line =  ((UnitContext)_localctx).vd.line;
-
+				        var_dec_phase_to_diff_arr_size_index = true;
 
 				        std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": unit : var_declaration\n\n"+_localctx.text+"\n");
@@ -711,6 +712,7 @@ public class C2105168Parser extends Parser {
 				setState(96);
 				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
 				    std::cout << "DEBUG: About to parse parameter_list" << std::endl;
+						
 				setState(98);
 				((Func_definitionContext)_localctx).pl = parameter_list(0);
 
@@ -1224,6 +1226,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string data_section_code;
 		public std::string code_section;
+		public std::string size;
 		public Type_specifierContext t;
 		public Declaration_listContext dl;
 		public Token sm;
@@ -1272,6 +1275,15 @@ public class C2105168Parser extends Parser {
 				        for(const auto& var : ((Var_declarationContext)_localctx).dl.varList) {
 				            SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
 				            varSymbol->setIsArray(var.second);
+				            if(var.second)
+				            { 
+				                varSymbol->setArraySize(((Var_declarationContext)_localctx).dl.size);
+				            }
+
+				            
+				                std::cout<<"hayre manush "<<((Var_declarationContext)_localctx).dl.size<<std::endl;
+				            
+				          
 				            varSymbol->setSymbolDataType(((Var_declarationContext)_localctx).t.type);
 				            if(!symbolTable->Insert(varSymbol)){
 				                writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+":  Multiple declaration of "+var.first+"\n");
@@ -1296,8 +1308,13 @@ public class C2105168Parser extends Parser {
 				                    varSymbol->setStackOffset(2 + (paramsize * 2));
 				                }
 
+				                
+				                if(var.second){
+				                    _localctx.data_section_code += "\t"+varSymbol->getSymbolName()+" DW "+(varSymbol->getArraySize())+" DUP (0000H)\n";
+				                }
+				                else{
 				                _localctx.data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
-
+				                }
 				                std::cout << "data_section_code: " << _localctx.data_section_code << std::endl;
 				            }
 
@@ -1317,12 +1334,21 @@ public class C2105168Parser extends Parser {
 				                    varSymbol->setStackOffset(stack_offset_local);
 				                }
 
-				                _localctx.code_section += "\tSUB SP, 2\n";
-				            spcount++;
+				                if(varSymbol->getIsArray()){
+
+				                    _localctx.code_section += "L"+std::to_string(label_count++)+":\n"+"\tSUB SP, "+std::to_string(std::atoi(varSymbol->getArraySize().c_str()) * 2)+"\n";
+				                    spcount += std::atoi(varSymbol->getArraySize().c_str());
+				                }
+				                else{
+				                    _localctx.code_section += "\tSUB SP, 2\n";
+				                    spcount++;
+				                }
 
 				            }
 				        }
-				                    std::string currentScopeId = symbolTable->getCurrentScopeID();
+
+
+				        std::string currentScopeId = symbolTable->getCurrentScopeID();
 
 				        if(currentScopeId == "1"){
 				                writeIntoAsmFile(_localctx.data_section_code+".CODE");
@@ -1498,6 +1524,7 @@ public class C2105168Parser extends Parser {
 		public int line;
 		public std::string type;
 		public std::vector<std::pair<std::string, bool>> varList;
+		public std::string size;
 		public Declaration_listContext dl;
 		public Token ID;
 		public Token LTHIRD;
@@ -1565,7 +1592,7 @@ public class C2105168Parser extends Parser {
 				 
 				        ((Declaration_listContext)_localctx).text =  ((Declaration_listContext)_localctx).ID->getText() + ((Declaration_listContext)_localctx).LTHIRD->getText() + ((Declaration_listContext)_localctx).CONST_INT->getText() + ((Declaration_listContext)_localctx).RTHIRD->getText();
 				        ((Declaration_listContext)_localctx).line =  ((Declaration_listContext)_localctx).ID->getLine();
-
+				        ((Declaration_listContext)_localctx).size =  ((Declaration_listContext)_localctx).CONST_INT->getText();
 				        ((Declaration_listContext)_localctx).type =  "array";
 				        _localctx.varList.push_back(std::make_pair(((Declaration_listContext)_localctx).ID->getText(), true));
 
@@ -1625,7 +1652,7 @@ public class C2105168Parser extends Parser {
 
 						                  ((Declaration_listContext)_localctx).text =  ((Declaration_listContext)_localctx).dl.text + ((Declaration_listContext)_localctx).COMMA->getText() + ((Declaration_listContext)_localctx).ID->getText();
 						                  ((Declaration_listContext)_localctx).line =  ((Declaration_listContext)_localctx).ID->getLine();
-
+						              
 						                  ((Declaration_listContext)_localctx).varList =  ((Declaration_listContext)_localctx).dl.varList;
 						          		_localctx.varList.push_back(std::make_pair(((Declaration_listContext)_localctx).ID->getText(), false));
 						                  
@@ -2192,11 +2219,26 @@ public class C2105168Parser extends Parser {
 
 
 
-				        SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).e.text);
+				    //     SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).e.text);
 
 
-				        writeIntoparserLogFile("Line " + std::to_string(((StatementContext)_localctx).SEMICOLON->getLine()) + ": statement : RETURN expression SEMICOLON\n\n" + ((StatementContext)_localctx).RETURN->getText() +" "+ ((StatementContext)_localctx).e.text+ ((StatementContext)_localctx).SEMICOLON->getText() +"\n"); 
+				    //    if (lookup == nullptr) {
+				    //         writeIntoErrorFile("ERROR: Symbol '" + ((StatementContext)_localctx).e.text + "' not found in symbol table at return.\n");
+				    //         errorCount++;
+				    //  } else if(lookup->getFunctionName() != "main" && paramsize > 0){
 
+				    //         writeIntoAsmFile("ADD SP, "+std::to_string(paramsize * 2));
+				    //         writeIntoAsmFile("\tPOP BP");
+				    //         writeIntoAsmFile("\tRET "+std::to_string(paramsize * 2));
+				    //     }
+
+				    //     else if(lookup->getFunctionName() != "main" && paramsize == 0){
+				    //         writeIntoAsmFile("\tPOP BP");
+				    //         writeIntoAsmFile("\tRET");
+				    //     }
+
+
+				      
 				      
 				}
 				break;
@@ -2348,10 +2390,7 @@ public class C2105168Parser extends Parser {
 				            writeIntoparserLogFile("Line " + std::to_string(((VariableContext)_localctx).ID->getLine()) + ": variable : ID\n\n"+((VariableContext)_localctx).ID->getText()+"\n"); 
 
 				            }
-				                // std::cout << "ID type: " << _localctx.type <<"for "<< ((VariableContext)_localctx).ID->getText() << std::endl;
-				                // if (lookup)
-				                // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
-				                //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
+				               std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
 
 				                std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
 				        
@@ -2380,6 +2419,7 @@ public class C2105168Parser extends Parser {
 				            writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+": Expression inside third brackets not an integer\n\n"+_localctx.text +"\n");
 				                            errorCount++;
 
+				        
 
 
 				        }
@@ -2387,6 +2427,9 @@ public class C2105168Parser extends Parser {
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": variable : ID LTHIRD expression RTHIRD\n\n"+_localctx.text+"\n"); 
 
 				        }
+
+
+				        // if(((VariableContext)_localctx).ID->getText() )
 
 				    
 				}
@@ -2469,6 +2512,33 @@ public class C2105168Parser extends Parser {
 
 				            SymbolInfo* existing = symbolTable->LookUP(((ExpressionContext)_localctx).v.text);
 				            std::string currentScopeId = symbolTable->getCurrentScopeID();
+
+				            if(existing->getIsArray()){
+
+
+
+
+
+
+				            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				            else
+				            {
 				            if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
 				                
@@ -2491,7 +2561,7 @@ public class C2105168Parser extends Parser {
 
 				            }
 
-
+				            }
 
 
 				          //  writeIntoAsmFile("\tPOP1 AX");
@@ -3047,7 +3117,7 @@ public class C2105168Parser extends Parser {
 					              } else if (((TermContext)_localctx).MULOP->getText() == "%") {
 					                  writeIntoAsmFile("\tPOP CX");
 					                  writeIntoAsmFile("\tPOP AX");
-					                  ((TermContext)_localctx).code_section =  "\tCWD\n\tDIV CX\n\tPUSH DX";
+					                  ((TermContext)_localctx).code_section =  "\tCWD\n\tDIV CX\n\tPUSH DX\n\tMOV AX, DX";
 					              }
 					              writeIntoAsmFile(_localctx.code_section);
 					          
@@ -3117,7 +3187,7 @@ public class C2105168Parser extends Parser {
 				            ((Unary_expressionContext)_localctx).code_section =  ((Unary_expressionContext)_localctx).ue.code_section;
 
 
-				            writeIntoAsmFile("\tPOP AX");
+				          //  writeIntoAsmFile("\tPOP AX");
 				            if (((Unary_expressionContext)_localctx).ADDOP->getText() == "+") {
 				                ((Unary_expressionContext)_localctx).code_section =  "\tPUSH AX";
 				            } else if (((Unary_expressionContext)_localctx).ADDOP->getText() == "-") {
