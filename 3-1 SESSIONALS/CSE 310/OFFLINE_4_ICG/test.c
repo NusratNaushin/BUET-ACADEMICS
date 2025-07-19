@@ -1,9 +1,10 @@
 int a,b,c;
 
-int foo(int a){
-	a = a + 3;
-	return a;
+int bar(int a, int b){	
+	c = 4*a + 2*b;
+	return c;
 }
+
 
 int main(){
 
@@ -13,5 +14,7 @@ int main(){
 	j = 6;
 	k = foo(i);
 	println(k);
+
+	l=i+j;
     return 0;
 }

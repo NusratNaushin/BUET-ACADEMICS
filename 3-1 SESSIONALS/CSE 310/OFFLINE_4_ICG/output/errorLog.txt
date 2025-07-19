@@ -1,4 +1,4 @@
-Error at line 4: Type Mismatch
+Error at line 28: Type Mismatch
 
-Error at line 14: Type Mismatch
+Error at line 31: Type Mismatch
 

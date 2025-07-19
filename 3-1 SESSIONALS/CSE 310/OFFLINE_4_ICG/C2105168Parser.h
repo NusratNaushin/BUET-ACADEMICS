@@ -40,6 +40,12 @@
     extern std::vector<std::string> whileStartLabels;
     extern std::vector<std::string> whileEndLabels;
 
+    extern bool isInsideFunctionDefinition;
+    extern bool isParamsymbol;
+
+    extern int paramsize;
+    extern int param_offset;
+
 
 // Generated from C2105168Parser.g4 by ANTLR 4.13.2
 

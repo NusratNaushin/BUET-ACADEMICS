@@ -45,6 +45,12 @@ options {
 
     extern std::vector<std::string> whileStartLabels;
     extern std::vector<std::string> whileEndLabels;
+
+    extern bool isInsideFunctionDefinition;
+    extern bool isParamsymbol;
+
+    extern int paramsize;
+    extern int param_offset;
 }
 
 @parser::members {
@@ -268,6 +274,7 @@ func_declaration
         writeIntoparserLogFile("Line "+std::to_string($line)+": func_declaration : type_specifier ID LPAREN parameter_list RPAREN SEMICOLON\n\n"+$text+"\n");
 
 
+
     }
 	| ts = type_specifier ID LPAREN RPAREN SEMICOLON {  
         $text = $ts.text + " "+$ID->getText() + $LPAREN->getText() + $RPAREN->getText() +  $SEMICOLON->getText();
@@ -334,11 +341,18 @@ func_definition
         }
 
 
-        int paramsize = $pl.plist.size();
 
-        //paramter er jonne BP+smthng
-        funcSymbol->setStackOffset(paramsize);
-        writeIntoAsmFile("\tMOV [BP+" + std::to_string(paramsize * 2) + "], AX");
+        paramsize = $pl.plist.size();
+        // for(const auto& param : $pl.plist) {
+        //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+
+        //     paramSymbol->setStackOffset(2+ (paramsize * 2));
+        //     std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+        // }
+
+
+
+
 
 
      } RPAREN {    
@@ -346,10 +360,14 @@ func_definition
         if($ID->getText() == "main"){
         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
         }
+        writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
         writeIntoAsmFile("\tPUSH BP\n\tMOV BP, SP");
+        isInsideFunctionDefinition = true;
+                isParamsymbol = true;
+
     } cs = compound_statement {  
-
-
+        isParamsymbol = false;
+        isInsideFunctionDefinition = false;
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
         $type = $ts.text;
@@ -362,17 +380,18 @@ func_definition
         } 
 
         if($ID->getText() == "main"){
+
             writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
         }
 
         if($ID->getText() != "main" && paramsize == 0){
             writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-            writeIntoAsmFile("\tPOP BP\n\tRET");
+            writeIntoAsmFile("\tRET");
         }
 
         else if($ID->getText() != "main" && paramsize > 0){
             writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-            writeIntoAsmFile("\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+            writeIntoAsmFile("\tPOP AX\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
         }
 
 
@@ -466,6 +485,7 @@ parameter_list
         paramSymbol->setIsArray(false);
         paramSymbol->setType($ts.text);
 
+
         writeIntoparserLogFile("Line " + std::to_string($line) +": parameter_list : type_specifier ID\n\n" + $text + "\n");
 		}
         | ts = type_specifier ADDOP {
@@ -501,7 +521,9 @@ compound_statement
             SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
             paramSymbol->setIsArray(false);
             paramSymbol->setSymbolDataType(param.first);
-            if(!symbolTable->Insert(param.second, "ID")){
+            paramSymbol->setStackOffset(param_offset+2);
+            std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+            if(!symbolTable->Insert(paramSymbol)){
                 writeIntoparserLogFile("Error at line " + std::to_string($line) + ": Multiple declaration of " + param.second + " in parameter\n");
                 writeIntoErrorFile("Error at line " + std::to_string($line) + ": Multiple declaration of " + param.second + " in parameter\n");
 
@@ -511,7 +533,17 @@ compound_statement
         plist.clear();
         
          } ss = statements { 
-        // std::cout << "ss  type"<<$ss.type <<std::endl;
+            std::cout<<"kire"<<std::endl;
+            for(const auto& param : plist) {
+
+            std::cout<<"kire mannager nati loop e ahos na kere"<<std::endl;
+
+                SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
+
+                std::cout << "HELLO: paramSymbol:" << param.second << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+            }
+                        std::cout<<"kire maannger nati"<<std::endl;
+
         $type = $ss.type;
     } RCURL {
         $text = $LCURL->getText()+"\n" + $ss.text +"\n" + $RCURL->getText();
@@ -564,8 +596,15 @@ var_declaration
                 isDATAEmpty = false;
                 
                 stack_offset_global += 2;
-                varSymbol->setStackOffset(stack_offset_global);
-                varSymbol->setIsGlobal(true);
+
+                if(!isInsideFunctionDefinition){
+                    varSymbol->setStackOffset(stack_offset_global);
+                    varSymbol->setIsGlobal(true);
+                }
+                if(isInsideFunctionDefinition && isParamsymbol){
+                    varSymbol->setStackOffset(2 + (paramsize * 2));
+                }
+
                 $data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
 
                 std::cout << "data_section_code: " << $data_section_code << std::endl;
@@ -576,8 +615,17 @@ var_declaration
                 if(!pushbpprint){
                     pushbpprint = true;
                 }
-                stack_offset_local += 2;
-                varSymbol->setStackOffset(stack_offset_local);
+
+                std::cout<<"BAAL "<<isInsideFunctionDefinition<< " isParamsymbol: " << isParamsymbol << std::endl;
+                if(isInsideFunctionDefinition && isParamsymbol){
+                    varSymbol->setStackOffset(2 + (paramsize * 2));
+                    std::cout << "DEBUG: paramSymbol: inside var_dec" << varSymbol->getSymbolName() << " stack offset: " << varSymbol->getStackOffset() << std::endl;
+                }
+                else{
+                    stack_offset_local += 2;
+                    varSymbol->setStackOffset(stack_offset_local);
+                }
+
                 $code_section += "\tSUB SP, 2\n";
 
             }
@@ -927,6 +975,11 @@ statement
         $type = $e.type;
 
 
+        if($type != "void" && $e.text != "0"){
+
+
+        }
+
 
 
         SymbolInfo* lookup = symbolTable->LookUP($e.text);
@@ -986,7 +1039,7 @@ variable
                 // std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getType() << std::endl;
                 //                 std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
 
-
+                std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
         }
 	| ID LTHIRD e = expression RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $e.text + $RTHIRD->getText();
@@ -1030,13 +1083,19 @@ expression
 
             SymbolInfo* existing = symbolTable->LookUP($v.text);
             std::string currentScopeId = symbolTable->getCurrentScopeID();
-            if(existing->getIsGlobal()){
+            if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                 $code_section = "\tMOV " + $v.text + ", AX";
                 
-            } else {
+            } else if(!existing->getIsGlobal() && !isInsideFunctionDefinition && !isParamsymbol){
 
                 $code_section = "\tMOV [BP-" + std::to_string(existing->getStackOffset()) + "], AX";
             }
+           else if(!existing->getIsGlobal() && isInsideFunctionDefinition && isParamsymbol){    
+                $code_section = "\tMOV [BP+" + std::to_string(existing->getStackOffset()) + "], AX";
+
+            }
+
+
 
                         writeIntoAsmFile("\tPOP AX");
 
@@ -1378,8 +1437,23 @@ factor
           else {   
             writeIntoAsmFile("L" + std::to_string(label_count++)+":");
 
+            if(isInsideFunctionDefinition && lookup->getSymbolName() != "main"){
+                writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+
+                std::cout << "DEBUG: variable " << $v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
+                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
+                writeIntoAsmFile("\tPUSH AX");
+
+
+            }
+            else{
+                //ghapla
             writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
+            
             writeIntoAsmFile("\tPUSH AX");
+              std::cout << "DEBUG: variable " << $v.text << " is inside function definition, stack offset: " << lookup->getStackOffset() << std::endl;
+                std::cout<<"lookupsymbolname: "<<lookup->getSymbolName()<<" "<<isParamsymbol<<std::endl;
+            }
           }
 
         // std::cout << "v type"<<$v.type <<std::endl;
@@ -1443,6 +1517,7 @@ factor
 
     //ekhne function call hbe
     writeIntoAsmFile("\tCALL " + $ID->getText());
+    writeIntoAsmFile("\tPUSH AX");
     writeIntoparserLogFile("Line " + std::to_string($line) + ": factor : ID LPAREN argument_list RPAREN\n\n" + $text + "\n");
 }
 	| LPAREN e = expression RPAREN { 
