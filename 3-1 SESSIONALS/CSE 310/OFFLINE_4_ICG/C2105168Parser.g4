@@ -176,7 +176,7 @@ start
         $line = $p.line;
         $data_section = $p.data_section_code;
         $code_section = ($p.code_section);
-        std::cout << "DEBUG: start code_section = '" << $code_section << "'" << std::endl;
+
        // writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
 
 
@@ -218,7 +218,6 @@ unit
         $line = $vd.line;
         var_dec_phase_to_diff_arr_size_index = true;
 
-        std::cout << "DEBUG: unit var_declaration code_section = '" << $code_section << "'" << std::endl;
         writeIntoparserLogFile("Line "+std::to_string($line)+": unit : var_declaration\n\n"+$text+"\n");
 
     }
@@ -314,9 +313,8 @@ func_declaration
 func_definition
 	returns[std::string text, int line,std::string type,std::string returnType , std::string code_section]
 		:
-	ts = type_specifier ID LPAREN {    std::cout << "DEBUG: About to parse parameter_list" << std::endl;
+	ts = type_specifier ID LPAREN {    
 		} pl = parameter_list {
-            std::cout << "DEBUG: Successfully parsed parameter_list, pl.text = '" << $pl.text << "'" << std::endl;
         SymbolInfo* funcSymbol = new SymbolInfo($ID->getText(), "ID");
         funcSymbol->setIsFunction(true);
         funcSymbol->setIsFunctionDefined(true);
@@ -352,7 +350,6 @@ func_definition
         //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
 
         //     paramSymbol->setStackOffset(2+ (paramsize * 2));
-        //     std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
         // }
 
 
@@ -435,7 +432,6 @@ func_definition
 
         $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
-        std::cout << "DEBUG: func_declaration code_section = '" << $code_section << "'" << std::endl;
 
         if($ID->getText() == "main"){
                         writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
@@ -504,8 +500,6 @@ parameter_list
 
         $text = $ts.text ;
         $line = $ts.line;
-            std::cout << "DEBUG: ts.text = '" << $ts.text << "'" << std::endl;
-    std::cout << "DEBUG: ts.line = " << $ts.line << std::endl;
         $plist.push_back(std::make_pair($ts.text, ""));
         writeIntoparserLogFile("Line " + std::to_string($line) + ": parameter_list : type_specifier \n" +$ts.text+ "\n");
 		}
@@ -532,8 +526,7 @@ compound_statement
             param_offset += 2;
             paramSymbol->setStackOffset(param_offset);
 
-            std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
-                    << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+        
 
             if (!symbolTable->Insert(paramSymbol)) {
                 writeIntoparserLogFile("Error at line " + std::to_string($line) + 
@@ -595,22 +588,24 @@ var_declaration
         for(const auto& var : $dl.varList) {
             SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
             varSymbol->setIsArray(var.second);
+
             if(var.second)
             { 
                 varSymbol->setArraySize($dl.size);
             }
 
             
-                std::cout<<"hayre manush "<<$dl.size<<std::endl;
             
           
             varSymbol->setSymbolDataType($t.type);
             if(!symbolTable->Insert(varSymbol)){
+                std::cout << "symbol table e dhuklo na"<<varSymbol->getSymbolName() << std::endl;
                 writeIntoparserLogFile("Error at line "+std::to_string($line)+":  Multiple declaration of "+var.first+"\n");
                 writeIntoErrorFile("Error at line "+std::to_string($line)+": Multiple declaration of "+var.first+"\n");
                                 errorCount++;
             }
-
+            SymbolInfo* existing = symbolTable->LookUP(varSymbol->getSymbolName());
+            std::cout<<"Inserted variables : "<< existing->getSymbolName() << " of type " << existing->getSymbolType() << std::endl;
 
             std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -635,7 +630,6 @@ var_declaration
                 else{
                 $data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
                 }
-                std::cout << "data_section_code: " << $data_section_code << std::endl;
             }
 
 
@@ -644,10 +638,8 @@ var_declaration
                     pushbpprint = true;
                 }
 
-                std::cout<<"BAAL "<<isInsideFunctionDefinition<< " isParamsymbol: " << isParamsymbol << std::endl;
                 if(isInsideFunctionDefinition && isParamsymbol){
                     varSymbol->setStackOffset(2 + (paramsize * 2));
-                    std::cout << "DEBUG: paramSymbol: inside var_dec" << varSymbol->getSymbolName() << " stack offset: " << varSymbol->getStackOffset() << std::endl;
                 }
                 else{
                     stack_offset_local += 2;
@@ -780,8 +772,11 @@ declaration_list
         $type = "array";
         $varList.push_back(std::make_pair($ID->getText(), true));
 
-        
-        writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");        
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");
+        writeIntoparserLogFile("Line " + std::to_string($line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +$text + "\n");    
+
+
+                 
 
     }
 	| ID ADDOP declaration_list {
@@ -824,7 +819,6 @@ statement
 	v = var_declaration {
         $text = $v.text;
         $line = $v.line;
-        std::cout << "DEBUG: unit var_declaration code_section = '" << $code_section << "'" << std::endl;
         $type = "void";
         writeIntoparserLogFile("Line "+  std::to_string($line) +": statement : var_declaration\n\n"+$text + "\n" );
     }
@@ -1086,9 +1080,6 @@ variable
             writeIntoparserLogFile("Line " + std::to_string($ID->getLine()) + ": variable : ID\n\n"+$ID->getText()+"\n"); 
 
             }
-               std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
-
-                std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
         }
 	| ID LTHIRD e = expression RTHIRD { 
         $text = $ID->getText() + $LTHIRD->getText() + $e.text + $RTHIRD->getText();
@@ -1103,7 +1094,7 @@ variable
                             errorCount++;
 
         
-
+        
 
         }
         else{
@@ -1112,8 +1103,13 @@ variable
         }
 
 
-        // if($ID->getText() )
+                writeIntoAsmFile("\tPOP AX");                
+                writeIntoAsmFile("\tMOV BX, AX");            
+                writeIntoAsmFile("\tMOV AX, 2");             
+                writeIntoAsmFile("\tMUL BX");                
+                writeIntoAsmFile("\tMOV BX, AX"); 
 
+  
     };
 
 expression
@@ -1129,40 +1125,34 @@ expression
             writeIntoparserLogFile("Line "+  std::to_string($l.line)+": expression : logic_expression\n\n" + $l.text + "\n"); 
         }
 	| v = variable ASSIGNOP le = logic_expression {
-            $text= $v.text + $ASSIGNOP->getText() + $le.text;
-            $line=$le.line;  
+            $text = $v.text + $ASSIGNOP->getText() + $le.text;
+            $line = $le.line;  
             $type = $le.type;
             $argIsArray = false;
 
-            SymbolInfo* existing = symbolTable->LookUP($v.text);
-            std::string currentScopeId = symbolTable->getCurrentScopeID();
-
-            if(existing->getIsArray()){
-
-
-
-
-
-
+            std::string varName = $v.text;
+            const char* pos = strchr(varName.c_str(), '[');
+            if (pos != nullptr) {
+                varName = varName.substr(0, pos - varName.c_str());
             }
+            std::cout<<"ekhne ashlo->"<<varName<<std::endl;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            SymbolInfo* existing = symbolTable->LookUP(varName);    
+            std::string currentScopeId = symbolTable->getCurrentScopeID();
+            
+            if(existing->getIsArray()){
+               
+                std::cout<<"Array variable"<<existing->getSymbolName()<<std::endl;
+                writeIntoAsmFile("\tPOP AX");
+                std::string varr = varName;
+                writeIntoAsmFile("\tMOV "+varr+"[BX] , AX");
+            }
 
             else
             {
+
+            std::cout<<"others"<<std::endl;
+
             if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                 $code_section = "\tMOV " + $v.text + ", AX";
                 
@@ -1194,7 +1184,6 @@ expression
 
 
             
-            std::cout << "DEBUG: expression code_section = '" << $code_section << "'" << std::endl;
             SymbolInfo* lookup = symbolTable->LookUP($v.text);
 
 
@@ -1533,7 +1522,6 @@ factor
                 writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));
 
                 writeIntoAsmFile("\tPUSH AX");
-                std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
             }
             else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
                 writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string($line));

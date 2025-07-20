@@ -304,7 +304,7 @@ public class C2105168Parser extends Parser {
 			        ((StartContext)_localctx).line =  ((StartContext)_localctx).p.line;
 			        ((StartContext)_localctx).data_section =  ((StartContext)_localctx).p.data_section_code;
 			        ((StartContext)_localctx).code_section =  (((StartContext)_localctx).p.code_section);
-			        std::cout << "DEBUG: start code_section = '" << _localctx.code_section << "'" << std::endl;
+
 			       // writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
 
 
@@ -465,7 +465,6 @@ public class C2105168Parser extends Parser {
 				        ((UnitContext)_localctx).line =  ((UnitContext)_localctx).vd.line;
 				        var_dec_phase_to_diff_arr_size_index = true;
 
-				        std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 				        writeIntoparserLogFile("Line "+std::to_string(_localctx.line)+": unit : var_declaration\n\n"+_localctx.text+"\n");
 
 				    
@@ -711,12 +710,11 @@ public class C2105168Parser extends Parser {
 				((Func_definitionContext)_localctx).ID = match(ID);
 				setState(96);
 				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
-				    std::cout << "DEBUG: About to parse parameter_list" << std::endl;
+				    
 						
 				setState(98);
 				((Func_definitionContext)_localctx).pl = parameter_list(0);
 
-				            std::cout << "DEBUG: Successfully parsed parameter_list, pl.text = '" << ((Func_definitionContext)_localctx).pl.text << "'" << std::endl;
 				        SymbolInfo* funcSymbol = new SymbolInfo(((Func_definitionContext)_localctx).ID->getText(), "ID");
 				        funcSymbol->setIsFunction(true);
 				        funcSymbol->setIsFunctionDefined(true);
@@ -752,7 +750,6 @@ public class C2105168Parser extends Parser {
 				        //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
 
 				        //     paramSymbol->setStackOffset(2+ (paramsize * 2));
-				        //     std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
 				        // }
 
 
@@ -858,7 +855,6 @@ public class C2105168Parser extends Parser {
 
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text +" " + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText() + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
-				        std::cout << "DEBUG: func_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
 				                        writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
@@ -977,8 +973,6 @@ public class C2105168Parser extends Parser {
 
 				        ((Parameter_listContext)_localctx).text =  ((Parameter_listContext)_localctx).ts.text ;
 				        ((Parameter_listContext)_localctx).line =  ((Parameter_listContext)_localctx).ts.line;
-				            std::cout << "DEBUG: ts.text = '" << ((Parameter_listContext)_localctx).ts.text << "'" << std::endl;
-				    std::cout << "DEBUG: ts.line = " << ((Parameter_listContext)_localctx).ts.line << std::endl;
 				        _localctx.plist.push_back(std::make_pair(((Parameter_listContext)_localctx).ts.text, ""));
 				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": parameter_list : type_specifier \n" +((Parameter_listContext)_localctx).ts.text+ "\n");
 						
@@ -1141,8 +1135,7 @@ public class C2105168Parser extends Parser {
 				            param_offset += 2;
 				            paramSymbol->setStackOffset(param_offset);
 
-				            std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
-				                    << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+				        
 
 				            if (!symbolTable->Insert(paramSymbol)) {
 				                writeIntoparserLogFile("Error at line " + std::to_string(_localctx.line) + 
@@ -1275,22 +1268,24 @@ public class C2105168Parser extends Parser {
 				        for(const auto& var : ((Var_declarationContext)_localctx).dl.varList) {
 				            SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
 				            varSymbol->setIsArray(var.second);
+
 				            if(var.second)
 				            { 
 				                varSymbol->setArraySize(((Var_declarationContext)_localctx).dl.size);
 				            }
 
 				            
-				                std::cout<<"hayre manush "<<((Var_declarationContext)_localctx).dl.size<<std::endl;
 				            
 				          
 				            varSymbol->setSymbolDataType(((Var_declarationContext)_localctx).t.type);
 				            if(!symbolTable->Insert(varSymbol)){
+				                std::cout << "symbol table e dhuklo na"<<varSymbol->getSymbolName() << std::endl;
 				                writeIntoparserLogFile("Error at line "+std::to_string(_localctx.line)+":  Multiple declaration of "+var.first+"\n");
 				                writeIntoErrorFile("Error at line "+std::to_string(_localctx.line)+": Multiple declaration of "+var.first+"\n");
 				                                errorCount++;
 				            }
-
+				            SymbolInfo* existing = symbolTable->LookUP(varSymbol->getSymbolName());
+				            std::cout<<"Inserted variables : "<< existing->getSymbolName() << " of type " << existing->getSymbolType() << std::endl;
 
 				            std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -1315,7 +1310,6 @@ public class C2105168Parser extends Parser {
 				                else{
 				                _localctx.data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
 				                }
-				                std::cout << "data_section_code: " << _localctx.data_section_code << std::endl;
 				            }
 
 
@@ -1324,10 +1318,8 @@ public class C2105168Parser extends Parser {
 				                    pushbpprint = true;
 				                }
 
-				                std::cout<<"BAAL "<<isInsideFunctionDefinition<< " isParamsymbol: " << isParamsymbol << std::endl;
 				                if(isInsideFunctionDefinition && isParamsymbol){
 				                    varSymbol->setStackOffset(2 + (paramsize * 2));
-				                    std::cout << "DEBUG: paramSymbol: inside var_dec" << varSymbol->getSymbolName() << " stack offset: " << varSymbol->getStackOffset() << std::endl;
 				                }
 				                else{
 				                    stack_offset_local += 2;
@@ -1596,8 +1588,11 @@ public class C2105168Parser extends Parser {
 				        ((Declaration_listContext)_localctx).type =  "array";
 				        _localctx.varList.push_back(std::make_pair(((Declaration_listContext)_localctx).ID->getText(), true));
 
-				        
-				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx.text + "\n");        
+				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx.text + "\n");
+				        writeIntoparserLogFile("Line " + std::to_string(_localctx.line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx.text + "\n");    
+
+
+				                 
 
 				    
 				}
@@ -1908,7 +1903,6 @@ public class C2105168Parser extends Parser {
 
 				        ((StatementContext)_localctx).text =  ((StatementContext)_localctx).v.text;
 				        ((StatementContext)_localctx).line =  ((StatementContext)_localctx).v.line;
-				        std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx.code_section << "'" << std::endl;
 				        ((StatementContext)_localctx).type =  "void";
 				        writeIntoparserLogFile("Line "+  std::to_string(_localctx.line) +": statement : var_declaration\n\n"+_localctx.text + "\n" );
 				    
@@ -2390,9 +2384,6 @@ public class C2105168Parser extends Parser {
 				            writeIntoparserLogFile("Line " + std::to_string(((VariableContext)_localctx).ID->getLine()) + ": variable : ID\n\n"+((VariableContext)_localctx).ID->getText()+"\n"); 
 
 				            }
-				               std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
-
-				                std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
 				        
 				}
 				break;
@@ -2420,7 +2411,7 @@ public class C2105168Parser extends Parser {
 				                            errorCount++;
 
 				        
-
+				        
 
 				        }
 				        else{
@@ -2429,8 +2420,13 @@ public class C2105168Parser extends Parser {
 				        }
 
 
-				        // if(((VariableContext)_localctx).ID->getText() )
+				                writeIntoAsmFile("\tPOP AX");                
+				                writeIntoAsmFile("\tMOV BX, AX");            
+				                writeIntoAsmFile("\tMOV AX, 2");             
+				                writeIntoAsmFile("\tMUL BX");                
+				                writeIntoAsmFile("\tMOV BX, AX"); 
 
+				  
 				    
 				}
 				break;
@@ -2506,39 +2502,33 @@ public class C2105168Parser extends Parser {
 				((ExpressionContext)_localctx).le = logic_expression();
 
 				            ((ExpressionContext)_localctx).text =  ((ExpressionContext)_localctx).v.text + ((ExpressionContext)_localctx).ASSIGNOP->getText() + ((ExpressionContext)_localctx).le.text;
-				            ((ExpressionContext)_localctx).line = ((ExpressionContext)_localctx).le.line;  
+				            ((ExpressionContext)_localctx).line =  ((ExpressionContext)_localctx).le.line;  
 				            ((ExpressionContext)_localctx).type =  ((ExpressionContext)_localctx).le.type;
 				            ((ExpressionContext)_localctx).argIsArray =  false;
 
-				            SymbolInfo* existing = symbolTable->LookUP(((ExpressionContext)_localctx).v.text);
-				            std::string currentScopeId = symbolTable->getCurrentScopeID();
-
-				            if(existing->getIsArray()){
-
-
-
-
-
-
+				            std::string varName = ((ExpressionContext)_localctx).v.text;
+				            const char* pos = strchr(varName.c_str(), '[');
+				            if (pos != nullptr) {
+				                varName = varName.substr(0, pos - varName.c_str());
 				            }
+				            std::cout<<"ekhne ashlo->"<<varName<<std::endl;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+				            SymbolInfo* existing = symbolTable->LookUP(varName);    
+				            std::string currentScopeId = symbolTable->getCurrentScopeID();
+				            
+				            if(existing->getIsArray()){
+				               
+				                std::cout<<"Array variable"<<existing->getSymbolName()<<std::endl;
+				                writeIntoAsmFile("\tPOP AX");
+				                std::string varr = varName;
+				                writeIntoAsmFile("\tMOV "+varr+"[BX] , AX");
+				            }
 
 				            else
 				            {
+
+				            std::cout<<"others"<<std::endl;
+
 				            if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
 				                ((ExpressionContext)_localctx).code_section =  "\tMOV " + ((ExpressionContext)_localctx).v.text + ", AX";
 				                
@@ -2570,7 +2560,6 @@ public class C2105168Parser extends Parser {
 
 
 				            
-				            std::cout << "DEBUG: expression code_section = '" << _localctx.code_section << "'" << std::endl;
 				            SymbolInfo* lookup = symbolTable->LookUP(((ExpressionContext)_localctx).v.text);
 
 
@@ -3319,7 +3308,6 @@ public class C2105168Parser extends Parser {
 				                writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));
 
 				                writeIntoAsmFile("\tPUSH AX");
-				                std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
 				            }
 				            else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
 				                writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx.line));

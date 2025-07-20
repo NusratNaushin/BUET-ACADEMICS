@@ -19,11 +19,11 @@ L2:
 	NEG AX
 	PUSH AX
 	POP AX       ; Line 6
-	POP BX
-	PUSH AX
-	MOV AX, 2
+	POP BX // BX er moddhe ekhn 0
+	PUSH AX //
+	MOV AX, 2 // AX er moddhe 2 rakhbo
 	MUL BX
-	MOV BX, AX
+	MOV BX, AX //BX Er calculation done
 	POP AX
 	MOV w[BX], AX
 	PUSH AX

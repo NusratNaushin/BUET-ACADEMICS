@@ -362,7 +362,7 @@ C2105168Parser::StartContext* C2105168Parser::start() {
             antlrcpp::downCast<StartContext *>(_localctx)->line =  antlrcpp::downCast<StartContext *>(_localctx)->p->line;
             antlrcpp::downCast<StartContext *>(_localctx)->data_section =  antlrcpp::downCast<StartContext *>(_localctx)->p->data_section_code;
             antlrcpp::downCast<StartContext *>(_localctx)->code_section =  (antlrcpp::downCast<StartContext *>(_localctx)->p->code_section);
-            std::cout << "DEBUG: start code_section = '" << _localctx->code_section << "'" << std::endl;
+
            // writeIntoparserLogFile("Parsing completed successfully with " + std::to_string(syntaxErrorCount) + " syntax errors.");
 
 
@@ -553,7 +553,6 @@ C2105168Parser::UnitContext* C2105168Parser::unit() {
               antlrcpp::downCast<UnitContext *>(_localctx)->line =  antlrcpp::downCast<UnitContext *>(_localctx)->vd->line;
               var_dec_phase_to_diff_arr_size_index = true;
 
-              std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx->code_section << "'" << std::endl;
               writeIntoparserLogFile("Line "+std::to_string(_localctx->line)+": unit : var_declaration\n\n"+_localctx->text+"\n");
 
           
@@ -852,12 +851,11 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken = match(C2105168Parser::ID);
       setState(96);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken = match(C2105168Parser::LPAREN);
-          std::cout << "DEBUG: About to parse parameter_list" << std::endl;
+          
       		
       setState(98);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl = parameter_list(0);
 
-                  std::cout << "DEBUG: Successfully parsed parameter_list, pl.text = '" << antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->text << "'" << std::endl;
               SymbolInfo* funcSymbol = new SymbolInfo(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText(), "ID");
               funcSymbol->setIsFunction(true);
               funcSymbol->setIsFunctionDefined(true);
@@ -893,7 +891,6 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
               //     SymbolInfo* paramSymbol = new SymbolInfo(param.second, "ID");
 
               //     paramSymbol->setStackOffset(2+ (paramsize * 2));
-              //     std::cout << "DEBUG: paramSymbol:" << paramSymbol->getSymbolName() << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
               // }
 
 
@@ -999,7 +996,6 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
 
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
-              std::cout << "DEBUG: func_declaration code_section = '" << _localctx->code_section << "'" << std::endl;
 
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
                               writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
@@ -1148,8 +1144,6 @@ C2105168Parser::Parameter_listContext* C2105168Parser::parameter_list(int preced
 
               antlrcpp::downCast<Parameter_listContext *>(_localctx)->text =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text ;
               antlrcpp::downCast<Parameter_listContext *>(_localctx)->line =  antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->line;
-                  std::cout << "DEBUG: ts.text = '" << antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text << "'" << std::endl;
-          std::cout << "DEBUG: ts.line = " << antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->line << std::endl;
               _localctx->plist.push_back(std::make_pair(antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text, ""));
               writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": parameter_list : type_specifier \n" +antlrcpp::downCast<Parameter_listContext *>(_localctx)->ts->text+ "\n");
       		
@@ -1337,8 +1331,7 @@ C2105168Parser::Compound_statementContext* C2105168Parser::compound_statement() 
                   param_offset += 2;
                   paramSymbol->setStackOffset(param_offset);
 
-                  std::cout << "DEBUG: paramSymbol: " << paramSymbol->getSymbolName() 
-                          << " stack offset: " << paramSymbol->getStackOffset() << std::endl;
+              
 
                   if (!symbolTable->Insert(paramSymbol)) {
                       writeIntoparserLogFile("Error at line " + std::to_string(_localctx->line) + 
@@ -1492,22 +1485,24 @@ C2105168Parser::Var_declarationContext* C2105168Parser::var_declaration() {
               for(const auto& var : antlrcpp::downCast<Var_declarationContext *>(_localctx)->dl->varList) {
                   SymbolInfo* varSymbol = new SymbolInfo(var.first, "ID");
                   varSymbol->setIsArray(var.second);
+
                   if(var.second)
                   { 
                       varSymbol->setArraySize(antlrcpp::downCast<Var_declarationContext *>(_localctx)->dl->size);
                   }
 
                   
-                      std::cout<<"hayre manush "<<antlrcpp::downCast<Var_declarationContext *>(_localctx)->dl->size<<std::endl;
                   
                 
                   varSymbol->setSymbolDataType(antlrcpp::downCast<Var_declarationContext *>(_localctx)->t->type);
                   if(!symbolTable->Insert(varSymbol)){
+                      std::cout << "symbol table e dhuklo na"<<varSymbol->getSymbolName() << std::endl;
                       writeIntoparserLogFile("Error at line "+std::to_string(_localctx->line)+":  Multiple declaration of "+var.first+"\n");
                       writeIntoErrorFile("Error at line "+std::to_string(_localctx->line)+": Multiple declaration of "+var.first+"\n");
                                       errorCount++;
                   }
-
+                  SymbolInfo* existing = symbolTable->LookUP(varSymbol->getSymbolName());
+                  std::cout<<"Inserted variables : "<< existing->getSymbolName() << " of type " << existing->getSymbolType() << std::endl;
 
                   std::string currentScopeId = symbolTable->getCurrentScopeID();
 
@@ -1532,7 +1527,6 @@ C2105168Parser::Var_declarationContext* C2105168Parser::var_declaration() {
                       else{
                       _localctx->data_section_code+="\t"+varSymbol->getSymbolName()+" DW 1 DUP (0000H)\n";
                       }
-                      std::cout << "data_section_code: " << _localctx->data_section_code << std::endl;
                   }
 
 
@@ -1541,10 +1535,8 @@ C2105168Parser::Var_declarationContext* C2105168Parser::var_declaration() {
                           pushbpprint = true;
                       }
 
-                      std::cout<<"BAAL "<<isInsideFunctionDefinition<< " isParamsymbol: " << isParamsymbol << std::endl;
                       if(isInsideFunctionDefinition && isParamsymbol){
                           varSymbol->setStackOffset(2 + (paramsize * 2));
-                          std::cout << "DEBUG: paramSymbol: inside var_dec" << varSymbol->getSymbolName() << " stack offset: " << varSymbol->getStackOffset() << std::endl;
                       }
                       else{
                           stack_offset_local += 2;
@@ -1890,8 +1882,11 @@ C2105168Parser::Declaration_listContext* C2105168Parser::declaration_list(int pr
               antlrcpp::downCast<Declaration_listContext *>(_localctx)->type =  "array";
               _localctx->varList.push_back(std::make_pair(antlrcpp::downCast<Declaration_listContext *>(_localctx)->idToken->getText(), true));
 
-              
-              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx->text + "\n");        
+              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx->text + "\n");
+              writeIntoparserLogFile("Line " + std::to_string(_localctx->line) + ": declaration_list : ID LTHIRD CONST_INT RTHIRD\n\n" +_localctx->text + "\n");    
+
+
+                       
 
           
       break;
@@ -2255,7 +2250,6 @@ C2105168Parser::StatementContext* C2105168Parser::statement() {
 
               antlrcpp::downCast<StatementContext *>(_localctx)->text =  antlrcpp::downCast<StatementContext *>(_localctx)->v->text;
               antlrcpp::downCast<StatementContext *>(_localctx)->line =  antlrcpp::downCast<StatementContext *>(_localctx)->v->line;
-              std::cout << "DEBUG: unit var_declaration code_section = '" << _localctx->code_section << "'" << std::endl;
               antlrcpp::downCast<StatementContext *>(_localctx)->type =  "void";
               writeIntoparserLogFile("Line "+  std::to_string(_localctx->line) +": statement : var_declaration\n\n"+_localctx->text + "\n" );
           
@@ -2783,9 +2777,6 @@ C2105168Parser::VariableContext* C2105168Parser::variable() {
                   writeIntoparserLogFile("Line " + std::to_string(antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getLine()) + ": variable : ID\n\n"+antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText()+"\n"); 
 
                   }
-                     std::cout << "DEBUG: " << lookup->getSymbolName() << " has type: " << lookup->getSymbolDataType() << std::endl;
-
-                      std::cout << "DEBUG: inside variable " << lookup->getSymbolName() << " stack offset: " << lookup->getStackOffset() <<" "<< isParamsymbol << std::endl;
               
       break;
     }
@@ -2813,7 +2804,7 @@ C2105168Parser::VariableContext* C2105168Parser::variable() {
                                   errorCount++;
 
               
-
+              
 
               }
               else{
@@ -2822,8 +2813,13 @@ C2105168Parser::VariableContext* C2105168Parser::variable() {
               }
 
 
-              // if(antlrcpp::downCast<VariableContext *>(_localctx)->idToken->getText() )
+                      writeIntoAsmFile("\tPOP AX");                
+                      writeIntoAsmFile("\tMOV BX, AX");            
+                      writeIntoAsmFile("\tMOV AX, 2");             
+                      writeIntoAsmFile("\tMUL BX");                
+                      writeIntoAsmFile("\tMOV BX, AX"); 
 
+        
           
       break;
     }
@@ -2919,39 +2915,33 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
       antlrcpp::downCast<ExpressionContext *>(_localctx)->le = logic_expression();
 
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->text =  antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + antlrcpp::downCast<ExpressionContext *>(_localctx)->assignopToken->getText() + antlrcpp::downCast<ExpressionContext *>(_localctx)->le->text;
-                  antlrcpp::downCast<ExpressionContext *>(_localctx)->line = antlrcpp::downCast<ExpressionContext *>(_localctx)->le->line;  
+                  antlrcpp::downCast<ExpressionContext *>(_localctx)->line =  antlrcpp::downCast<ExpressionContext *>(_localctx)->le->line;  
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->type =  antlrcpp::downCast<ExpressionContext *>(_localctx)->le->type;
                   antlrcpp::downCast<ExpressionContext *>(_localctx)->argIsArray =  false;
 
-                  SymbolInfo* existing = symbolTable->LookUP(antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text);
-                  std::string currentScopeId = symbolTable->getCurrentScopeID();
-
-                  if(existing->getIsArray()){
-
-
-
-
-
-
+                  std::string varName = antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text;
+                  const char* pos = strchr(varName.c_str(), '[');
+                  if (pos != nullptr) {
+                      varName = varName.substr(0, pos - varName.c_str());
                   }
+                  std::cout<<"ekhne ashlo->"<<varName<<std::endl;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                  SymbolInfo* existing = symbolTable->LookUP(varName);    
+                  std::string currentScopeId = symbolTable->getCurrentScopeID();
+                  
+                  if(existing->getIsArray()){
+                     
+                      std::cout<<"Array variable"<<existing->getSymbolName()<<std::endl;
+                      writeIntoAsmFile("\tPOP AX");
+                      std::string varr = varName;
+                      writeIntoAsmFile("\tMOV "+varr+"[BX] , AX");
+                  }
 
                   else
                   {
+
+                  std::cout<<"others"<<std::endl;
+
                   if(existing->getIsGlobal() && !isInsideFunctionDefinition ){
                       antlrcpp::downCast<ExpressionContext *>(_localctx)->code_section =  "\tMOV " + antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text + ", AX";
                       
@@ -2983,7 +2973,6 @@ C2105168Parser::ExpressionContext* C2105168Parser::expression() {
 
 
                   
-                  std::cout << "DEBUG: expression code_section = '" << _localctx->code_section << "'" << std::endl;
                   SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<ExpressionContext *>(_localctx)->v->text);
 
 
@@ -3855,7 +3844,6 @@ C2105168Parser::FactorContext* C2105168Parser::factor() {
                       writeIntoAsmFile("\tMOV AX, [BP+" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
 
                       writeIntoAsmFile("\tPUSH AX");
-                      std::cout << "DEBUG: factor variable: " << lookup->getSymbolName() << " stack param naki na: " << lookup->getIsParameter() << std::endl;
                   }
                   else if(isInsideFunctionDefinition && lookup->getSymbolName() == "main" && !lookup->getIsParameter() && !lookup->getIsGlobal()){
                       writeIntoAsmFile("\tMOV AX, [BP-" + std::to_string(lookup->getStackOffset()) + "]"+"       ; Line "+std::to_string(_localctx->line));
