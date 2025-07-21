@@ -1,20 +1,11 @@
+int w[10];
 int main()
 {
-	int a, b, c, i;
-	b=0;
-	c=1;
-	for(i=0;i<4;i++)
-{
-		a=3;
-		while(a--)
-{
-			b++;
-}
+	int i;
+	int x[10];
+	w[0]=-2;
+	x[0]=w[0];
 
-}
-
-	println(();
-	println(();
-	println(();
+	return 0;
 }
 

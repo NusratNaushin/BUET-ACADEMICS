@@ -1,13 +1,10 @@
-int f(int a){
-    return 2*a;
-    a=9;
+int w[10];
+int main(){
+	int i; 
+	int x[10];	
+	w[0]=-2;
+	x[0]=w[0];
+
+	return 0;
 }
 
-int main(){
-    int a,b;
-    a=1;
-    b=2;
-    a=f(a);
-    println(a);
-    return 0;
-}
