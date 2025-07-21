@@ -47,6 +47,8 @@
     extern int paramsize;
     extern int param_offset;
     extern int spcount;
+    extern bool isMain;
+    extern bool hasReturned;
 
 
 // Generated from C2105168Parser.g4 by ANTLR 4.13.2
@@ -902,6 +904,8 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       setState(100);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C2105168Parser::RPAREN);
           
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){ isMain = true ;} else{ isMain = false;}
+
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " PROC");
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
               writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -916,6 +920,7 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
         
               //isParamsymbol = false;
+              if(isMain){isMain = false;}
               isInsideFunctionDefinition = false;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text+" "  + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText()+ antlrcpp::downCast<Func_definitionContext *>(_localctx)->pl->text + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
@@ -938,10 +943,10 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
                   writeIntoAsmFile("\tRET");
               }
 
-              else if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" && paramsize > 0){
-                  writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-                  writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
-              }
+              // else if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" && paramsize > 0){
+              //     writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+              //     writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+              // }
 
 
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText()+ " ENDP");
@@ -966,7 +971,9 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken = match(C2105168Parser::LPAREN);
       setState(108);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken = match(C2105168Parser::RPAREN);
-          
+       
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){ isMain = true ;}
+         
               writeIntoAsmFile(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() + " PROC");
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
               writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -993,17 +1000,19 @@ C2105168Parser::Func_definitionContext* C2105168Parser::func_definition() {
       setState(111);
       antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs = compound_statement();
        
-
+              
+              if(isMain){isMain = false;}
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->text =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->ts->text +" " + antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() +  antlrcpp::downCast<Func_definitionContext *>(_localctx)->lparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->rparenToken->getText() + antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->text;
               antlrcpp::downCast<Func_definitionContext *>(_localctx)->line =  antlrcpp::downCast<Func_definitionContext *>(_localctx)->cs->line;
 
               if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() == "main"){
-                              writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
+                  writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
 
                   writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
               }
 
-              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main"){
+              if(antlrcpp::downCast<Func_definitionContext *>(_localctx)->idToken->getText() != "main" ){
                   writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
                   writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
               }
@@ -2560,23 +2569,23 @@ C2105168Parser::StatementContext* C2105168Parser::statement() {
 
 
 
-          //     SymbolInfo* lookup = symbolTable->LookUP(antlrcpp::downCast<StatementContext *>(_localctx)->e->text);
+              if(paramsize > 0 && !isMain) {
+                  writeIntoAsmFile("\tPOP AX");               
+                  writeIntoAsmFile("\tMOV SP, BP");
+                  writeIntoAsmFile("\tPOP BP");
+                  writeIntoAsmFile("\tRET " + std::to_string(paramsize * 2));
+              } else if(paramsize == 0 && !isMain) {
+                  writeIntoAsmFile("\tPOP AX");
+                  writeIntoAsmFile("\tMOV SP, BP");
+                  writeIntoAsmFile("\tPOP BP");
+                  writeIntoAsmFile("\tRET");
+              }
 
+              // else if(isMain){
+                  
+              // }
 
-          //    if (lookup == nullptr) {
-          //         writeIntoErrorFile("ERROR: Symbol '" + antlrcpp::downCast<StatementContext *>(_localctx)->e->text + "' not found in symbol table at return.\n");
-          //         errorCount++;
-          //  } else if(lookup->getFunctionName() != "main" && paramsize > 0){
-
-          //         writeIntoAsmFile("ADD SP, "+std::to_string(paramsize * 2));
-          //         writeIntoAsmFile("\tPOP BP");
-          //         writeIntoAsmFile("\tRET "+std::to_string(paramsize * 2));
-          //     }
-
-          //     else if(lookup->getFunctionName() != "main" && paramsize == 0){
-          //         writeIntoAsmFile("\tPOP BP");
-          //         writeIntoAsmFile("\tRET");
-          //     }
+              hasReturned = true;
 
 
             

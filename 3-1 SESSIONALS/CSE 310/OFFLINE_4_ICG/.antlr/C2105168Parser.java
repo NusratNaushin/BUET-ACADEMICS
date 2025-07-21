@@ -48,6 +48,8 @@
     extern int paramsize;
     extern int param_offset;
     extern int spcount;
+    extern bool isMain;
+    extern bool hasReturned;
 
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
@@ -761,6 +763,8 @@ public class C2105168Parser extends Parser {
 				setState(100);
 				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
 				    
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){ isMain = true ;} else{ isMain = false;}
+
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText() + " PROC");
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
 				        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -775,6 +779,7 @@ public class C2105168Parser extends Parser {
 				((Func_definitionContext)_localctx).cs = compound_statement();
 				  
 				        //isParamsymbol = false;
+				        if(isMain){isMain = false;}
 				        isInsideFunctionDefinition = false;
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text+" "  + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText()+ ((Func_definitionContext)_localctx).pl.text + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
@@ -797,10 +802,10 @@ public class C2105168Parser extends Parser {
 				            writeIntoAsmFile("\tRET");
 				        }
 
-				        else if(((Func_definitionContext)_localctx).ID->getText() != "main" && paramsize > 0){
-				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-				            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
-				        }
+				        // else if(((Func_definitionContext)_localctx).ID->getText() != "main" && paramsize > 0){
+				        //     writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+				        //     writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+				        // }
 
 
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText()+ " ENDP");
@@ -825,7 +830,9 @@ public class C2105168Parser extends Parser {
 				((Func_definitionContext)_localctx).LPAREN = match(LPAREN);
 				setState(108);
 				((Func_definitionContext)_localctx).RPAREN = match(RPAREN);
-				    
+				 
+				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){ isMain = true ;}
+				   
 				        writeIntoAsmFile(((Func_definitionContext)_localctx).ID->getText() + " PROC");
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
 				        writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -852,17 +859,19 @@ public class C2105168Parser extends Parser {
 				setState(111);
 				((Func_definitionContext)_localctx).cs = compound_statement();
 				 
-
+				        
+				        if(isMain){isMain = false;}
 				        ((Func_definitionContext)_localctx).text =  ((Func_definitionContext)_localctx).ts.text +" " + ((Func_definitionContext)_localctx).ID->getText() +  ((Func_definitionContext)_localctx).LPAREN->getText() + ((Func_definitionContext)_localctx).RPAREN->getText() + ((Func_definitionContext)_localctx).cs.text;
 				        ((Func_definitionContext)_localctx).line =  ((Func_definitionContext)_localctx).cs.line;
 
 				        if(((Func_definitionContext)_localctx).ID->getText() == "main"){
-				                        writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
+				            writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
 
 				            writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
 				        }
 
-				        if(((Func_definitionContext)_localctx).ID->getText() != "main"){
+				        if(((Func_definitionContext)_localctx).ID->getText() != "main" ){
 				            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
 				            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
 				        }
@@ -2213,23 +2222,23 @@ public class C2105168Parser extends Parser {
 
 
 
-				    //     SymbolInfo* lookup = symbolTable->LookUP(((StatementContext)_localctx).e.text);
+				        if(paramsize > 0 && !isMain) {
+				            writeIntoAsmFile("\tPOP AX");               
+				            writeIntoAsmFile("\tMOV SP, BP");
+				            writeIntoAsmFile("\tPOP BP");
+				            writeIntoAsmFile("\tRET " + std::to_string(paramsize * 2));
+				        } else if(paramsize == 0 && !isMain) {
+				            writeIntoAsmFile("\tPOP AX");
+				            writeIntoAsmFile("\tMOV SP, BP");
+				            writeIntoAsmFile("\tPOP BP");
+				            writeIntoAsmFile("\tRET");
+				        }
 
+				        // else if(isMain){
+				            
+				        // }
 
-				    //    if (lookup == nullptr) {
-				    //         writeIntoErrorFile("ERROR: Symbol '" + ((StatementContext)_localctx).e.text + "' not found in symbol table at return.\n");
-				    //         errorCount++;
-				    //  } else if(lookup->getFunctionName() != "main" && paramsize > 0){
-
-				    //         writeIntoAsmFile("ADD SP, "+std::to_string(paramsize * 2));
-				    //         writeIntoAsmFile("\tPOP BP");
-				    //         writeIntoAsmFile("\tRET "+std::to_string(paramsize * 2));
-				    //     }
-
-				    //     else if(lookup->getFunctionName() != "main" && paramsize == 0){
-				    //         writeIntoAsmFile("\tPOP BP");
-				    //         writeIntoAsmFile("\tRET");
-				    //     }
+				        hasReturned = true;
 
 
 				      

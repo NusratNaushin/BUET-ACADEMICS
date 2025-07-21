@@ -53,6 +53,8 @@ options {
     extern int paramsize;
     extern int param_offset;
     extern int spcount;
+    extern bool isMain;
+    extern bool hasReturned;
 }
 
 @parser::members {
@@ -358,6 +360,8 @@ func_definition
 
 
      } RPAREN {    
+        if($ID->getText() == "main"){ isMain = true ;} else{ isMain = false;}
+
         writeIntoAsmFile($ID->getText() + " PROC");
         if($ID->getText() == "main"){
         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -369,6 +373,7 @@ func_definition
 
     } cs = compound_statement {  
         //isParamsymbol = false;
+        if(isMain){isMain = false;}
         isInsideFunctionDefinition = false;
         $text = $ts.text+" "  + $ID->getText() +  $LPAREN->getText()+ $pl.text + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
@@ -391,10 +396,10 @@ func_definition
             writeIntoAsmFile("\tRET");
         }
 
-        else if($ID->getText() != "main" && paramsize > 0){
-            writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
-            writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
-        }
+        // else if($ID->getText() != "main" && paramsize > 0){
+        //     writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
+        //     writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET "+std::to_string(paramsize * 2)); 
+        // }
 
 
         writeIntoAsmFile($ID->getText()+ " ENDP");
@@ -406,7 +411,9 @@ func_definition
  
 
     }
-	| ts = type_specifier ID LPAREN RPAREN {    
+	| ts = type_specifier ID LPAREN RPAREN { 
+        if($ID->getText() == "main"){ isMain = true ;}
+   
         writeIntoAsmFile($ID->getText() + " PROC");
         if($ID->getText() == "main"){
         writeIntoAsmFile("\tMOV AX, @DATA\n\tMOV DS, AX");
@@ -429,17 +436,19 @@ func_definition
         }
 
         } cs = compound_statement { 
-
+        
+        if(isMain){isMain = false;}
         $text = $ts.text +" " + $ID->getText() +  $LPAREN->getText() + $RPAREN->getText() + $cs.text;
         $line = $cs.line;
 
         if($ID->getText() == "main"){
-                        writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
+
+            writeIntoAsmFile("\tADD SP, "+std::to_string(spcount * 2)+"\n\tPOP BP");
 
             writeIntoAsmFile("\tMOV AX, 4CH\n\tINT 21H");
         }
 
-        if($ID->getText() != "main"){
+        if($ID->getText() != "main" ){
             writeIntoAsmFile("L" + std::to_string(label_count++) + ":");
             writeIntoAsmFile("\tPOP AX\n\tMOV SP, BP\n\tPOP BP\n\tRET");
         }
@@ -1013,23 +1022,23 @@ statement
 
 
 
-    //     SymbolInfo* lookup = symbolTable->LookUP($e.text);
+        if(paramsize > 0 && !isMain) {
+            writeIntoAsmFile("\tPOP AX");               
+            writeIntoAsmFile("\tMOV SP, BP");
+            writeIntoAsmFile("\tPOP BP");
+            writeIntoAsmFile("\tRET " + std::to_string(paramsize * 2));
+        } else if(paramsize == 0 && !isMain) {
+            writeIntoAsmFile("\tPOP AX");
+            writeIntoAsmFile("\tMOV SP, BP");
+            writeIntoAsmFile("\tPOP BP");
+            writeIntoAsmFile("\tRET");
+        }
 
+        // else if(isMain){
+            
+        // }
 
-    //    if (lookup == nullptr) {
-    //         writeIntoErrorFile("ERROR: Symbol '" + $e.text + "' not found in symbol table at return.\n");
-    //         errorCount++;
-    //  } else if(lookup->getFunctionName() != "main" && paramsize > 0){
-
-    //         writeIntoAsmFile("ADD SP, "+std::to_string(paramsize * 2));
-    //         writeIntoAsmFile("\tPOP BP");
-    //         writeIntoAsmFile("\tRET "+std::to_string(paramsize * 2));
-    //     }
-
-    //     else if(lookup->getFunctionName() != "main" && paramsize == 0){
-    //         writeIntoAsmFile("\tPOP BP");
-    //         writeIntoAsmFile("\tRET");
-    //     }
+        hasReturned = true;
 
 
       
