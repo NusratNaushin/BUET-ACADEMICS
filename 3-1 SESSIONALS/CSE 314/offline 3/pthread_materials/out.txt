@@ -1,60 +1,60 @@
+Operative 11 has arrived at typewriting station TS-3 at time 0 ms
 Intelligence Staff 1 began reviewing logbook at time 2. Operations completed = 0
-Operative 11 has arrived at typewriting station TS-3 at time 2 ms
 Intelligence Staff 2 began reviewing logbook at time 2. Operations completed = 0
-Operative 7 has arrived at typewriting station TS-3 at time 3 ms
-Operative 9 has arrived at typewriting station TS-1 at time 3 ms
-Operative 4 has arrived at typewriting station TS-4 at time 5 ms
+Operative 3 has arrived at typewriting station TS-3 at time 5 ms
+Operative 14 has arrived at typewriting station TS-2 at time 5 ms
 Intelligence Staff 1 began reviewing logbook at time 6. Operations completed = 0
 Intelligence Staff 2 began reviewing logbook at time 6. Operations completed = 0
-Operative 13 has arrived at typewriting station TS-1 at time 7 ms
-Operative 3 has arrived at typewriting station TS-3 at time 8 ms
-Operative 5 has arrived at typewriting station TS-1 at time 10 ms
-Operative 6 has arrived at typewriting station TS-2 at time 10 ms
-Operative 15 has arrived at typewriting station TS-3 at time 10 ms
+Operative 4 has arrived at typewriting station TS-4 at time 7 ms
+Operative 1 has arrived at typewriting station TS-1 at time 7 ms
+Operative 15 has arrived at typewriting station TS-3 at time 7 ms
+Operative 7 has arrived at typewriting station TS-3 at time 8 ms
+Operative 12 has arrived at typewriting station TS-4 at time 9 ms
+Operative 11 has completed document recreation at time 10 ms
 Intelligence Staff 1 began reviewing logbook at time 10. Operations completed = 0
-Intelligence Staff 2 began reviewing logbook at time 11. Operations completed = 0
-Operative 11 has completed document recreation at time 12 ms
-Operative 1 has arrived at typewriting station TS-1 at time 13 ms
-Operative 9 has completed document recreation at time 13 ms
-Intelligence Staff 1 began reviewing logbook at time 15. Operations completed = 0
-Intelligence Staff 2 began reviewing logbook at time 15. Operations completed = 0
-Operative 4 has completed document recreation at time 15 ms
-Operative 14 has arrived at typewriting station TS-2 at time 15 ms
-Operative 10 has arrived at typewriting station TS-2 at time 16 ms
-Operative 8 has arrived at typewriting station TS-4 at time 16 ms
-Operative 2 has arrived at typewriting station TS-2 at time 19 ms
-Intelligence Staff 1 began reviewing logbook at time 19. Operations completed = 0
-Operative 12 has arrived at typewriting station TS-4 at time 19 ms
-Intelligence Staff 2 began reviewing logbook at time 19. Operations completed = 0
-Operative 6 has completed document recreation at time 20 ms
-Operative 7 has completed document recreation at time 22 ms
+Operative 13 has arrived at typewriting station TS-1 at time 10 ms
+Intelligence Staff 2 began reviewing logbook at time 10. Operations completed = 0
+Operative 2 has arrived at typewriting station TS-2 at time 11 ms
+Intelligence Staff 1 began reviewing logbook at time 14. Operations completed = 0
+Intelligence Staff 2 began reviewing logbook at time 14. Operations completed = 0
+Operative 10 has arrived at typewriting station TS-2 at time 15 ms
+Operative 8 has arrived at typewriting station TS-4 at time 15 ms
+Operative 14 has completed document recreation at time 15 ms
+Operative 6 has arrived at typewriting station TS-2 at time 16 ms
+Operative 5 has arrived at typewriting station TS-1 at time 16 ms
+Operative 4 has completed document recreation at time 17 ms
+Operative 1 has completed document recreation at time 17 ms
+Operative 9 has arrived at typewriting station TS-1 at time 18 ms
+Intelligence Staff 1 began reviewing logbook at time 18. Operations completed = 0
+Intelligence Staff 2 began reviewing logbook at time 18. Operations completed = 0
+Operative 3 has completed document recreation at time 20 ms
 Intelligence Staff 1 began reviewing logbook at time 23. Operations completed = 0
 Intelligence Staff 2 began reviewing logbook at time 23. Operations completed = 0
-Operative 13 has completed document recreation at time 24 ms
-Operative 8 has completed document recreation at time 26 ms
+Operative 2 has completed document recreation at time 25 ms
 Intelligence Staff 1 began reviewing logbook at time 27. Operations completed = 0
 Intelligence Staff 2 began reviewing logbook at time 27. Operations completed = 0
-Operative 14 has completed document recreation at time 30 ms
-Intelligence Staff 1 began reviewing logbook at time 31. Operations completed = 0
-Intelligence Staff 2 began reviewing logbook at time 32. Operations completed = 0
-Operative 3 has completed document recreation at time 33 ms
-Operative 5 has completed document recreation at time 34 ms
-Intelligence Staff 1 began reviewing logbook at time 36. Operations completed = 0
-Intelligence Staff 2 began reviewing logbook at time 36. Operations completed = 0
-Operative 12 has completed document recreation at time 37 ms
-Intelligence Staff 1 began reviewing logbook at time 40. Operations completed = 0
-Intelligence Staff 2 began reviewing logbook at time 40. Operations completed = 0
-Operative 10 has completed document recreation at time 40 ms
-Unit 2 has completed document recreation phase at time 40
-Operative 15 has completed document recreation at time 43 ms
-Unit 3 has completed document recreation phase at time 43
-Operative 1 has completed document recreation at time 44 ms
-Unit leader of unit 2 has completed intelligence distribution at time 45 ms
-Unit leader of unit 3 has completed intelligence distribution at time 48 ms
-Intelligence Staff 2 began reviewing logbook at time 48. Operations completed = 0
-Intelligence Staff 1 began reviewing logbook at time 49. Operations completed = 0
-Operative 2 has completed document recreation at time 50 ms
-Unit 1 has completed document recreation phase at time 50
-Unit leader of unit 1 has completed intelligence distribution at time 54 ms
-Intelligence Staff 2 began reviewing logbook at time 54. Operations completed = 2
-Intelligence Staff 1 began reviewing logbook at time 54. Operations completed = 2
+Operative 12 has completed document recreation at time 27 ms
+Operative 13 has completed document recreation at time 27 ms
+Operative 15 has completed document recreation at time 30 ms
+Unit 3 has completed document recreation phase at time 30
+Unit leader of unit 3 has completed intelligence distribution at time 33 ms
+Intelligence Staff 2 began reviewing logbook at time 33. Operations completed = 0
+Intelligence Staff 1 began reviewing logbook at time 33. Operations completed = 0
+Operative 10 has completed document recreation at time 35 ms
+Operative 8 has completed document recreation at time 37 ms
+Operative 5 has completed document recreation at time 38 ms
+Unit 1 has completed document recreation phase at time 38
+Intelligence Staff 2 began reviewing logbook at time 38. Operations completed = 1
+Intelligence Staff 1 began reviewing logbook at time 38. Operations completed = 1
+Operative 7 has completed document recreation at time 40 ms
+Unit leader of unit 1 has completed intelligence distribution at time 43 ms
+Intelligence Staff 2 began reviewing logbook at time 43. Operations completed = 1
+Intelligence Staff 1 began reviewing logbook at time 43. Operations completed = 1
+Operative 6 has completed document recreation at time 46 ms
+Intelligence Staff 2 began reviewing logbook at time 47. Operations completed = 2
+Intelligence Staff 1 began reviewing logbook at time 47. Operations completed = 2
+Operative 9 has completed document recreation at time 48 ms
+Unit 2 has completed document recreation phase at time 48
+Unit leader of unit 2 has completed intelligence distribution at time 52 ms
+Intelligence Staff 2 began reviewing logbook at time 52. Operations completed = 2
+Intelligence Staff 1 began reviewing logbook at time 52. Operations completed = 2
