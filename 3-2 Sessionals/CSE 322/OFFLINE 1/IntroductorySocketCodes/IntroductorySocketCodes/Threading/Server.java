@@ -2,9 +2,9 @@ package Threading;
 import java.io.File;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketAddress;
-import java.util.*;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 public class Server {
 
@@ -20,8 +20,27 @@ public class Server {
             Socket socket = welcomeSocket.accept();
             System.out.println("Connection established");
 
+            
+
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            out.flush();
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+            String username = (String) in.readObject();
+            System.out.println("Client says: " + username   ); // read client message
+
+            File userDir = new File("server_storage/" + username);
+            boolean created = userDir.mkdirs();
+            if(created) {
+                System.out.println("Directory created");
+            } else {
+                System.out.println("Directory already exists");
+            }
+
+            out.writeObject("Hello from server");
+
             // open thread
-            Thread worker = new Worker(socket);
+            Thread worker = new Worker(socket, in, out, username);
             worker.start();
 
 

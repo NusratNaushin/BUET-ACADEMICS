@@ -7,28 +7,31 @@ import java.net.Socket;
 import java.util.Date;
 
 public class Worker extends Thread {
-    Socket socket;
+    private Socket socket;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
+    private String username;
 
-    public Worker(Socket socket)
-    {
+    public Worker(Socket socket, ObjectInputStream in, ObjectOutputStream out, String username) {
         this.socket = socket;
+        this.in = in;
+        this.out = out;
+        this.username = username;
     }
 
-    public void run()
-    {
-        // buffers
+    public void run() {
         try {
-            ObjectOutputStream out = new ObjectOutputStream(this.socket.getOutputStream());
-            ObjectInputStream in = new ObjectInputStream(this.socket.getInputStream());
+            while(true) {
+                // read messages from this client
+                String msg = (String) in.readObject();
+                System.out.println(username + " says: " + msg);
 
-            while (true)
-            {
-                Thread.sleep(1000);
-                Date date = new Date();
-                out.writeObject(date.toString());
+                // respond
+                out.writeObject("Server received: " + msg);
+                out.flush();
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch(Exception e) {
+            System.out.println(username + " disconnected.");
         }
     }
 }

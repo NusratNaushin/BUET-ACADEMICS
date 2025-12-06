@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -16,10 +17,20 @@ public class Client {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        //
-        while(true) {
-            String msg = (String) in.readObject();
-            System.out.println(msg);
+        try (
+
+            Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                System.out.println("Enter User Name");
+                String UserName = scanner.nextLine();
+                out.writeObject(UserName);
+                out.flush();
+
+                String msg = (String) in.readObject();
+                System.out.println(msg);
+
+            }
         }
+
     }
 }
