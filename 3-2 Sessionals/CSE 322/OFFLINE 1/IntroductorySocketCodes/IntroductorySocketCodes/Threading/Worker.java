@@ -1,5 +1,6 @@
 package Threading;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -22,16 +23,35 @@ public class Worker extends Thread {
     public void run() {
         try {
             while(true) {
-                // read messages from this client
-                String msg = (String) in.readObject();
-                System.out.println(username + " says: " + msg);
 
-                // respond
-                out.writeObject("Server received: " + msg);
-                out.flush();
+                
             }
         } catch(Exception e) {
             System.out.println(username + " disconnected.");
         }
+
+        finally{
+            synchronized(Server.userSet) {
+                Server.userSet.remove(username);
+            }
+
+            try {
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
+                // read messages from this client
+
+                
+            // out.writeObject("Enter Username: ");
+            // username = (String) in.readObject();
+            
+            // File userDir = new File("User/" + username);
+            // boolean created = userDir.mkdirs();
+            // out.writeObject(created);
+                // respond
+                // out.writeObject("Server received: " + msg);
+                // out.flush();

@@ -20,7 +20,7 @@ public class Client {
         try (
 
             Scanner scanner = new Scanner(System.in)) {
-            while (true) {
+            
                 System.out.println("Enter User Name");
                 String UserName = scanner.nextLine();
                 out.writeObject(UserName);
@@ -28,9 +28,26 @@ public class Client {
 
                 String msg = (String) in.readObject();
                 System.out.println(msg);
+                
+                if(msg.equals("Username already taken. Connection closing.")) {
+                    System.out.println("USername already in use!!!");
+                    socket.close();
+                    return;
+                }   
+                
+                boolean created = in.readBoolean();
+
+                if(created) {
+                System.out.println("Directory created");
+            } else {
+                System.out.println("Directory already exists");
 
             }
-        }
 
+        }
+        System.out.println("Login Successful");
+        while (true) {
+            
+        }
     }
 }
