@@ -6,16 +6,38 @@ import java.util.HashSet;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-
+import java.util.ArrayList;
 public class Server {
 
     private static int MIN_CHUNK_SIZE = 1024;
     private static int MAX_CHUNK_SIZE = 4096;       
     private static int MAX_BUFFER_SIZE = 65536;
-    public static HashSet<String> userSet = new HashSet<>();
-    public static HashSet<String> userHistorySet = new HashSet<>();
+    private static int usedBufferSize = 0;
+    public static ArrayList<String> userSet = new ArrayList<>();
+    public static ArrayList<String> userHistorySet = new ArrayList  <>();
 
 
+    public static int getMAX_BUFFER_SIZE() {
+        return MAX_BUFFER_SIZE;
+    }
+
+    public static int getMAX_CHUNK_SIZE() {
+        return MAX_CHUNK_SIZE;
+    }
+    public static int getMIN_CHUNK_SIZE() {
+        return MIN_CHUNK_SIZE;
+    }
+
+    public static int getUsedBufferSize() {
+        return usedBufferSize;
+    }
+
+    public static ArrayList<String> getUserHistorySet() {
+        return userHistorySet;
+    }
+    public static ArrayList<String> getUserSet() {
+        return userSet;
+    }
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         ServerSocket welcomeSocket = new ServerSocket(6666);
         while(true) {
@@ -43,15 +65,20 @@ public class Server {
                 }
             }
 
-            
+            synchronized(userHistorySet) {
+                userHistorySet.add(username);
+            }
 
-            File userDir = new File("User/" + username);
-            boolean created = userDir.mkdirs();
-            out.writeObject("Hello " + username);
-            out.writeBoolean(created);
-            out.flush();
+            // File userDir = new File("User/" + username);
+            // boolean created = userDir.mkdirs();
+            // out.writeObject("Hello " + username);
+            // out.writeBoolean(created);
+            // out.flush();
 
             // open thread
+
+
+
             Thread worker = new Worker(socket, in, out, username);
             worker.start();
 

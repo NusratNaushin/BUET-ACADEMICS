@@ -21,9 +21,45 @@ public class Worker extends Thread {
     }
 
     public void run() {
+        
         try {
-            while(true) {
 
+
+            
+            File userDir = new File("User/" + username);
+            boolean created = userDir.mkdirs();
+            out.writeObject("Hello " + username);
+            out.writeBoolean(created);
+            out.flush();
+
+            
+            while(true) {
+                //client er pathano command read kori
+
+                String command = (String) in.readObject();
+                System.out.println("Command from " + username + ": " + command);
+
+                if(command.equalsIgnoreCase("send list")) {
+                    StringBuilder userList = new StringBuilder();
+                    synchronized(Server.userHistorySet) {
+                        for(String user : Server.userHistorySet) {
+                            if(Server.userSet.contains(user)) {
+                                userList.append(user).append(" Online!\n");
+                            } else {
+                                userList.append(user).append(" Offline\n");
+                            }
+                        }
+                    }
+                    out.writeObject(userList.toString());
+                    out.flush();
+                }
+
+                if(command.equalsIgnoreCase("log out")){
+                    out.writeObject("Logged Out!");
+                    out.flush();
+                    System.out.println(username + " logged out.");
+                    break;
+                }
                 
             }
         } catch(Exception e) {

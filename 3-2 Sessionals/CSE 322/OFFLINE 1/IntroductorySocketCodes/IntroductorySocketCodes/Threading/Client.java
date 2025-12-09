@@ -17,9 +17,7 @@ public class Client {
         ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        try (
-
-            Scanner scanner = new Scanner(System.in)) {
+        Scanner scanner = new Scanner(System.in);
             
                 System.out.println("Enter User Name");
                 String UserName = scanner.nextLine();
@@ -38,16 +36,36 @@ public class Client {
                 boolean created = in.readBoolean();
 
                 if(created) {
-                System.out.println("Directory created");
-            } else {
-                System.out.println("Directory already exists");
-
-            }
-
+                    System.out.println("Directory created");
+                } else {
+                    System.out.println("Directory already exists");
         }
+
+        
+        
         System.out.println("Login Successful");
         while (true) {
-            
+
+            //user command dibe client theke
+            System.out.println("Enter Command: ");
+            String command = scanner.nextLine();
+
+            //ebare etake server e pathacchi
+            out.writeObject(command);
+            out.flush();
+
+            if(command.equalsIgnoreCase("Send list")){
+                String userList = (String) in.readObject();
+                System.out.println("User List: \n" + userList);
+            }
+
+            if(command.equalsIgnoreCase("log out")){
+                String logoutMsg = (String) in.readObject();
+                System.out.println(logoutMsg);
+                System.out.println("Connection closing...");
+                break;
+            }
+
         }
     }
 }
