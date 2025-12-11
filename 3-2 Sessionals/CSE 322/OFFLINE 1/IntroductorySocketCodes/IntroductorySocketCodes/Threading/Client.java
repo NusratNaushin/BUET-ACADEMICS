@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileInputStream;
 
 public class Client {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -64,6 +66,61 @@ public class Client {
                 System.out.println(logoutMsg);
                 System.out.println("Connection closing...");
                 break;
+            }
+
+            if(command.equalsIgnoreCase("upload")){
+                //file name ar size nibo user input nbo
+                System.out.println("Enter file path to upload: ");
+                String filePath = scanner.nextLine();
+                
+                File file = new File(filePath);
+
+
+                if(!file.exists() || !file.isFile()) {
+                    System.out.println("File does not exist. Try again.");
+                    continue;
+                }
+
+
+                String fileName = file.getName();
+                long fileSize = file.length();
+                //ebar server ke pathabo
+
+                out.writeObject(fileName);
+                out.writeLong(fileSize);
+                out.flush();
+
+                String uploadStatus = (String) in.readObject();
+                if(uploadStatus.equalsIgnoreCase("Reject")){
+                    System.out.println("Upload rejected.");
+                    continue;
+
+                }
+
+                String fileID = (String) in.readObject();
+                int chunkSize = in.readInt();
+                System.out.println("Upload Accepted.");
+                System.out.println("File ID: " + fileID);
+                System.out.println("Chunk Size: " + chunkSize);
+
+                FileInputStream fis = new FileInputStream(file);
+                long sent = 0;
+
+                while(sent < fileSize) {
+                    int toSend = (int)Math.min(chunkSize, fileSize - sent);
+                    byte[] buffer = fis.readNBytes(toSend);
+                    out.write(buffer);
+                    out.flush();
+                    sent += toSend;
+                }
+
+                fis.close();
+
+
+                String done = (String) in.readObject();
+                System.out.println(done);
+
+
             }
 
         }

@@ -1,17 +1,19 @@
 package Threading;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Date;
-
+import java.util.Random;
 public class Worker extends Thread {
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String username;
+    private int filecount = 0;
 
     public Worker(Socket socket, ObjectInputStream in, ObjectOutputStream out, String username) {
         this.socket = socket;
@@ -59,6 +61,73 @@ public class Worker extends Thread {
                     out.flush();
                     System.out.println(username + " logged out.");
                     break;
+                }
+
+                if(command.equalsIgnoreCase("upload")){
+                    // client theke file name size receive
+                    String fileName = (String) in.readObject();
+                    long fileSize = in.readLong();
+
+
+                    
+                    //check dewa lagbe buffer size exceed kore kina
+                    
+                    synchronized(Server.class) {
+                        if(Server.usedBufferSize + fileSize > Server.MAX_BUFFER_SIZE) {
+                            out.writeObject("Reject");
+                            out.flush();
+                            continue;
+                        } 
+                            int chunksize = (int)(Math.random() * (Server.MAX_CHUNK_SIZE - Server.MIN_CHUNK_SIZE + 1)) + Server.MIN_CHUNK_SIZE;
+
+
+                            String fileID = username + "_FILE_" + (++filecount);
+
+                            Server.FileData fd = new Server.FileData();
+
+                                fd.fileName = fileName;
+                                fd.fileSize = fileSize;
+                                fd.uploader = username;
+                                fd.chunkSize = chunksize;
+                                Server.fileSet.put(fileID, fd);
+
+
+                                out.writeObject("Accept");
+                                out.writeObject(fileID);
+                                out.writeInt(chunksize);
+                                out.flush();
+
+                                File uploadToPath = new File("User/" + username + "/" + fileName);
+                                FileOutputStream fos = new FileOutputStream(uploadToPath);
+
+
+                                long received = 0;
+
+
+                                while(received < fileSize){
+                                    int bytesToRead = (int)Math.min(chunksize, fileSize - received);
+                                    byte[] buffer = new byte[bytesToRead];
+                                    in.readFully(buffer);
+                                    
+
+                                    fos.write(buffer, 0, bytesToRead);
+                                    received += bytesToRead;
+                                    fd.uploadBytes = received;
+                                }
+
+                                fos.close();
+                                out.writeObject("Upload Done");
+                                out.flush();
+
+                                System.out.println("File " + fileName + " uploaded from " + username);
+
+                            
+
+
+                            Server.usedBufferSize += fileSize;
+                            
+                    
+                    }
                 }
                 
             }

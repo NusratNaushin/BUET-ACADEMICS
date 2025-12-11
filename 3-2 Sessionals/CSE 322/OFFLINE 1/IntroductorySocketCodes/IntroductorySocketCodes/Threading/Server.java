@@ -7,12 +7,24 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;   
+
 public class Server {
 
-    private static int MIN_CHUNK_SIZE = 1024;
-    private static int MAX_CHUNK_SIZE = 4096;       
-    private static int MAX_BUFFER_SIZE = 65536;
-    private static int usedBufferSize = 0;
+
+    public static class FileData {
+    
+        String fileName;
+        long fileSize;
+        String uploader;
+        int chunkSize;
+        long uploadBytes = 0;
+    }
+    public static HashMap<String, FileData> fileSet = new HashMap<>();
+    public static int MIN_CHUNK_SIZE = 1024;
+    public static int MAX_CHUNK_SIZE = 4096;       
+    public static int MAX_BUFFER_SIZE = 65536;
+    public static int usedBufferSize = 0;
     public static ArrayList<String> userSet = new ArrayList<>();
     public static ArrayList<String> userHistorySet = new ArrayList  <>();
 
