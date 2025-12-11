@@ -7,6 +7,7 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 public class Client {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -135,6 +136,55 @@ public class Client {
                 System.out.println(done);
 
 
+            }
+
+            if(command.equalsIgnoreCase("download")){
+                //ONNO CLIENT ER PUBLIC FILE DOWNLOAD KORBO
+                
+                //age public file gula show korbo with their id and input dite bolbo user ke je konta download korte chay
+
+                String publicFiles = (String) in.readObject();
+                System.out.println("Public Files: \n" + publicFiles);
+                System.out.println("Enter File ID to download: ");
+                String fileID = scanner.nextLine();
+
+                out.writeObject(fileID);
+                out.flush();
+                String response = (String) in.readObject();
+                if(response.equalsIgnoreCase("File Not Found")){
+                    System.out.println("File not found on server. Try again.");
+                    continue;
+                }
+
+
+                String fileName = (String) in.readObject();
+                long fileSize = in.readLong();
+                int chunkSize = in.readInt();
+
+                File downloadTo = new File("DownloadedFiles");
+
+                downloadTo.mkdir();
+
+                File outputFile = new File(downloadTo, fileName);
+                FileOutputStream fos = new FileOutputStream(outputFile);    
+
+                long received = 0;
+
+
+                while(received < fileSize){
+
+
+                    int bytesToRead = (int)Math.min(chunkSize, fileSize - received);
+                    byte[] buffer = new byte[bytesToRead];
+                    in.readFully(buffer);
+
+                    fos.write(buffer, 0, bytesToRead);
+                    received += bytesToRead;
+                }
+                
+                fos.close();
+
+                System.out.println("File " + fileName + " downloaded successfully.");
             }
 
         }

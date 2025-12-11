@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Date;
 import java.util.Random;
+import java.io.FileInputStream;
 public class Worker extends Thread {
     private Socket socket;
     private ObjectOutputStream out;
@@ -20,6 +21,7 @@ public class Worker extends Thread {
         this.in = in;
         this.out = out;
         this.username = username;
+        
     }
 
     public void run() {
@@ -133,6 +135,68 @@ public class Worker extends Thread {
                             
                     
                     }
+                }
+
+                if(command.equalsIgnoreCase("download")){
+
+                    // file public kina check dte hbe  then list pathabo public gular
+
+                    StringBuilder publicFileList = new StringBuilder();
+
+                    for (String id : Server.fileSet.keySet()) {
+                        Server.FileData fd = Server.fileSet.get(id);
+                        if (fd.privacy.equalsIgnoreCase("public")) {
+                            publicFileList.append(id).append(" : ").append(fd.fileName).append("\n");
+                        }
+                    }
+                    out.writeObject(publicFileList.toString());
+                    out.flush();
+
+
+                    String fileId = (String) in.readObject();
+
+                    if(!Server.fileSet.containsKey(fileId)){
+                        out.writeObject("File Not Found");
+                        out.flush();
+                        continue;
+                    }
+
+
+                    Server.FileData fd = Server.fileSet.get(fileId);
+                    if(fd.privacy.equals("private") && !fd.uploader.equals(username)){
+                        out.writeObject("Access Denied");
+                        out.flush();
+                        continue;
+                    }
+
+
+                    out.writeObject("Ready");
+                    out.writeObject(fd.fileName);
+                    out.writeLong(fd.fileSize);
+                    out.writeInt(fd.chunkSize);
+                    out.flush();
+
+
+                    File fileToSendFromSeverSideToDownload = new File("User/" + fd.uploader + "/" + fd.fileName);
+                    FileInputStream fis = new FileInputStream(fileToSendFromSeverSideToDownload);
+
+                    long sent = 0;
+
+                    while (sent < fd.fileSize) {
+
+                        int toSend = (int)Math.min(fd.chunkSize, fd.fileSize - sent);
+
+                        byte[] buffer =  fis.readNBytes(toSend);
+                        out.write(buffer);
+                        out.flush();
+                        sent += toSend;
+                    }
+
+                    fis.close();
+                    System.out.println("File " + fd.fileName + " downloaded by " + username);   
+                    out.flush();
+
+
                 }
                 
             }
