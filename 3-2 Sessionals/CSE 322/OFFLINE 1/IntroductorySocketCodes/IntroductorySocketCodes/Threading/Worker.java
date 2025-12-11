@@ -89,6 +89,7 @@ public class Worker extends Thread {
                                 fd.fileSize = fileSize;
                                 fd.uploader = username;
                                 fd.chunkSize = chunksize;
+                                fd.privacy = (String) in.readObject();
                                 Server.fileSet.put(fileID, fd);
 
 
@@ -103,16 +104,20 @@ public class Worker extends Thread {
 
                                 long received = 0;
 
-
+                                int loopcount = 0;
                                 while(received < fileSize){
                                     int bytesToRead = (int)Math.min(chunksize, fileSize - received);
                                     byte[] buffer = new byte[bytesToRead];
                                     in.readFully(buffer);
-                                    
+
 
                                     fos.write(buffer, 0, bytesToRead);
                                     received += bytesToRead;
                                     fd.uploadBytes = received;
+
+                                    out.writeObject("Chunk no : "+ (++loopcount)+" Acknowledged!");
+                                    out.flush();
+                                    
                                 }
 
                                 fos.close();

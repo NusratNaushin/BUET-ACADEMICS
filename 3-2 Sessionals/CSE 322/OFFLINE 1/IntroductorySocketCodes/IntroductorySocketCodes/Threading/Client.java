@@ -72,7 +72,9 @@ public class Client {
                 //file name ar size nibo user input nbo
                 System.out.println("Enter file path to upload: ");
                 String filePath = scanner.nextLine();
-                
+                System.out.println("Public or Private ?: ");
+                String privacy = scanner.nextLine();
+
                 File file = new File(filePath);
 
 
@@ -88,6 +90,7 @@ public class Client {
 
                 out.writeObject(fileName);
                 out.writeLong(fileSize);
+                out.writeObject(privacy);   
                 out.flush();
 
                 String uploadStatus = (String) in.readObject();
@@ -102,16 +105,27 @@ public class Client {
                 System.out.println("Upload Accepted.");
                 System.out.println("File ID: " + fileID);
                 System.out.println("Chunk Size: " + chunkSize);
+                System.out.println("Privacy: " + privacy);
 
                 FileInputStream fis = new FileInputStream(file);
                 long sent = 0;
+                int loopcount = 0;
 
                 while(sent < fileSize) {
                     int toSend = (int)Math.min(chunkSize, fileSize - sent);
                     byte[] buffer = fis.readNBytes(toSend);
                     out.write(buffer);
                     out.flush();
+
+                    String ack = (String) in.readObject();
+                    if(ack.startsWith("Chunk no : ")) {
+                        System.out.println(ack);
+                    }
+                    else{
+                        System.out.println("Chunk is not acknowledged !!!");
+                    }
                     sent += toSend;
+
                 }
 
                 fis.close();

@@ -19,6 +19,7 @@ public class Server {
         String uploader;
         int chunkSize;
         long uploadBytes = 0;
+        String privacy;
     }
     public static HashMap<String, FileData> fileSet = new HashMap<>();
     public static int MIN_CHUNK_SIZE = 1024;
