@@ -11,17 +11,16 @@ import java.io.FileOutputStream;
 
 public class Client {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        Socket socket = new Socket("localhost", 6666);
-        System.out.println("Connection established");
-        System.out.println("Remote port: " + socket.getPort());
-        System.out.println("Local port: " + socket.getLocalPort());
+        try (Socket socket = new Socket("localhost", 6666)) {
+            System.out.println("Connection established");
+            System.out.println("Remote port: " + socket.getPort());
+            System.out.println("Local port: " + socket.getLocalPort());
 
-        // buffers
-        ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            // buffers
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-        Scanner scanner = new Scanner(System.in);
-            
+            try (Scanner scanner = new Scanner(System.in)) {
                 System.out.println("Enter User Name");
                 String UserName = scanner.nextLine();
                 out.writeObject(UserName);
@@ -42,12 +41,12 @@ public class Client {
                     System.out.println("Directory created");
                 } else {
                     System.out.println("Directory already exists");
-        }
+         }
 
-        
-        
-        System.out.println("Login Successful");
-        while (true) {
+         
+         
+         System.out.println("Login Successful");
+         while (true) {
 
             //user command dibe client theke
             System.out.println("Enter Command: ");
@@ -110,7 +109,7 @@ public class Client {
 
                 FileInputStream fis = new FileInputStream(file);
                 long sent = 0;
-                int loopcount = 0;
+               // int loopcount = 0;
 
                 while(sent < fileSize) {
                     int toSend = (int)Math.min(chunkSize, fileSize - sent);
@@ -132,6 +131,9 @@ public class Client {
                 fis.close();
 
 
+
+
+
                 String done = (String) in.readObject();
                 System.out.println(done);
 
@@ -145,6 +147,9 @@ public class Client {
 
                 String publicFiles = (String) in.readObject();
                 System.out.println("Public Files: \n" + publicFiles);
+                String privateFiles = (String) in.readObject();
+                System.out.println("Your Files: \n" + privateFiles);
+
                 System.out.println("Enter File ID to download: ");
                 String fileID = scanner.nextLine();
 
@@ -161,9 +166,9 @@ public class Client {
                 long fileSize = in.readLong();
                 int chunkSize = in.readInt();
 
-                File downloadTo = new File("DownloadedFiles");
+                File downloadTo = new File("DownloadedFiles/"+ UserName);
 
-                downloadTo.mkdir();
+                downloadTo.mkdirs();
 
                 File outputFile = new File(downloadTo, fileName);
                 FileOutputStream fos = new FileOutputStream(outputFile);    
@@ -187,6 +192,43 @@ public class Client {
                 System.out.println("File " + fileName + " downloaded successfully.");
             }
 
+
+            if(command.equalsIgnoreCase("Look up own files")){
+                String ownFiles =(String) in.readObject();
+                System.out.println("Your Files: \n" + ownFiles);
+
+
+            }
+
+            if(command.equalsIgnoreCase("Look up user files")){
+                System.out.println("Enter username to look up: ");
+                String lookupUser = scanner.nextLine();
+                out.writeObject(lookupUser);
+                out.flush();
+
+                String userFiles = (String) in.readObject();
+                System.out.println("Files of " + lookupUser + ":\n" + userFiles);
+            }
+
+            if(command.equalsIgnoreCase("Look up all public files")){
+
+                String allPublicFiles = (String) in.readObject();
+                System.out.println("All Public Files: \n" + allPublicFiles);
+                
+
+            }
+
+            if(command.equalsIgnoreCase("Look up client list")){
+                String clientList = (String) in.readObject();
+                System.out.println("\nClient List: \n" + clientList);
+            }
+
+            if(command.equalsIgnoreCase("See ")){
+
+            }
+
+         }
+            }
         }
     }
 }

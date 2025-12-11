@@ -6,9 +6,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Date;
-import java.util.Random;
 import java.io.FileInputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+
 public class Worker extends Thread {
     private Socket socket;
     private ObjectOutputStream out;
@@ -70,14 +72,21 @@ public class Worker extends Thread {
                     String fileName = (String) in.readObject();
                     long fileSize = in.readLong();
 
+                    File logFile = new File("User/" + username + "/log.txt");
 
-                    
+                    FileOutputStream logFos = new FileOutputStream(logFile, true);
+                    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    String time = LocalDateTime.now().format(fmt);
                     //check dewa lagbe buffer size exceed kore kina
                     
                     synchronized(Server.class) {
                         if(Server.usedBufferSize + fileSize > Server.MAX_BUFFER_SIZE) {
                             out.writeObject("Reject");
                             out.flush();
+                            String logEntry = fileName + " upload failed at " + time + " Status: Rejected\n";
+                            logFos.write(logEntry.getBytes());
+                            logFos.close();
+                            
                             continue;
                         } 
                             int chunksize = (int)(Math.random() * (Server.MAX_CHUNK_SIZE - Server.MIN_CHUNK_SIZE + 1)) + Server.MIN_CHUNK_SIZE;
@@ -132,6 +141,15 @@ public class Worker extends Thread {
 
 
                             Server.usedBufferSize += fileSize;
+
+                            
+                            //upload er log file rakhbo 
+
+
+                            //the filename, date and time, upload or download action,and status (successful or failed)
+                            String logEntry = fileName + " uploaded at " + time + " Status: Successful\n";
+                            logFos.write(logEntry.getBytes());
+                            logFos.close();
                             
                     
                     }
@@ -140,24 +158,41 @@ public class Worker extends Thread {
                 if(command.equalsIgnoreCase("download")){
 
                     // file public kina check dte hbe  then list pathabo public gular
+                    // ar nijer file private hok ba public download korte parbe so nijer iles o dekhabo jodi thake kichu
+
 
                     StringBuilder publicFileList = new StringBuilder();
-
+                    StringBuilder privateFileList = new StringBuilder();
                     for (String id : Server.fileSet.keySet()) {
                         Server.FileData fd = Server.fileSet.get(id);
                         if (fd.privacy.equalsIgnoreCase("public")) {
                             publicFileList.append(id).append(" : ").append(fd.fileName).append("\n");
                         }
+                        if (fd.uploader.equals(username)) {
+                            privateFileList.append(id).append(" : ").append(fd.fileName).append(" (").append(fd.privacy).append(")\n");
+                        }
                     }
                     out.writeObject(publicFileList.toString());
+                    out.writeObject(privateFileList.toString());
                     out.flush();
 
 
                     String fileId = (String) in.readObject();
 
+                    File logFile = new File("User/" + username + "/log.txt");
+
+                    FileOutputStream logFos = new FileOutputStream(logFile, true);
+                    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+                    String time = LocalDateTime.now().format(fmt);
+
                     if(!Server.fileSet.containsKey(fileId)){
                         out.writeObject("File Not Found");
                         out.flush();
+                        Server.FileData fd = Server.fileSet.get(fileId);
+
+                        String logEntry = fd.fileName + " download failed at " + time + " Status: Rejected\n";
+                        logFos.write(logEntry.getBytes());
+                        logFos.close();
                         continue;
                     }
 
@@ -193,13 +228,75 @@ public class Worker extends Thread {
                     }
 
                     fis.close();
+                    String logEntry = fd.fileName + " downloaded at " + time + " Status: Successful\n";
+                    logFos.write(logEntry.getBytes());
+                    logFos.close();
+
                     System.out.println("File " + fd.fileName + " downloaded by " + username);   
                     out.flush();
 
 
                 }
+
+                if(command.equalsIgnoreCase("Look up own files")) {
+                    StringBuilder privateFileList = new StringBuilder();
+                    for (String id : Server.fileSet.keySet()) {
+                        Server.FileData fd = Server.fileSet.get(id);
+                        if (fd.uploader.equals(username)) {
+                            privateFileList.append(id).append(" : ").append(fd.fileName).append(" (").append(fd.privacy).append(")\n");
+                        }
+                    }
+                    out.writeObject(privateFileList.toString());
+                    out.flush();
+
+                }
+
+                if(command.equalsIgnoreCase("Look up user files")){
+
+                    String lookupUser = (String) in.readObject();
+
+                    StringBuilder userFileList = new StringBuilder();
+                    for (String id : Server.fileSet.keySet()) {
+                        Server.FileData fd = Server.fileSet.get(id);
+                        if (fd.uploader.equals(lookupUser) && fd.privacy.equals("public")) {
+                            userFileList.append(id).append(" : ").append(fd.fileName).append("\n");
+                        }
+                    }
+                    out.writeObject(userFileList.toString());
+                    out.flush();
+                }
+
+                if(command.equalsIgnoreCase("Look up all public files")){
+
+                    StringBuilder allFiles = new StringBuilder();
+                    for (String id : Server.fileSet.keySet()) {
+                        Server.FileData fd = Server.fileSet.get(id);
+                        if (fd.privacy.equals("public")) {
+                            allFiles.append(id).append(" : ").append(fd.fileName).append(" (Uploaded by: ").append(fd.uploader).append(")\n");
+                        }
+                    }
+
+                    out.writeObject(allFiles.toString());
+                    out.flush();
+
+                }
+                if(command.equalsIgnoreCase("Look up client list")) {
+                    StringBuilder userList = new StringBuilder();
+                    synchronized(Server.userHistorySet) {
+                        for(String user : Server.userHistorySet) {
+                            if(Server.userSet.contains(user)) {
+                                userList.append(user).append(" Online!\n");
+                            } else {
+                                userList.append(user).append(" Offline\n");
+                            }
+                        }
+                    }
+                    out.writeObject(userList.toString());
+                    out.flush();
                 
             }
+        
+        }
         } catch(Exception e) {
             System.out.println(username + " disconnected.");
         }
