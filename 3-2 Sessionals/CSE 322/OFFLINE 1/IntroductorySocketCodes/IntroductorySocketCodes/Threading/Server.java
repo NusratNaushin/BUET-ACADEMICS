@@ -26,6 +26,8 @@ public class Server {
     public static int usedBufferSize = 0;
     public static ArrayList<String> userSet = new ArrayList<>();
     public static ArrayList<String> userHistorySet = new ArrayList  <>();
+    public static HashMap<String , ArrayList<String>> inbox = new HashMap<>();
+    public static HashMap<String , String > FileRequest = new HashMap<>();
 
 
     public static int getMAX_BUFFER_SIZE() {
@@ -48,6 +50,22 @@ public class Server {
     }
     public static ArrayList<String> getUserSet() {
         return userSet;
+    }
+
+    public static HashMap<String , ArrayList<String>> Inbox(){
+
+
+        return inbox;
+    }
+
+    public static int getInboxSize(String username){
+        if(inbox.containsKey(username)){
+            return inbox.get(username).size();
+        }
+        return 0;
+    }
+    public static HashMap<String , String > GetFileRequest(){
+        return FileRequest;
     }
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         try (ServerSocket welcomeSocket = new ServerSocket(6666)) {
@@ -73,6 +91,7 @@ public class Server {
                         continue;
                     } else {
                         userSet.add(username);
+                        inbox.put(username, new ArrayList<>());
                     }
                 }
 

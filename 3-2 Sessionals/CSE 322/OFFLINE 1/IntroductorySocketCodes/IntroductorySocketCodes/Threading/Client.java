@@ -46,7 +46,7 @@ public class Client {
          
          
          System.out.println("Login Successful");
-         while (true) {
+        while (true) {
 
             //user command dibe client theke
             System.out.println("Enter Command: ");
@@ -70,6 +70,87 @@ public class Client {
 
             if(command.equalsIgnoreCase("upload")){
                 //file name ar size nibo user input nbo
+                System.out.println("Is it on request? [yes/no]: ");
+                String onRequest = scanner.nextLine();
+
+                out.writeObject(onRequest);
+                out.flush();
+
+                if(onRequest.equalsIgnoreCase("yes")){
+                  
+                    System.out.println("Enter Request ID to upload : ");
+                    String requestID = scanner.nextLine();
+                    out.writeObject(requestID);
+                    out.flush();
+                    System.out.println("Enter file path to upload: ");
+                    String filePath = scanner.nextLine();
+                    File file = new File(filePath);
+                    if(!file.exists() || !file.isFile()) {
+                        System.out.println("File does not exist. Try again.");
+                        continue;
+                    }
+
+
+                    String fileName = file.getName();
+                    long fileSize = file.length();
+
+                    
+                    //ebar server ke pathabo
+
+                    out.writeObject(fileName);
+                    out.writeLong(fileSize);
+                    out.writeObject("Public");   
+                    out.flush();  
+                String uploadStatus = (String) in.readObject();
+                if(uploadStatus.equalsIgnoreCase("Reject")){
+                    System.out.println("Upload rejected.");
+                    continue;
+
+                }
+
+                String fileID = (String) in.readObject();
+                int chunkSize = in.readInt();
+                System.out.println("Upload Accepted.");
+                System.out.println("File ID: " + fileID);
+                System.out.println("Chunk Size: " + chunkSize);
+                System.out.println("Privacy: " + "Public");
+
+                FileInputStream fis = new FileInputStream(file);
+                long sent = 0;
+               // int loopcount = 0;
+
+                while(sent < fileSize) {
+                    int toSend = (int)Math.min(chunkSize, fileSize - sent);
+                    byte[] buffer = fis.readNBytes(toSend);
+                    out.write(buffer);
+                    out.flush();
+
+                    String ack = (String) in.readObject();
+                    if(ack.startsWith("Chunk no : ")) {
+                        System.out.println(ack);
+                    }
+                    else{
+                        System.out.println("Chunk is not acknowledged !!!");
+                    }
+                    sent += toSend;
+
+                }
+
+                fis.close();
+
+
+
+
+
+                String done = (String) in.readObject();
+                System.out.println(done);
+            
+                    
+                    
+
+                }
+
+                else {
                 System.out.println("Enter file path to upload: ");
                 String filePath = scanner.nextLine();
                 System.out.println("Public or Private ?: ");
@@ -136,7 +217,7 @@ public class Client {
 
                 String done = (String) in.readObject();
                 System.out.println(done);
-
+            }
 
             }
 
@@ -223,12 +304,38 @@ public class Client {
                 System.out.println("\nClient List: \n" + clientList);
             }
 
-            if(command.equalsIgnoreCase("See ")){
+            if(command.equalsIgnoreCase("View Unread Messages")){
+
+                System.out.println("Your Unread Messages: ");
+                int inboxSize = in.readInt();
+                if(inboxSize == 0) {
+                    System.out.println("No unread messages.");
+                } else {
+                    for(int i = 0; i < inboxSize; i++) {
+                        String message = (String) in.readObject();
+                        System.out.println((i + 1) + ". " + message);
+                    }
+                }
+            } 
+
+            if(command.equalsIgnoreCase("Upload on request")){
+
+                System.out.println("Enter a short description of the file you want to request: ");
+                String description = scanner.nextLine();
+                out.writeObject(description);
+                System.out.println("File Request Sent To All or Specific User?[ALL/USER_NAME]");
+                String choice = scanner.nextLine();
+                out.writeObject(choice);
+                out.flush();
 
             }
+            
 
-         }
-            }
+        }
+
+         
+    }
         }
     }
-}
+    }
+
