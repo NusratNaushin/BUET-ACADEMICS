@@ -45,7 +45,7 @@ public class Worker extends Thread {
 
                 if (command.equalsIgnoreCase("send list")) {
                     StringBuilder userList = new StringBuilder();
-                    synchronized (Server.userHistorySet) {
+                    synchronized (Server.userHistorySet) {    //ejabot joto user ache tader shobaike traverse korbo
                         for (String user : Server.userHistorySet) {
                             if (Server.userSet.contains(user)) {
                                 userList.append(user).append(" Online!\n");
@@ -75,9 +75,9 @@ public class Worker extends Thread {
 
                         String fileName = (String) in.readObject();
                         long fileSize = in.readLong();
-                        String requestOwner = requestID.split("_REQ_")[0];
+                        String requestOwner = requestID.split("_REQ_")[0];            //requ id theke owner ke extract krolam
                         System.out.println("DEBUG: " + requestOwner);
-                        File logFile = new File("User/" + requestOwner + "/log.txt");
+                        File logFile = new File("User/" + requestOwner + "/log.txt");   //log file banbooooooo for history
 
                         FileOutputStream logFos = new FileOutputStream(logFile, true);
                         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -88,14 +88,15 @@ public class Worker extends Thread {
                             if (Server.usedBufferSize + fileSize > Server.MAX_BUFFER_SIZE) {
                                 out.writeObject("Reject");
                                 out.flush();
-                                String logEntry = fileName + " upload failed at " + time + " Status: Rejected\n";
+                                String logEntry = fileName + " upload failed at " + time + " Status: Rejected\n";       
                                 logFos.write(logEntry.getBytes());
                                 logFos.close();
 
                                 continue;
                             }
                             int chunksize = (int) (Math.random() * (Server.MAX_CHUNK_SIZE - Server.MIN_CHUNK_SIZE + 1))
-                                    + Server.MIN_CHUNK_SIZE;
+                                    + Server.MIN_CHUNK_SIZE;              // math random 0 theke 11 er moddhe value dey so amra to chai min theke max er moddhe erjonne max-min kore range ber kore sheta diye gun dilam
+                                                                         //  ekhn shudhu eta rakhle 0 theke range obdi random nto but amra cahi min theke range er moddhe nik erjonne abar ei value ke min diye jog kore dilam
 
                             String fileID = requestOwner + "_FILE_" + (++filecount);
 
@@ -107,7 +108,7 @@ public class Worker extends Thread {
                             fd.owner = requestOwner;
                             fd.chunkSize = chunksize;
                             fd.privacy = (String) in.readObject();
-                            Server.fileSet.put(fileID, fd);
+                            Server.fileSet.put(fileID, fd);         //fileset e file er data gula rakhbo pore jokhon look up korboei set kaaje lagabo
 
                             out.writeObject("Accept");
                             out.writeObject(fileID);
@@ -121,11 +122,12 @@ public class Worker extends Thread {
 
                             int loopcount = 0;
                             while (received < fileSize) {
-                                int bytesToRead = (int) Math.min(chunksize, fileSize - received);
+                                int bytesToRead = (int) Math.min(chunksize, fileSize - received);    // kokhoni chunksize er cheye bor chunk pathabo na ... pathate gele corrupt .. so for security ... chunksize ar baki size er modhye je choto ta nibo
+                                                                                // ete kore ekdom last e jodi unsent bytes chunksizze theke chot hoy sheta jabe .. extra kisu pura chunk jabe na 
                                 byte[] buffer = new byte[bytesToRead];
                                 in.readFully(buffer);
 
-                                fos.write(buffer, 0, bytesToRead);
+                                fos.write(buffer, 0, bytesToRead); 
                                 received += bytesToRead;
                                 fd.uploadBytes = received;
 
@@ -147,12 +149,12 @@ public class Worker extends Thread {
                             // the filename, date and time, upload or download action,and status (successful
                             // or failed)
                             String logEntry = fileName + " uploaded at " + time + " Status: Successful\n";
-                            logFos.write(logEntry.getBytes());
+                            logFos.write(logEntry.getBytes());   // file to ar string bojhe na tai byte e rupantor kore dbo
                             logFos.close();
 
                         }
 
-
+                        //ar jehetu on request upload tai jonne inbox e notify kore dibo je upload complete hoye geche
                         ArrayList<String>inbox = Server.Inbox().get(requestOwner);
 
                         if(inbox == null){
@@ -178,7 +180,7 @@ public class Worker extends Thread {
                         // check dewa lagbe buffer size exceed kore kina
 
                         synchronized (Server.class) {
-                            if (Server.usedBufferSize + fileSize > Server.MAX_BUFFER_SIZE) {
+                            if (Server.usedBufferSize + fileSize > Server.MAX_BUFFER_SIZE) {  //jotokhani buffer used and file er size er jogfol jodi max size ke exceed kore tahole reject
                                 out.writeObject("Reject");
                                 out.flush();
                                 String logEntry = fileName + " upload failed at " + time + " Status: Rejected\n";
@@ -250,7 +252,7 @@ public class Worker extends Thread {
                 if (command.equalsIgnoreCase("download")) {
 
                     // file public kina check dte hbe then list pathabo public gular
-                    // ar nijer file private hok ba public download korte parbe so nijer iles o
+                    // ar nijer file private hok ba public download korte parbe so nijer files o
                     // dekhabo jodi thake kichu
 
                     StringBuilder publicFileList = new StringBuilder();
@@ -277,7 +279,7 @@ public class Worker extends Thread {
                     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
                     String time = LocalDateTime.now().format(fmt);
 
-                    if (!Server.fileSet.containsKey(fileId)) {
+                    if (!Server.fileSet.containsKey(fileId)) {   //fileid khuje na paile fail
                         out.writeObject("File Not Found");
                         out.flush();
                         // Server.FileData fd = Server.fileSet.get(fileId);
@@ -315,6 +317,7 @@ public class Worker extends Thread {
                         out.flush();
                         sent += toSend;
                     }
+                    
 
                     fis.close();
                     String logEntry = fd.fileName + " downloaded at " + time + " Status: Successful\n";
@@ -324,13 +327,15 @@ public class Worker extends Thread {
                     System.out.println("File " + fd.fileName + " downloaded by " + username);
                     out.flush();
 
+                    Server.usedBufferSize -=fd.fileSize;
+
                 }
 
-                if (command.equalsIgnoreCase("Look up own files")) {
+                if (command.equalsIgnoreCase("Look up own files")) {          
                     StringBuilder privateFileList = new StringBuilder();
                     for (String id : Server.fileSet.keySet()) {
                         Server.FileData fd = Server.fileSet.get(id);
-                        if (fd.uploader.equals(username) || fd.owner.equals(username)) {
+                        if (fd.uploader.equals(username) || fd.owner.equals(username)) {    //upload duibhabe hoy so uploader othoba requ owner naam diye khujte hbe list
                             privateFileList.append(id).append(" : ").append(fd.fileName).append(" (").append(fd.privacy)
                                     .append(")\n");
                         }
@@ -347,7 +352,7 @@ public class Worker extends Thread {
                     StringBuilder userFileList = new StringBuilder();
                     for (String id : Server.fileSet.keySet()) {
                         Server.FileData fd = Server.fileSet.get(id);
-                        if (fd.uploader.equals(lookupUser) && fd.privacy.equals("public")) {
+                        if (fd.uploader.equals(lookupUser) && fd.privacy.equals("public")) {   //uer er file publicholie dekha jabe
                             userFileList.append(id).append(" : ").append(fd.fileName).append("\n");
                         }
                     }
@@ -358,7 +363,7 @@ public class Worker extends Thread {
                 if (command.equalsIgnoreCase("Look up all public files")) {
 
                     StringBuilder allFiles = new StringBuilder();
-                    for (String id : Server.fileSet.keySet()) {
+                    for (String id : Server.fileSet.keySet()) {  
                         Server.FileData fd = Server.fileSet.get(id);
                         if (fd.privacy.equals("public")) {
                             allFiles.append(id).append(" : ").append(fd.fileName).append(" (Uploaded by: ")
@@ -388,7 +393,7 @@ public class Worker extends Thread {
 
                 if (command.equalsIgnoreCase("View Unread Messages")) {
 
-                    ArrayList<String> inbox = Server.Inbox().get(username);
+                    ArrayList<String> inbox = Server.Inbox().get(username);   //jei user taar inbox ta niye ashbo 
 
                     System.out.println("debug ");
                     out.writeInt(Server.getInboxSize(username));
@@ -396,8 +401,8 @@ public class Worker extends Thread {
                     if (Server.getInboxSize(username) == 0) {
                         out.flush();
                     } else {
-                        for (String message : inbox) {
-                            out.writeObject(message);
+                        for (String message : inbox) { //inbx e thaka shob message porbo
+                            out.writeObject(message);   
                         }
                         out.flush();
                         inbox.clear(); // message gulo to read hoye geche tai unread msg clear korlam arki
@@ -434,7 +439,7 @@ public class Worker extends Thread {
                                     }
                                     message.add("Reques ID: " + requestID + " Description: " + description
                                             + " (Sent by: " + username + ")");
-                                    Server.Inbox().put(user, message);
+                                    Server.Inbox().put(user, message);    //request er message ta all user inbox e put korbo
                                 }
                             }
                             out.writeObject("File request sent to all users.");
@@ -448,7 +453,7 @@ public class Worker extends Thread {
                                 out.flush();
                                 continue;
                             } else {
-                                ArrayList<String> message = Server.Inbox().get(specificUser);
+                                ArrayList<String> message = Server.Inbox().get(specificUser);         // speciific user ke msg dbo
                                 if(message == null){
                                     message = new ArrayList<>();
                                 }
@@ -472,7 +477,7 @@ public class Worker extends Thread {
 
         finally {
             synchronized (Server.userSet) {
-                Server.userSet.remove(username);
+                Server.userSet.remove(username);  //user offline hoy gele userset theke shoraye dbo
             }
 
             try {
