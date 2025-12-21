@@ -1,4 +1,4 @@
-package Threading;
+package OFFLINE_2105168;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -30,7 +30,7 @@ public class Client {
                 System.out.println(msg);
                 
                 if(msg.equals("Username already taken. Connection closing.")) {
-                    System.out.println("USername already in use!!!");
+                    System.out.println("Username already in use!!!");
                     socket.close();
                     return;
                 }   
@@ -57,8 +57,8 @@ public class Client {
             out.writeObject(command);
             out.flush();
 
-            if(command.equalsIgnoreCase("Send list")){
-                String userList = (String) in.readObject();
+            if(command.equalsIgnoreCase("Send list")){     
+                String userList = (String) in.readObject();          //client server er kase user list chabe so srver theke nibo list erjonne in readobject
                 System.out.println("\nUser List: \n" + userList);
             }
 
@@ -66,12 +66,12 @@ public class Client {
                 String logoutMsg = (String) in.readObject();
                 System.out.println(logoutMsg);
                 System.out.println("Connection closing...");
-                break;
+                break;              //while loop theke ber hoye jabo 
             }
 
             if(command.equalsIgnoreCase("upload")){
                 //file name ar size nibo user input nbo
-                System.out.println("\nIs it on request? [yes/no]: \n");
+                System.out.println("\nIs it on request? [yes/no]: \n");   //upload dui rokomer keu nijer theke upload korbe othoba karo request e upload korbe 
                 String onRequest = scanner.nextLine();
 
                 out.writeObject(onRequest);
@@ -100,131 +100,125 @@ public class Client {
 
                     out.writeObject(fileName);
                     out.writeLong(fileSize);
-                    out.writeObject("Public");   
+                    out.writeObject("Public");    //privacy auto public set korte hobe for on request
                     out.flush();  
-                String uploadStatus = (String) in.readObject();
-                if(uploadStatus.equalsIgnoreCase("Reject")){
-                    System.out.println("Upload rejected.");
-                    continue;
+                    String uploadStatus = (String) in.readObject(); // sevrver ke filesize pathaye dekhte hbe adou upload kora jabe kina ... buffer size theke exceed kore gele reject korbe
+                    if(uploadStatus.equalsIgnoreCase("Reject")){
+                        System.out.println("Upload rejected.");
+                        continue;
 
-                }
-
-                String fileID = (String) in.readObject();
-                int chunkSize = in.readInt();
-
-                System.out.println("\nUpload Accepted.");
-                System.out.println("File ID: " + fileID);
-                System.out.println("Chunk Size: " + chunkSize);
-                System.out.println("Privacy: " + "Public\n");
-
-                FileInputStream fis = new FileInputStream(file);
-                long sent = 0;
-               // int loopcount = 0;
-
-                while(sent < fileSize) {
-                    int toSend = (int)Math.min(chunkSize, fileSize - sent);
-                    byte[] buffer = fis.readNBytes(toSend);
-                    out.write(buffer);
-                    out.flush();
-
-                    String ack = (String) in.readObject();
-                    if(ack.startsWith("Chunk no : ")) {
-                        System.out.println(ack);
                     }
-                    else{
-                        System.out.println("Chunk is not acknowledged !!!");
+                    //upload accepted hole server theke fileID ar chunk size nibo
+                    String fileID = (String) in.readObject();
+                    int chunkSize = in.readInt();
+
+                    System.out.println("\nUpload Accepted.");
+                    System.out.println("File ID: " + fileID);
+                    System.out.println("Chunk Size: " + chunkSize);
+                    System.out.println("Privacy: " + "Public\n");
+
+                    FileInputStream fis = new FileInputStream(file);
+                    long sent = 0;
+                // int loopcount = 0;
+                    //ebare file pathabo server e chunk by chunk
+                    while(sent < fileSize) {
+                        int toSend = (int)Math.min(chunkSize, fileSize - sent); // kokhoni chunksize er cheye bor chunk pathabo na ... pathate gele corrupt .. so for security ... chunksize ar baki size er modhye je choto ta nibo
+                                                                                // ete kore ekdom last e jodi unsent bytes chunksizze theke chot hoy sheta jabe .. extra kisu pura chunk jabe na 
+                        byte[] buffer = fis.readNBytes(toSend);         // file theke tosend size er bytes porbo
+                        out.write(buffer);                              // bufffer e lekha bytes gulo server e pathabo
+                        out.flush();
+
+                        String ack = (String) in.readObject();          // server theke acknwoledgement nibo je chunk ta peyeche
+                        if(ack.startsWith("Chunk no : ")) {
+                            System.out.println(ack);
+                        }
+                        else{
+                            System.out.println("Chunk is not acknowledged !!!");
+                        }
+                        sent += toSend;                                 // sent e tosend size ta add kore dibo
+
                     }
-                    sent += toSend;
 
-                }
-
-                fis.close();
+                    fis.close();
 
 
 
 
 
-                String done = (String) in.readObject();
-                System.out.println(done);
-                
-                //JEHETU ON REQUEST UPLOAD CLIENT MESSAGE PABE SERVER THEKE JE UPLOAD ON REQUEST DONE
-
-
-
-
-                    
-                    
+                    String done = (String) in.readObject();         // server theke upload complete er message nibo
+                    System.out.println(done);
 
                 }
 
                 else {
-                System.out.println("Enter file path to upload: ");
-                String filePath = scanner.nextLine();
-                System.out.println("Public or Private ?: ");
-                String privacy = scanner.nextLine();
 
-                File file = new File(filePath);
+                    System.out.println("Enter file path to upload: ");
+                    String filePath = scanner.nextLine();
+                    System.out.println("Public or Private ?: ");
+                    String privacy = scanner.nextLine();
 
-
-                if(!file.exists() || !file.isFile()) {
-                    System.out.println("File does not exist. Try again.");
-                    continue;
-                }
+                    File file = new File(filePath);
 
 
-                String fileName = file.getName();
-                long fileSize = file.length();
-                //ebar server ke pathabo
+                    if(!file.exists() || !file.isFile()) {
+                        System.out.println("File does not exist. Try again.");
+                        continue;
+                    }
 
-                out.writeObject(fileName);
-                out.writeLong(fileSize);
-                out.writeObject(privacy);   
-                out.flush();
 
-                String uploadStatus = (String) in.readObject();
-                if(uploadStatus.equalsIgnoreCase("Reject")){
-                    System.out.println("Upload rejected.");
-                    continue;
+                    String fileName = file.getName();
+                    long fileSize = file.length();
+                    //ebar server ke pathabo
 
-                }
-
-                String fileID = (String) in.readObject();
-                int chunkSize = in.readInt();
-                System.out.println("\nUpload Accepted.");
-                System.out.println("File ID: " + fileID);
-                System.out.println("Chunk Size: " + chunkSize);
-                System.out.println("Privacy: " + privacy+ "\n");
-
-                FileInputStream fis = new FileInputStream(file);
-                long sent = 0;
-               // int loopcount = 0;
-
-                while(sent < fileSize) {
-                    int toSend = (int)Math.min(chunkSize, fileSize - sent);
-                    byte[] buffer = fis.readNBytes(toSend);
-                    out.write(buffer);
+                    out.writeObject(fileName);
+                    out.writeLong(fileSize);
+                    out.writeObject(privacy);   
                     out.flush();
 
-                    String ack = (String) in.readObject();
-                    if(ack.startsWith("Chunk no : ")) {
-                        System.out.println(ack);
-                    }
-                    else{
-                        System.out.println("Chunk is not acknowledged !!!");
-                    }
-                    sent += toSend;
+                    String uploadStatus = (String) in.readObject();
+                    if(uploadStatus.equalsIgnoreCase("Reject")){
+                        System.out.println("Upload rejected.");
+                        continue;
 
+                    }
+
+                    String fileID = (String) in.readObject();
+                    int chunkSize = in.readInt();
+                    System.out.println("\nUpload Accepted.");
+                    System.out.println("File ID: " + fileID);
+                    System.out.println("Chunk Size: " + chunkSize);
+                    System.out.println("Privacy: " + privacy+ "\n");
+
+                    FileInputStream fis = new FileInputStream(file);
+                    long sent = 0;
+                // int loopcount = 0;
+
+                    while(sent < fileSize) {
+                        int toSend = (int)Math.min(chunkSize, fileSize - sent);
+                        byte[] buffer = fis.readNBytes(toSend);
+                        out.write(buffer);
+                        out.flush();
+
+                        String ack = (String) in.readObject();
+                        if(ack.startsWith("Chunk no : ")) {
+                            System.out.println(ack);
+                        }
+                        else{
+                            System.out.println("Chunk is not acknowledged !!!");
+                        }
+                        sent += toSend;
+
+                    }
+
+                    fis.close();
+
+
+
+
+
+                    String done = (String) in.readObject();
+                    System.out.println(done);
                 }
-
-                fis.close();
-
-
-
-
-
-                String done = (String) in.readObject();
-                System.out.println(done);
-            }
 
             }
 
@@ -241,16 +235,16 @@ public class Client {
                 System.out.println("\nEnter File ID to download: \n");
                 String fileID = scanner.nextLine();
 
-                out.writeObject(fileID);
+                out.writeObject(fileID);            //file id server e pathalam
                 out.flush();
-                String response = (String) in.readObject();
+                String response = (String) in.readObject();         //server bolbe file pawa gese kina
                 if(response.equalsIgnoreCase("File Not Found")){
                     System.out.println("File not found on server. Try again.");
                     continue;
                 }
 
 
-                String fileName = (String) in.readObject();
+                String fileName = (String) in.readObject();       //file name ar size nibo server theke
                 long fileSize = in.readLong();
                 int chunkSize = in.readInt();
 
@@ -265,14 +259,13 @@ public class Client {
 
 
                 while(received < fileSize){
-
-
+                    //download chunk by chunk
                     int bytesToRead = (int)Math.min(chunkSize, fileSize - received);
-                    byte[] buffer = new byte[bytesToRead];
-                    in.readFully(buffer);
+                    byte[] buffer = new byte[bytesToRead];  //ekhon ei size er byte array banalam
+                    in.readFully(buffer);                  //in readfully diye buffer e bytesToRead size er bytes gulo read korlam
 
-                    fos.write(buffer, 0, bytesToRead);
-                    received += bytesToRead;
+                    fos.write(buffer, 0, bytesToRead);  //output file e bufffer write korlam
+                    received += bytesToRead;          //received e bytesToRead add kore dilam
                 }
                 
                 fos.close();
@@ -281,14 +274,14 @@ public class Client {
             }
 
 
-            if(command.equalsIgnoreCase("Look up own files")){
-                String ownFiles =(String) in.readObject();
+            if(command.equalsIgnoreCase("Look up own files")){ //nijer file gula dekhbo
+                String ownFiles =(String) in.readObject();                                       
                 System.out.println("\nYour Files: \n" + ownFiles);
 
 
             }
 
-            if(command.equalsIgnoreCase("Look up user files")){
+            if(command.equalsIgnoreCase("Look up user files")){ //specific user er file dekhbo
                 System.out.println("\nEnter username to look up: ");
                 String lookupUser = scanner.nextLine();
                 out.writeObject(lookupUser);
@@ -299,7 +292,7 @@ public class Client {
             }
 
             if(command.equalsIgnoreCase("Look up all public files")){
-
+                //shobar shob public files dekhbo
                 String allPublicFiles = (String) in.readObject();
                 System.out.println("\nAll Public Files: \n" + allPublicFiles);
                 
@@ -307,6 +300,7 @@ public class Client {
             }
 
             if(command.equalsIgnoreCase("Look up client list")){
+
                 String clientList = (String) in.readObject();
                 System.out.println("\nClient List: \n" + clientList);
             }
@@ -315,11 +309,11 @@ public class Client {
 
                 System.out.println("\nYour Unread Messages: \n");
                 int inboxSize = in.readInt();
-                if(inboxSize == 0) {
+                if(inboxSize == 0) {          //inbox array er size 0 mane kono message ashe nai ekhno obi
                     System.out.println("\nNo unread messages.\n");
                 } else {
                     for(int i = 0; i < inboxSize; i++) {
-                        String message = (String) in.readObject();
+                        String message = (String) in.readObject();       //message gulo ek ek kore nibo
                         System.out.println((i + 1) + ". " + message);
                     }
                 }
@@ -330,17 +324,13 @@ public class Client {
                 System.out.println("\nEnter a short description of the file you want to request: \n");
                 String description = scanner.nextLine();
                 out.writeObject(description);
-                System.out.println("\nFile Request Sent To All or Specific User?[ALL/USER_NAME]\n");
+                System.out.println("\nFile Request Sent To All or Specific User?[ALL/USER_NAME]\n"); //message ki ekjon ke dbo naki shobaike
                 String choice = scanner.nextLine();
-                out.writeObject(choice);
+                out.writeObject(choice); 
                 out.flush();
 
-                String response = (String) in.readObject();
+                String response = (String) in.readObject();       //server theke response nibo je request ta send hoise kina
                 System.out.println(response);
-                
-
-
-
             }
             
 

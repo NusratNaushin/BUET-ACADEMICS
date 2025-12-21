@@ -1,0 +1,84 @@
+# =========================
+# Virtual Environments
+# =========================
+ml_env/
+venv/
+.env/
+.env*/
+
+# =========================
+# Python Cache / Compiled
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+
+# =========================
+# Jupyter Notebook
+# =========================
+.ipynb_checkpoints/
+
+# =========================
+# PyTorch
+# =========================
+*.pt
+*.pth
+*.ckpt
+
+# =========================
+# Data files (usually large)
+# =========================
+data/
+datasets/
+*.csv
+*.tsv
+*.xlsx
+*.json
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+
+# =========================
+# Logs & Outputs
+# =========================
+logs/
+*.log
+runs/
+
+# =========================
+# Plots / Figures
+# =========================
+*.png
+*.jpg
+*.jpeg
+*.svg
+*.pdf
+
+# =========================
+# VS Code
+# =========================
+.vscode/
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# =========================
+# OS files
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# Build / Distribution
+# =========================
+build/
+dist/
+*.egg-info/
+
+# =========================
+# Temporary files
+# =========================
+*.tmp
+*.swp
+*~

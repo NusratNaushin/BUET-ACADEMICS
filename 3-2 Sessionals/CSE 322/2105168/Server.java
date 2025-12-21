@@ -1,4 +1,4 @@
-package Threading;
+package OFFLINE_2105168;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.io.IOException;
@@ -25,10 +25,10 @@ public class Server {
     public static int MAX_CHUNK_SIZE = 4096;       
     public static int MAX_BUFFER_SIZE = 65536;
     public static int usedBufferSize = 0;
-    public static ArrayList<String> userSet = new ArrayList<>();
-    public static ArrayList<String> userHistorySet = new ArrayList  <>();
-    public static HashMap<String , ArrayList<String>> inbox = new HashMap<>();
-    public static HashMap<String , String > FileRequest = new HashMap<>();
+    public static ArrayList<String> userSet = new ArrayList<>();            // ekhon jara online
+    public static ArrayList<String> userHistorySet = new ArrayList  <>();   //ejabot online offline jara connect hoise shobai
+    public static HashMap<String , ArrayList<String>> inbox = new HashMap<>();  // message joma rakhar jonne
+    public static HashMap<String , String > FileRequest = new HashMap<>(); 
 
 
     public static int getMAX_BUFFER_SIZE() {
@@ -84,7 +84,8 @@ public class Server {
                 String username = (String) in.readObject();
                 System.out.println("Client says: " + username   ); 
                 
-                synchronized(userSet) {
+                synchronized(userSet) {                  //synchronized use korchi its kinda like semaphore but semaphore jhamela so synchronized ..
+                                                        //.. ekadhik thread jate shobai ekotre user add na korte pare jodi parto tahole duplicate user accept kore felto
                     if(userSet.contains(username)) {
                         out.writeObject("Username already taken. Connection closing.");
                         out.flush();
@@ -93,12 +94,12 @@ public class Server {
                     } else {
                         userSet.add(username);
                         
-                        inbox.put(username, new ArrayList<>());
+                        inbox.put(username, new ArrayList<>());  // proti user er jonne ekta inbox initialize kortesi jaate she msg pete pare
                     }
                 }
 
                 synchronized(userHistorySet) {
-                    userHistorySet.add(username);
+                    userHistorySet.add(username);        // shob user e user history set e thakbe
                 }
 
                 // File userDir = new File("User/" + username);
@@ -111,7 +112,8 @@ public class Server {
 
 
 
-                Thread worker = new Worker(socket, in, out, username);
+                Thread worker = new Worker(socket, in, out, username);   // ekhon prottek connection er jonne alada thread create korbo jate ekadhik client ekoi somoy connect korte pare 
+                                                                            // in out er lage server client er moddhe communication er jonne
                 worker.start();
 
 
