@@ -6767,6 +6767,19 @@ scratch_hello-simulator/fast:
 .PHONY : scratch_hello-simulator/fast
 
 #=============================================================================
+# Target rules for targets named scratch_rip-simple-network
+
+# Build rule for target.
+scratch_rip-simple-network: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch_rip-simple-network
+.PHONY : scratch_rip-simple-network
+
+# fast build rule for target.
+scratch_rip-simple-network/fast:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_rip-simple-network.dir/build.make scratch/CMakeFiles/scratch_rip-simple-network.dir/build
+.PHONY : scratch_rip-simple-network/fast
+
+#=============================================================================
 # Target rules for targets named scratch_scratch-simulator
 
 # Build rule for target.
@@ -6804,6 +6817,19 @@ scratch_seventh: cmake_check_build_system
 scratch_seventh/fast:
 	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_seventh.dir/build.make scratch/CMakeFiles/scratch_seventh.dir/build
 .PHONY : scratch_seventh/fast
+
+#=============================================================================
+# Target rules for targets named scratch_simple-global-routing
+
+# Build rule for target.
+scratch_simple-global-routing: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch_simple-global-routing
+.PHONY : scratch_simple-global-routing
+
+# fast build rule for target.
+scratch_simple-global-routing/fast:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_simple-global-routing.dir/build.make scratch/CMakeFiles/scratch_simple-global-routing.dir/build
+.PHONY : scratch_simple-global-routing/fast
 
 #=============================================================================
 # Target rules for targets named scratch_sixth
@@ -7294,9 +7320,11 @@ help:
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"
 	@echo "... scratch_nested-subdir_scratch-nested-subdir-executable"
+	@echo "... scratch_rip-simple-network"
 	@echo "... scratch_scratch-simulator"
 	@echo "... scratch_second"
 	@echo "... scratch_seventh"
+	@echo "... scratch_simple-global-routing"
 	@echo "... scratch_sixth"
 	@echo "... scratch_subdir_scratch-subdir"
 	@echo "... scratch_third"

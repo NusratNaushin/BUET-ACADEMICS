@@ -1,0 +1,1547 @@
+No.     Time           Source                Destination           Protocol Length Info
+     57 6.629748123    192.168.69.70         103.94.135.195        DNS      95     Standard query 0x7c8f A detectportal.firefox.com OPT
+
+Frame 57: Packet, 95 bytes on wire (760 bits), 95 bytes captured (760 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 40820, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+     58 6.629948009    192.168.69.70         103.94.135.195        DNS      95     Standard query 0xb606 AAAA detectportal.firefox.com OPT
+
+Frame 58: Packet, 95 bytes on wire (760 bits), 95 bytes captured (760 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 41572, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+     59 6.686166537    192.168.69.70         103.94.135.195        DNS      106    Standard query 0x34f6 A content-signature-2.cdn.mozilla.net OPT
+
+Frame 59: Packet, 106 bytes on wire (848 bits), 106 bytes captured (848 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 33875, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+     60 6.686363559    192.168.69.70         103.94.135.195        DNS      106    Standard query 0x2d97 AAAA content-signature-2.cdn.mozilla.net OPT
+
+Frame 60: Packet, 106 bytes on wire (848 bits), 106 bytes captured (848 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 42871, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+     61 6.698729237    103.94.135.195        192.168.69.70         DNS      512    Standard query response 0xb606 AAAA detectportal.firefox.com CNAME detectportal.prod.mozaws.net CNAME prod.detectportal.prod.cloudops.mozgcp.net AAAA 2600:1901:0:38d7:: NS ns-cloud-c1.googledomains.com NS ns-cloud-c2.googledomains.com NS ns-cloud-c3.googledomains.com NS ns-cloud-c4.googledomains.com A 216.239.32.108 AAAA 2001:4860:4802:32::6c A 216.239.34.108 AAAA 2001:4860:4802:34::6c A 216.239.36.108 AAAA 2001:4860:4802:36::6c A 216.239.38.108 AAAA 2001:4860:4802:38::6c OPT
+
+Frame 61: Packet, 512 bytes on wire (4096 bits), 512 bytes captured (4096 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 41572
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+     62 6.698730634    103.94.135.195        192.168.69.70         DNS      500    Standard query response 0x7c8f A detectportal.firefox.com CNAME detectportal.prod.mozaws.net CNAME prod.detectportal.prod.cloudops.mozgcp.net A 34.107.221.82 NS ns-cloud-c4.googledomains.com NS ns-cloud-c3.googledomains.com NS ns-cloud-c1.googledomains.com NS ns-cloud-c2.googledomains.com A 216.239.32.108 AAAA 2001:4860:4802:32::6c A 216.239.34.108 AAAA 2001:4860:4802:34::6c A 216.239.36.108 AAAA 2001:4860:4802:36::6c A 216.239.38.108 AAAA 2001:4860:4802:38::6c OPT
+
+Frame 62: Packet, 500 bytes on wire (4000 bits), 500 bytes captured (4000 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 40820
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+     63 6.698731541    103.94.135.195        192.168.69.70         DNS      304    Standard query response 0x34f6 A content-signature-2.cdn.mozilla.net A 34.160.144.191 NS ns5-65.akam.net NS ns1-240.akam.net NS ns7-66.akam.net NS ns4-64.akam.net A 193.108.91.240 AAAA 2600:1401:2::f0 A 96.7.49.66 A 184.85.248.65 A 84.53.139.64 OPT
+
+Frame 63: Packet, 304 bytes on wire (2432 bits), 304 bytes captured (2432 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 33875
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+     64 6.698733008    103.94.135.195        192.168.69.70         DNS      316    Standard query response 0x2d97 AAAA content-signature-2.cdn.mozilla.net AAAA 2600:1901:0:92a9:: NS ns5-65.akam.net NS ns1-240.akam.net NS ns4-64.akam.net NS ns7-66.akam.net A 193.108.91.240 AAAA 2600:1401:2::f0 A 96.7.49.66 A 184.85.248.65 A 84.53.139.64 OPT
+
+Frame 64: Packet, 316 bytes on wire (2528 bits), 316 bytes captured (2528 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 42871
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    107 7.204930583    192.168.69.70         103.94.135.195        DNS      86     Standard query 0x1b9c A ads.mozilla.org OPT
+
+Frame 107: Packet, 86 bytes on wire (688 bits), 86 bytes captured (688 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 46740, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    108 7.205229015    192.168.69.70         103.94.135.195        DNS      86     Standard query 0xf657 AAAA ads.mozilla.org OPT
+
+Frame 108: Packet, 86 bytes on wire (688 bits), 86 bytes captured (688 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49201, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    121 7.233596587    103.94.135.195        192.168.69.70         DNS      452    Standard query response 0x1b9c A ads.mozilla.org CNAME mc.prod.ads.prod.webservices.mozgcp.net A 34.36.137.203 NS ns-cloud-c3.googledomains.com NS ns-cloud-c2.googledomains.com NS ns-cloud-c1.googledomains.com NS ns-cloud-c4.googledomains.com A 216.239.32.108 AAAA 2001:4860:4802:32::6c A 216.239.34.108 AAAA 2001:4860:4802:34::6c A 216.239.36.108 AAAA 2001:4860:4802:36::6c A 216.239.38.108 AAAA 2001:4860:4802:38::6c OPT
+
+Frame 121: Packet, 452 bytes on wire (3616 bits), 452 bytes captured (3616 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 46740
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    124 7.389884118    192.168.69.70         103.94.135.195        DNS      108    Standard query 0x47d9 A firefox.settings.services.mozilla.com OPT
+
+Frame 124: Packet, 108 bytes on wire (864 bits), 108 bytes captured (864 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 57681, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    125 7.390206086    192.168.69.70         103.94.135.195        DNS      108    Standard query 0xd41c AAAA firefox.settings.services.mozilla.com OPT
+
+Frame 125: Packet, 108 bytes on wire (864 bits), 108 bytes captured (864 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 50571, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    126 7.409306255    103.94.135.195        192.168.69.70         DNS      296    Standard query response 0x47d9 A firefox.settings.services.mozilla.com CNAME mozilla.map.fastly.net A 146.75.45.91 NS ns1.fastly.net NS ns4.fastly.net NS ns3.fastly.net NS ns2.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 126: Packet, 296 bytes on wire (2368 bits), 296 bytes captured (2368 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 57681
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    127 7.409307244    103.94.135.195        192.168.69.70         DNS      308    Standard query response 0xd41c AAAA firefox.settings.services.mozilla.com CNAME mozilla.map.fastly.net AAAA 2a04:4e42:7b::347 NS ns3.fastly.net NS ns4.fastly.net NS ns1.fastly.net NS ns2.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 127: Packet, 308 bytes on wire (2464 bits), 308 bytes captured (2464 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 50571
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    130 7.558150716    103.94.135.195        192.168.69.70         DNS      232    Standard query response 0xf657 AAAA ads.mozilla.org CNAME mc.prod.ads.prod.webservices.mozgcp.net SOA ns-cloud-e1.googledomains.com OPT
+
+Frame 130: Packet, 232 bytes on wire (1856 bits), 232 bytes captured (1856 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49201
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    133 7.558664975    192.168.69.70         103.94.135.195        DNS      110    Standard query 0x1015 AAAA mc.prod.ads.prod.webservices.mozgcp.net OPT
+
+Frame 133: Packet, 110 bytes on wire (880 bits), 110 bytes captured (880 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 58967, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    134 7.568961448    103.94.135.195        192.168.69.70         DNS      203    Standard query response 0x1015 AAAA mc.prod.ads.prod.webservices.mozgcp.net SOA ns-cloud-e1.googledomains.com OPT
+
+Frame 134: Packet, 203 bytes on wire (1624 bits), 203 bytes captured (1624 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 58967
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    149 7.863584158    192.168.69.70         103.94.135.195        DNS      87     Standard query 0x5357 HTTPS web.whatsapp.com OPT
+
+Frame 149: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 33565, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    150 7.863829111    192.168.69.70         103.94.135.195        DNS      87     Standard query 0xdaa6 A web.whatsapp.com OPT
+
+Frame 150: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 39302, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    151 7.864036861    192.168.69.70         103.94.135.195        DNS      87     Standard query 0xf4bd AAAA web.whatsapp.com OPT
+
+Frame 151: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 56110, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    152 7.864300238    192.168.69.70         103.94.135.195        DNS      86     Standard query 0x1e10 A www.youtube.com OPT
+
+Frame 152: Packet, 86 bytes on wire (688 bits), 86 bytes captured (688 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 41248, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    153 7.864528813    192.168.69.70         103.94.135.195        DNS      86     Standard query 0x5796 AAAA www.youtube.com OPT
+
+Frame 153: Packet, 86 bytes on wire (688 bits), 86 bytes captured (688 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 37302, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    154 7.864757671    192.168.69.70         103.94.135.195        DNS      86     Standard query 0x525c HTTPS www.youtube.com OPT
+
+Frame 154: Packet, 86 bytes on wire (688 bits), 86 bytes captured (688 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49956, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    155 7.865006365    192.168.69.70         103.94.135.195        DNS      82     Standard query 0x0cbc HTTPS chatgpt.com OPT
+
+Frame 155: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 38823, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    156 7.865244682    192.168.69.70         103.94.135.195        DNS      82     Standard query 0x963a A chatgpt.com OPT
+
+Frame 156: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 38497, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    157 7.865490058    192.168.69.70         103.94.135.195        DNS      87     Standard query 0x9103 HTTPS www.facebook.com OPT
+
+Frame 157: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 43372, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    158 7.865710727    192.168.69.70         103.94.135.195        DNS      82     Standard query 0xc705 AAAA chatgpt.com OPT
+
+Frame 158: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35444, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    159 7.865966621    192.168.69.70         103.94.135.195        DNS      84     Standard query 0xc070 HTTPS www.figma.com OPT
+
+Frame 159: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 59092, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    160 7.866217503    192.168.69.70         103.94.135.195        DNS      87     Standard query 0x8701 A www.facebook.com OPT
+
+Frame 160: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 42940, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    161 7.866469656    192.168.69.70         103.94.135.195        DNS      87     Standard query 0xb139 AAAA www.facebook.com OPT
+
+Frame 161: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 37303, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    162 7.866694348    192.168.69.70         103.94.135.195        DNS      84     Standard query 0x0f50 A www.figma.com OPT
+
+Frame 162: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 40284, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    163 7.866906758    192.168.69.70         103.94.135.195        DNS      84     Standard query 0xd7bd AAAA www.figma.com OPT
+
+Frame 163: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 44158, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    164 7.867169994    192.168.69.70         103.94.135.195        DNS      85     Standard query 0x2c1c HTTPS cse.buet.ac.bd OPT
+
+Frame 164: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 56995, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    165 7.867409722    192.168.69.70         103.94.135.195        DNS      85     Standard query 0xf21a A cse.buet.ac.bd OPT
+
+Frame 165: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49911, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    166 7.867645074    192.168.69.70         103.94.135.195        DNS      85     Standard query 0x36bb AAAA cse.buet.ac.bd OPT
+
+Frame 166: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 57989, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    167 7.867882473    192.168.69.70         103.94.135.195        DNS      85     Standard query 0x1ad6 HTTPS www.kaggle.com OPT
+
+Frame 167: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49574, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    168 7.868123402    192.168.69.70         103.94.135.195        DNS      85     Standard query 0xc990 A www.kaggle.com OPT
+
+Frame 168: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 33527, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    169 7.868359319    192.168.69.70         103.94.135.195        DNS      85     Standard query 0xc815 AAAA www.kaggle.com OPT
+
+Frame 169: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 53706, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    186 7.951039940    103.94.135.195        192.168.69.70         DNS      169    Standard query response 0x5357 HTTPS web.whatsapp.com CNAME mmx-ds.cdn.whatsapp.net SOA a.ns.whatsapp.net OPT
+
+Frame 186: Packet, 169 bytes on wire (1352 bits), 169 bytes captured (1352 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 33565
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    187 7.951041352    103.94.135.195        192.168.69.70         DNS      383    Standard query response 0xdaa6 A web.whatsapp.com CNAME mmx-ds.cdn.whatsapp.net A 57.144.151.32 NS b.ns.whatsapp.net NS d.ns.whatsapp.net NS c.ns.whatsapp.net NS a.ns.whatsapp.net A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 187: Packet, 383 bytes on wire (3064 bits), 383 bytes captured (3064 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 39302
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    188 7.951593730    192.168.69.70         103.94.135.195        DNS      94     Standard query 0xfb72 HTTPS mmx-ds.cdn.whatsapp.net OPT
+
+Frame 188: Packet, 94 bytes on wire (752 bits), 94 bytes captured (752 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 38012, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    189 7.961672852    103.94.135.195        192.168.69.70         DNS      435    Standard query response 0x963a A chatgpt.com A 172.64.155.209 A 104.18.32.47 NS hassan.ns.cloudflare.com NS savanna.ns.cloudflare.com A 172.64.34.136 A 108.162.194.136 A 162.159.38.136 AAAA 2606:4700:50::a29f:2688 AAAA 2803:f800:50::6ca2:c288 AAAA 2a06:98c1:50::ac40:2288 A 162.159.44.149 A 172.64.35.149 A 108.162.195.149 AAAA 2a06:98c1:50::ac40:2395 AAAA 2606:4700:58::a29f:2c95 AAAA 2803:f800:50::6ca2:c395 OPT
+
+Frame 189: Packet, 435 bytes on wire (3480 bits), 435 bytes captured (3480 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 38497
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    190 7.961673841    103.94.135.195        192.168.69.70         DNS      624    Standard query response 0x1e10 A www.youtube.com CNAME youtube-ui.l.google.com A 74.125.130.136 A 74.125.130.91 A 74.125.68.91 A 74.125.68.190 A 74.125.68.93 A 74.125.68.136 A 172.253.118.136 A 172.253.118.93 A 172.253.118.190 A 172.253.118.91 A 74.125.24.93 A 74.125.24.91 A 74.125.24.190 A 74.125.24.136 A 74.125.130.93 A 74.125.130.190 NS ns1.google.com NS ns2.google.com NS ns4.google.com NS ns3.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.38.10 AAAA 2001:4860:4802:38::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.32.10 AAAA 2001:4860:4802:32::a OPT
+
+Frame 190: Packet, 624 bytes on wire (4992 bits), 624 bytes captured (4992 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 41248
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    191 7.961674829    103.94.135.195        192.168.69.70         DNS      383    Standard query response 0x525c HTTPS www.youtube.com CNAME youtube-ui.l.google.com HTTPS NS ns1.google.com NS ns2.google.com NS ns4.google.com NS ns3.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.38.10 AAAA 2001:4860:4802:38::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.32.10 AAAA 2001:4860:4802:32::a OPT
+
+Frame 191: Packet, 383 bytes on wire (3064 bits), 383 bytes captured (3064 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49956
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    192 7.964394083    192.168.69.70         103.94.135.195        DNS      87     Standard query 0x4cb0 A www.daraz.com.bd OPT
+
+Frame 192: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 40151, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    193 7.964588492    192.168.69.70         103.94.135.195        DNS      87     Standard query 0xea07 AAAA www.daraz.com.bd OPT
+
+Frame 193: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 50124, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    194 7.964955991    103.94.135.195        192.168.69.70         DNS      375    Standard query response 0x8701 A www.facebook.com CNAME star-mini.c10r.facebook.com A 57.144.150.1 NS b.ns.facebook.com NS c.ns.facebook.com NS d.ns.facebook.com NS a.ns.facebook.com A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 194: Packet, 375 bytes on wire (3000 bits), 375 bytes captured (3000 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 42940
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    195 7.964957474    103.94.135.195        192.168.69.70         DNS      130    Standard query response 0x2c1c HTTPS cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 195: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 56995
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    196 7.964958462    103.94.135.195        192.168.69.70         DNS      143    Standard query response 0x0cbc HTTPS chatgpt.com SOA hassan.ns.cloudflare.com OPT
+
+Frame 196: Packet, 143 bytes on wire (1144 bits), 143 bytes captured (1144 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 38823
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    197 7.964959450    103.94.135.195        192.168.69.70         DNS      395    Standard query response 0xc990 A www.kaggle.com A 35.244.233.98 NS ns-cloud-c2.googledomains.com NS ns-cloud-c1.googledomains.com NS ns-cloud-c3.googledomains.com NS ns-cloud-c4.googledomains.com A 216.239.32.108 AAAA 2001:4860:4802:32::6c A 216.239.34.108 AAAA 2001:4860:4802:34::6c A 216.239.36.108 AAAA 2001:4860:4802:36::6c A 216.239.38.108 AAAA 2001:4860:4802:38::6c OPT
+
+Frame 197: Packet, 395 bytes on wire (3160 bits), 395 bytes captured (3160 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 33527
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    198 7.964960368    103.94.135.195        192.168.69.70         DNS      130    Standard query response 0x36bb AAAA cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 198: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 57989
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    199 7.964961850    103.94.135.195        192.168.69.70         DNS      175    Standard query response 0x1ad6 HTTPS www.kaggle.com SOA ns-cloud-c1.googledomains.com OPT
+
+Frame 199: Packet, 175 bytes on wire (1400 bits), 175 bytes captured (1400 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49574
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    200 7.964962768    103.94.135.195        192.168.69.70         DNS      446    Standard query response 0x9103 HTTPS www.facebook.com CNAME star-mini.c10r.facebook.com HTTPS HTTPS NS c.ns.facebook.com NS d.ns.facebook.com NS b.ns.facebook.com NS a.ns.facebook.com A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 200: Packet, 446 bytes on wire (3568 bits), 446 bytes captured (3568 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 43372
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    201 7.967311205    192.168.69.70         103.94.135.195        DNS      87     Standard query 0xb1df HTTPS www.daraz.com.bd OPT
+
+Frame 201: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 53020, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    202 7.968257625    103.94.135.195        192.168.69.70         DNS      139    Standard query response 0xfb72 HTTPS mmx-ds.cdn.whatsapp.net SOA a.ns.whatsapp.net OPT
+
+Frame 202: Packet, 139 bytes on wire (1112 bits), 139 bytes captured (1112 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 38012
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    203 7.968258614    103.94.135.195        192.168.69.70         DNS      135    Standard query response 0xf21a A cse.buet.ac.bd A 103.94.135.240 NS ns1.buet.ac.bd A 103.94.135.195 OPT
+
+Frame 203: Packet, 135 bytes on wire (1080 bits), 135 bytes captured (1080 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49911
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    207 8.116028249    103.94.135.195        192.168.69.70         DNS      395    Standard query response 0xf4bd AAAA web.whatsapp.com CNAME mmx-ds.cdn.whatsapp.net AAAA 2a03:2880:f34b:120:face:b00c:0:167 NS b.ns.whatsapp.net NS c.ns.whatsapp.net NS d.ns.whatsapp.net NS a.ns.whatsapp.net A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 207: Packet, 395 bytes on wire (3160 bits), 395 bytes captured (3160 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 56110
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    208 8.116029731    103.94.135.195        192.168.69.70         DNS      459    Standard query response 0xc705 AAAA chatgpt.com AAAA 2a06:98c1:3100::6812:202f AAAA 2a06:98c1:310b::ac40:9bd1 NS savanna.ns.cloudflare.com NS hassan.ns.cloudflare.com A 108.162.194.136 A 162.159.38.136 A 172.64.34.136 AAAA 2803:f800:50::6ca2:c288 AAAA 2a06:98c1:50::ac40:2288 AAAA 2606:4700:50::a29f:2688 A 172.64.35.149 A 108.162.195.149 A 162.159.44.149 AAAA 2606:4700:58::a29f:2c95 AAAA 2803:f800:50::6ca2:c395 AAAA 2a06:98c1:50::ac40:2395 OPT
+
+Frame 208: Packet, 459 bytes on wire (3672 bits), 459 bytes captured (3672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35444
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    209 8.116031213    103.94.135.195        192.168.69.70         DNS      168    Standard query response 0xd7bd AAAA www.figma.com SOA ns-1657.awsdns-15.co.uk OPT
+
+Frame 209: Packet, 168 bytes on wire (1344 bits), 168 bytes captured (1344 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 44158
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    210 8.116032202    103.94.135.195        192.168.69.70         DNS      387    Standard query response 0xb139 AAAA www.facebook.com CNAME star-mini.c10r.facebook.com AAAA 2a03:2880:f34b:1:face:b00c:0:25de NS d.ns.facebook.com NS a.ns.facebook.com NS b.ns.facebook.com NS c.ns.facebook.com A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 210: Packet, 387 bytes on wire (3096 bits), 387 bytes captured (3096 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 37303
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    216 8.116172043    103.94.135.195        192.168.69.70         DNS      317    Standard query response 0x0f50 A www.figma.com A 54.192.151.111 A 54.192.151.34 A 54.192.151.47 A 54.192.151.100 NS ns-1239.awsdns-26.org NS ns-326.awsdns-40.com NS ns-912.awsdns-50.net NS ns-1657.awsdns-15.co.uk A 205.251.193.70 A 205.251.195.144 OPT
+
+Frame 216: Packet, 317 bytes on wire (2536 bits), 317 bytes captured (2536 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 40284
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    217 8.116172961    103.94.135.195        192.168.69.70         DNS      278    Standard query response 0xc070 HTTPS www.figma.com HTTPS NS ns-1657.awsdns-15.co.uk NS ns-326.awsdns-40.com NS ns-1239.awsdns-26.org NS ns-912.awsdns-50.net A 205.251.193.70 A 205.251.195.144 OPT
+
+Frame 217: Packet, 278 bytes on wire (2224 bits), 278 bytes captured (2224 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 59092
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    218 8.116173949    103.94.135.195        192.168.69.70         DNS      175    Standard query response 0xc815 AAAA www.kaggle.com SOA ns-cloud-c1.googledomains.com OPT
+
+Frame 218: Packet, 175 bytes on wire (1400 bits), 175 bytes captured (1400 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 53706
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    219 8.116175361    103.94.135.195        192.168.69.70         DNS      480    Standard query response 0x5796 AAAA www.youtube.com CNAME youtube-ui.l.google.com AAAA 2404:6800:4003:c01::88 AAAA 2404:6800:4003:c01::be AAAA 2404:6800:4003:c01::5b AAAA 2404:6800:4003:c01::5d NS ns4.google.com NS ns3.google.com NS ns1.google.com NS ns2.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.38.10 AAAA 2001:4860:4802:38::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.32.10 AAAA 2001:4860:4802:32::a OPT
+
+Frame 219: Packet, 480 bytes on wire (3840 bits), 480 bytes captured (3840 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 37302
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    237 8.930842019    192.168.69.70         103.94.135.195        DNS      98     Standard query 0xb26c A safebrowsing.googleapis.com OPT
+
+Frame 237: Packet, 98 bytes on wire (784 bits), 98 bytes captured (784 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35334, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    238 8.931050128    192.168.69.70         103.94.135.195        DNS      98     Standard query 0x2411 AAAA safebrowsing.googleapis.com OPT
+
+Frame 238: Packet, 98 bytes on wire (784 bits), 98 bytes captured (784 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 55351, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    239 8.981916195    192.168.69.70         103.94.135.195        DNS      96     Standard query 0xaa7c A push.services.mozilla.com OPT
+
+Frame 239: Packet, 96 bytes on wire (768 bits), 96 bytes captured (768 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 55724, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    240 8.982180632    192.168.69.70         103.94.135.195        DNS      96     Standard query 0xadb2 AAAA push.services.mozilla.com OPT
+
+Frame 240: Packet, 96 bytes on wire (768 bits), 96 bytes captured (768 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 34292, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    248 9.171808526    103.94.135.195        192.168.69.70         DNS      416    Standard query response 0xb1df HTTPS www.daraz.com.bd CNAME daraz.wagbridge.alibaba-inc.com CNAME daraz.wagbridge.alibaba-inc.com.gds.alibabadns.com CNAME daraz-sg.alibaba.com CNAME daraz-sg.alibaba.com.gds.alibabadns.com CNAME lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com CNAME lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 248: Packet, 416 bytes on wire (3328 bits), 416 bytes captured (3328 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 53020
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    249 9.171810006    103.94.135.195        192.168.69.70         DNS      404    Standard query response 0xea07 AAAA www.daraz.com.bd CNAME daraz.wagbridge.alibaba-inc.com CNAME daraz.wagbridge.alibaba-inc.com.gds.alibabadns.com CNAME daraz-sg.alibaba.com CNAME daraz-sg.alibaba.com.gds.alibabadns.com CNAME rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com CNAME rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 249: Packet, 404 bytes on wire (3232 bits), 404 bytes captured (3232 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 50124
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    250 9.171810923    103.94.135.195        192.168.69.70         DNS      669    Standard query response 0x4cb0 A www.daraz.com.bd CNAME daraz.wagbridge.alibaba-inc.com CNAME daraz.wagbridge.alibaba-inc.com.gds.alibabadns.com CNAME daraz-sg.alibaba.com CNAME daraz-sg.alibaba.com.gds.alibabadns.com CNAME lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com CNAME lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com A 47.246.165.19 NS ns2.alibabadns.com NS ns1.alibabadns.com A 140.205.103.192 A 140.205.122.66 A 47.88.74.38 A 47.241.207.18 A 106.11.35.19 A 106.11.41.157 AAAA 2401:b180:4100::1 A 47.241.207.16 A 106.11.35.18 A 106.11.41.158 A 140.205.103.194 A 140.205.122.77 A 47.88.74.36 AAAA 2401:b180:4100::2 OPT
+
+Frame 250: Packet, 669 bytes on wire (5352 bits), 669 bytes captured (5352 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 40151
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    251 9.172809452    192.168.69.70         103.94.135.195        DNS      144    Standard query 0x2d3d HTTPS lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com OPT
+
+Frame 251: Packet, 144 bytes on wire (1152 bits), 144 bytes captured (1152 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 39492, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    252 9.175560414    192.168.69.70         103.94.135.195        DNS      138    Standard query 0x7b9d AAAA rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com OPT
+
+Frame 252: Packet, 138 bytes on wire (1104 bits), 138 bytes captured (1104 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 51871, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    256 9.327452438    103.94.135.195        192.168.69.70         DNS      177    Standard query response 0xadb2 AAAA push.services.mozilla.com SOA ns-679.awsdns-20.net OPT
+
+Frame 256: Packet, 177 bytes on wire (1416 bits), 177 bytes captured (1416 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 34292
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    257 9.327453848    103.94.135.195        192.168.69.70         DNS      369    Standard query response 0xb26c A safebrowsing.googleapis.com A 142.251.10.95 NS ns4.google.com NS ns3.google.com NS ns1.google.com NS ns2.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.32.10 AAAA 2001:4860:4802:32::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.38.10 AAAA 2001:4860:4802:38::a OPT
+
+Frame 257: Packet, 369 bytes on wire (2952 bits), 369 bytes captured (2952 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35334
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    258 9.327454835    103.94.135.195        192.168.69.70         DNS      281    Standard query response 0xaa7c A push.services.mozilla.com A 34.107.243.93 NS ns-1655.awsdns-14.co.uk NS ns-258.awsdns-32.com NS ns-1471.awsdns-55.org NS ns-679.awsdns-20.net A 205.251.193.2 A 205.251.194.167 OPT
+
+Frame 258: Packet, 281 bytes on wire (2248 bits), 281 bytes captured (2248 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 55724
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    259 9.327455752    103.94.135.195        192.168.69.70         DNS      381    Standard query response 0x2411 AAAA safebrowsing.googleapis.com AAAA 2404:6800:4003:c0f::5f NS ns2.google.com NS ns1.google.com NS ns4.google.com NS ns3.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.32.10 AAAA 2001:4860:4802:32::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.38.10 AAAA 2001:4860:4802:38::a OPT
+
+Frame 259: Packet, 381 bytes on wire (3048 bits), 381 bytes captured (3048 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 55351
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    262 9.330713803    103.94.135.195        192.168.69.70         DNS      185    Standard query response 0x7b9d AAAA rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 262: Packet, 185 bytes on wire (1480 bits), 185 bytes captured (1480 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 51871
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    263 9.330714719    103.94.135.195        192.168.69.70         DNS      191    Standard query response 0x2d3d HTTPS lazada-sg-2.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 263: Packet, 191 bytes on wire (1528 bits), 191 bytes captured (1528 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 39492
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    290 9.776647526    192.168.69.70         103.94.135.195        DNS      101    Standard query 0xf901 A incoming.telemetry.mozilla.org OPT
+
+Frame 290: Packet, 101 bytes on wire (808 bits), 101 bytes captured (808 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 37430, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    291 9.776906726    192.168.69.70         103.94.135.195        DNS      101    Standard query 0xd590 AAAA incoming.telemetry.mozilla.org OPT
+
+Frame 291: Packet, 101 bytes on wire (808 bits), 101 bytes captured (808 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 39992, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    328 9.850181040    192.168.69.70         103.94.135.195        DNS      89     Standard query 0x5ad9 HTTPS cloudflare-dns.com OPT
+
+Frame 328: Packet, 89 bytes on wire (712 bits), 89 bytes captured (712 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 41426, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    329 9.850445944    192.168.69.70         103.94.135.195        DNS      82     Standard query 0xc076 A example.org OPT
+
+Frame 329: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 51619, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    330 9.850746830    192.168.69.70         103.94.135.195        DNS      82     Standard query 0x47c6 AAAA example.org OPT
+
+Frame 330: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 54105, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    332 9.850944838    192.168.69.70         103.94.135.195        DNS      84     Standard query 0xc33d A ipv4only.arpa OPT
+
+Frame 332: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 47961, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    333 9.851175872    192.168.69.70         103.94.135.195        DNS      84     Standard query 0xdff1 AAAA ipv4only.arpa OPT
+
+Frame 333: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 36780, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    347 9.935307364    103.94.135.195        192.168.69.70         DNS      326    Standard query response 0xf901 A incoming.telemetry.mozilla.org CNAME telemetry-incoming.r53-2.services.mozilla.com A 34.120.208.123 NS ns-1507.awsdns-60.org NS ns-772.awsdns-32.net NS ns-206.awsdns-25.com NS ns-1537.awsdns-00.co.uk A 205.251.195.4 OPT
+
+Frame 347: Packet, 326 bytes on wire (2608 bits), 326 bytes captured (2608 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 37430
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    348 9.935308843    103.94.135.195        192.168.69.70         DNS      239    Standard query response 0xd590 AAAA incoming.telemetry.mozilla.org CNAME telemetry-incoming.r53-2.services.mozilla.com SOA ns-1507.awsdns-60.org OPT
+
+Frame 348: Packet, 239 bytes on wire (1912 bits), 239 bytes captured (1912 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 39992
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    359 9.936466547    192.168.69.70         103.94.135.195        DNS      116    Standard query 0x82e9 AAAA telemetry-incoming.r53-2.services.mozilla.com OPT
+
+Frame 359: Packet, 116 bytes on wire (928 bits), 116 bytes captured (928 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 37437, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    376 9.956078502    103.94.135.195        192.168.69.70         DNS      329    Standard query response 0x47c6 AAAA example.org AAAA 2606:4700::6812:218 AAAA 2606:4700::6812:318 NS katelyn.ns.cloudflare.com NS mitch.ns.cloudflare.com A 108.162.194.235 A 162.159.38.235 A 172.64.34.235 AAAA 2803:f800:50::6ca2:c2eb AAAA 2a06:98c1:50::ac40:22eb AAAA 2606:4700:50::a29f:26eb OPT
+
+Frame 376: Packet, 329 bytes on wire (2632 bits), 329 bytes captured (2632 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 54105
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    377 9.956079910    103.94.135.195        192.168.69.70         DNS      305    Standard query response 0xc076 A example.org A 104.18.3.24 A 104.18.2.24 NS mitch.ns.cloudflare.com NS katelyn.ns.cloudflare.com A 172.64.34.235 A 108.162.194.235 A 162.159.38.235 AAAA 2606:4700:50::a29f:26eb AAAA 2803:f800:50::6ca2:c2eb AAAA 2a06:98c1:50::ac40:22eb OPT
+
+Frame 377: Packet, 305 bytes on wire (2440 bits), 305 bytes captured (2440 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 51619
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    378 9.956081812    103.94.135.195        192.168.69.70         DNS      141    Standard query response 0xdff1 AAAA ipv4only.arpa SOA sns.dns.icann.org OPT
+
+Frame 378: Packet, 141 bytes on wire (1128 bits), 141 bytes captured (1128 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 36780
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    379 9.956083290    103.94.135.195        192.168.69.70         DNS      382    Standard query response 0xc33d A ipv4only.arpa A 192.0.0.171 A 192.0.0.170 NS ns.icann.org NS b.iana-servers.net NS c.iana-servers.net NS a.iana-servers.net A 199.43.135.53 AAAA 2001:500:8f::53 A 199.43.133.53 AAAA 2001:500:8d::53 A 199.43.134.53 AAAA 2001:500:8e::53 A 199.4.138.53 AAAA 2001:500:89::53 OPT
+
+Frame 379: Packet, 382 bytes on wire (3056 bits), 382 bytes captured (3056 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 47961
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    384 9.962640255    103.94.135.195        192.168.69.70         DNS      348    Standard query response 0x5ad9 HTTPS cloudflare-dns.com HTTPS NS ns2.cloudflare-dns.com NS ns3.cloudflare-dns.com NS ns1.cloudflare-dns.com A 162.159.0.33 AAAA 2400:cb00:2049:1::a29f:21 A 162.159.1.33 AAAA 2400:cb00:2049:1::a29f:121 A 162.159.2.9 AAAA 2400:cb00:2049:1::a29f:209 OPT
+
+Frame 384: Packet, 348 bytes on wire (2784 bits), 348 bytes captured (2784 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 41426
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    385 9.962641734    103.94.135.195        192.168.69.70         DNS      198    Standard query response 0x82e9 AAAA telemetry-incoming.r53-2.services.mozilla.com SOA ns-1507.awsdns-60.org OPT
+
+Frame 385: Packet, 198 bytes on wire (1584 bits), 198 bytes captured (1584 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 37437
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    751 13.725557586   192.168.69.70         103.94.135.195        DNS      115    Standard query 0xc3f0 A firefox-settings-attachments.cdn.mozilla.net OPT
+
+Frame 751: Packet, 115 bytes on wire (920 bits), 115 bytes captured (920 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35914, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    752 13.725810016   192.168.69.70         103.94.135.195        DNS      115    Standard query 0x5f68 AAAA firefox-settings-attachments.cdn.mozilla.net OPT
+
+Frame 752: Packet, 115 bytes on wire (920 bits), 115 bytes captured (920 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49311, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+    756 13.790858182   103.94.135.195        192.168.69.70         DNS      300    Standard query response 0xc3f0 A firefox-settings-attachments.cdn.mozilla.net CNAME mozilla.map.fastly.net A 146.75.45.91 NS ns2.fastly.net NS ns1.fastly.net NS ns3.fastly.net NS ns4.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 756: Packet, 300 bytes on wire (2400 bits), 300 bytes captured (2400 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35914
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+    757 13.790859164   103.94.135.195        192.168.69.70         DNS      312    Standard query response 0x5f68 AAAA firefox-settings-attachments.cdn.mozilla.net CNAME mozilla.map.fastly.net AAAA 2a04:4e42:7b::347 NS ns1.fastly.net NS ns3.fastly.net NS ns2.fastly.net NS ns4.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 757: Packet, 312 bytes on wire (2496 bits), 312 bytes captured (2496 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49311
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1004 16.640933942   192.168.69.70         103.94.135.195        DNS      117    Standard query 0x9f78 A prod.ohttp-gateway.prod.webservices.mozgcp.net OPT
+
+Frame 1004: Packet, 117 bytes on wire (936 bits), 117 bytes captured (936 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 50147, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1005 16.641337947   192.168.69.70         103.94.135.195        DNS      117    Standard query 0x15bc AAAA prod.ohttp-gateway.prod.webservices.mozgcp.net OPT
+
+Frame 1005: Packet, 117 bytes on wire (936 bits), 117 bytes captured (936 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 60990, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1008 16.681801753   103.94.135.195        192.168.69.70         DNS      430    Standard query response 0x9f78 A prod.ohttp-gateway.prod.webservices.mozgcp.net A 34.149.117.202 NS ns-cloud-b3.googledomains.com NS ns-cloud-b1.googledomains.com NS ns-cloud-b2.googledomains.com NS ns-cloud-b4.googledomains.com A 216.239.32.107 AAAA 2001:4860:4802:32::6b A 216.239.36.107 AAAA 2001:4860:4802:36::6b A 216.239.38.107 AAAA 2001:4860:4802:38::6b A 216.239.34.107 AAAA 2001:4860:4802:34::6b OPT
+
+Frame 1008: Packet, 430 bytes on wire (3440 bits), 430 bytes captured (3440 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 50147
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1010 16.840272187   103.94.135.195        192.168.69.70         DNS      210    Standard query response 0x15bc AAAA prod.ohttp-gateway.prod.webservices.mozgcp.net SOA ns-cloud-e1.googledomains.com OPT
+
+Frame 1010: Packet, 210 bytes on wire (1680 bits), 210 bytes captured (1680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 60990
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1040 17.174753446   192.168.69.70         103.94.135.195        DNS      100    Standard query 0x2958 A mozilla-ohttp.fastly-edge.com OPT
+
+Frame 1040: Packet, 100 bytes on wire (800 bits), 100 bytes captured (800 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 50800, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1041 17.174990342   192.168.69.70         103.94.135.195        DNS      100    Standard query 0x733b AAAA mozilla-ohttp.fastly-edge.com OPT
+
+Frame 1041: Packet, 100 bytes on wire (800 bits), 100 bytes captured (800 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 39808, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1047 17.391526561   192.168.69.70         103.94.135.195        DNS      85     Standard query 0x2099 HTTPS cse.buet.ac.bd OPT
+
+Frame 1047: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 52131, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1048 17.392102090   192.168.69.70         103.94.135.195        DNS      85     Standard query 0x0848 AAAA cse.buet.ac.bd OPT
+
+Frame 1048: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 51560, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1049 17.396583214   103.94.135.195        192.168.69.70         DNS      364    Standard query response 0x2958 A mozilla-ohttp.fastly-edge.com A 146.75.45.91 NS ns3.fastly-edge.com NS ns4.fastly-edge.com NS ns2.fastly-edge.com NS ns1.fastly-edge.com A 23.235.32.32 AAAA 2a04:4e47::32 A 104.156.80.32 AAAA 2a04:4e47:1::32 A 23.235.36.32 AAAA 2a04:4e47:2::32 A 104.156.84.32 AAAA 2a04:4e47:3::32 OPT
+
+Frame 1049: Packet, 364 bytes on wire (2912 bits), 364 bytes captured (2912 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 50800
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1050 17.396584195   103.94.135.195        192.168.69.70         DNS      376    Standard query response 0x733b AAAA mozilla-ohttp.fastly-edge.com AAAA 2a04:4e42:7b::347 NS ns3.fastly-edge.com NS ns1.fastly-edge.com NS ns2.fastly-edge.com NS ns4.fastly-edge.com A 23.235.32.32 AAAA 2a04:4e47::32 A 104.156.80.32 AAAA 2a04:4e47:1::32 A 23.235.36.32 AAAA 2a04:4e47:2::32 A 104.156.84.32 AAAA 2a04:4e47:3::32 OPT
+
+Frame 1050: Packet, 376 bytes on wire (3008 bits), 376 bytes captured (3008 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 39808
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1057 17.408795790   103.94.135.195        192.168.69.70         DNS      130    Standard query response 0x2099 HTTPS cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 1057: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 52131
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1058 17.408796770   103.94.135.195        192.168.69.70         DNS      130    Standard query response 0x0848 AAAA cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 1058: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 51560
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1244 20.967353575   192.168.69.70         103.94.135.195        DNS      87     Standard query 0x4412 HTTPS cdn.jsdelivr.net OPT
+
+Frame 1244: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 44567, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1245 20.967552650   192.168.69.70         103.94.135.195        DNS      87     Standard query 0x7629 A cdn.jsdelivr.net OPT
+
+Frame 1245: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 48736, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1246 20.967718137   192.168.69.70         103.94.135.195        DNS      87     Standard query 0xf557 AAAA cdn.jsdelivr.net OPT
+
+Frame 1246: Packet, 87 bytes on wire (696 bits), 87 bytes captured (696 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 60930, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1271 21.205773212   103.94.135.195        192.168.69.70         DNS      369    Standard query response 0xf557 AAAA cdn.jsdelivr.net CNAME jsdelivr.map.fastly.net AAAA 2a04:4e42::485 AAAA 2a04:4e42:200::485 AAAA 2a04:4e42:400::485 AAAA 2a04:4e42:600::485 NS ns2.fastly.net NS ns4.fastly.net NS ns3.fastly.net NS ns1.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 1271: Packet, 369 bytes on wire (2952 bits), 369 bytes captured (2952 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 60930
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1272 21.205774191   103.94.135.195        192.168.69.70         DNS      321    Standard query response 0x7629 A cdn.jsdelivr.net CNAME jsdelivr.map.fastly.net A 151.101.65.229 A 151.101.129.229 A 151.101.193.229 A 151.101.1.229 NS ns2.fastly.net NS ns4.fastly.net NS ns3.fastly.net NS ns1.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 1272: Packet, 321 bytes on wire (2568 bits), 321 bytes captured (2568 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 48736
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1273 21.205775101   103.94.135.195        192.168.69.70         DNS      182    Standard query response 0x4412 HTTPS cdn.jsdelivr.net CNAME jsdelivr.map.fastly.net SOA ns1.fastly.net OPT
+
+Frame 1273: Packet, 182 bytes on wire (1456 bits), 182 bytes captured (1456 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 44567
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1277 21.206914269   192.168.69.70         103.94.135.195        DNS      94     Standard query 0x25d8 HTTPS jsdelivr.map.fastly.net OPT
+
+Frame 1277: Packet, 94 bytes on wire (752 bits), 94 bytes captured (752 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 59205, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1312 21.229734585   103.94.135.195        192.168.69.70         DNS      155    Standard query response 0x25d8 HTTPS jsdelivr.map.fastly.net SOA ns1.fastly.net OPT
+
+Frame 1312: Packet, 155 bytes on wire (1240 bits), 155 bytes captured (1240 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 59205
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1587 22.621876899   192.168.69.70         103.94.135.195        DNS      85     Standard query 0x384b A www.google.com OPT
+
+Frame 1587: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35157, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1588 22.622078893   192.168.69.70         103.94.135.195        DNS      85     Standard query 0xdca7 AAAA www.google.com OPT
+
+Frame 1588: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 59070, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1589 22.633050774   103.94.135.195        192.168.69.70         DNS      445    Standard query response 0xdca7 AAAA www.google.com AAAA 2404:6800:4003:c11::67 AAAA 2404:6800:4003:c11::93 AAAA 2404:6800:4003:c11::69 AAAA 2404:6800:4003:c11::63 NS ns2.google.com NS ns1.google.com NS ns3.google.com NS ns4.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.38.10 AAAA 2001:4860:4802:38::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.32.10 AAAA 2001:4860:4802:32::a OPT
+
+Frame 1589: Packet, 445 bytes on wire (3560 bits), 445 bytes captured (3560 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 59070
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1590 22.633052173   103.94.135.195        192.168.69.70         DNS      429    Standard query response 0x384b A www.google.com A 142.251.12.147 A 142.251.12.104 A 142.251.12.103 A 142.251.12.106 A 142.251.12.105 A 142.251.12.99 NS ns3.google.com NS ns4.google.com NS ns2.google.com NS ns1.google.com A 216.239.34.10 AAAA 2001:4860:4802:34::a A 216.239.38.10 AAAA 2001:4860:4802:38::a A 216.239.36.10 AAAA 2001:4860:4802:36::a A 216.239.32.10 AAAA 2001:4860:4802:32::a OPT
+
+Frame 1590: Packet, 429 bytes on wire (3432 bits), 429 bytes captured (3432 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35157
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1685 23.662781876   192.168.69.70         103.94.135.195        DNS      84     Standard query 0x6f0d HTTPS www.nsnam.org OPT
+
+Frame 1685: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 60405, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1686 23.662992644   192.168.69.70         103.94.135.195        DNS      84     Standard query 0xa945 A www.nsnam.org OPT
+
+Frame 1686: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 42734, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1687 23.663214042   192.168.69.70         103.94.135.195        DNS      84     Standard query 0x50ab AAAA www.nsnam.org OPT
+
+Frame 1687: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 55785, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1688 23.688731236   192.168.69.70         103.94.135.195        DNS      94     Standard query 0x5f62 HTTPS mmx-ds.cdn.whatsapp.net OPT
+
+Frame 1688: Packet, 94 bytes on wire (752 bits), 94 bytes captured (752 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 33109, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1689 23.688942704   192.168.69.70         103.94.135.195        DNS      82     Standard query 0x3284 HTTPS chatgpt.com OPT
+
+Frame 1689: Packet, 82 bytes on wire (656 bits), 82 bytes captured (656 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49637, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1690 23.691328570   192.168.69.70         103.94.135.195        DNS      85     Standard query 0xb970 HTTPS cse.buet.ac.bd OPT
+
+Frame 1690: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35051, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1691 23.691908988   192.168.69.70         103.94.135.195        DNS      98     Standard query 0x6397 A star-mini.c10r.facebook.com OPT
+
+Frame 1691: Packet, 98 bytes on wire (784 bits), 98 bytes captured (784 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 58736, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1692 23.694885133   192.168.69.70         103.94.135.195        DNS      84     Standard query 0xcb31 AAAA www.figma.com OPT
+
+Frame 1692: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 55151, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1693 23.695296950   192.168.69.70         103.94.135.195        DNS      85     Standard query 0xba77 AAAA cse.buet.ac.bd OPT
+
+Frame 1693: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 49935, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1694 23.697102608   192.168.69.70         103.94.135.195        DNS      85     Standard query 0xfc81 AAAA www.kaggle.com OPT
+
+Frame 1694: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 52139, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1695 23.697286874   192.168.69.70         103.94.135.195        DNS      85     Standard query 0xf917 HTTPS www.kaggle.com OPT
+
+Frame 1695: Packet, 85 bytes on wire (680 bits), 85 bytes captured (680 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 54917, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1696 23.698117430   192.168.69.70         103.94.135.195        DNS      138    Standard query 0xb3bb HTTPS rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com OPT
+
+Frame 1696: Packet, 138 bytes on wire (1104 bits), 138 bytes captured (1104 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 46431, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1698 23.698917778   192.168.69.70         103.94.135.195        DNS      138    Standard query 0xb130 A rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com OPT
+
+Frame 1698: Packet, 138 bytes on wire (1104 bits), 138 bytes captured (1104 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 50676, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1699 23.699701901   192.168.69.70         103.94.135.195        DNS      138    Standard query 0xbcc7 AAAA rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com OPT
+
+Frame 1699: Packet, 138 bytes on wire (1104 bits), 138 bytes captured (1104 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 35131, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1702 23.711823612   103.94.135.195        192.168.69.70         DNS      130    Standard query response 0xba77 AAAA cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 1702: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49935
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1703 23.711825010   103.94.135.195        192.168.69.70         DNS      139    Standard query response 0x5f62 HTTPS mmx-ds.cdn.whatsapp.net SOA a.ns.whatsapp.net OPT
+
+Frame 1703: Packet, 139 bytes on wire (1112 bits), 139 bytes captured (1112 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 33109
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1704 23.711825919   103.94.135.195        192.168.69.70         DNS      168    Standard query response 0xcb31 AAAA www.figma.com SOA ns-1657.awsdns-15.co.uk OPT
+
+Frame 1704: Packet, 168 bytes on wire (1344 bits), 168 bytes captured (1344 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 55151
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1705 23.711827318   103.94.135.195        192.168.69.70         DNS      175    Standard query response 0xfc81 AAAA www.kaggle.com SOA ns-cloud-c1.googledomains.com OPT
+
+Frame 1705: Packet, 175 bytes on wire (1400 bits), 175 bytes captured (1400 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 52139
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1706 23.711828297   103.94.135.195        192.168.69.70         DNS      357    Standard query response 0x6397 A star-mini.c10r.facebook.com A 57.144.150.1 NS b.ns.facebook.com NS a.ns.facebook.com NS d.ns.facebook.com NS c.ns.facebook.com A 129.134.30.12 AAAA 2a03:2880:f0fc:c:face:b00c:0:35 A 129.134.31.12 AAAA 2a03:2880:f0fd:c:face:b00c:0:35 A 185.89.218.12 AAAA 2a03:2880:f1fc:c:face:b00c:0:35 A 185.89.219.12 AAAA 2a03:2880:f1fd:c:face:b00c:0:35 OPT
+
+Frame 1706: Packet, 357 bytes on wire (2856 bits), 357 bytes captured (2856 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 58736
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1707 23.711829695   103.94.135.195        192.168.69.70         DNS      130    Standard query response 0xb970 HTTPS cse.buet.ac.bd SOA ns1.buet.ac.bd OPT
+
+Frame 1707: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35051
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1708 23.711830674   103.94.135.195        192.168.69.70         DNS      175    Standard query response 0xf917 HTTPS www.kaggle.com SOA ns-cloud-c1.googledomains.com OPT
+
+Frame 1708: Packet, 175 bytes on wire (1400 bits), 175 bytes captured (1400 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 54917
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1709 23.717303734   103.94.135.195        192.168.69.70         DNS      185    Standard query response 0xbcc7 AAAA rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 1709: Packet, 185 bytes on wire (1480 bits), 185 bytes captured (1480 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 35131
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1710 23.717305622   103.94.135.195        192.168.69.70         DNS      143    Standard query response 0x3284 HTTPS chatgpt.com SOA hassan.ns.cloudflare.com OPT
+
+Frame 1710: Packet, 143 bytes on wire (1144 bits), 143 bytes captured (1144 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 49637
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1712 23.764371001   103.94.135.195        192.168.69.70         DNS      185    Standard query response 0xb3bb HTTPS rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com SOA gdsns1.alibabadns.com OPT
+
+Frame 1712: Packet, 185 bytes on wire (1480 bits), 185 bytes captured (1480 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 46431
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1716 23.774174676   103.94.135.195        192.168.69.70         DNS      438    Standard query response 0xb130 A rg-sg.daraz.wagbridge.aserver-lazada.alibaba.com.gds.alibabadns.com A 47.246.167.195 NS ns2.alibabadns.com NS ns1.alibabadns.com A 47.88.74.38 A 47.241.207.18 A 106.11.35.19 A 106.11.41.157 A 140.205.103.192 A 140.205.122.66 AAAA 2401:b180:4100::1 A 106.11.41.158 A 140.205.103.194 A 140.205.122.77 A 47.88.74.36 A 47.241.207.16 A 106.11.35.18 AAAA 2401:b180:4100::2 OPT
+
+Frame 1716: Packet, 438 bytes on wire (3504 bits), 438 bytes captured (3504 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 50676
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1733 23.882128886   192.168.69.70         103.94.135.195        DNS      84     Standard query 0xbbb3 HTTPS www.nidhi.com OPT
+
+Frame 1733: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 45551, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1734 23.882352662   192.168.69.70         103.94.135.195        DNS      84     Standard query 0x24f2 A www.nidhi.com OPT
+
+Frame 1734: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 36432, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1735 23.882531333   192.168.69.70         103.94.135.195        DNS      84     Standard query 0x8980 AAAA www.nidhi.com OPT
+
+Frame 1735: Packet, 84 bytes on wire (672 bits), 84 bytes captured (672 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 60637, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1745 23.985119545   103.94.135.195        192.168.69.70         DNS      146    Standard query response 0x8980 AAAA www.nidhi.com SOA ns1.namefind.com OPT
+
+Frame 1745: Packet, 146 bytes on wire (1168 bits), 146 bytes captured (1168 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 60637
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1746 23.985121433   103.94.135.195        192.168.69.70         DNS      146    Standard query response 0xbbb3 HTTPS www.nidhi.com SOA ns1.namefind.com OPT
+
+Frame 1746: Packet, 146 bytes on wire (1168 bits), 146 bytes captured (1168 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 45551
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1747 23.985122902   103.94.135.195        192.168.69.70         DNS      193    Standard query response 0x24f2 A www.nidhi.com A 13.248.169.48 A 76.223.54.146 NS ns1.namefind.com NS ns2.namefind.com A 173.201.67.64 A 97.74.99.64 OPT
+
+Frame 1747: Packet, 193 bytes on wire (1544 bits), 193 bytes captured (1544 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 36432
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1812 25.137049255   103.94.135.195        192.168.69.70         DNS      181    Standard query response 0x50ab AAAA www.nsnam.org CNAME nsnam-www.coe-hosted.gatech.edu SOA dns1.gatech.edu OPT
+
+Frame 1812: Packet, 181 bytes on wire (1448 bits), 181 bytes captured (1448 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 55785
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1813 25.137656989   192.168.69.70         103.94.135.195        DNS      102    Standard query 0xf757 AAAA nsnam-www.coe-hosted.gatech.edu OPT
+
+Frame 1813: Packet, 102 bytes on wire (816 bits), 102 bytes captured (816 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 58187, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1815 25.143591556   103.94.135.195        192.168.69.70         DNS      181    Standard query response 0x6f0d HTTPS www.nsnam.org CNAME nsnam-www.coe-hosted.gatech.edu SOA dns1.gatech.edu OPT
+
+Frame 1815: Packet, 181 bytes on wire (1448 bits), 181 bytes captured (1448 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 60405
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1816 25.144184956   192.168.69.70         103.94.135.195        DNS      102    Standard query 0xe1f0 HTTPS nsnam-www.coe-hosted.gatech.edu OPT
+
+Frame 1816: Packet, 102 bytes on wire (816 bits), 102 bytes captured (816 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 57099, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1817 25.157539793   103.94.135.195        192.168.69.70         DNS      154    Standard query response 0xf757 AAAA nsnam-www.coe-hosted.gatech.edu SOA dns1.gatech.edu OPT
+
+Frame 1817: Packet, 154 bytes on wire (1232 bits), 154 bytes captured (1232 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 58187
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1818 25.157540772   103.94.135.195        192.168.69.70         DNS      154    Standard query response 0xe1f0 HTTPS nsnam-www.coe-hosted.gatech.edu SOA dns1.gatech.edu OPT
+
+Frame 1818: Packet, 154 bytes on wire (1232 bits), 154 bytes captured (1232 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 57099
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   1848 25.867705137   103.94.135.195        192.168.69.70         DNS      278    Standard query response 0xa945 A www.nsnam.org CNAME nsnam-www.coe-hosted.gatech.edu A 143.215.76.161 NS dns3.gatech.edu NS dns1.gatech.edu NS dns2.gatech.edu A 128.61.244.253 AAAA 2610:148:1f00:f400::3 A 3.227.90.38 A 168.24.2.35 OPT
+
+Frame 1848: Packet, 278 bytes on wire (2224 bits), 278 bytes captured (2224 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 42734
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2053 35.308496189   192.168.69.70         103.94.135.195        DNS      95     Standard query 0x909d A normandy.cdn.mozilla.net OPT
+
+Frame 2053: Packet, 95 bytes on wire (760 bits), 95 bytes captured (760 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 54815, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2054 35.308756704   192.168.69.70         103.94.135.195        DNS      95     Standard query 0x376d AAAA normandy.cdn.mozilla.net OPT
+
+Frame 2054: Packet, 95 bytes on wire (760 bits), 95 bytes captured (760 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 53655, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2061 35.734719143   103.94.135.195        192.168.69.70         DNS      478    Standard query response 0x909d A normandy.cdn.mozilla.net CNAME normandy.tombstone.experimenter.prod.webservices.mozgcp.net A 34.49.51.44 NS ns-cloud-a1.googledomains.com NS ns-cloud-a3.googledomains.com NS ns-cloud-a4.googledomains.com NS ns-cloud-a2.googledomains.com A 216.239.36.106 AAAA 2001:4860:4802:36::6a A 216.239.38.106 AAAA 2001:4860:4802:38::6a A 216.239.34.106 AAAA 2001:4860:4802:34::6a A 216.239.32.106 AAAA 2001:4860:4802:32::6a OPT
+
+Frame 2061: Packet, 478 bytes on wire (3824 bits), 478 bytes captured (3824 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 54815
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2062 35.734721030   103.94.135.195        192.168.69.70         DNS      258    Standard query response 0x376d AAAA normandy.cdn.mozilla.net CNAME normandy.tombstone.experimenter.prod.webservices.mozgcp.net SOA ns-cloud-a1.googledomains.com OPT
+
+Frame 2062: Packet, 258 bytes on wire (2064 bits), 258 bytes captured (2064 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 53655
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2063 35.735926658   192.168.69.70         103.94.135.195        DNS      130    Standard query 0xa9b6 AAAA normandy.tombstone.experimenter.prod.webservices.mozgcp.net OPT
+
+Frame 2063: Packet, 130 bytes on wire (1040 bits), 130 bytes captured (1040 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 53862, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2066 36.079755707   103.94.135.195        192.168.69.70         DNS      223    Standard query response 0xa9b6 AAAA normandy.tombstone.experimenter.prod.webservices.mozgcp.net SOA ns-cloud-a1.googledomains.com OPT
+
+Frame 2066: Packet, 223 bytes on wire (1784 bits), 223 bytes captured (1784 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 53862
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2090 36.648844615   192.168.69.70         103.94.135.195        DNS      107    Standard query 0xaa05 A classify-client.services.mozilla.com OPT
+
+Frame 2090: Packet, 107 bytes on wire (856 bits), 107 bytes captured (856 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 45493, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2091 36.649093725   192.168.69.70         103.94.135.195        DNS      107    Standard query 0x32aa AAAA classify-client.services.mozilla.com OPT
+
+Frame 2091: Packet, 107 bytes on wire (856 bits), 107 bytes captured (856 bits) on interface wlp1s0, id 0
+Ethernet II, Src: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57), Dst: TPLink_45:44:38 (ec:75:0c:45:44:38)
+Internet Protocol Version 4, Src: 192.168.69.70, Dst: 103.94.135.195
+User Datagram Protocol, Src Port: 58640, Dst Port: 53
+Domain Name System (query)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2096 36.896498324   103.94.135.195        192.168.69.70         DNS      295    Standard query response 0xaa05 A classify-client.services.mozilla.com CNAME mozilla.map.fastly.net A 146.75.45.91 NS ns4.fastly.net NS ns3.fastly.net NS ns1.fastly.net NS ns2.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 2096: Packet, 295 bytes on wire (2360 bits), 295 bytes captured (2360 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 45493
+Domain Name System (response)
+
+No.     Time           Source                Destination           Protocol Length Info
+   2097 36.896499791   103.94.135.195        192.168.69.70         DNS      307    Standard query response 0x32aa AAAA classify-client.services.mozilla.com CNAME mozilla.map.fastly.net AAAA 2a04:4e42:7b::347 NS ns4.fastly.net NS ns2.fastly.net NS ns3.fastly.net NS ns1.fastly.net A 23.235.32.32 A 104.156.80.32 A 23.235.36.32 A 104.156.84.32 OPT
+
+Frame 2097: Packet, 307 bytes on wire (2456 bits), 307 bytes captured (2456 bits) on interface wlp1s0, id 0
+Ethernet II, Src: TPLink_45:44:38 (ec:75:0c:45:44:38), Dst: LiteonTechno_00:ed:57 (d0:39:57:00:ed:57)
+Internet Protocol Version 4, Src: 103.94.135.195, Dst: 192.168.69.70
+User Datagram Protocol, Src Port: 53, Dst Port: 58640
+Domain Name System (response)

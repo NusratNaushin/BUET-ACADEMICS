@@ -219,6 +219,20 @@ scratch_hello-simulator/fast:
 .PHONY : scratch_hello-simulator/fast
 
 # Convenience name for target.
+scratch/CMakeFiles/scratch_rip-simple-network.dir/rule:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_rip-simple-network.dir/rule
+.PHONY : scratch/CMakeFiles/scratch_rip-simple-network.dir/rule
+
+# Convenience name for target.
+scratch_rip-simple-network: scratch/CMakeFiles/scratch_rip-simple-network.dir/rule
+.PHONY : scratch_rip-simple-network
+
+# fast build rule for target.
+scratch_rip-simple-network/fast:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_rip-simple-network.dir/build.make scratch/CMakeFiles/scratch_rip-simple-network.dir/build
+.PHONY : scratch_rip-simple-network/fast
+
+# Convenience name for target.
 scratch/CMakeFiles/scratch_scratch-simulator.dir/rule:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_scratch-simulator.dir/rule
 .PHONY : scratch/CMakeFiles/scratch_scratch-simulator.dir/rule
@@ -259,6 +273,20 @@ scratch_seventh: scratch/CMakeFiles/scratch_seventh.dir/rule
 scratch_seventh/fast:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_seventh.dir/build.make scratch/CMakeFiles/scratch_seventh.dir/build
 .PHONY : scratch_seventh/fast
+
+# Convenience name for target.
+scratch/CMakeFiles/scratch_simple-global-routing.dir/rule:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_simple-global-routing.dir/rule
+.PHONY : scratch/CMakeFiles/scratch_simple-global-routing.dir/rule
+
+# Convenience name for target.
+scratch_simple-global-routing: scratch/CMakeFiles/scratch_simple-global-routing.dir/rule
+.PHONY : scratch_simple-global-routing
+
+# fast build rule for target.
+scratch_simple-global-routing/fast:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_simple-global-routing.dir/build.make scratch/CMakeFiles/scratch_simple-global-routing.dir/build
+.PHONY : scratch_simple-global-routing/fast
 
 # Convenience name for target.
 scratch/CMakeFiles/scratch_sixth.dir/rule:
@@ -398,6 +426,30 @@ hello-simulator.cc.s:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_hello-simulator.dir/build.make scratch/CMakeFiles/scratch_hello-simulator.dir/hello-simulator.cc.s
 .PHONY : hello-simulator.cc.s
 
+rip-simple-network.o: rip-simple-network.cc.o
+.PHONY : rip-simple-network.o
+
+# target to build an object file
+rip-simple-network.cc.o:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_rip-simple-network.dir/build.make scratch/CMakeFiles/scratch_rip-simple-network.dir/rip-simple-network.cc.o
+.PHONY : rip-simple-network.cc.o
+
+rip-simple-network.i: rip-simple-network.cc.i
+.PHONY : rip-simple-network.i
+
+# target to preprocess a source file
+rip-simple-network.cc.i:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_rip-simple-network.dir/build.make scratch/CMakeFiles/scratch_rip-simple-network.dir/rip-simple-network.cc.i
+.PHONY : rip-simple-network.cc.i
+
+rip-simple-network.s: rip-simple-network.cc.s
+.PHONY : rip-simple-network.s
+
+# target to generate assembly for a file
+rip-simple-network.cc.s:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_rip-simple-network.dir/build.make scratch/CMakeFiles/scratch_rip-simple-network.dir/rip-simple-network.cc.s
+.PHONY : rip-simple-network.cc.s
+
 scratch-simulator.o: scratch-simulator.cc.o
 .PHONY : scratch-simulator.o
 
@@ -469,6 +521,30 @@ seventh.s: seventh.cc.s
 seventh.cc.s:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_seventh.dir/build.make scratch/CMakeFiles/scratch_seventh.dir/seventh.cc.s
 .PHONY : seventh.cc.s
+
+simple-global-routing.o: simple-global-routing.cc.o
+.PHONY : simple-global-routing.o
+
+# target to build an object file
+simple-global-routing.cc.o:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_simple-global-routing.dir/build.make scratch/CMakeFiles/scratch_simple-global-routing.dir/simple-global-routing.cc.o
+.PHONY : simple-global-routing.cc.o
+
+simple-global-routing.i: simple-global-routing.cc.i
+.PHONY : simple-global-routing.i
+
+# target to preprocess a source file
+simple-global-routing.cc.i:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_simple-global-routing.dir/build.make scratch/CMakeFiles/scratch_simple-global-routing.dir/simple-global-routing.cc.i
+.PHONY : simple-global-routing.cc.i
+
+simple-global-routing.s: simple-global-routing.cc.s
+.PHONY : simple-global-routing.s
+
+# target to generate assembly for a file
+simple-global-routing.cc.s:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_simple-global-routing.dir/build.make scratch/CMakeFiles/scratch_simple-global-routing.dir/simple-global-routing.cc.s
+.PHONY : simple-global-routing.cc.s
 
 sixth.o: sixth.cc.o
 .PHONY : sixth.o
@@ -582,9 +658,11 @@ help:
 	@echo "... scratch_first"
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"
+	@echo "... scratch_rip-simple-network"
 	@echo "... scratch_scratch-simulator"
 	@echo "... scratch_second"
 	@echo "... scratch_seventh"
+	@echo "... scratch_simple-global-routing"
 	@echo "... scratch_sixth"
 	@echo "... scratch_subdir_scratch-subdir"
 	@echo "... scratch_third"
@@ -600,6 +678,9 @@ help:
 	@echo "... hello-simulator.o"
 	@echo "... hello-simulator.i"
 	@echo "... hello-simulator.s"
+	@echo "... rip-simple-network.o"
+	@echo "... rip-simple-network.i"
+	@echo "... rip-simple-network.s"
 	@echo "... scratch-simulator.o"
 	@echo "... scratch-simulator.i"
 	@echo "... scratch-simulator.s"
@@ -609,6 +690,9 @@ help:
 	@echo "... seventh.o"
 	@echo "... seventh.i"
 	@echo "... seventh.s"
+	@echo "... simple-global-routing.o"
+	@echo "... simple-global-routing.i"
+	@echo "... simple-global-routing.s"
 	@echo "... sixth.o"
 	@echo "... sixth.i"
 	@echo "... sixth.s"
