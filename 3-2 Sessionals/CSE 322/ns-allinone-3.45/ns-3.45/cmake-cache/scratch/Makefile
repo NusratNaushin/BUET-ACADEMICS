@@ -219,6 +219,20 @@ scratch_hello-simulator/fast:
 .PHONY : scratch_hello-simulator/fast
 
 # Convenience name for target.
+scratch/CMakeFiles/scratch_renoJtest.dir/rule:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_renoJtest.dir/rule
+.PHONY : scratch/CMakeFiles/scratch_renoJtest.dir/rule
+
+# Convenience name for target.
+scratch_renoJtest: scratch/CMakeFiles/scratch_renoJtest.dir/rule
+.PHONY : scratch_renoJtest
+
+# fast build rule for target.
+scratch_renoJtest/fast:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_renoJtest.dir/build.make scratch/CMakeFiles/scratch_renoJtest.dir/build
+.PHONY : scratch_renoJtest/fast
+
+# Convenience name for target.
 scratch/CMakeFiles/scratch_rip-simple-network.dir/rule:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_rip-simple-network.dir/rule
 .PHONY : scratch/CMakeFiles/scratch_rip-simple-network.dir/rule
@@ -425,6 +439,30 @@ hello-simulator.s: hello-simulator.cc.s
 hello-simulator.cc.s:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_hello-simulator.dir/build.make scratch/CMakeFiles/scratch_hello-simulator.dir/hello-simulator.cc.s
 .PHONY : hello-simulator.cc.s
+
+renoJtest.o: renoJtest.cc.o
+.PHONY : renoJtest.o
+
+# target to build an object file
+renoJtest.cc.o:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_renoJtest.dir/build.make scratch/CMakeFiles/scratch_renoJtest.dir/renoJtest.cc.o
+.PHONY : renoJtest.cc.o
+
+renoJtest.i: renoJtest.cc.i
+.PHONY : renoJtest.i
+
+# target to preprocess a source file
+renoJtest.cc.i:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_renoJtest.dir/build.make scratch/CMakeFiles/scratch_renoJtest.dir/renoJtest.cc.i
+.PHONY : renoJtest.cc.i
+
+renoJtest.s: renoJtest.cc.s
+.PHONY : renoJtest.s
+
+# target to generate assembly for a file
+renoJtest.cc.s:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_renoJtest.dir/build.make scratch/CMakeFiles/scratch_renoJtest.dir/renoJtest.cc.s
+.PHONY : renoJtest.cc.s
 
 rip-simple-network.o: rip-simple-network.cc.o
 .PHONY : rip-simple-network.o
@@ -658,6 +696,7 @@ help:
 	@echo "... scratch_first"
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"
+	@echo "... scratch_renoJtest"
 	@echo "... scratch_rip-simple-network"
 	@echo "... scratch_scratch-simulator"
 	@echo "... scratch_second"
@@ -678,6 +717,9 @@ help:
 	@echo "... hello-simulator.o"
 	@echo "... hello-simulator.i"
 	@echo "... hello-simulator.s"
+	@echo "... renoJtest.o"
+	@echo "... renoJtest.i"
+	@echo "... renoJtest.s"
 	@echo "... rip-simple-network.o"
 	@echo "... rip-simple-network.i"
 	@echo "... rip-simple-network.s"

@@ -89,6 +89,25 @@ TcpNewReno::GetTypeId()
                             .AddConstructor<TcpNewReno>();
     return tid;
 }
+/*New Code*/
+
+
+TypeId 
+TcpRenoJ::GetTypeId(void){
+    static TypeId tid = TypeId("ns3::TcpRenoJ")
+                            .SetParent<TcpNewReno>()
+                            .SetGroupName("Internet")
+                            .AddConstructor<TcpRenoJ>();
+    return tid;
+}
+
+
+TcpRenoJ::TcpRenoJ()
+    : TcpNewReno()
+{
+    NS_LOG_FUNCTION(this);
+}
+
 
 TcpNewReno::TcpNewReno()
     : TcpCongestionOps()
@@ -102,7 +121,17 @@ TcpNewReno::TcpNewReno(const TcpNewReno& sock)
     NS_LOG_FUNCTION(this);
 }
 
+TcpRenoJ::TcpRenoJ (const TcpRenoJ& sock) 
+    : TcpNewReno (sock) 
+    {
+        NS_LOG_FUNCTION(this);
+    }   
+
 TcpNewReno::~TcpNewReno()
+{
+}
+
+TcpRenoJ::~TcpRenoJ()
 {
 }
 
@@ -163,6 +192,59 @@ TcpNewReno::SlowStart(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked)
 
     return 0;
 }
+
+
+
+uint32_t
+TcpRenoJ::SlowStart(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked)
+{
+    NS_LOG_FUNCTION(this << tcb << segmentsAcked);
+
+    if (segmentsAcked >= 1)
+    {
+
+        uint32_t currentCwnd = tcb->m_cWnd.Get();
+
+        uint32_t ssthresh = tcb->m_ssThresh.Get();
+
+        uint32_t mss = tcb->m_segmentSize;
+
+        uint32_t midpoint = (ssthresh + mss)  / 2 ;
+
+
+        if (currentCwnd < midpoint){
+            tcb->m_cWnd +=mss ;
+        }
+        else{
+            double x = std::log2((double)currentCwnd / (double)mss);
+
+            
+
+            // f2(x) = ssthresh + 1 1- {(ssthresh+1)^2/4} *2^-x
+            // ei function ta mid point cross korle use korbo as else er moddhe asi ekhn hocche ei fn ta likhbo 
+
+            double f2 = ssthresh + 1 - ((std::pow(ssthresh + 1, 2) / 4) * std::pow(2, -x));
+
+            if(f2 > currentCwnd){
+                uint32_t increment = static_cast<uint32_t>(f2 - currentCwnd);
+                tcb->m_cWnd += std::max(uint32_t(1), increment);  
+            }
+          
+
+        }
+        return segmentsAcked - 1;
+    }
+
+    return 0;
+}
+
+
+
+
+
+
+
+
 
 /**
  * @brief NewReno congestion avoidance
@@ -228,7 +310,10 @@ TcpNewReno::GetName() const
 {
     return "TcpNewReno";
 }
-
+std::string
+TcpRenoJ::GetName() const{
+    return "TcpRenoJ";
+}
 uint32_t
 TcpNewReno::GetSsThresh(Ptr<const TcpSocketState> state, uint32_t bytesInFlight)
 {
@@ -237,10 +322,31 @@ TcpNewReno::GetSsThresh(Ptr<const TcpSocketState> state, uint32_t bytesInFlight)
     return std::max(2 * state->m_segmentSize, bytesInFlight / 2);
 }
 
+
+/*new coe lekhtesi ekhane */
+
+uint32_t
+TcpRenoJ::GetSsThresh(Ptr<const TcpSocketState> state, uint32_t bytesInFlight)
+{
+    NS_LOG_FUNCTION(this << state << bytesInFlight);
+
+    return std::max(2 * state->m_segmentSize, bytesInFlight / 2);
+
+}
+
+
 Ptr<TcpCongestionOps>
 TcpNewReno::Fork()
 {
     return CopyObject<TcpNewReno>(this);
 }
+
+
+Ptr<TcpCongestionOps>
+TcpRenoJ::Fork()
+{
+    return CopyObject<TcpRenoJ>(this);
+}
+
 
 } // namespace ns3

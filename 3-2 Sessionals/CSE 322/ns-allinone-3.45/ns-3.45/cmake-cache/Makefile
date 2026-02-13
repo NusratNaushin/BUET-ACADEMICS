@@ -6767,6 +6767,19 @@ scratch_hello-simulator/fast:
 .PHONY : scratch_hello-simulator/fast
 
 #=============================================================================
+# Target rules for targets named scratch_renoJtest
+
+# Build rule for target.
+scratch_renoJtest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch_renoJtest
+.PHONY : scratch_renoJtest
+
+# fast build rule for target.
+scratch_renoJtest/fast:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_renoJtest.dir/build.make scratch/CMakeFiles/scratch_renoJtest.dir/build
+.PHONY : scratch_renoJtest/fast
+
+#=============================================================================
 # Target rules for targets named scratch_rip-simple-network
 
 # Build rule for target.
@@ -7320,6 +7333,7 @@ help:
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"
 	@echo "... scratch_nested-subdir_scratch-nested-subdir-executable"
+	@echo "... scratch_renoJtest"
 	@echo "... scratch_rip-simple-network"
 	@echo "... scratch_scratch-simulator"
 	@echo "... scratch_second"

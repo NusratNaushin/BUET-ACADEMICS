@@ -222,7 +222,7 @@ class TcpNewReno : public TcpCongestionOps
      * @param sock object to copy.
      */
     TcpNewReno(const TcpNewReno& sock);
-
+  
     ~TcpNewReno() override;
 
     std::string GetName() const override;
@@ -235,6 +235,22 @@ class TcpNewReno : public TcpCongestionOps
     virtual uint32_t SlowStart(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked);
     virtual void CongestionAvoidance(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked);
 };
+
+
+
+class TcpRenoJ : public TcpNewReno
+{
+    public:
+        static TypeId GetTypeId (void);
+        TcpRenoJ();
+        TcpRenoJ (const TcpRenoJ& sock);
+        ~TcpRenoJ() override;
+        virtual std::string GetName() const override;
+        virtual uint32_t SlowStart (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked);    
+        virtual Ptr<TcpCongestionOps> Fork() override;
+        virtual uint32_t GetSsThresh(Ptr<const TcpSocketState> tcb, uint32_t bytesInFlight) override;
+};
+
 
 } // namespace ns3
 
