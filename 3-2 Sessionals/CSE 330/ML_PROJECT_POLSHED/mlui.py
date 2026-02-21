@@ -2,7 +2,7 @@ import streamlit as st
 import tensorflow as tf
 import pickle
 import numpy as np
-import torch  # এটি মিসিং ছিল
+import torch  
 from PIL import Image
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -11,12 +11,10 @@ from tensorflow.keras.applications.vgg16 import VGG16, preprocess_input
 from tensorflow.keras.models import Model
 import re
 
-# ---------------- CONFIG ----------------
 MODEL_PATH = "dog_caption_model.keras"
 TOKENIZER_PATH = "tokenizer.pkl"
 MAX_LENGTH = 35   
 
-# ---------------- LOAD MODELS ----------------
 
 @st.cache_resource
 def load_all_models():
@@ -39,7 +37,6 @@ model, model_vgg, breed_processor, breed_model = load_all_models()
 with open(TOKENIZER_PATH, "rb") as f:
     tokenizer = pickle.load(f)
 
-# ---------------- HELPER FUNCTIONS ----------------
 
 def extract_features(image):
     img = image.resize((224, 224))
@@ -68,7 +65,6 @@ def predict_caption(image_feature):
         in_text += " " + word
     return in_text.replace("startseq", "").strip()
 
-# ---------------- MAIN GENERATION FUNCTION ----------------
 
 def generate_final_output(image):
     inputs = breed_processor(images=image, return_tensors="pt")
@@ -92,7 +88,6 @@ def generate_final_output(image):
     
     return final_caption
 
-# ---------------- STREAMLIT UI ----------------
 
 st.set_page_config(page_title="Dog Caption Generator", layout="centered")
 st.title("🐶 Dog Image Caption Generator")
@@ -105,7 +100,6 @@ if uploaded_file is not None:
     st.image(image, caption="Uploaded Image", use_container_width=True)
 
     with st.spinner("Analyzing dog breed and generating caption..."):
-        # মূল ফাংশন কল
         final_result = generate_final_output(image)
 
     st.subheader("Generated Caption:")
