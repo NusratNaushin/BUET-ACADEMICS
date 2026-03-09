@@ -387,6 +387,7 @@ set(CMAKE_DEPEND_INFO_FILES
   "src/wifi/CMakeFiles/wifi.dir/DependInfo.cmake"
   "src/wimax/CMakeFiles/wimax.dir/DependInfo.cmake"
   "src/zigbee/CMakeFiles/zigbee.dir/DependInfo.cmake"
+  "scratch/CMakeFiles/scratch_ekmbdermb.dir/DependInfo.cmake"
   "scratch/CMakeFiles/scratch_first.dir/DependInfo.cmake"
   "scratch/CMakeFiles/scratch_fourth.dir/DependInfo.cmake"
   "scratch/CMakeFiles/scratch_hello-simulator.dir/DependInfo.cmake"

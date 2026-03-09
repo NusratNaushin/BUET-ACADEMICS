@@ -5,6 +5,7 @@
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/**")
 set(OLD_GLOB
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/CMakeLists.txt"
+  "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/ekmbdermb.cc"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/first"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/first.cc"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/fourth.cc"
@@ -50,6 +51,7 @@ endif()
 # single_source_file_scratches at scratch/CMakeLists.txt:77 (file)
 file(GLOB NEW_GLOB LIST_DIRECTORIES true "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/[^.]*.cc")
 set(OLD_GLOB
+  "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/ekmbdermb.cc"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/first.cc"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/fourth.cc"
   "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/scratch/hello-simulator.cc"

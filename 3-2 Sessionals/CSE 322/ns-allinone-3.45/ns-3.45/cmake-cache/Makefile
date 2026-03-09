@@ -1619,6 +1619,19 @@ zigbee/fast:
 .PHONY : zigbee/fast
 
 #=============================================================================
+# Target rules for targets named scratch_ekmbdermb
+
+# Build rule for target.
+scratch_ekmbdermb: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch_ekmbdermb
+.PHONY : scratch_ekmbdermb
+
+# fast build rule for target.
+scratch_ekmbdermb/fast:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/build
+.PHONY : scratch_ekmbdermb/fast
+
+#=============================================================================
 # Target rules for targets named scratch_first
 
 # Build rule for target.
@@ -1978,6 +1991,7 @@ help:
 	@echo "... propagation"
 	@echo "... raw-sock-creator"
 	@echo "... scratch-nested-subdir-lib"
+	@echo "... scratch_ekmbdermb"
 	@echo "... scratch_first"
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"

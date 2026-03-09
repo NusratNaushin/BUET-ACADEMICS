@@ -383,6 +383,7 @@ examples/clean:
 # Directory level rules for directory scratch
 
 # Recursive "all" directory target.
+scratch/all: scratch/CMakeFiles/scratch_ekmbdermb.dir/all
 scratch/all: scratch/CMakeFiles/scratch_first.dir/all
 scratch/all: scratch/CMakeFiles/scratch_fourth.dir/all
 scratch/all: scratch/CMakeFiles/scratch_hello-simulator.dir/all
@@ -400,6 +401,7 @@ scratch/all: scratch/nested-subdir/all
 .PHONY : scratch/all
 
 # Recursive "codegen" directory target.
+scratch/codegen: scratch/CMakeFiles/scratch_ekmbdermb.dir/codegen
 scratch/codegen: scratch/CMakeFiles/scratch_first.dir/codegen
 scratch/codegen: scratch/CMakeFiles/scratch_fourth.dir/codegen
 scratch/codegen: scratch/CMakeFiles/scratch_hello-simulator.dir/codegen
@@ -421,6 +423,7 @@ scratch/preinstall: scratch/nested-subdir/preinstall
 .PHONY : scratch/preinstall
 
 # Recursive "clean" directory target.
+scratch/clean: scratch/CMakeFiles/scratch_ekmbdermb.dir/clean
 scratch/clean: scratch/CMakeFiles/scratch_first.dir/clean
 scratch/clean: scratch/CMakeFiles/scratch_fourth.dir/clean
 scratch/clean: scratch/CMakeFiles/scratch_hello-simulator.dir/clean
@@ -3372,7 +3375,7 @@ contrib/aqm-eval-suite/CMakeFiles/aqm-eval-suite.dir/all: src/traffic-control/CM
 
 # Build rule for subdir invocation for target.
 contrib/aqm-eval-suite/CMakeFiles/aqm-eval-suite.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 29
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 28
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/aqm-eval-suite/CMakeFiles/aqm-eval-suite.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/aqm-eval-suite/CMakeFiles/aqm-eval-suite.dir/rule
@@ -3410,7 +3413,7 @@ contrib/lorawan/CMakeFiles/lorawan.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 contrib/lorawan/CMakeFiles/lorawan.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 22
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/lorawan/CMakeFiles/lorawan.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/lorawan/CMakeFiles/lorawan.dir/rule
@@ -3451,7 +3454,7 @@ contrib/netsimulyzer/CMakeFiles/netsimulyzer.dir/all: src/traffic-control/CMakeF
 
 # Build rule for subdir invocation for target.
 contrib/netsimulyzer/CMakeFiles/netsimulyzer.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 32
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 31
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/netsimulyzer/CMakeFiles/netsimulyzer.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/netsimulyzer/CMakeFiles/netsimulyzer.dir/rule
@@ -3498,7 +3501,7 @@ contrib/nr/CMakeFiles/nr.dir/all: src/virtual-net-device/CMakeFiles/virtual-net-
 
 # Build rule for subdir invocation for target.
 contrib/nr/CMakeFiles/nr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/nr/CMakeFiles/nr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/nr/CMakeFiles/nr.dir/rule
@@ -3546,7 +3549,7 @@ contrib/nr/CMakeFiles/nr-print-introspected-doxygen.dir/all: src/virtual-net-dev
 
 # Build rule for subdir invocation for target.
 contrib/nr/CMakeFiles/nr-print-introspected-doxygen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/nr/CMakeFiles/nr-print-introspected-doxygen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/nr/CMakeFiles/nr-print-introspected-doxygen.dir/rule
@@ -3581,7 +3584,7 @@ contrib/sip/CMakeFiles/sip.dir/all: src/traffic-control/CMakeFiles/traffic-contr
 
 # Build rule for subdir invocation for target.
 contrib/sip/CMakeFiles/sip.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 25
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/sip/CMakeFiles/sip.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/sip/CMakeFiles/sip.dir/rule
@@ -3647,7 +3650,7 @@ contrib/wban/CMakeFiles/wban.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 contrib/wban/CMakeFiles/wban.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 20
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 contrib/wban/CMakeFiles/wban.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : contrib/wban/CMakeFiles/wban.dir/rule
@@ -3677,7 +3680,7 @@ src/antenna/CMakeFiles/antenna.dir/all: src/core/CMakeFiles/core.dir/all
 
 # Build rule for subdir invocation for target.
 src/antenna/CMakeFiles/antenna.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/antenna/CMakeFiles/antenna.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/antenna/CMakeFiles/antenna.dir/rule
@@ -3720,7 +3723,7 @@ src/aodv/CMakeFiles/aodv.dir/all: src/wifi/CMakeFiles/wifi.dir/all
 
 # Build rule for subdir invocation for target.
 src/aodv/CMakeFiles/aodv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 47
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/aodv/CMakeFiles/aodv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/aodv/CMakeFiles/aodv.dir/rule
@@ -3755,7 +3758,7 @@ src/applications/CMakeFiles/applications.dir/all: src/traffic-control/CMakeFiles
 
 # Build rule for subdir invocation for target.
 src/applications/CMakeFiles/applications.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 26
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 25
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/applications/CMakeFiles/applications.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/applications/CMakeFiles/applications.dir/rule
@@ -3787,7 +3790,7 @@ src/bridge/CMakeFiles/bridge.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/bridge/CMakeFiles/bridge.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/bridge/CMakeFiles/bridge.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/bridge/CMakeFiles/bridge.dir/rule
@@ -3822,7 +3825,7 @@ src/buildings/CMakeFiles/buildings.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/buildings/CMakeFiles/buildings.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 17
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 16
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/buildings/CMakeFiles/buildings.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/buildings/CMakeFiles/buildings.dir/rule
@@ -3852,7 +3855,7 @@ src/config-store/CMakeFiles/config-store.dir/all: src/core/CMakeFiles/core.dir/a
 
 # Build rule for subdir invocation for target.
 src/config-store/CMakeFiles/config-store.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/config-store/CMakeFiles/config-store.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/config-store/CMakeFiles/config-store.dir/rule
@@ -3882,7 +3885,7 @@ src/core/CMakeFiles/core.dir/all:
 
 # Build rule for subdir invocation for target.
 src/core/CMakeFiles/core.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/core/CMakeFiles/core.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/core/CMakeFiles/core.dir/rule
@@ -3995,7 +3998,7 @@ src/dsdv/CMakeFiles/dsdv.dir/all: src/wifi/CMakeFiles/wifi.dir/all
 
 # Build rule for subdir invocation for target.
 src/dsdv/CMakeFiles/dsdv.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 49
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 48
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/dsdv/CMakeFiles/dsdv.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/dsdv/CMakeFiles/dsdv.dir/rule
@@ -4038,7 +4041,7 @@ src/dsr/CMakeFiles/dsr.dir/all: src/wifi/CMakeFiles/wifi.dir/all
 
 # Build rule for subdir invocation for target.
 src/dsr/CMakeFiles/dsr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 50
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 49
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/dsr/CMakeFiles/dsr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/dsr/CMakeFiles/dsr.dir/rule
@@ -4070,7 +4073,7 @@ src/energy/CMakeFiles/energy.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/energy/CMakeFiles/energy.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 14
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/energy/CMakeFiles/energy.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/energy/CMakeFiles/energy.dir/rule
@@ -4262,7 +4265,7 @@ src/flow-monitor/CMakeFiles/flow-monitor.dir/all: src/traffic-control/CMakeFiles
 
 # Build rule for subdir invocation for target.
 src/flow-monitor/CMakeFiles/flow-monitor.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/flow-monitor/CMakeFiles/flow-monitor.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/flow-monitor/CMakeFiles/flow-monitor.dir/rule
@@ -4296,7 +4299,7 @@ src/internet/CMakeFiles/internet.dir/all: src/traffic-control/CMakeFiles/traffic
 
 # Build rule for subdir invocation for target.
 src/internet/CMakeFiles/internet.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/internet/CMakeFiles/internet.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/internet/CMakeFiles/internet.dir/rule
@@ -4331,7 +4334,7 @@ src/internet-apps/CMakeFiles/internet-apps.dir/all: src/traffic-control/CMakeFil
 
 # Build rule for subdir invocation for target.
 src/internet-apps/CMakeFiles/internet-apps.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 25
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/internet-apps/CMakeFiles/internet-apps.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/internet-apps/CMakeFiles/internet-apps.dir/rule
@@ -4367,7 +4370,7 @@ src/lr-wpan/CMakeFiles/lr-wpan.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/lr-wpan/CMakeFiles/lr-wpan.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 20
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 19
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lr-wpan/CMakeFiles/lr-wpan.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/lr-wpan/CMakeFiles/lr-wpan.dir/rule
@@ -4413,7 +4416,7 @@ src/lte/CMakeFiles/lte.dir/all: src/virtual-net-device/CMakeFiles/virtual-net-de
 
 # Build rule for subdir invocation for target.
 src/lte/CMakeFiles/lte.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 44
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 46
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/lte/CMakeFiles/lte.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/lte/CMakeFiles/lte.dir/rule
@@ -4455,7 +4458,7 @@ src/mesh/CMakeFiles/mesh.dir/all: src/wifi/CMakeFiles/wifi.dir/all
 
 # Build rule for subdir invocation for target.
 src/mesh/CMakeFiles/mesh.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 48
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 47
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/mesh/CMakeFiles/mesh.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/mesh/CMakeFiles/mesh.dir/rule
@@ -4488,7 +4491,7 @@ src/mobility/CMakeFiles/mobility.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/mobility/CMakeFiles/mobility.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 15
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/mobility/CMakeFiles/mobility.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/mobility/CMakeFiles/mobility.dir/rule
@@ -4540,7 +4543,7 @@ src/netanim/CMakeFiles/netanim.dir/all: src/wimax/CMakeFiles/wimax.dir/all
 
 # Build rule for subdir invocation for target.
 src/netanim/CMakeFiles/netanim.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 65
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 67
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/netanim/CMakeFiles/netanim.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/netanim/CMakeFiles/netanim.dir/rule
@@ -4571,7 +4574,7 @@ src/network/CMakeFiles/network.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/network/CMakeFiles/network.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/network/CMakeFiles/network.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/network/CMakeFiles/network.dir/rule
@@ -4606,7 +4609,7 @@ src/nix-vector-routing/CMakeFiles/nix-vector-routing.dir/all: src/traffic-contro
 
 # Build rule for subdir invocation for target.
 src/nix-vector-routing/CMakeFiles/nix-vector-routing.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/nix-vector-routing/CMakeFiles/nix-vector-routing.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/nix-vector-routing/CMakeFiles/nix-vector-routing.dir/rule
@@ -4641,7 +4644,7 @@ src/olsr/CMakeFiles/olsr.dir/all: src/traffic-control/CMakeFiles/traffic-control
 
 # Build rule for subdir invocation for target.
 src/olsr/CMakeFiles/olsr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 25
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/olsr/CMakeFiles/olsr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/olsr/CMakeFiles/olsr.dir/rule
@@ -4673,7 +4676,7 @@ src/point-to-point/CMakeFiles/point-to-point.dir/all: src/stats/CMakeFiles/stats
 
 # Build rule for subdir invocation for target.
 src/point-to-point/CMakeFiles/point-to-point.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/point-to-point/CMakeFiles/point-to-point.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/point-to-point/CMakeFiles/point-to-point.dir/rule
@@ -4711,7 +4714,7 @@ src/point-to-point-layout/CMakeFiles/point-to-point-layout.dir/all: src/traffic-
 
 # Build rule for subdir invocation for target.
 src/point-to-point-layout/CMakeFiles/point-to-point-layout.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 27
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 26
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/point-to-point-layout/CMakeFiles/point-to-point-layout.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/point-to-point-layout/CMakeFiles/point-to-point-layout.dir/rule
@@ -4745,7 +4748,7 @@ src/propagation/CMakeFiles/propagation.dir/all: src/stats/CMakeFiles/stats.dir/a
 
 # Build rule for subdir invocation for target.
 src/propagation/CMakeFiles/propagation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 16
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 15
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/propagation/CMakeFiles/propagation.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/propagation/CMakeFiles/propagation.dir/rule
@@ -4780,7 +4783,7 @@ src/sixlowpan/CMakeFiles/sixlowpan.dir/all: src/traffic-control/CMakeFiles/traff
 
 # Build rule for subdir invocation for target.
 src/sixlowpan/CMakeFiles/sixlowpan.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/sixlowpan/CMakeFiles/sixlowpan.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/sixlowpan/CMakeFiles/sixlowpan.dir/rule
@@ -4815,7 +4818,7 @@ src/spectrum/CMakeFiles/spectrum.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/spectrum/CMakeFiles/spectrum.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 19
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 18
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/spectrum/CMakeFiles/spectrum.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/spectrum/CMakeFiles/spectrum.dir/rule
@@ -4845,7 +4848,7 @@ src/stats/CMakeFiles/stats.dir/all: src/core/CMakeFiles/core.dir/all
 
 # Build rule for subdir invocation for target.
 src/stats/CMakeFiles/stats.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 8
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/stats/CMakeFiles/stats.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/stats/CMakeFiles/stats.dir/rule
@@ -4881,7 +4884,7 @@ src/tap-bridge/CMakeFiles/tap-bridge.dir/all: src/traffic-control/CMakeFiles/tra
 
 # Build rule for subdir invocation for target.
 src/tap-bridge/CMakeFiles/tap-bridge.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 24
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/tap-bridge/CMakeFiles/tap-bridge.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/tap-bridge/CMakeFiles/tap-bridge.dir/rule
@@ -4913,7 +4916,7 @@ src/tap-bridge/CMakeFiles/tap-creator.dir/all: src/stats/CMakeFiles/stats.dir/al
 
 # Build rule for subdir invocation for target.
 src/tap-bridge/CMakeFiles/tap-creator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/tap-bridge/CMakeFiles/tap-creator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/tap-bridge/CMakeFiles/tap-creator.dir/rule
@@ -4975,7 +4978,7 @@ src/topology-read/CMakeFiles/topology-read.dir/all: src/stats/CMakeFiles/stats.d
 
 # Build rule for subdir invocation for target.
 src/topology-read/CMakeFiles/topology-read.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 14
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/topology-read/CMakeFiles/topology-read.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/topology-read/CMakeFiles/topology-read.dir/rule
@@ -5007,7 +5010,7 @@ src/traffic-control/CMakeFiles/traffic-control.dir/all: src/stats/CMakeFiles/sta
 
 # Build rule for subdir invocation for target.
 src/traffic-control/CMakeFiles/traffic-control.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 14
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/traffic-control/CMakeFiles/traffic-control.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/traffic-control/CMakeFiles/traffic-control.dir/rule
@@ -5042,7 +5045,7 @@ src/uan/CMakeFiles/uan.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/uan/CMakeFiles/uan.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 18
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 17
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/uan/CMakeFiles/uan.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/uan/CMakeFiles/uan.dir/rule
@@ -5111,7 +5114,7 @@ src/wifi/CMakeFiles/wifi.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/wifi/CMakeFiles/wifi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 33
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 32
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/wifi/CMakeFiles/wifi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/wifi/CMakeFiles/wifi.dir/rule
@@ -5149,7 +5152,7 @@ src/wimax/CMakeFiles/wimax.dir/all: src/traffic-control/CMakeFiles/traffic-contr
 
 # Build rule for subdir invocation for target.
 src/wimax/CMakeFiles/wimax.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 31
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 30
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/wimax/CMakeFiles/wimax.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/wimax/CMakeFiles/wimax.dir/rule
@@ -5186,7 +5189,7 @@ src/zigbee/CMakeFiles/zigbee.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 src/zigbee/CMakeFiles/zigbee.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 21
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 20
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/zigbee/CMakeFiles/zigbee.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : src/zigbee/CMakeFiles/zigbee.dir/rule
@@ -5204,6 +5207,80 @@ src/zigbee/CMakeFiles/zigbee.dir/codegen:
 src/zigbee/CMakeFiles/zigbee.dir/clean:
 	$(MAKE) $(MAKESILENT) -f src/zigbee/CMakeFiles/zigbee.dir/build.make src/zigbee/CMakeFiles/zigbee.dir/clean
 .PHONY : src/zigbee/CMakeFiles/zigbee.dir/clean
+
+#=============================================================================
+# Target rules for target scratch/CMakeFiles/scratch_ekmbdermb.dir
+
+# All Build rule for target.
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/aqm-eval-suite/CMakeFiles/aqm-eval-suite.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/lorawan/CMakeFiles/lorawan.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/netsimulyzer/CMakeFiles/netsimulyzer.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/nr/CMakeFiles/nr.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/sip/CMakeFiles/sip.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/uart-net-device/CMakeFiles/uart-net-device.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: contrib/wban/CMakeFiles/wban.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/antenna/CMakeFiles/antenna.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/aodv/CMakeFiles/aodv.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/applications/CMakeFiles/applications.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/bridge/CMakeFiles/bridge.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/buildings/CMakeFiles/buildings.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/config-store/CMakeFiles/config-store.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/core/CMakeFiles/core.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/csma/CMakeFiles/csma.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/csma-layout/CMakeFiles/csma-layout.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/dsdv/CMakeFiles/dsdv.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/dsr/CMakeFiles/dsr.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/energy/CMakeFiles/energy.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/fd-net-device/CMakeFiles/fd-net-device.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/flow-monitor/CMakeFiles/flow-monitor.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/internet/CMakeFiles/internet.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/internet-apps/CMakeFiles/internet-apps.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/lr-wpan/CMakeFiles/lr-wpan.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/lte/CMakeFiles/lte.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/mesh/CMakeFiles/mesh.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/mobility/CMakeFiles/mobility.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/netanim/CMakeFiles/netanim.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/network/CMakeFiles/network.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/nix-vector-routing/CMakeFiles/nix-vector-routing.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/olsr/CMakeFiles/olsr.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/point-to-point/CMakeFiles/point-to-point.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/point-to-point-layout/CMakeFiles/point-to-point-layout.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/propagation/CMakeFiles/propagation.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/sixlowpan/CMakeFiles/sixlowpan.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/spectrum/CMakeFiles/spectrum.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/stats/CMakeFiles/stats.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/tap-bridge/CMakeFiles/tap-bridge.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/topology-read/CMakeFiles/topology-read.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/traffic-control/CMakeFiles/traffic-control.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/uan/CMakeFiles/uan.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/virtual-net-device/CMakeFiles/virtual-net-device.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/wifi/CMakeFiles/wifi.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/wimax/CMakeFiles/wimax.dir/all
+scratch/CMakeFiles/scratch_ekmbdermb.dir/all: src/zigbee/CMakeFiles/zigbee.dir/all
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/depend
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/build
+.PHONY : scratch/CMakeFiles/scratch_ekmbdermb.dir/all
+
+# Build rule for subdir invocation for target.
+scratch/CMakeFiles/scratch_ekmbdermb.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 97
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_ekmbdermb.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
+.PHONY : scratch/CMakeFiles/scratch_ekmbdermb.dir/rule
+
+# Convenience name for target.
+scratch_ekmbdermb: scratch/CMakeFiles/scratch_ekmbdermb.dir/rule
+.PHONY : scratch_ekmbdermb
+
+# codegen rule for target.
+scratch/CMakeFiles/scratch_ekmbdermb.dir/codegen:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/codegen
+.PHONY : scratch/CMakeFiles/scratch_ekmbdermb.dir/codegen
+
+# clean rule for target.
+scratch/CMakeFiles/scratch_ekmbdermb.dir/clean:
+	$(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/clean
+.PHONY : scratch/CMakeFiles/scratch_ekmbdermb.dir/clean
 
 #=============================================================================
 # Target rules for target scratch/CMakeFiles/scratch_first.dir
@@ -5704,7 +5781,7 @@ scratch/CMakeFiles/scratch_scratch-simulator.dir/all: src/zigbee/CMakeFiles/zigb
 
 # Build rule for subdir invocation for target.
 scratch/CMakeFiles/scratch_scratch-simulator.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 97
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 98
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_scratch-simulator.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : scratch/CMakeFiles/scratch_scratch-simulator.dir/rule
@@ -5778,7 +5855,7 @@ scratch/CMakeFiles/scratch_second.dir/all: src/zigbee/CMakeFiles/zigbee.dir/all
 
 # Build rule for subdir invocation for target.
 scratch/CMakeFiles/scratch_second.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 98
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 97
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_second.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : scratch/CMakeFiles/scratch_second.dir/rule
@@ -6209,7 +6286,7 @@ scratch/nested-subdir/CMakeFiles/scratch_nested-subdir_scratch-nested-subdir-exe
 
 # Build rule for subdir invocation for target.
 scratch/nested-subdir/CMakeFiles/scratch_nested-subdir_scratch-nested-subdir-executable.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/nested-subdir/CMakeFiles/scratch_nested-subdir_scratch-nested-subdir-executable.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : scratch/nested-subdir/CMakeFiles/scratch_nested-subdir_scratch-nested-subdir-executable.dir/rule
@@ -6239,7 +6316,7 @@ utils/CMakeFiles/bench-scheduler.dir/all: src/core/CMakeFiles/core.dir/all
 
 # Build rule for subdir invocation for target.
 utils/CMakeFiles/bench-scheduler.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 7
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils/CMakeFiles/bench-scheduler.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : utils/CMakeFiles/bench-scheduler.dir/rule
@@ -6271,7 +6348,7 @@ utils/CMakeFiles/bench-packets.dir/all: src/stats/CMakeFiles/stats.dir/all
 
 # Build rule for subdir invocation for target.
 utils/CMakeFiles/bench-packets.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 13
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 12
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils/CMakeFiles/bench-packets.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : utils/CMakeFiles/bench-packets.dir/rule
@@ -6375,7 +6452,7 @@ utils/CMakeFiles/perf-io.dir/all: src/core/CMakeFiles/core.dir/all
 
 # Build rule for subdir invocation for target.
 utils/CMakeFiles/perf-io.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 6
+	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 5
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 utils/CMakeFiles/perf-io.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/CMakeFiles" 0
 .PHONY : utils/CMakeFiles/perf-io.dir/rule

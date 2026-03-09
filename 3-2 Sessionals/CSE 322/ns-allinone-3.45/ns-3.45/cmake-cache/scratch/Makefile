@@ -163,6 +163,20 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+scratch/CMakeFiles/scratch_ekmbdermb.dir/rule:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_ekmbdermb.dir/rule
+.PHONY : scratch/CMakeFiles/scratch_ekmbdermb.dir/rule
+
+# Convenience name for target.
+scratch_ekmbdermb: scratch/CMakeFiles/scratch_ekmbdermb.dir/rule
+.PHONY : scratch_ekmbdermb
+
+# fast build rule for target.
+scratch_ekmbdermb/fast:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/build
+.PHONY : scratch_ekmbdermb/fast
+
+# Convenience name for target.
 scratch/CMakeFiles/scratch_first.dir/rule:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 scratch/CMakeFiles/scratch_first.dir/rule
 .PHONY : scratch/CMakeFiles/scratch_first.dir/rule
@@ -343,6 +357,30 @@ scratch_subdir_scratch-subdir: scratch/CMakeFiles/scratch_subdir_scratch-subdir.
 scratch_subdir_scratch-subdir/fast:
 	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_subdir_scratch-subdir.dir/build.make scratch/CMakeFiles/scratch_subdir_scratch-subdir.dir/build
 .PHONY : scratch_subdir_scratch-subdir/fast
+
+ekmbdermb.o: ekmbdermb.cc.o
+.PHONY : ekmbdermb.o
+
+# target to build an object file
+ekmbdermb.cc.o:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/ekmbdermb.cc.o
+.PHONY : ekmbdermb.cc.o
+
+ekmbdermb.i: ekmbdermb.cc.i
+.PHONY : ekmbdermb.i
+
+# target to preprocess a source file
+ekmbdermb.cc.i:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/ekmbdermb.cc.i
+.PHONY : ekmbdermb.cc.i
+
+ekmbdermb.s: ekmbdermb.cc.s
+.PHONY : ekmbdermb.s
+
+# target to generate assembly for a file
+ekmbdermb.cc.s:
+	cd "/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache" && $(MAKE) $(MAKESILENT) -f scratch/CMakeFiles/scratch_ekmbdermb.dir/build.make scratch/CMakeFiles/scratch_ekmbdermb.dir/ekmbdermb.cc.s
+.PHONY : ekmbdermb.cc.s
 
 first.o: first.cc.o
 .PHONY : first.o
@@ -692,6 +730,7 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... scratch_ekmbdermb"
 	@echo "... scratch_first"
 	@echo "... scratch_fourth"
 	@echo "... scratch_hello-simulator"
@@ -705,6 +744,9 @@ help:
 	@echo "... scratch_tcpreno"
 	@echo "... scratch_tcprenothroughput"
 	@echo "... scratch_third"
+	@echo "... ekmbdermb.o"
+	@echo "... ekmbdermb.i"
+	@echo "... ekmbdermb.s"
 	@echo "... first.o"
 	@echo "... first.i"
 	@echo "... first.s"

@@ -19,7 +19,7 @@ def load_data(filename):
                 time.append(float(parts[0]))
                 cwnd.append(float(parts[1]))
             except ValueError:
-                continue   # header বা text line হলে skip করো
+                continue   
 
     return time, cwnd
 
