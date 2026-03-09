@@ -124,6 +124,8 @@ class TcpCongestionOps : public Object
      */
     virtual void PktsAcked(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked, const Time& rtt);
 
+
+
     /**
      * @brief Trigger events/calculations specific to a congestion state
      *
@@ -249,6 +251,17 @@ class TcpRenoJ : public TcpNewReno
         virtual uint32_t SlowStart (Ptr<TcpSocketState> tcb, uint32_t segmentsAcked);    
         virtual Ptr<TcpCongestionOps> Fork() override;
         virtual uint32_t GetSsThresh(Ptr<const TcpSocketState> tcb, uint32_t bytesInFlight) override;
+        virtual void PktsAcked(Ptr<TcpSocketState> tcb,
+                       uint32_t segmentsAcked,
+                       const Time& rtt) override;
+        void CongestionStateSet(Ptr<TcpSocketState> tcb,
+                                const TcpSocketState::TcpCongState_t newState) override;
+        void IncreaseWindow(Ptr<TcpSocketState> tcb, uint32_t segmentsAcked) override;
+        uint32_t m_slowStartRtts;
+        uint32_t m_lastPacketSize;
+        Time     m_lastRtt;
+        double   m_eqB;
+        Time     m_baseRtt;
 };
 
 

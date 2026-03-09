@@ -1,17 +1,3 @@
-/*
- * SPDX-License-Identifier: GPL-2.0-only
- */
-
-// Network topology
-//
-//       n0 ----------- n1
-//            500 Kbps
-//             5 ms
-//
-// - Flow from n0 to n1 using BulkSendApplication.
-// - Tracing of queues and packet receptions to file "tcp-bulk-send.tr"
-//   and pcap tracing available when tracing is turned on.
-
 #include "ns3/applications-module.h"
 #include "ns3/core-module.h"
 #include "ns3/internet-module.h"
@@ -24,17 +10,15 @@
 
 using namespace ns3;
 
+
+//s0--r1--r2--r3
 NS_LOG_COMPONENT_DEFINE("TcpBulkSendExampleWithRenoJ");
 
 static void
 CwndChange(uint32_t oldCwnd, uint32_t newCwnd)
 {
-    std::cout << Simulator::Now().GetSeconds()
-              << "\t" << newCwnd << std::endl;
+    std::cout << Simulator::Now().GetSeconds() << "\t" << newCwnd << std::endl;
 }
-
-
-
 
 int
 main(int argc, char* argv[])
@@ -42,114 +26,81 @@ main(int argc, char* argv[])
     bool tracing = false;
     uint32_t maxBytes = 0;
 
-    //
-    // Allow the user to override any of the defaults at
-    // run-time, via command-line arguments
-    //
     CommandLine cmd(__FILE__);
     cmd.AddValue("tracing", "Flag to enable/disable tracing", tracing);
     cmd.AddValue("maxBytes", "Total number of bytes for application to send", maxBytes);
     cmd.Parse(argc, argv);
 
-    //
-    // Explicitly create the nodes required by the topology (shown above).
-    //
-    NS_LOG_INFO("Create nodes.");
-    NodeContainer nodes;
-    nodes.Create(2);
-
-    NS_LOG_INFO("Create channels.");
-
-    //
-    // Explicitly create the point-to-point link required by the topology (shown above).
-    //
-    PointToPointHelper pointToPoint;
-    pointToPoint.SetDeviceAttribute("DataRate", StringValue("50Kbps"));
-    pointToPoint.SetChannelAttribute("Delay", StringValue("5ms"));
-
-    NetDeviceContainer devices;
-    devices = pointToPoint.Install(nodes);
-Ptr<RateErrorModel> em = CreateObject<RateErrorModel>();
-em->SetAttribute("ErrorRate", DoubleValue(0.0001));
-devices.Get(1)->SetAttribute("ReceiveErrorModel", PointerValue(em));
-
-    //
-    // Install the internet stack on the nodes
-    //
-
-
     Config::SetDefault("ns3::TcpL4Protocol::SocketType",
-                   TypeIdValue(TcpRenoJ::GetTypeId()));
+                       TypeIdValue(TcpRenoJ::GetTypeId()));
+
+    Config::SetDefault("ns3::TcpSocket::InitialSlowStartThreshold",
+                       UintegerValue(30 * 536));
+
+    NodeContainer nodes;
+    nodes.Create(4);
+
+    PointToPointHelper accessLink;
+    accessLink.SetDeviceAttribute("DataRate", StringValue("10Mbps"));
+    accessLink.SetChannelAttribute("Delay", StringValue("1ms"));
+
+    PointToPointHelper bottleneck;
+    bottleneck.SetDeviceAttribute("DataRate", StringValue("1Mbps"));
+    bottleneck.SetChannelAttribute("Delay", StringValue("10ms"));
+    bottleneck.SetQueue("ns3::DropTailQueue", "MaxSize", StringValue("27p"));   
+    NetDeviceContainer d01 = accessLink.Install(nodes.Get(0), nodes.Get(1));
+    NetDeviceContainer d12 = bottleneck.Install(nodes.Get(1), nodes.Get(2));
+    NetDeviceContainer d23 = accessLink.Install(nodes.Get(2), nodes.Get(3));
+
+    
 
     InternetStackHelper internet;
     internet.Install(nodes);
 
-    //
-    // We've got the "hardware" in place.  Now we need to add IP addresses.
-    //
-    NS_LOG_INFO("Assign IP Addresses.");
     Ipv4AddressHelper ipv4;
     ipv4.SetBase("10.1.1.0", "255.255.255.0");
-    Ipv4InterfaceContainer i = ipv4.Assign(devices);
+    ipv4.Assign(d01);
+    ipv4.SetBase("10.1.2.0", "255.255.255.0");
+    Ipv4InterfaceContainer i12 = ipv4.Assign(d12);
+    ipv4.SetBase("10.1.3.0", "255.255.255.0");
+    Ipv4InterfaceContainer i23 = ipv4.Assign(d23);
 
-    NS_LOG_INFO("Create Applications.");
+    Ipv4GlobalRoutingHelper::PopulateRoutingTables();
 
-    //
-    // Create a BulkSendApplication and install it on node 0
-    //
-    uint16_t port = 9; // well-known echo port number
-Ptr<Socket> ns3TcpSocket = Socket::CreateSocket(nodes.Get(0), TcpSocketFactory::GetTypeId());
-ns3TcpSocket->TraceConnectWithoutContext("CongestionWindow", MakeCallback(&CwndChange));
+    uint16_t port = 9;
 
-BulkSendHelper source("ns3::TcpSocketFactory",
-                      InetSocketAddress(i.GetAddress(1), port));
+    BulkSendHelper source("ns3::TcpSocketFactory",
+                          InetSocketAddress(i23.GetAddress(1), port));
+    source.SetAttribute("MaxBytes", UintegerValue(maxBytes));
+    ApplicationContainer sourceApps = source.Install(nodes.Get(0));
+    sourceApps.Start(Seconds(0));
+    sourceApps.Stop(Seconds(10));
 
-source.SetAttribute("MaxBytes", UintegerValue(maxBytes));
-
-ApplicationContainer sourceApps = source.Install(nodes.Get(0));
-sourceApps.Start(Seconds(0));
-sourceApps.Stop(Seconds(10));
-
-
-
-Simulator::Schedule(Seconds(0.01), []() {
-    Config::ConnectWithoutContext(
-        "/NodeList/0/$ns3::TcpL4Protocol/SocketList/*/CongestionWindow",
-        MakeCallback(&CwndChange));
-});
-
-    //
-    // Create a PacketSinkApplication and install it on node 1
-    //
-    PacketSinkHelper sink("ns3::TcpSocketFactory", InetSocketAddress(Ipv4Address::GetAny(), port));
-    ApplicationContainer sinkApps = sink.Install(nodes.Get(1));
+    PacketSinkHelper sink("ns3::TcpSocketFactory",
+                          InetSocketAddress(Ipv4Address::GetAny(), port));
+    ApplicationContainer sinkApps = sink.Install(nodes.Get(3));
     sinkApps.Start(Seconds(0));
     sinkApps.Stop(Seconds(10));
 
-    //
-    // Set up tracing if enabled
-    //
+    Simulator::Schedule(Seconds(0.01), []() {
+        Config::ConnectWithoutContext(
+            "/NodeList/0/$ns3::TcpL4Protocol/SocketList/*/CongestionWindow",
+            MakeCallback(&CwndChange));
+    });
+
     if (tracing)
     {
         AsciiTraceHelper ascii;
-        pointToPoint.EnableAsciiAll(ascii.CreateFileStream("tcp-bulk-send.tr"));
-        pointToPoint.EnablePcapAll("tcp-bulk-send", false);
+        bottleneck.EnableAsciiAll(ascii.CreateFileStream("tcp-bulk-send.tr"));
+        bottleneck.EnablePcapAll("tcp-bulk-send", false);
     }
 
-    //
-    // Now, do the actual simulation.
-    //
-    NS_LOG_INFO("Run Simulation.");
     Simulator::Stop(Seconds(10));
     Simulator::Run();
     Simulator::Destroy();
-    NS_LOG_INFO("Done.");
 
     Ptr<PacketSink> sink1 = DynamicCast<PacketSink>(sinkApps.Get(0));
     std::cout << "Total Bytes Received: " << sink1->GetTotalRx() << std::endl;
 
     return 0;
 }
-
-
-

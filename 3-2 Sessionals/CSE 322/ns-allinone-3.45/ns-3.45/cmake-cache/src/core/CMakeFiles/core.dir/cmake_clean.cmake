@@ -39,8 +39,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/core.dir/model/event-id.cc.o.d"
   "CMakeFiles/core.dir/model/event-impl.cc.o"
   "CMakeFiles/core.dir/model/event-impl.cc.o.d"
-  "CMakeFiles/core.dir/model/example-as-test.cc.o"
-  "CMakeFiles/core.dir/model/example-as-test.cc.o.d"
   "CMakeFiles/core.dir/model/fatal-impl.cc.o"
   "CMakeFiles/core.dir/model/fatal-impl.cc.o.d"
   "CMakeFiles/core.dir/model/global-value.cc.o"

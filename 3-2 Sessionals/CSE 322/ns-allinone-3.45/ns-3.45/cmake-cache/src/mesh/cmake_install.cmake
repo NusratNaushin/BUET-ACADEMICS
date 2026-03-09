@@ -101,12 +101,6 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
     )
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/home/nidhi/BUET /LABS/BUET-ACADEMICS/3-2 Sessionals/CSE 322/ns-allinone-3.45/ns-3.45/cmake-cache/src/mesh/examples/cmake_install.cmake")
-
-endif()
-
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)

@@ -32,6 +32,9 @@ main(int argc, char* argv[])
     bool tracing = false;
     uint32_t maxBytes = 0;
 
+
+    
+
     //
     // Allow the user to override any of the defaults at
     // run-time, via command-line arguments
@@ -40,6 +43,13 @@ main(int argc, char* argv[])
     cmd.AddValue("tracing", "Flag to enable/disable tracing", tracing);
     cmd.AddValue("maxBytes", "Total number of bytes for application to send", maxBytes);
     cmd.Parse(argc, argv);
+
+
+    
+    //  Config::SetDefault("ns3::TcpL4Protocol::SocketType",
+    //     TypeIdValue(TcpNewReno::GetTypeId()));
+
+
 
     //
     // Explicitly create the nodes required by the topology (shown above).
@@ -63,8 +73,14 @@ main(int argc, char* argv[])
     //
     // Install the internet stack on the nodes
     //
+
+
+   
     InternetStackHelper internet;
     internet.Install(nodes);
+
+
+    
 
     //
     // We've got the "hardware" in place.  Now we need to add IP addresses.

@@ -8,7 +8,7 @@ BRITE Integration             : [31mOFF (Missing headers: "Brite.h" and missing
 DES Metrics event collection  : OFF (not requested)
 DPDK NetDevice                : OFF (not requested)
 Emulation FdNetDevice         : [32mON[0m
-Examples                      : [32mON[0m
+Examples                      : OFF (not requested)
 File descriptor NetDevice     : [32mON[0m
 GNU Scientific Library (GSL)  : [31mOFF (GSL was not found)[0m
 GtkConfigStore                : [31mOFF (Harfbuzz is required by GTK3 and was not found)[0m
@@ -23,7 +23,7 @@ SQLite support                : [31mOFF (Missing headers: "sqlite3.h" and missi
 Eigen3 support                : [31mOFF (Eigen was not found)[0m
 Tap Bridge                    : [32mON[0m
 Tap FdNetDevice               : [32mON[0m
-Tests                         : [32mON[0m
+Tests                         : OFF (not requested)
 
 
 Modules configured to be built:
@@ -39,13 +39,13 @@ network                   nix-vector-routing        nr
 olsr                      point-to-point            point-to-point-layout     
 propagation               sip                       sixlowpan                 
 spectrum                  stats                     tap-bridge                
-test                      topology-read             traffic-control           
-uan                       uart-net-device           virtual-net-device        
-wban                      wifi                      wimax                     
-zigbee                    
+topology-read             traffic-control           uan                       
+uart-net-device           virtual-net-device        wban                      
+wifi                      wimax                     zigbee                    
+
 
 Modules that cannot be built:
 brite                     click                     mpi                       
 openflow                  oran                      quantum                   
-visualizer                
+test                      visualizer                
 
